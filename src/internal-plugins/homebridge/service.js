@@ -6,6 +6,7 @@ const fs = require("fs-extra");
 const sha256 = require("sha256");
 const Server = require("./../../../node_modules/homebridge/lib/server").Server;
 const Plugin = require("./../../../node_modules/homebridge/lib/plugin").Plugin;
+const PluginManager = require("./../../../node_modules/homebridge/lib/pluginManager").PluginManager;
 const User = require("./../../../node_modules/homebridge/lib/user").User;
 const log = require("./../../../node_modules/homebridge/lib/logger");
 const port = 51826;
@@ -49,10 +50,19 @@ function loaded(api) {
          */
         init(devices, sensors) {
             const insecureAccess = true;
-            Plugin.addPluginPath(__dirname + "/homebridge-plugins/homebridge-smarties-lights");
-            Plugin.addPluginPath(__dirname + "/homebridge-plugins/homebridge-smarties-temperature");
-            Plugin.addPluginPath(__dirname + "/homebridge-plugins/homebridge-smarties-humidity");
-            Plugin.addPluginPath(__dirname + "/homebridge-plugins/homebridge-smarties-alarm");
+            this.clearCache();
+
+            // Plugin.addPluginPath(__dirname + "/homebridge-plugins/homebridge-smarties-lights");
+            // Plugin.addPluginPath(__dirname + "/homebridge-plugins/homebridge-smarties-temperature");
+            // Plugin.addPluginPath(__dirname + "/homebridge-plugins/homebridge-smarties-humidity");
+            // Plugin.addPluginPath(__dirname + "/homebridge-plugins/homebridge-smarties-alarm");
+            // console.log(PluginManager);
+            // PluginManager.loadPlugin(__dirname + "/homebridge-plugins/homebridge-smarties-lights");
+            // new Plugin("homebridge-smarties-lights", __dirname + "/homebridge-plugins/homebridge-smarties-lights", __dirname + "/homebridge-plugins/homebridge-smarties-lights/package.json");
+            // new Plugin("homebridge-smarties-temperature", __dirname + "/homebridge-plugins/homebridge-smarties-temperature", __dirname + "/homebridge-plugins/homebridge-smarties-temperature/package.json");
+            // new Plugin("homebridge-smarties-humidity", __dirname + "/homebridge-plugins/homebridge-smarties-humidity", __dirname + "/homebridge-plugins/homebridge-smarties-humidity/package.json");
+            // new Plugin("homebridge-smarties-alarm", __dirname + "/homebridge-plugins/homebridge-smarties-alarm", __dirname + "/homebridge-plugins/homebridge-smarties-alarm/package.json");
+
             const conf = api.configurationAPI.getConfiguration() ? api.configurationAPI.getConfiguration() : {};
             if (!conf.homebridgeIdentifier) {
                 const hid = api.environmentAPI.getFullSmartiesId();
@@ -73,18 +83,18 @@ function loaded(api) {
             }
 
             try {
-                this.server = new Server({insecureAccess:insecureAccess});
-                this.server._config = {
+                hap.init(User.persistPath());
+                this.server = new Server({insecureAccess:insecureAccess});//, customPluginPath: __dirname + "/homebridge-plugins"});
+                this.server.config = {
                     bridge: {
                         name: "Smarties",
                         username: conf.homebridgeIdentifier.toUpperCase(),
                         port: port,
                         pin: pin
                     },
-                    accessories: devices.concat(sensors),
-                    platforms:platforms
+                    accessories: []//,devices.concat(sensors).concat(alarm),
+                    ,platforms:platforms
                 };
-                hap.init(User.persistPath());
             } catch(e) {
                 api.exported.Logger.err(e.message);
                 api.exported.Logger.err(e.stack);
@@ -121,12 +131,13 @@ function loaded(api) {
             this.startTimer = setTimeout((self) => {
                 if (self.server) {
                     try {
-                        self.server.run();
-                        if (api.configurationAPI.getConfiguration() && (typeof api.configurationAPI.getConfiguration().displayHomekitTile === "undefined" || api.configurationAPI.getConfiguration().displayHomekitTile)) {
-                            QRCode.toDataURL(self.server._bridge.setupURI(), { errorCorrectionLevel: "L", color:{light:api.themeAPI.getColors().clearColor + "FF", dark:api.themeAPI.getColors().tertiaryColor +"FF"}, margin:18}, (err, data) => {
+                        self.server.start();
+                        // self.server.publishBridge();
+                        if (typeof api.configurationAPI.getConfiguration().displayHomekitTile === "undefined" || api.configurationAPI.getConfiguration().displayHomekitTile) {
+                            QRCode.toDataURL(self.server.bridge.setupURI(), { errorCorrectionLevel: "L", color:{light:api.themeAPI.getColors().clearColor + "FF", dark:api.themeAPI.getColors().darkColor +"FF"}, margin:18}, (err, data) => {
                                 if (!err && data) {
                                     const tile = api.dashboardAPI.Tile("homebridge", api.dashboardAPI.TileType().TILE_PICTURE_TEXT, null, null, "Homekit", null, data.split(",")[1], null, null, 99999999);
-                                    tile.colors.colorContent = api.themeAPI.getColors().tertiaryColor;
+                                    tile.colors.colorContent = api.themeAPI.getColors().darkColor;
                                     api.dashboardAPI.registerTile(tile);
                                 }
                             });
@@ -149,7 +160,7 @@ function loaded(api) {
             api.dashboardAPI.unregisterTile("homebridge");
             api.exported.Logger.info("Stopping homebridge server");
             if (this.server) {
-                this.server._teardown();
+                this.server.teardown();
             }
             this.server = null;
             super.stop();
