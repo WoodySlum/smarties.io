@@ -17,6 +17,7 @@ function loaded(api) {
 
     /**
     * This class is used for presence simulator form
+     *
     * @class
     */
     class PresenceSimulatorForm extends api.exported.FormObject.class {
@@ -54,7 +55,7 @@ function loaded(api) {
         /**
          * Convert json data
          *
-         * @param  {Object} data Some key / value data
+         * @param  {object} data Some key / value data
          * @returns {PresenceSimulatorForm}      A form object
          */
         json(data) {
@@ -66,6 +67,7 @@ function loaded(api) {
 
     /**
      * This class manage presence simulator extension
+     *
      * @class
      */
     class PresenceSimulator {

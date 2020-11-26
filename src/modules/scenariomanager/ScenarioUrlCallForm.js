@@ -2,6 +2,7 @@ var FormObject = require("./../formmanager/FormObject");
 
 /**
  * This class is used for URL scenario form
+ *
  * @class
  */
 class ScenarioUrlCallForm extends FormObject.class {
@@ -37,7 +38,7 @@ class ScenarioUrlCallForm extends FormObject.class {
     /**
       * Convert json data
       *
-      * @param  {Object} data Some key / value data
+      * @param  {object} data Some key / value data
       * @returns {ScenarioUrlCallForm}      A form object
       */
     json(data) {

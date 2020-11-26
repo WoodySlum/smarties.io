@@ -5,6 +5,7 @@ var Convert = require("./../../utils/Convert");
 
 /**
  * Convert a DbObject with annotations into a JSON schema (adapter)
+ *
  * @class
  */
 class DbSchemaConverter {
@@ -22,7 +23,7 @@ class DbSchemaConverter {
      * Convert DbObject annotations to db schema
      *
      * @param  {DbObject} dbObjectClass A class extending DbObject
-     * @returns {Object}               A database schema
+     * @returns {object}               A database schema
      */
     static toSchema(dbObjectClass) {
         let schema = {};

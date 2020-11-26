@@ -2,6 +2,7 @@ var FormObject = require("./../formmanager/FormObject");
 
 /**
  * This class provides a form to trigger scenarion from a message
+ *
  * @class
  */
 class MessageScenarioTriggerForm extends FormObject.class {
@@ -26,7 +27,7 @@ class MessageScenarioTriggerForm extends FormObject.class {
     /**
      * Convert json data
      *
-     * @param  {Object} data Some key / value data
+     * @param  {object} data Some key / value data
      * @returns {MessageScenarioTriggerForm}      A form object
      */
     json(data) {

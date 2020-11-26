@@ -10,13 +10,14 @@ function loaded(api) {
 
     /**
      * OpenWeather humidity form sensor
+     *
      * @class
      */
     class TlMr6400FairuseSensorForm extends api.exported.FairuseSensorForm {
         /**
          * Convert JSON data to object
          *
-         * @param  {Object} data Some data
+         * @param  {object} data Some data
          * @returns {TlMr6400FairuseSensorForm}      An instance
          */
         json(data) {
@@ -28,6 +29,7 @@ function loaded(api) {
 
     /**
      * This class is overloaded by sensors
+     *
      * @class
      */
     class TlMr6400FairuseSensor extends api.exported.FairuseSensor {
@@ -36,7 +38,7 @@ function loaded(api) {
          *
          * @param  {PluginAPI} api                                                           A plugin api
          * @param  {number} [id=null]                                                        An id
-         * @param  {Object} [configuration=null]                                             The configuration for sensor
+         * @param  {object} [configuration=null]                                             The configuration for sensor
          * @returns {TlMr6400FairuseSensor}                                                       The instance
          */
         constructor(api, id, configuration) {

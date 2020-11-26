@@ -2,6 +2,7 @@ var FormObject = require("./../modules/formmanager/FormObject");
 
 /**
  * This class provides an icon select box form part
+ *
  * @class
  */
 class IconForm extends FormObject.class {
@@ -29,7 +30,7 @@ class IconForm extends FormObject.class {
     /**
      * Form injection method
      *
-     * @param  {...Object} inject The icons list array
+     * @param  {...object} inject The icons list array
      * @returns {Array}        An array of icons
      */
     static getIcons(...inject) {
@@ -39,7 +40,7 @@ class IconForm extends FormObject.class {
     /**
      * Form injection method
      *
-     * @param  {...Object} inject The icons labels list array
+     * @param  {...object} inject The icons labels list array
      * @returns {Array}        An array of icons labels
      */
     static getIconsLabels(...inject) {
@@ -49,7 +50,7 @@ class IconForm extends FormObject.class {
     /**
      * Convert json data
      *
-     * @param  {Object} data Some key / value data
+     * @param  {object} data Some key / value data
      * @returns {FormObject}      A form object
      */
     json(data) {

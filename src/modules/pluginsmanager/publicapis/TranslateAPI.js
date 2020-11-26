@@ -5,6 +5,7 @@ const callsite = require("callsite");
 
 /**
  * Public API for translations
+ *
  * @class
  */
 class TranslateAPI {

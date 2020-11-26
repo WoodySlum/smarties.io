@@ -2,6 +2,7 @@ var FormObject = require("./../formmanager/FormObject");
 
 /**
  * This class provides a radio form part
+ *
  * @class
  */
 class RadioForm  extends FormObject.class {
@@ -54,7 +55,7 @@ class RadioForm  extends FormObject.class {
     /**
      * Form injection method for modules
      *
-     * @param  {...Object} inject The modules list array
+     * @param  {...object} inject The modules list array
      * @returns {Array}        An array of modules
      */
     static getModules(...inject) {
@@ -64,7 +65,7 @@ class RadioForm  extends FormObject.class {
     /**
      * Form injection method for protocols
      *
-     * @param  {...Object} inject The protocols list array
+     * @param  {...object} inject The protocols list array
      * @returns {Array}        An array of protocols
      */
     static getProtocols(...inject) {
@@ -74,7 +75,7 @@ class RadioForm  extends FormObject.class {
     /**
      * Convert json data
      *
-     * @param  {Object} data Some key / value data
+     * @param  {object} data Some key / value data
      * @returns {RadioForm}      A form object
      */
     json(data) {

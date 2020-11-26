@@ -10,6 +10,7 @@ function loaded(api) {
 
     /**
      * This class manage water plant alert extension
+     *
      * @class
      */
     class ContactSensorSumup {

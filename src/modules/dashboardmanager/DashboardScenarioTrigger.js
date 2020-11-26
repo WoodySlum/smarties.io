@@ -2,6 +2,7 @@ var FormObject = require("./../formmanager/FormObject");
 
 /**
  * This class is used for dashboard scenario form
+ *
  * @class
  */
 class DashboardScenarioTriggerForm extends FormObject.class {
@@ -46,7 +47,7 @@ class DashboardScenarioTriggerForm extends FormObject.class {
     /**
       * Convert json data
       *
-      * @param  {Object} data Some key / value data
+      * @param  {object} data Some key / value data
       * @returns {DashboardScenarioTriggerForm}      A form object
       */
     json(data) {

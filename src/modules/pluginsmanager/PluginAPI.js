@@ -40,6 +40,7 @@ const SmartiesRunnerConstants = require("./../../../SmartiesRunnerConstants");
 
 /**
  * This class is an interface for plugins
+ *
  * @class
  */
 class PluginsAPI {
@@ -189,7 +190,7 @@ class PluginsAPI {
     /**
      * Register an instance as Entry point.
      *
-     * @param  {Object} i An instance
+     * @param  {object} i An instance
      */
     registerInstance(i) {
         this.instance = i;
@@ -208,7 +209,7 @@ class PluginsAPI {
     /**
      * Expose a list of constants
      *
-     * @returns {Object} Constants
+     * @returns {object} Constants
      */
     constants() {
         return {CORE_EVENT_READY:this.CORE_EVENT_READY};
@@ -243,7 +244,7 @@ class PluginsAPI {
      * Renew oauth token
      *
      * @param  {string} url oAuth URL
-     * @param  {Object} params The parameters for oauth request
+     * @param  {object} params The parameters for oauth request
      * @param  {Function} [cb=null] The callback `(err) => {}`
      */
     renewOAuthToken(url, params, cb = null) {

@@ -3,6 +3,7 @@ const PrivateProperties = require("./../PrivateProperties");
 
 /**
  * Public API for backup
+ *
  * @class
  */
 class BackupAPI {

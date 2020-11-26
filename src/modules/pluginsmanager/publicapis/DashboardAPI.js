@@ -6,6 +6,7 @@ const Authentication = require("./../../authentication/Authentication");
 
 /**
  * Public API for dashboard
+ *
  * @class
  */
 class DashboardAPI {
@@ -54,7 +55,7 @@ class DashboardAPI {
      * @param  {number} [status=0]                A status (0, 1, ...)
      * @param  {number} [order=1]                 A number that represents the place of the tile. 1 is on top, 999999 is on bottom :)
      * @param  {string} [action=null]             The action (route endpoint without `:`)
-     * @param  {Object} [object=null]             An object
+     * @param  {object} [object=null]             An object
      * @param  {number} [authentication=api.webAPI.Authentication().AUTH_USAGE_LEVEL]             The authentication level
      * @returns {Tile}                             A tile
      */
@@ -65,7 +66,7 @@ class DashboardAPI {
     /**
      * Expose a list of tile's type : `TILE_INFO_ONE_TEXT`, `TILE_INFO_TWO_TEXT`, `TILE_INFO_TWO_ICONS`, `TILE_ACTION_ONE_ICON`, `TILE_PICTURE_TEXT`, `TILE_PICTURES`, `TILE_GENERIC_ACTION` or `TILE_GENERIC_ACTION_STATUS`
      *
-     * @returns {Object} Constants
+     * @returns {object} Constants
      */
     TileType() {
         return Cleaner.class.exportConstants(Tile);

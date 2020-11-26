@@ -5,6 +5,7 @@ const EnvironmentManager = require("./../../environmentmanager/EnvironmentManage
 
 /**
  * Public API for home environement
+ *
  * @class
  */
 class EnvironmentAPI {
@@ -24,7 +25,7 @@ class EnvironmentAPI {
     /**
      * Return the home's coordinates
      *
-     * @returns {Object} The coordinates
+     * @returns {object} The coordinates
      */
     getCoordinates() {
         return PrivateProperties.oprivate(this).environmentManager.getCoordinates();
@@ -121,7 +122,7 @@ class EnvironmentAPI {
     /**
      * Expose a list of constants (status)
      *
-     * @returns {Object} Constants
+     * @returns {object} Constants
      */
     constants() {
         return Cleaner.class.exportConstants(EnvironmentManager);

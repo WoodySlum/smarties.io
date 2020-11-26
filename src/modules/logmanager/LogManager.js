@@ -9,6 +9,7 @@ const ROUTE_LOG_GET = ROUTE_LOG_GET_BASE + "[lastLogDate]/";
 
 /**
  * This class allows to manage logs
+ *
  * @class
  */
 class LogManager {

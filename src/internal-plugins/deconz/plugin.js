@@ -29,6 +29,7 @@ function loaded(api) {
 
     /**
      * This class manage Deconz form configuration
+     *
      * @class
      */
     class DeconzForm extends api.exported.FormObject.class {
@@ -123,7 +124,7 @@ function loaded(api) {
         /**
          * Convert a json object to DeconzForm object
          *
-         * @param  {Object} data Some data
+         * @param  {object} data Some data
          * @returns {DeconzForm}      An instance
          */
         json(data) {
@@ -144,6 +145,7 @@ function loaded(api) {
 
     /**
      * This class manage Deconz devices
+     *
      * @class
      */
     class Deconz extends api.exported.Radio {
@@ -521,7 +523,7 @@ function loaded(api) {
         /**
          * Switch a zigbee light
          *
-         * @param  {Object} light The device
+         * @param  {object} light The device
          * @param  {number} status  The status
          * @param  {DeviceStatus} deviceStatus  The device status : color, brightness, ...
          * @param  {Function} cb A callback e.g. `(err, status) => {}`
@@ -729,7 +731,7 @@ function loaded(api) {
         /**
          * Process sensor data
          *
-         * @param  {Object} d Data from conbee usb key
+         * @param  {object} d Data from conbee usb key
          */
         processSensor(d) {
             // Light

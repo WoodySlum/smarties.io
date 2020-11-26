@@ -14,6 +14,7 @@ function loaded(api) {
 
     /**
      * This class is extended by fairuse sensors
+     *
      * @class
      */
     class PingSensorForm extends api.exported.SensorForm {
@@ -45,7 +46,7 @@ function loaded(api) {
         /**
          * Convert JSON data to object
          *
-         * @param  {Object} data Some data
+         * @param  {object} data Some data
          * @returns {PingSensorForm}      An instance
          */
         json(data) {
@@ -57,6 +58,7 @@ function loaded(api) {
 
     /**
      * This class manages network ping sensor
+     *
      * @class
      */
     class PingSensor extends api.exported.Sensor {
@@ -65,7 +67,7 @@ function loaded(api) {
          *
          * @param  {PluginAPI} api                                                           A plugin api
          * @param  {number} [id=null]                                                        An id
-         * @param  {Object} [configuration=null]                                             The configuration for sensor
+         * @param  {object} [configuration=null]                                             The configuration for sensor
          * @returns {PingSensor}                                                       The instance
          */
         constructor(api, id, configuration) {

@@ -2,6 +2,7 @@ var FormObject = require("./../formmanager/FormObject");
 
 /**
  * This class provides a form for user location trigger event for scenario
+ *
  * @class
  */
 class UserScenarioTriggerForm extends FormObject.class {
@@ -40,7 +41,7 @@ class UserScenarioTriggerForm extends FormObject.class {
     /**
      * Get the users list
      *
-     * @param  {...Object} inject Parameters injection on static methods
+     * @param  {...object} inject Parameters injection on static methods
      * @returns {Array}        An array of users
      */
     static getUsers(...inject) {
@@ -50,7 +51,7 @@ class UserScenarioTriggerForm extends FormObject.class {
     /**
      * Get the users name list
      *
-     * @param  {...Object} inject Parameters injection on static methods
+     * @param  {...object} inject Parameters injection on static methods
      * @returns {Array}        An array of users name
      */
     static getUsersLabels(...inject) {
@@ -61,7 +62,7 @@ class UserScenarioTriggerForm extends FormObject.class {
     /**
      * Convert json data
      *
-     * @param  {Object} data Some key / value data
+     * @param  {object} data Some key / value data
      * @returns {UserScenarioTriggerForm}      A form object
      */
     json(data) {

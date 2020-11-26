@@ -12,6 +12,7 @@ const CONF_KEY = "installer";
 
 /**
  * This class allows to manage external installation
+ *
  * @class
  */
 class InstallationManager {
@@ -57,7 +58,7 @@ class InstallationManager {
      * @param  {string}  command     The command
      * @param  {boolean} [wait=true] True if command is executed synchronously, false otherwise
      * @param  {Function}  [cb=null]   A callback (only if wait parameter is false) : `(error, stdout, stderr) => {}`
-     * @returns {Object}              An object result if wait is `true`
+     * @returns {object}              An object result if wait is `true`
      */
     executeCommand(command, wait = true, cb = null) {
         Logger.info("Executing command => " + command);

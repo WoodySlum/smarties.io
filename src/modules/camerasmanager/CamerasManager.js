@@ -86,6 +86,7 @@ const AI_KEY = "cameras";
 
 /**
  * This class allows to manage cameras
+ *
  * @class
  */
 class CamerasManager {
@@ -101,7 +102,7 @@ class CamerasManager {
      * @param  {ThemeManager} themeManager    The theme manager
      * @param  {DashboardManager} dashboardManager    The dashboard manager
      * @param  {TimeEventService} timeEventService    The time event service
-     * @param  {Object} [camerasConfiguration=null]    Cameras configuration
+     * @param  {object} [camerasConfiguration=null]    Cameras configuration
      * @param  {string} [cachePath=null]    Temporary files path
      * @param  {string} [installationManager=null]    Installation manager
      * @param  {MessageManager} messageManager    The message manager
@@ -340,7 +341,7 @@ class CamerasManager {
     /**
      * Init a camera instance and add to local array
      *
-     * @param  {Object} configuration The camera configuration
+     * @param  {object} configuration The camera configuration
      * @param  {boolean} [reload=false] Reload flag
      */
     initCamera(configuration, reload = false) {
@@ -516,7 +517,7 @@ class CamerasManager {
     /**
      * Get all cameras
      *
-     * @returns {Object} On object with id:name
+     * @returns {object} On object with id:name
      */
     getAllCameras() {
         const cameras = {};
@@ -956,8 +957,8 @@ class CamerasManager {
     /**
      * Compare camera data
      *
-     * @param  {Object} cameraData1 Camera data 1
-     * @param  {Object} cameraData2 Camera data 2
+     * @param  {object} cameraData1 Camera data 1
+     * @param  {object} cameraData2 Camera data 2
      * @returns {boolean}             True if id is the same, false otherwise
      */
     comparator(cameraData1, cameraData2) {
@@ -968,7 +969,7 @@ class CamerasManager {
      * Get camera configuration. If no parameters are passed, returns the array of all camera configuration.
      *
      * @param  {string} [cameraId=null] The camera identifier. Can be null.
-     * @returns {Object}                 The camera configuration, or configurations, or null if nothing found
+     * @returns {object}                 The camera configuration, or configurations, or null if nothing found
      */
     getCameraConfiguration(cameraId = null) {
         if (!cameraId) {

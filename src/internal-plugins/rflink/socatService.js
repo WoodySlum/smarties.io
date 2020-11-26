@@ -10,6 +10,7 @@ const fs = require("fs-extra");
 function loaded(api) {
     /**
      * This class conect to RFLink using serial port on a pseicif thread.
+     *
      * @class
      */
     class SocatService extends api.exported.Service.class {

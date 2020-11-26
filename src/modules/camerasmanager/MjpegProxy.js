@@ -17,6 +17,7 @@ const ERROR_TIMEOUT = "TIMEOUT";
 
 /**
  * This class allows to proxyfy mjpeg streams
+ *
  * @class
  */
 class MjpegProxy {

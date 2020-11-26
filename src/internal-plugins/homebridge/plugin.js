@@ -9,6 +9,7 @@ const HomebridgeServiceClass = require("./service.js");
 function loaded(api) {
     /**
     * This class is used for Homebridge form
+     *
     * @class
     */
     class HomebridgeForm extends api.exported.FormObject.class {
@@ -68,7 +69,7 @@ function loaded(api) {
         /**
         * Convert json data
         *
-        * @param  {Object} data Some key / value data
+        * @param  {object} data Some key / value data
         * @returns {HomebridgeForm}      A form object
         */
         json(data) {
@@ -81,6 +82,7 @@ function loaded(api) {
     const HomebridgeService = HomebridgeServiceClass(api);
     /**
      * Class for Homebridge
+     *
      * @class
      */
     class Homebridge {

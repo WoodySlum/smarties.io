@@ -2,6 +2,7 @@ var FormObject = require("./../formmanager/FormObject");
 
 /**
  * This class provides an Iot device. Need to be overloaded.
+ *
  * @class
  */
 class IotForm extends FormObject.class {
@@ -37,7 +38,7 @@ class IotForm extends FormObject.class {
     /**
      * Convert json data
      *
-     * @param  {Object} data Some key / value data
+     * @param  {object} data Some key / value data
      * @returns {IotForm}      A form object
      */
     json(data) {

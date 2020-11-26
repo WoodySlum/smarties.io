@@ -7,6 +7,7 @@ const ERROR_STRINGIFY_FUNCTION_THREAD = "Error in thread stringify function";
 
 /**
  * This class allows to manage threads
+ *
  * @class
  */
 class ThreadsManager {
@@ -14,7 +15,7 @@ class ThreadsManager {
      * Constructor
      *
      * @param  {EventEmitter} eventBus    The global event bus
-     * @param  {Object} smartiesRunnerConstants Runner constants
+     * @param  {object} smartiesRunnerConstants Runner constants
      *
      * @returns {ThreadsManager} The thread manager
      */
@@ -53,9 +54,9 @@ class ThreadsManager {
      *
      * @param  {Function} func            A class method, or classic function. Prototype example : `run(data, message) {}`
      * @param  {string} identifier      The thread identifier
-     * @param  {Object} [data={}]       Object passed to the threaded code
+     * @param  {object} [data={}]       Object passed to the threaded code
      * @param  {Function} [callback=null] The callback when a message is received from the thread. Prototype example : `(tData) => {}`
-     * @param  {Object} [context=null] The context passed as parameter
+     * @param  {object} [context=null] The context passed as parameter
      */
     run(func, identifier, data = {}, callback = null, context = null) {
         const prototype = this.stringifyFunc(func);
@@ -117,7 +118,7 @@ class ThreadsManager {
      *
      * @param  {string} identifier  The thread identifier
      * @param  {string} event       The event's name
-     * @param  {Object} [data=null] Any data passed to thread
+     * @param  {object} [data=null] Any data passed to thread
      */
     send(identifier, event, data = null) {
         if (this.threads[identifier] && this.isRunning(identifier)) {

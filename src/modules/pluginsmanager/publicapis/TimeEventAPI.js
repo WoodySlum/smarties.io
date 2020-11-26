@@ -5,6 +5,7 @@ const TimeEventService = require("./../../../services/timeeventservice/TimeEvent
 
 /**
  * Public API for time events
+ *
  * @class
  */
 class TimeEventAPI {
@@ -25,7 +26,7 @@ class TimeEventAPI {
      * Register an timer element
      *
      * @param  {Function} cb            A callback triggered when conditions are reached (context will be set back as parameter). Example : `(self) => {}`
-     * @param  {Object} context            The context to exectue the callback
+     * @param  {object} context            The context to exectue the callback
      * @param  {int}   mode          Mode (enum) : `EVERY_SECONDS`, `EVERY_MINUTES`, `EVERY_HOURS`, `EVERY_DAYS` or `CUSTOM`
      * @param  {string}   [hour=null]   The hour value. `*` for all
      * @param  {string}   [minute=null] The minute value. `*` for all
@@ -53,7 +54,7 @@ class TimeEventAPI {
     /**
      * Expose a list of constants : `EVERY_SECONDS`, `EVERY_MINUTES`, `EVERY_HOURS`, `EVERY_DAYS` or `CUSTOM`
      *
-     * @returns {Object} Constants
+     * @returns {object} Constants
      */
     constants() {
         return Cleaner.class.exportConstants(TimeEventService);

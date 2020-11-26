@@ -2,6 +2,7 @@
 
 /**
  * This class is a Plugin POJO
+ *
  * @class
  */
 class PluginConf {
@@ -28,7 +29,7 @@ class PluginConf {
     /**
      * Transform json raw object to instance
      *
-     * @param  {Object} data JSON object data
+     * @param  {object} data JSON object data
      * @returns {PluginConf} A User instance
      */
     json(data) {

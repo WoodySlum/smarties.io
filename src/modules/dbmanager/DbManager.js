@@ -11,6 +11,7 @@ const ERROR_INVALID_REQUEST = "Invalid request. Provide a DbRequestBuilder objec
 
 /**
  * Public API for database manager
+ *
  * @class
  */
 class DbManager {
@@ -45,7 +46,7 @@ class DbManager {
      * Return the list of fields for a schema
      *
      * @param  {string} table  A database table
-     * @param  {Object} schema A database schema
+     * @param  {object} schema A database schema
      * @returns {Array}        An array of fields
      */
     getFieldsForTable(table, schema) {
@@ -95,7 +96,7 @@ class DbManager {
      * The oldVersion parameter should be set as string for the module database
      * Can throw ERROR_NO_FIELD_DETECTED if no fields in database schema
      *
-     * @param  {Object} schema     A database schema
+     * @param  {object} schema     A database schema
      * @param  {string} oldVersion A version like x.y.z
      * @param  {Function} [cb=null] Callback of type `(error) => {}`. Error is null if no errors
      */
@@ -190,7 +191,7 @@ class DbManager {
      * Get database field type from table metadata
      *
      * @param  {string} field A meta field name
-     * @param  {Object} meta  Meta for field
+     * @param  {object} meta  Meta for field
      * @returns {string}       A SQLite DB field type
      */
     getDbFieldType(field, meta) {
@@ -224,7 +225,7 @@ class DbManager {
      * Shortcut to create a DbRequestBuilder
      *
      * @param {string} table  The table for the request
-     * @param {Object} schema A database schema
+     * @param {object} schema A database schema
      *
      * @returns {DbRequestBuilder}       A request builder
      */
@@ -253,7 +254,7 @@ class DbManager {
      * FIELD_ID
      * FIELD_TIMESTAMP
      *
-     * @returns {Object}       A list of constants
+     * @returns {object}       A list of constants
      */
     Operators() {
         return DbRequestBuilder;
@@ -263,8 +264,8 @@ class DbManager {
      * Save an object in database (upsert mode)
      *
      * @param  {string} table     The table
-     * @param  {Object} schema    Database schema
-     * @param  {Object} object    An object macthing schema
+     * @param  {object} schema    Database schema
+     * @param  {object} object    An object macthing schema
      * @param  {Function} [cb=null] Callback of type `(error) => {}`. Error is null if no errors
      */
     saveObject(table, schema, object, cb = null) {
@@ -295,8 +296,8 @@ class DbManager {
      * Get an object from database
      *
      * @param  {string} table     The table
-     * @param  {Object} schema    Database schema
-     * @param  {Object} object    An object macthing schema, with values inside. Example `getObject("myTable", schema, {id:152}, (err, object) => {console.log(object);})`
+     * @param  {object} schema    Database schema
+     * @param  {object} object    An object macthing schema, with values inside. Example `getObject("myTable", schema, {id:152}, (err, object) => {console.log(object);})`
      * @param  {Function} [cb=null] Callback of type `(error, object) => {}`. Error is null if no errors
      */
     getObject(table, schema, object, cb = null) {
@@ -327,7 +328,7 @@ class DbManager {
      * Get an objects from database
      *
      * @param  {string} table     The table
-     * @param  {Object} schema    Database schema
+     * @param  {object} schema    Database schema
      * @param  {DbRequestBuilder} request    A request with the desired parameters. For example `RequestBuilder("history", schema).where("value", GT, 32)`
      * @param  {Function} [cb=null] Callback of type `(error, objects) => {}`. Error is null if no errors
      */
@@ -365,7 +366,7 @@ class DbManager {
      * Get the last object from database (by timestamp)
      *
      * @param  {string} table     The table
-     * @param  {Object} schema    Database schema
+     * @param  {object} schema    Database schema
      * @param  {Function} [cb=null] Callback of type `(error, object) => {}`. Error is null if no errors
      */
     getLastObject(table, schema, cb = null) {
@@ -397,8 +398,8 @@ class DbManager {
      * Delete an object from database
      *
      * @param  {string} table     The table
-     * @param  {Object} schema    Database schema
-     * @param  {Object} object    An object macthing schema, with values inside. Example `getObject("myTable", schema, {id:152}, (err) => {})`
+     * @param  {object} schema    Database schema
+     * @param  {object} object    An object macthing schema, with values inside. Example `getObject("myTable", schema, {id:152}, (err) => {})`
      * @param  {Function} [cb=null] Callback of type `(error) => {}`. Error is null if no errors
      */
     delObject(table, schema, object, cb = null) {
@@ -428,7 +429,7 @@ class DbManager {
      * Delete objects from database
      *
      * @param  {string} table     The table
-     * @param  {Object} schema    Database schema
+     * @param  {object} schema    Database schema
      * @param  {DbRequestBuilder} request    A request with the desired parameters. For example `RequestBuilder("history", schema).where("value", GT, 32)`
      * @param  {Function} [cb=null] Callback of type `(error) => {}`. Error is null if no errors
      */

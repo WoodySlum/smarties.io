@@ -17,6 +17,7 @@ const CONF_FILE_EXTENSION = ".json";
 
 /**
  * This class manage object persistence with JSON format
+ *
  * @class
  */
 class ConfManager {
@@ -32,11 +33,13 @@ class ConfManager {
     constructor(appConfiguration, eventBus, stopEventName, timeEventService) {
         /**
          * App configuration
-         * @type {Object}
+         *
+         * @type {object}
          */
         this.appConfiguration = appConfiguration;
         /**
          * File system
+         *
          * @type {fs}
          */
         this.fs = fs;
@@ -92,7 +95,7 @@ class ConfManager {
      * Read a file from a path. Can throw error.
      *
      * @param  {string} jsonPath The path
-     * @returns {Object}          The decoded object
+     * @returns {object}          The decoded object
      */
     readFile(jsonPath) {
         let t = this;
@@ -148,7 +151,7 @@ class ConfManager {
     /**
      * Save data for a specific key. Can throw error.
      *
-     * @param  {Object} data A JS object
+     * @param  {object} data A JS object
      * @param  {string} key A file store key
      */
     saveData(data, key) {
@@ -242,9 +245,9 @@ class ConfManager {
      * Get data from object's array (search)
      *
      * @param  {Array} datas      An array of objects
-     * @param  {Object} object     The object to search
+     * @param  {object} object     The object to search
      * @param  {Function} comparator A comparator function with 2 parameters (obj1, obj2). The comparator must return true if objects are equals. Else false.
-     * @returns {Object}     Null if nothing found, Object instance if found
+     * @returns {object}     Null if nothing found, Object instance if found
      */
     getData(datas, object, comparator) {
         let d = null;
@@ -263,7 +266,7 @@ class ConfManager {
      * Set data (save)
      *
      * @param  {string} key A file store key
-     * @param  {Object} object     The object to search
+     * @param  {object} object     The object to search
      * @param  {Array} [datas=null]      An array of objects
      * @param  {Function} [comparator=null] A comparator function with 2 parameters (obj1, obj2). The comparator must return true if objects are equals. Else false.
      * @returns {[Object]}     The Array of Objects updated, or single object
@@ -290,7 +293,7 @@ class ConfManager {
      * Remove data into object's array (delete). Can throw error.
      *
      * @param  {string} key A file store key
-     * @param  {Object} object     The object to search
+     * @param  {object} object     The object to search
      * @param  {Array} [datas=null]      An array of objects
      * @param  {Function} [comparator=null] A comparator function with 2 parameters (obj1, obj2). The comparator must return true if objects are equals. Else false.
      * @returns {[Object]}     The Array of Objects updated

@@ -12,6 +12,7 @@ function loaded(api) {
 
     /**
      * Radio presence form sensor
+     *
      * @class
      */
     class RadioPresenceSensorForm extends api.exported.PresenceSensorForm {
@@ -44,7 +45,7 @@ function loaded(api) {
         /**
          * Convert JSON data to object
          *
-         * @param  {Object} data Some data
+         * @param  {object} data Some data
          * @returns {RadioPresenceSensorForm}      An instance
          */
         json(data) {
@@ -56,6 +57,7 @@ function loaded(api) {
 
     /**
      * This class is overloaded by sensors
+     *
      * @class
      */
     class RadioPresenceSensor extends api.exported.PresenceSensor {
@@ -64,7 +66,7 @@ function loaded(api) {
          *
          * @param  {PluginAPI} api                                                           A plugin api
          * @param  {number} [id=null]                                                        An id
-         * @param  {Object} [configuration=null]                                             The configuration for sensor
+         * @param  {object} [configuration=null]                                             The configuration for sensor
          * @returns {RadioPresenceSensor}                                                       The instance
          */
         constructor(api, id, configuration) {

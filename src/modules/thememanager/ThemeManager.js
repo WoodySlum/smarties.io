@@ -11,6 +11,7 @@ const Icons = require("./../../utils/Icons");
 
 /**
  * This class generates dashboard
+ *
  * @class
  */
 class ThemeManager {
@@ -48,7 +49,7 @@ class ThemeManager {
      * Set a specific theme for a user
      *
      * @param {string} username A username
-     * @param {Object} theme    A theme
+     * @param {object} theme    A theme
      */
     setThemeForUser(username, theme) {
         if (username && theme) {
@@ -100,7 +101,7 @@ class ThemeManager {
      * Retrieve the theme colors
      *
      * @param  {string} [username=null] A username
-     * @returns {Object} Colors
+     * @returns {object} Colors
      */
     getColors(username = null) {
         const customizedTheme = this.userThemes[username] ? this.userThemes[username] : {};

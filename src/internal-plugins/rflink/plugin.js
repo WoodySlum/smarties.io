@@ -28,6 +28,7 @@ function loaded(api) {
 
     /**
      * This class manage RFLink form configuration
+     *
      * @class
      */
     class RFlinkForm extends api.exported.FormObject.class {
@@ -72,7 +73,7 @@ function loaded(api) {
         /**
          * Form injection method for ports
          *
-         * @param  {...Object} inject The ports list array
+         * @param  {...object} inject The ports list array
          * @returns {Array}        An array of ports
          */
         static getPorts(...inject) {
@@ -82,7 +83,7 @@ function loaded(api) {
         /**
          * Form injection method for ports name
          *
-         * @param  {...Object} inject The ports name list array
+         * @param  {...object} inject The ports name list array
          * @returns {Array}        An array of ports name
          */
         static getPortsName(...inject) {
@@ -92,7 +93,7 @@ function loaded(api) {
         /**
          * Convert a json object to RFLinkForm object
          *
-         * @param  {Object} data Some data
+         * @param  {object} data Some data
          * @returns {RFlinkForm}      An instance
          */
         json(data) {
@@ -105,6 +106,7 @@ function loaded(api) {
 
     /**
      * This class manage RFLink
+     *
      * @class
      */
     class RFLink extends api.exported.Radio {
@@ -370,7 +372,7 @@ function loaded(api) {
         /**
          * Callback when an information is received from rf link service thread
          *
-         * @param  {Object} data A data object containing radio informations
+         * @param  {object} data A data object containing radio informations
          */
         onRflinkReceive(data) {
             // TODO: Support values and sensors
@@ -404,7 +406,7 @@ function loaded(api) {
         /**
          * Callback when port data is received
          *
-         * @param  {Object} data A data object containing serial ports
+         * @param  {object} data A data object containing serial ports
          */
         onDetectedPortsReceive(data) {
             const ports  = ["-"];

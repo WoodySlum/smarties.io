@@ -36,6 +36,7 @@ const AI_KEY = "sensors";
 
 /**
  * This class allows to manage sensors
+ *
  * @class
  */
 class SensorsManager {
@@ -182,7 +183,7 @@ class SensorsManager {
     /**
      * Init a sensor instance and add to local array
      *
-     * @param  {Object} configuration The sensor configuration
+     * @param  {object} configuration The sensor configuration
      */
     initSensor(configuration) {
         if (configuration.plugin) {
@@ -255,7 +256,7 @@ class SensorsManager {
      *
      * @param  {string} [type=null] Sensor's type or category. If not specified, send back all sensors.
      *
-     * @returns {Object} On object with id:name
+     * @returns {object} On object with id:name
      */
     getAllSensors(type = null) {
         const sensors = {};
@@ -665,8 +666,8 @@ class SensorsManager {
     /**
      * Compare sensor data
      *
-     * @param  {Object} sensorData1 Sensor data 1
-     * @param  {Object} sensorData2 Sensor data 2
+     * @param  {object} sensorData1 Sensor data 1
+     * @param  {object} sensorData2 Sensor data 2
      * @returns {boolean}             True if id is the same, false otherwise
      */
     comparator(sensorData1, sensorData2) {
@@ -677,7 +678,7 @@ class SensorsManager {
      * Get sensor configuration. If no parameters are passed, returns the array of all sensor configuration.
      *
      * @param  {string} [sensorId=null] The sensor identifier. Can be null.
-     * @returns {Object}                 The sensor configuration, or configurations, or null if nothing found
+     * @returns {object}                 The sensor configuration, or configurations, or null if nothing found
      */
     getSensorConfiguration(sensorId = null) {
         if (!sensorId) {

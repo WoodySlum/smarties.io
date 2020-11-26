@@ -9,6 +9,7 @@ function loaded(api) {
 
     /**
      * This class is extended by message providers
+     *
      * @class
      */
     class MessageProvider {

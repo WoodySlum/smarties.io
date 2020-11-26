@@ -10,6 +10,7 @@ function loaded(api) {
 
     /**
      * This class manage ring alert form
+     *
      * @class
      */
     class RingAlertForm extends api.exported.FormObject.class {
@@ -44,7 +45,7 @@ function loaded(api) {
         /**
          * Convert a json object to TrashReminderSubform object
          *
-         * @param  {Object} data Some data
+         * @param  {object} data Some data
          * @returns {RingAlertForm}      An instance
          */
         json(data) {
@@ -57,6 +58,7 @@ function loaded(api) {
 
     /**
      * This class manage ring alerts
+     *
      * @class
      */
     class RingAlert {

@@ -13,6 +13,7 @@ function loaded(api) {
 
     /**
     * This class is used for Huawei Router form
+     *
     * @class
     */
     class HuaweiRouterForm extends api.exported.FormObject.class {
@@ -63,7 +64,7 @@ function loaded(api) {
         /**
          * Convert json data
          *
-         * @param  {Object} data Some key / value data
+         * @param  {object} data Some key / value data
          * @returns {HuaweiRouterForm}      A form object
          */
         json(data) {
@@ -75,6 +76,7 @@ function loaded(api) {
 
     /**
     * This class is used for Huawei Router form
+     *
     * @class
     */
     class HuaweiRouterScenarioForm extends api.exported.FormObject.class {
@@ -100,7 +102,7 @@ function loaded(api) {
         /**
          * Convert json data
          *
-         * @param  {Object} data Some key / value data
+         * @param  {object} data Some key / value data
          * @returns {HuaweiRouterScenarioForm}      A form object
          */
         json(data) {
@@ -110,6 +112,7 @@ function loaded(api) {
 
     /**
      * This class manage huawei routers
+     *
      * @class
      */
     class HuaweiRouter {

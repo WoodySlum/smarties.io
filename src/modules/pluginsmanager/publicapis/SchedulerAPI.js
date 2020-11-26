@@ -5,6 +5,7 @@ const SchedulerService = require("./../../../services/schedulerservice/Scheduler
 
 /**
  * Public API for time events
+ *
  * @class
  */
 class SchedulerAPI {
@@ -45,7 +46,7 @@ class SchedulerAPI {
      *
      * @param  {string}   id       An identifier (must be unique)
      * @param  {timestamp} timestamp      A timestamp or a constant : `IN_A_MINUTE`, `IN_FIVE_MINUTES`, `IN_TEN_MINUTES`, `IN_THIRTY_MINUTES`, `IN_A_HOUR`, `IN_TWELVE_HOUR`, `IN_A_DAY`
-     * @param  {Object} [data={}] A data passed to callback when triggered
+     * @param  {object} [data={}] A data passed to callback when triggered
      */
     schedule(id, timestamp, data = {}) {
         PrivateProperties.oprivate(this).schedulerService.schedule(id, timestamp, data);
@@ -63,7 +64,7 @@ class SchedulerAPI {
     /**
      * Expose a list of constants : `IN_A_MINUTE`, `IN_FIVE_MINUTES`, `IN_TEN_MINUTES`, `IN_THIRTY_MINUTES`, `IN_A_HOUR`, `IN_TWELVE_HOUR`, `IN_A_DAY`
      *
-     * @returns {Object} Constants
+     * @returns {object} Constants
      */
     constants() {
         return Cleaner.class.exportConstants(SchedulerService);

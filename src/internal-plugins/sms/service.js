@@ -8,6 +8,7 @@
 function loaded(api) {
     /**
      * This class conect to SMS using gammu
+     *
      * @class
      */
     class SMSService extends api.exported.Service.class {

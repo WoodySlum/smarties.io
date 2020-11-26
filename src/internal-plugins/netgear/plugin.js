@@ -13,6 +13,7 @@ function loaded(api) {
 
     /**
      * This class manage netgear routers
+     *
      * @class
      */
     class Netgear {

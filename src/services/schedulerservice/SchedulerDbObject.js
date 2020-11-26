@@ -3,6 +3,7 @@ var DbObject = require("./../../modules/dbmanager/DbObject");
 
 /**
  * Database object and schema for scheduler
+ *
  * @class
  */
 class SchedulerDbObject extends DbObject.class {
@@ -10,7 +11,7 @@ class SchedulerDbObject extends DbObject.class {
      * Constructor
      *
      * @param  {DbHelper} [dbHelper=null] A DbHelper object mapping
-     * @param  {...Object} values          The values
+     * @param  {...object} values          The values
      * @returns {SchedulerDbObject}                 The instance
      */
     constructor(dbHelper = null, ...values) {

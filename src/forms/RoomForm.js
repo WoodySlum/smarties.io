@@ -2,6 +2,7 @@ var FormObject = require("./../modules/formmanager/FormObject");
 
 /**
  * This class provides a room select box form part
+ *
  * @class
  */
 class RoomForm extends FormObject.class {
@@ -29,7 +30,7 @@ class RoomForm extends FormObject.class {
     /**
      * Form injection method
      *
-     * @param  {...Object} inject The rooms labels list array
+     * @param  {...object} inject The rooms labels list array
      * @returns {Array}        An array of icons labels
      */
     static getRoomsLabels(...inject) {
@@ -39,7 +40,7 @@ class RoomForm extends FormObject.class {
     /**
      * Convert json data
      *
-     * @param  {Object} data Some key / value data
+     * @param  {object} data Some key / value data
      * @returns {FormObject}      A form object
      */
     json(data) {

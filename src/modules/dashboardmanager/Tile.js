@@ -18,6 +18,7 @@ const TILE_SUB_TILES = "SubTiles"; // Multiple sub tiles
 
 /**
  * This class describes tiles
+ *
  * @class
  */
 class Tile {
@@ -36,7 +37,7 @@ class Tile {
      * @param  {number} [status=0]                A status (0, 1, ...)
      * @param  {number} [order=1]                 A number that represents the place of the tile. 1 is on top, 999999 is on bottom :)
      * @param  {string} [action=null]             The action (route endpoint without `:`)
-     * @param  {Object} [object=null]             An object
+     * @param  {object} [object=null]             An object
      * @param  {number} [authentication=Authentication.AUTH_USAGE_LEVEL]             The authentication level
      * @returns {Tile}                             A tile
      */
@@ -66,7 +67,7 @@ class Tile {
     /**
      * Get the tile without useless informations
      *
-     * @returns {Object} A tile ready to be serialized
+     * @returns {object} A tile ready to be serialized
      */
     get() {
         const tmpTile = Object.assign({}, this);

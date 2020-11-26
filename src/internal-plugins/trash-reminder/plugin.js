@@ -12,6 +12,7 @@ function loaded(api) {
 
     /**
      * This class manage trash reminder sub form
+     *
      * @class
      */
     class TrashReminderSubform extends api.exported.FormObject.class {
@@ -55,7 +56,7 @@ function loaded(api) {
         /**
          * Convert a json object to TrashReminderSubform object
          *
-         * @param  {Object} data Some data
+         * @param  {object} data Some data
          * @returns {TrashReminderSubform}      An instance
          */
         json(data) {
@@ -65,6 +66,7 @@ function loaded(api) {
 
     /**
      * This class manage trash reminder form
+     *
      * @class
      */
     class TrashReminderForm extends api.exported.FormObject.class {
@@ -89,7 +91,7 @@ function loaded(api) {
         /**
          * Convert a json object to TrashReminderSubform object
          *
-         * @param  {Object} data Some data
+         * @param  {object} data Some data
          * @returns {TrashReminderForm}      An instance
          */
         json(data) {
@@ -103,6 +105,7 @@ function loaded(api) {
 
     /**
      * This class manage Trash reminders
+     *
      * @class
      */
     class TrashReminders {

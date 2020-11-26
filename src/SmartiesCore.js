@@ -66,6 +66,7 @@ const EVENT_INSTALL = "install";
 
 /**
  * The main class for core.
+ *
  * @class
  */
 class SmartiesCore {
@@ -73,7 +74,7 @@ class SmartiesCore {
      * Constructor
      *
      * @param  {EventEmitter} runnerEventBus Runner event bus, used for restart
-     * @param  {Object} smartiesRunnerConstants Runner constants
+     * @param  {object} smartiesRunnerConstants Runner constants
      *
      * @returns {SmartiesCore} The instance
      */

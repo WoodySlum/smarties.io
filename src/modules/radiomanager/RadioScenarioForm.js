@@ -3,6 +3,7 @@ const STATUS_ALL = 9999999;
 
 /**
  * This class provides a radio form part
+ *
  * @class
  */
 class RadioScenarioForm  extends FormObject.class {
@@ -37,7 +38,7 @@ class RadioScenarioForm  extends FormObject.class {
     /**
      * Convert json data
      *
-     * @param  {Object} data Some key / value data
+     * @param  {object} data Some key / value data
      * @returns {RadioScenarioForm}      A form object
      */
     json(data) {

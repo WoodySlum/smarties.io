@@ -2,6 +2,7 @@ var FormObject = require("./../formmanager/FormObject");
 
 /**
  * This class provides a form for a day / night trigger event for scenario
+ *
  * @class
  */
 class DayNightScenarioTriggerForm extends FormObject.class {
@@ -34,7 +35,7 @@ class DayNightScenarioTriggerForm extends FormObject.class {
     /**
      * Convert json data
      *
-     * @param  {Object} data Some key / value data
+     * @param  {object} data Some key / value data
      * @returns {DayNightScenarioTriggerForm}      A form object
      */
     json(data) {

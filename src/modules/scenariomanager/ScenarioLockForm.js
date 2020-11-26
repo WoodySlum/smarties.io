@@ -2,6 +2,7 @@ var FormObject = require("./../formmanager/FormObject");
 
 /**
  * This class provides a form for scenario lock
+ *
  * @class
  */
 class ScenarioLockForm extends FormObject.class {
@@ -37,7 +38,7 @@ class ScenarioLockForm extends FormObject.class {
     /**
      * Convert json data
      *
-     * @param  {Object} data Some key / value data
+     * @param  {object} data Some key / value data
      * @returns {ScenarioLockForm}      A form object
      */
     json(data) {

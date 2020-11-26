@@ -13,6 +13,7 @@ function loaded(api) {
 
     /**
      * HTTP presence form sensor
+     *
      * @class
      */
     class HttpPresenceSensorForm extends api.exported.PresenceSensorForm {
@@ -45,7 +46,7 @@ function loaded(api) {
         /**
          * Returns the  url for the scenario
          *
-         * @param  {...Object} inject Parameters injection on static methods
+         * @param  {...object} inject Parameters injection on static methods
          *
          * @returns {string} A complete URL
          */
@@ -63,7 +64,7 @@ function loaded(api) {
         /**
          * Convert JSON data to object
          *
-         * @param  {Object} data Some data
+         * @param  {object} data Some data
          * @returns {HttpPresenceSensorForm}      An instance
          */
         json(data) {
@@ -75,6 +76,7 @@ function loaded(api) {
 
     /**
      * This class is overloaded by sensors
+     *
      * @class
      */
     class HttpPresenceSensor extends api.exported.PresenceSensor {
@@ -83,7 +85,7 @@ function loaded(api) {
          *
          * @param  {PluginAPI} api                                                           A plugin api
          * @param  {number} [id=null]                                                        An id
-         * @param  {Object} [configuration=null]                                             The configuration for sensor
+         * @param  {object} [configuration=null]                                             The configuration for sensor
          * @returns {HttpPresenceSensor}                                                       The instance
          */
         constructor(api, id, configuration) {

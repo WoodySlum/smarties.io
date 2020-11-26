@@ -3,6 +3,7 @@ const PrivateProperties = require("./../PrivateProperties");
 
 /**
  * Public API for core
+ *
  * @class
  */
 class CoreAPI {
@@ -26,7 +27,7 @@ class CoreAPI {
      * Dispatch an event through all registered modules
      *
      * @param  {string} name        An event name
-     * @param  {Object} [data=null] Some data
+     * @param  {object} [data=null] Some data
      */
     dispatchEvent(name, data = null) {
         // Dispatch event

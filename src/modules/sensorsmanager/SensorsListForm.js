@@ -2,6 +2,7 @@ var FormObject = require("./../formmanager/FormObject");
 
 /**
  * This class provides a form for sensors
+ *
  * @class
  */
 class SensorsListForm extends FormObject.class {
@@ -28,7 +29,7 @@ class SensorsListForm extends FormObject.class {
     /**
      * Form injection method for Sensors name
      *
-     * @param  {...Object} inject The modules list array
+     * @param  {...object} inject The modules list array
      * @returns {Array}        An array of sensors name
      */
     static getSensorsName(...inject) {
@@ -38,7 +39,7 @@ class SensorsListForm extends FormObject.class {
     /**
      * Form injection method for Sensors ids
      *
-     * @param  {...Object} inject The modules list array
+     * @param  {...object} inject The modules list array
      * @returns {Array}        An array of sensors id
      */
     static getSensorsId(...inject) {
@@ -48,7 +49,7 @@ class SensorsListForm extends FormObject.class {
     /**
      * Convert json data
      *
-     * @param  {Object} data Some key / value data
+     * @param  {object} data Some key / value data
      * @returns {SensorsListForm}      A form object
      */
     json(data) {

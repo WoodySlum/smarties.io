@@ -20,6 +20,7 @@ const IN_A_DAY = -1000;
 
 /**
  * This class allows to execute some operations in future
+ *
  * @class
  */
 class SchedulerService extends Service.class {
@@ -86,7 +87,7 @@ class SchedulerService extends Service.class {
      *
      * @param  {string}   id       An identifier (must be unique)
      * @param  {timestamp} timestamp      A timestamp or a constant : `IN_A_MINUTE`, `IN_FIVE_MINUTES`, `IN_TEN_MINUTES`, `IN_THIRTY_MINUTES`, `IN_A_HOUR`, `IN_TWELVE_HOUR`, `IN_A_DAY`
-     * @param  {Object} [data={}] A data passed to callback when triggered
+     * @param  {object} [data={}] A data passed to callback when triggered
      */
     schedule(id, timestamp, data = {}) {
         const currentTimestamp = DateUtils.class.timestamp();

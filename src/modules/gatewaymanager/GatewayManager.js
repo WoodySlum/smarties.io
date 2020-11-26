@@ -14,6 +14,7 @@ const BOOT_MODE_READY = "READY";
 
 /**
  * This class manage gateway communications
+ *
  * @class
  */
 class GatewayManager {
@@ -24,7 +25,7 @@ class GatewayManager {
      * @param  {string} version Smarties version
      * @param  {string} hash Smarties commit hash
      * @param  {TimeEventService} timeEventService Time event service
-     * @param  {Object} appConfiguration App configuration
+     * @param  {object} appConfiguration App configuration
      * @param  {WebServices} webServices The web services
      * @param  {EventEmitter} eventBus    The global event bus
      * @param  {ScenarioManager} scenarioManager    The scenario manager
@@ -121,7 +122,7 @@ class GatewayManager {
     /**
      * Transmit function threaded methods (threads manager)
      *
-     * @param  {Object} data    The needs
+     * @param  {object} data    The needs
      * @param  {Function} message Called to send back answer
      */
     sandboxedRequest(data, message) {
@@ -140,7 +141,7 @@ class GatewayManager {
     /**
      * Transmit function sandbox callback
      *
-     * @param  {Object} data Results
+     * @param  {object} data Results
      * @param  {ThreadsManager} threadsManager The threads manager (can be used to call kill)
      * @param  {GatewayManager} context This instance
      */

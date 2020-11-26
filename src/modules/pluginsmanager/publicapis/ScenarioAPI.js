@@ -3,6 +3,7 @@ const PrivateProperties = require("./../PrivateProperties");
 
 /**
  * Public API for scenarios
+ *
  * @class
  */
 class ScenarioAPI {
@@ -23,7 +24,7 @@ class ScenarioAPI {
      * Register a subform class for using into another form
      *
      * @param  {Class} formPart     A class with form annotations
-     * @param  {...Object} inject Parameters injection on static methods
+     * @param  {...object} inject Parameters injection on static methods
      */
     registerSubform(formPart, ...inject) {
         PrivateProperties.oprivate(this).scenarioManager.formManager.register(formPart, ...inject);
@@ -50,7 +51,7 @@ class ScenarioAPI {
      * @param  {string} [title=null]     The title for sub form
      * @param  {number} [sort=null]      Sort
      * @param {boolean} isList `false` if this is a list of objects, otherwise `false`
-     * @param  {...Object} inject Parameters injection on static methods
+     * @param  {...object} inject Parameters injection on static methods
      */
     registerWithInjection(formPart, triggerCb = null, title = null, sort = null, isList = false, ...inject) {
         PrivateProperties.oprivate(this).scenarioManager.registerWithInjection(formPart, triggerCb, title, sort, isList, ...inject);
@@ -70,7 +71,7 @@ class ScenarioAPI {
      * Called when a scenario is triggered
      *
      * @param  {ScenarioForm} scenario A scenario
-     * @param  {Object}  [additionalInfos={}] Additional informations
+     * @param  {object}  [additionalInfos={}] Additional informations
      */
     triggerScenario(scenario, additionalInfos) {
         PrivateProperties.oprivate(this).scenarioManager.triggerScenario(scenario, false, additionalInfos);

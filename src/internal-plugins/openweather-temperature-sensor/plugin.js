@@ -9,13 +9,14 @@ function loaded(api) {
 
     /**
      * OpenWeather temperature form sensor
+     *
      * @class
      */
     class OpenweatherTemperatureSensorForm extends api.exported.TemperatureSensorForm {
         /**
          * Convert JSON data to object
          *
-         * @param  {Object} data Some data
+         * @param  {object} data Some data
          * @returns {OpenweatherTemperatureSensorForm}      An instance
          */
         json(data) {
@@ -27,6 +28,7 @@ function loaded(api) {
 
     /**
      * This class is overloaded by sensors
+     *
      * @class
      */
     class OpenweatherTemperatureSensor extends api.exported.TemperatureSensor {
@@ -35,7 +37,7 @@ function loaded(api) {
          *
          * @param  {PluginAPI} api                                                           A plugin api
          * @param  {number} [id=null]                                                        An id
-         * @param  {Object} [configuration=null]                                             The configuration for sensor
+         * @param  {object} [configuration=null]                                             The configuration for sensor
          * @returns {OpenweatherTemperatureSensor}                                                       The instance
          */
         constructor(api, id, configuration) {

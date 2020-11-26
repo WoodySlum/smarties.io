@@ -27,13 +27,14 @@ function loaded(api) {
 
     /**
      * This class manage EspWeatherStation
+     *
      * @class
      */
     class EspWeatherStation {
         /**
          * List of Constants
          *
-         * @returns {Object} Returns the list of constants
+         * @returns {object} Returns the list of constants
          */
         static constants() {
             return {REFRESH_TIME:REFRESH_TIME};

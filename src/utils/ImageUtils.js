@@ -5,6 +5,7 @@ const crypto = require("crypto");
 
 /**
 * Utility class for images
+ *
 * @class
 */
 class ImageUtils {

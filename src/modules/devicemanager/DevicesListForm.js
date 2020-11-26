@@ -2,6 +2,7 @@ var FormObject = require("./../formmanager/FormObject");
 
 /**
  * This class provides a form for one device
+ *
  * @class
  */
 class DevicesListForm extends FormObject.class {
@@ -101,7 +102,7 @@ class DevicesListForm extends FormObject.class {
     /**
      * Form injection method for Devices name
      *
-     * @param  {...Object} inject The modules list array
+     * @param  {...object} inject The modules list array
      * @returns {Array}        An array of devices name
      */
     static getDevicesName(...inject) {
@@ -111,7 +112,7 @@ class DevicesListForm extends FormObject.class {
     /**
      * Form injection method for Devices ids
      *
-     * @param  {...Object} inject The modules list array
+     * @param  {...object} inject The modules list array
      * @returns {Array}        An array of devices id
      */
     static getDevicesId(...inject) {
@@ -121,7 +122,7 @@ class DevicesListForm extends FormObject.class {
     /**
      * Convert json data
      *
-     * @param  {Object} data Some key / value data
+     * @param  {object} data Some key / value data
      * @returns {DevicesListForm}      A form object
      */
     json(data) {

@@ -5,13 +5,14 @@ const ERROR_INVALID_OPTIONAL_PARAMETER = "Optional fiels should be placed at the
 
 /**
  * This class is a POJO representing an APIRegistration item
+ *
  * @class
  */
 class APIRegistration {
     /**
      * Constructor
      *
-     * @param  {Object} delegate  The object which implements the processAPI callback
+     * @param  {object} delegate  The object which implements the processAPI callback
      * @param  {string} [method="*"] The method (GET, POST, ...)
      * @param  {string} [route="*"] The needed route (:/foo/bar)
      * @param  {int} [authLevel=Authentication.AUTH_USAGE_LEVEL] The authentication level needed to be called
@@ -22,21 +23,25 @@ class APIRegistration {
     constructor(delegate, method = "*", route = "*", authLevel = Authentication.AUTH_USAGE_LEVEL, identifier = null, authTokenExpiration = 0) {
         /**
          * delegate
-         * @type {Object}
+         *
+         * @type {object}
          */
         this.delegate = delegate;
         /**
          * method
+         *
          * @type {string}
          */
         this.method = method;
         /**
          * route
+         *
          * @type {string}
          */
         this.route = route;
         /**
          * Authentication level requested for API
+         *
          * @type {int} An Authentication constant
          */
         this.authLevel = authLevel;

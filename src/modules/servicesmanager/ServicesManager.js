@@ -4,6 +4,7 @@ var Service = require("./../../services/Service");
 
 /**
  * This class allows to manage services
+ *
  * @class
  */
 class ServicesManager {

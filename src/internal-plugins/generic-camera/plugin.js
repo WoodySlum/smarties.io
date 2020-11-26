@@ -9,6 +9,7 @@ function loaded(api) {
 
     /**
      * Generic camera form class
+     *
      * @class
      */
     class GenericCameraForm extends api.exported.CameraForm {
@@ -94,7 +95,7 @@ function loaded(api) {
         /**
          * Convert JSON data to object
          *
-         * @param  {Object} data Some data
+         * @param  {object} data Some data
          * @returns {GenericCameraForm}      An instance
          */
         json(data) {
@@ -106,6 +107,7 @@ function loaded(api) {
 
     /**
      * Generic camera class
+     *
      * @class
      */
     class GenericCamera extends api.exported.Camera {
@@ -114,7 +116,7 @@ function loaded(api) {
          *
          * @param  {PluginAPI} api                                                           A plugin api
          * @param  {number} [id=null]                                                        An id
-         * @param  {Object} [configuration=null]                                             The configuration for camera
+         * @param  {object} [configuration=null]                                             The configuration for camera
          * @returns {GenericCamera}                                                                  The instance
          */
         constructor(api, id, configuration) {

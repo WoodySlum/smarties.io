@@ -2,6 +2,7 @@ var FormObject = require("./../formmanager/FormObject");
 
 /**
  * This class provides a form for one user
+ *
  * @class
  */
 class UserForm extends FormObject.class {
@@ -83,7 +84,7 @@ class UserForm extends FormObject.class {
     /**
      * Convert json data
      *
-     * @param  {Object} data Some key / value data
+     * @param  {object} data Some key / value data
      * @returns {UserForm}      A form object
      */
     json(data) {

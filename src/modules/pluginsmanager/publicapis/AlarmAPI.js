@@ -3,6 +3,7 @@ const PrivateProperties = require("./../PrivateProperties");
 
 /**
  * Public API for alarm
+ *
  * @class
  */
 class AlarmAPI {

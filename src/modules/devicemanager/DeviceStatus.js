@@ -1,5 +1,6 @@
 /**
  * This class provides is a POJO for device status
+ *
  * @class
  */
 class DeviceStatus {
@@ -97,7 +98,7 @@ class DeviceStatus {
     /**
      * Generates a standard object format for tile
      *
-     * @returns {Object} Standard object
+     * @returns {object} Standard object
      */
     tileFormat() {
         return {

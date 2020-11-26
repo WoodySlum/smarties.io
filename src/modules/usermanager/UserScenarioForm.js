@@ -2,6 +2,7 @@ var FormObject = require("./../formmanager/FormObject");
 
 /**
  * This class provides a form for user location trigger event for scenario
+ *
  * @class
  */
 class UserScenarioForm extends FormObject.class {
@@ -30,7 +31,7 @@ class UserScenarioForm extends FormObject.class {
     /**
      * Convert json data
      *
-     * @param  {Object} data Some key / value data
+     * @param  {object} data Some key / value data
      * @returns {UserScenarioForm}      A form object
      */
     json(data) {

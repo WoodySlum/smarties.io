@@ -2,6 +2,7 @@
 
 /**
  * Utility class for coordinates manipulation
+ *
  * @class
  */
 class GeoUtils {

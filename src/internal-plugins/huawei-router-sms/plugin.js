@@ -10,6 +10,7 @@ function loaded(api) {
 
     /**
      * This class provides configuration form for SMS
+     *
      * @class
      */
     class HuaweiSmsForm extends api.exported.FormObject.class {
@@ -35,7 +36,7 @@ function loaded(api) {
         /**
          * Convert json data
          *
-         * @param  {Object} data Some key / value data
+         * @param  {object} data Some key / value data
          * @returns {HuaweiSmsForm}      A form object
          */
         json(data) {
@@ -45,6 +46,7 @@ function loaded(api) {
 
     /**
      * This class is extended by user form
+     *
      * @class
      */
     class HuaweiSmsUserForm extends api.exported.FormObject.class {
@@ -69,7 +71,7 @@ function loaded(api) {
         /**
          * Convert JSON data to object
          *
-         * @param  {Object} data Some data
+         * @param  {object} data Some data
          * @returns {HuaweiSmsUserForm}      An instance
          */
         json(data) {
@@ -82,6 +84,7 @@ function loaded(api) {
 
     /**
      * Prowl plugin class
+     *
      * @class
      */
     class HuaweiSMS extends api.exported.MessageProvider {

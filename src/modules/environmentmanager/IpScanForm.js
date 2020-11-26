@@ -2,6 +2,7 @@ var FormObject = require("./../formmanager/FormObject");
 
 /**
  * This class provides ip scan form
+ *
  * @class
  */
 class IpScanForm extends FormObject.class {
@@ -80,7 +81,7 @@ class IpScanForm extends FormObject.class {
     /**
      * Convert json data
      *
-     * @param  {Object} data Some key / value data
+     * @param  {object} data Some key / value data
      * @returns {IpScanForm}      A form object
      */
     json(data) {

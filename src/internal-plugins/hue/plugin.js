@@ -13,6 +13,7 @@ function loaded(api) {
 
     /**
      * This class manage Philips Hue form configuration
+     *
      * @class
      */
     class HueForm extends api.exported.FormObject.class {
@@ -46,7 +47,7 @@ function loaded(api) {
         /**
          * Convert a json object to HueForm object
          *
-         * @param  {Object} data Some data
+         * @param  {object} data Some data
          * @returns {HueForm}      An instance
          */
         json(data) {
@@ -59,6 +60,7 @@ function loaded(api) {
 
     /**
      * This class manage Philips Hue device form configuration
+     *
      * @class
      */
     class HueDeviceForm extends api.exported.FormObject.class {
@@ -85,7 +87,7 @@ function loaded(api) {
         /**
          * Form injection method for hue
          *
-         * @param  {...Object} inject The hue list array
+         * @param  {...object} inject The hue list array
          * @returns {Array}        An array of hue ids
          */
         static getHueId(...inject) {
@@ -95,7 +97,7 @@ function loaded(api) {
         /**
          * Form injection method for ports name
          *
-         * @param  {...Object} inject The hue name list array
+         * @param  {...object} inject The hue name list array
          * @returns {Array}        An array of hue name
          */
         static getHueName(...inject) {
@@ -105,7 +107,7 @@ function loaded(api) {
         /**
          * Convert a json object to HueForm object
          *
-         * @param  {Object} data Some data
+         * @param  {object} data Some data
          * @returns {HueDeviceForm}      An instance
          */
         json(data) {
@@ -115,6 +117,7 @@ function loaded(api) {
 
     /**
      * This class manage Philips Hue lights
+     *
      * @class
      */
     class Hue {

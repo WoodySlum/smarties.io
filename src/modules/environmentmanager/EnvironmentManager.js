@@ -38,6 +38,7 @@ const EVENT_POWER_OUTAGE = "power-outage";
 
 /**
  * This class allows to manage house environment
+ *
  * @class
  */
 class EnvironmentManager {
@@ -128,7 +129,7 @@ class EnvironmentManager {
     /**
      * Set timezone
      *
-     * @param {Object} appConfiguration An app configuration
+     * @param {object} appConfiguration An app configuration
      */
     setTimezone(appConfiguration) {
         // Set synchronously timezone
@@ -204,7 +205,7 @@ class EnvironmentManager {
     /**
      * Return the home's coordinates
      *
-     * @returns {Object} The coordinates
+     * @returns {object} The coordinates
      */
     getCoordinates() {
         return this.appConfiguration.home;
@@ -363,7 +364,7 @@ class EnvironmentManager {
     /**
      * Save the main configuration. This method throw an error if something wrong occurs.
      *
-     * @param  {Object} data The configuration data to be updated
+     * @param  {object} data The configuration data to be updated
      */
     saveMainConfiguration(data) {
         const mainConfiguration = this.appConfiguration;

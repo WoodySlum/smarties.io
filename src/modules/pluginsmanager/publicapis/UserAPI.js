@@ -3,6 +3,7 @@ const PrivateProperties = require("./../PrivateProperties");
 
 /**
  * Public API for users
+ *
  * @class
  */
 class UserAPI {
@@ -23,7 +24,7 @@ class UserAPI {
      * Add additional fields to user registration
      *
      * @param {FormObject} form A form object
-     * @param  {...Object} inject Parameters injection on static methods
+     * @param  {...object} inject Parameters injection on static methods
      */
     addAdditionalFields(form, ...inject) {
         PrivateProperties.oprivate(this).userManager.formConfiguration.addAdditionalFields(form, null, false, ...inject);

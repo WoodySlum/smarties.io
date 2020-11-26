@@ -5,6 +5,7 @@ const DeviceManager = require("./../../devicemanager/DeviceManager");
 
 /**
  * Public API for devices
+ *
  * @class
  */
 class DeviceAPI {
@@ -46,7 +47,7 @@ class DeviceAPI {
     /**
      * Expose a list of constants (status)
      *
-     * @returns {Object} Constants
+     * @returns {object} Constants
      */
     constants() {
         return Cleaner.class.exportConstants(DeviceManager);
@@ -69,7 +70,7 @@ class DeviceAPI {
      * @param {Form}  form           A form
      * @param {string}  title          A title
      * @param {boolean} [isList=false] `true` if this is a list of subforms, `false` otherwise
-     * @param  {...Object} inject    The injected objects
+     * @param  {...object} inject    The injected objects
      */
     addForm(key, form, title, isList = false, ...inject) {
         PrivateProperties.oprivate(this).deviceManager.formManager.register(form, ...inject);
@@ -91,7 +92,7 @@ class DeviceAPI {
     /**
      * Save a device
      *
-     * @param  {Object} device A device
+     * @param  {object} device A device
      */
     saveDevice(device) {
         PrivateProperties.oprivate(this).deviceManager.saveDevice(device);
@@ -100,7 +101,7 @@ class DeviceAPI {
     /**
      * Returns the supported modes for a specific device (e.g. light, dimmable, color, ...)
      *
-     * @param  {Object} device A device
+     * @param  {object} device A device
      * @returns {[string]}        The list of supported modes
      */
     getDeviceTypes(device) {
@@ -111,7 +112,7 @@ class DeviceAPI {
      * Returns a device from an identifier
      *
      * @param  {string} id An identifier
-     * @returns {Object}    A device
+     * @returns {object}    A device
      */
     getDeviceById(id) {
         return PrivateProperties.oprivate(this).deviceManager.getDeviceById(id);
@@ -120,7 +121,7 @@ class DeviceAPI {
     /**
      * Switch device with a device object
      *
-     * @param  {Object} device A device
+     * @param  {object} device A device
      */
     switchDeviceWithDevice(device) {
         PrivateProperties.oprivate(this).deviceManager.switchDeviceWithDevice(device);

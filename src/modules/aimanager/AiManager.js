@@ -30,13 +30,14 @@ const CV_DEFAULT_MAX_RATIO_WIDTH_PERC = 0.95;
 
 /**
  * This class is used for artificial intelligence and machine learning
+ *
  * @class
  */
 class AiManager {
     /**
      * Constructor
      *
-     * @param  {Object} appConfiguration The configuration
+     * @param  {object} appConfiguration The configuration
      * @param  {EventEmitter} eventBus    The global event bus
      * @param  {string} stopEventName    The stop event name
      * @param  {TimeEventService} timeEventService    The time event service

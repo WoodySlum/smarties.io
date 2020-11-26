@@ -2,6 +2,7 @@
 
 /**
  * This class is a POJO representing an APIRequest item
+ *
  * @class
  */
 class APIRequest {
@@ -14,26 +15,29 @@ class APIRequest {
      * @param  {string} route       The route
      * @param  {Array} path         The path (route splitted in array)
      * @param  {string} action      The action (first element of route)
-     * @param  {Object} params      The parameters under key / value format
+     * @param  {object} params      The parameters under key / value format
      * @param  {Request} [req]      The request
      * @param  {Response} [res]     The response
-     * @param  {Object} [data=null] The object sent
+     * @param  {object} [data=null] The object sent
      * @param  {APIRegistration} [apiRegistration=null] The corresponding API registration
      * @returns {APIRequest}        The instance
      */
     constructor(method, ip, route, path, action, params, req, res, data = null, apiRegistration = null) {
         /**
          * method
+         *
          * @type {string}
          */
         this.method = method;
         /**
          * ip
+         *
          * @type {string}
          */
         this.ip = ip;
         /**
          * route
+         *
          * @type {string}
          */
         this.route = ":/" + route;
@@ -42,27 +46,32 @@ class APIRequest {
         }
         /**
          * path
+         *
          * @type {string}
          */
         this.path = path;
         /**
          * action
+         *
          * @type {string}
          */
         this.action = action;
         /**
          * params
+         *
          * @type {object}
          */
         this.params = params;
         /**
          * data
+         *
          * @type {object}
          */
         this.data = data;
 
         /**
          * Authentication data
+         *
          * @type {AuthenticationData}
          */
         this.authenticationData = null;

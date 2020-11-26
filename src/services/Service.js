@@ -16,6 +16,7 @@ const ERROR_UNDEFINED_THREADS_MANAGER = "Undefined threads manager";
 /**
  * This class should not be implemented but only inherited.
  * This class is used for services, start, stop, ...
+ *
  * @class
  */
 class Service {
@@ -93,7 +94,7 @@ class Service {
      * Send data to sub process
      *
      * @param  {string} event       An event
-     * @param  {Object} [data=null] A data
+     * @param  {object} [data=null] A data
      */
     send(event, data = null) {
         try {
@@ -212,7 +213,7 @@ class Service {
     /**
      * Register service callback
      *
-     * @param  {Object} delegate The service delegate
+     * @param  {object} delegate The service delegate
      */
     register(delegate) {
         let i = this.delegates.indexOf(delegate);
@@ -226,7 +227,7 @@ class Service {
     /**
      * Unregister service callback
      *
-     * @param  {Object} delegate The service delegate
+     * @param  {object} delegate The service delegate
      */
     unregister(delegate) {
         let i = this.delegates.indexOf(delegate);

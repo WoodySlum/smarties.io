@@ -2,6 +2,7 @@ var FormObject = require("./../formmanager/FormObject");
 
 /**
  * This class provides the sub actions
+ *
  * @class
  */
 class ScenarioSubActionForm extends FormObject.class {
@@ -36,7 +37,7 @@ class ScenarioSubActionForm extends FormObject.class {
     /**
      * Convert json data
      *
-     * @param  {Object} data Some key / value data
+     * @param  {object} data Some key / value data
      * @returns {ScenarioSubActionForm}      A form object
      */
     json(data) {

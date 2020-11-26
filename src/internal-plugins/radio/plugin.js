@@ -16,6 +16,7 @@ function loaded(api) {
     /**
      * This class should not be implemented but only inherited.
      * This class is used for radio database
+     *
      * @class
      */
     class DbRadio extends api.exported.DbObject.class {
@@ -23,7 +24,7 @@ function loaded(api) {
          * Radio table descriptor
          *
          * @param  {DbHelper} [dbHelper=null] A database helper
-         * @param  {...Object} values          The values
+         * @param  {...object} values          The values
          * @returns {DbObject}                 A database object
          */
         constructor(dbHelper = null, ...values) {
@@ -89,6 +90,7 @@ function loaded(api) {
 
     /**
      * This class is used for radio configuration form
+     *
      * @class
      */
     class RadioConfigForm extends api.exported.FormObject.class {
@@ -115,7 +117,7 @@ function loaded(api) {
         /**
          * Convert json data
          *
-         * @param  {Object} data Some key / value data
+         * @param  {object} data Some key / value data
          * @returns {RadioConfigForm}      A form object
          */
         json(data) {
@@ -127,6 +129,7 @@ function loaded(api) {
 
     /**
      * This class is a radio master class, executing generic radio actions
+     *
      * @class
      */
     class RadioMaster {
@@ -188,6 +191,7 @@ function loaded(api) {
 
     /**
      * This class shoud be extended by radio modules
+     *
      * @class
      */
     class Radio {
@@ -352,7 +356,7 @@ function loaded(api) {
         /**
          * Return the constants
          *
-         * @returns {Object} The constants
+         * @returns {object} The constants
          */
         constants() {
             return {
@@ -366,7 +370,7 @@ function loaded(api) {
         /**
          * Register an object to radio events
          *
-         * @param  {Object} o An object that implements callback
+         * @param  {object} o An object that implements callback
          */
         register(o) {
             if (this.registered.indexOf(o) === -1) {
@@ -377,7 +381,7 @@ function loaded(api) {
         /**
          * Unregister an object to radio events
          *
-         * @param  {Object} o An object that implements callback
+         * @param  {object} o An object that implements callback
          */
         unregister(o) {
             const index = this.registered.indexOf(o);

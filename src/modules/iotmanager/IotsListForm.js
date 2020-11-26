@@ -2,6 +2,7 @@ var FormObject = require("./../formmanager/FormObject");
 
 /**
  * This class provides a iot list form
+ *
  * @class
  */
 class IotsListForm extends FormObject.class {
@@ -28,7 +29,7 @@ class IotsListForm extends FormObject.class {
     /**
      * Form injection method for Iots name
      *
-     * @param  {...Object} inject The modules list array
+     * @param  {...object} inject The modules list array
      * @returns {Array}        An array of iots name
      */
     static getIotsName(...inject) {
@@ -38,7 +39,7 @@ class IotsListForm extends FormObject.class {
     /**
      * Form injection method for Iots ids
      *
-     * @param  {...Object} inject The modules list array
+     * @param  {...object} inject The modules list array
      * @returns {Array}        An array of iots id
      */
     static getIotsId(...inject) {
@@ -48,7 +49,7 @@ class IotsListForm extends FormObject.class {
     /**
      * Convert json data
      *
-     * @param  {Object} data Some key / value data
+     * @param  {object} data Some key / value data
      * @returns {IotsListForm}      A form object
      */
     json(data) {

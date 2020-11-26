@@ -32,6 +32,7 @@ const TOKEN_ROUTE = TOKEN_ROUTE_BASE + "[serviceIdentifier]/";
 
 /**
  * This class manage authentication for Web Services
+ *
  * @class
  */
 class Authentication {
@@ -46,9 +47,10 @@ class Authentication {
      * @returns {Authentication} Instance
      */
     constructor(webService, userManager, environmentManager) {
+        const GET = WebServices.GET;
         webService.registerAPI(this, "*", "*", AUTH_NO_LEVEL);
-        webService.registerAPI(this, WebServices.GET, LOGIN_ROUTE, AUTH_GUEST_LEVEL);
-        webService.registerAPI(this, WebServices.GET, TOKEN_ROUTE, AUTH_USAGE_LEVEL);
+        webService.registerAPI(this, GET, LOGIN_ROUTE, AUTH_GUEST_LEVEL);
+        webService.registerAPI(this, GET, TOKEN_ROUTE, AUTH_USAGE_LEVEL);
         this.userManager = userManager;
         this.environmentManager = environmentManager;
         this.webServices = webService;

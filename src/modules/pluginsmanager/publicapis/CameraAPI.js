@@ -3,6 +3,7 @@ const PrivateProperties = require("./../PrivateProperties");
 
 /**
  * Public API for camera
+ *
  * @class
  */
 class CameraAPI {
@@ -29,7 +30,7 @@ class CameraAPI {
      * Register a camera form
      *
      * @param  {Class} formClass A form annotation's implemented class
-     * @param  {...Object} inject    The injected objects
+     * @param  {...object} inject    The injected objects
      */
     registerForm(formClass, ...inject) {
         this.form = formClass;
@@ -50,7 +51,7 @@ class CameraAPI {
     /**
      * Get all cameras
      *
-     * @returns {Object} On object with id:name
+     * @returns {object} On object with id:name
      */
     getCameras() {
         return PrivateProperties.oprivate(this).camerasManager.getAllCameras();
