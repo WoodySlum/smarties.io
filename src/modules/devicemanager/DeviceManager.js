@@ -69,6 +69,7 @@ const AI_STATUS_CLASSIFIER = "STATUS@";
 
 /**
  * This class allows to manage devices
+ *
  * @class
  */
 class DeviceManager {
@@ -230,7 +231,7 @@ class DeviceManager {
     /**
      * Trigger scenario elements
      *
-     * @param  {Object} scenario A dynamic scenario object
+     * @param  {object} scenario A dynamic scenario object
      * @param  {DeviceManager} context  The context
      */
     triggerScenario(scenario, context) {
@@ -428,7 +429,7 @@ class DeviceManager {
     /**
      * Returns the supported modes for a specific device (e.g. light, dimmable, color, ...)
      *
-     * @param  {Object} device A device
+     * @param  {object} device A device
      * @returns {[string]}        The list of supported modes
      */
     getDeviceTypes(device) {
@@ -450,7 +451,7 @@ class DeviceManager {
      * Returns a device from an identifier
      *
      * @param  {string} id An identifier
-     * @returns {Object}    A device
+     * @returns {object}    A device
      */
     getDeviceById(id) {
         let found = null;
@@ -660,7 +661,7 @@ class DeviceManager {
     /**
      * Switch device with a device object
      *
-     * @param  {Object} device A device
+     * @param  {object} device A device
      */
     switchDeviceWithDevice(device) {
         this.switchDevice(device.id, device.status, device.brightness, device.color);
@@ -669,7 +670,7 @@ class DeviceManager {
     /**
      * Save device
      *
-     * @param  {Object} device A device
+     * @param  {object} device A device
      */
     saveDevice(device) {
         this.formConfiguration.saveConfig(device);

@@ -12,6 +12,7 @@ function loaded(api) {
 
     /**
      * This class manage Nuki form configuration
+     *
      * @class
      */
     class NukiForm extends api.exported.FormObject.class {
@@ -53,7 +54,7 @@ function loaded(api) {
         /**
          * Convert a json object to NukiForm object
          *
-         * @param  {Object} data Some data
+         * @param  {object} data Some data
          * @returns {NukiForm}      An instance
          */
         json(data) {
@@ -63,6 +64,7 @@ function loaded(api) {
 
     /**
      * This class provides a form for Nuki actions
+     *
      * @class
      */
     class NukiScenarioForm extends api.exported.FormObject.class {
@@ -91,7 +93,7 @@ function loaded(api) {
         /**
          * Convert json data
          *
-         * @param  {Object} data Some key / value data
+         * @param  {object} data Some key / value data
          * @returns {NukiScenarioForm}      A form object
          */
         json(data) {
@@ -104,6 +106,7 @@ function loaded(api) {
 
     /**
      * This class manage Nuki locks
+     *
      * @class
      */
     class Nuki {

@@ -2,6 +2,7 @@ const DbObject = require("./../dbmanager/DbObject");
 
 /**
  * This class is used for devices database
+ *
  * @class
  */
 class DbDevice extends DbObject.class {
@@ -9,7 +10,7 @@ class DbDevice extends DbObject.class {
      * Radio table descriptor
      *
      * @param  {DbHelper} [dbHelper=null] A database helper
-     * @param  {...Object} values          The values
+     * @param  {...object} values          The values
      * @returns {DbObject}                 A database object
      */
     constructor(dbHelper = null, ...values) {

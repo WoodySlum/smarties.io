@@ -19,6 +19,7 @@ const DESCRIPTOR = "descriptor.json";
 
 /**
  * This class allows to manage backups
+ *
  * @class
  */
 class BackupManager {
@@ -45,7 +46,7 @@ class BackupManager {
      * @param  {string} destination File destination path
      * @param  {string} file        File name with local path
      * @param  {number} dataType    Data type
-     * @returns {Object}             A file entry object
+     * @returns {object}             A file entry object
      */
     formatFileEntry(source, destination, file, dataType) {
         const fileStats = fs.statSync(source);

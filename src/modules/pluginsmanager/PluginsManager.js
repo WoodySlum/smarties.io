@@ -155,6 +155,7 @@ const CORE_PLUGINS = [
 
 /**
  * This class manage plugins
+ *
  * @class
  */
 class PluginsManager {
@@ -180,7 +181,7 @@ class PluginsManager {
      * @param  {AlarmManager} alarmManager The alarm manager
      * @param  {CamerasManager} camerasManager The cameras manager
      * @param  {RadioManager} radioManager The radio manager
-     * @param  {Object} appConfiguration The global configuration
+     * @param  {object} appConfiguration The global configuration
      * @param  {EnvironmentManager} environmentManager The environment manager
      * @param  {IotManager} iotManager The IoT manager
      * @param  {BotEngine} botEngine The bot engine
@@ -270,7 +271,7 @@ class PluginsManager {
     /**
      * Check plugin sanity. A plugin should have name, version and description properties and a function as entry point
      *
-     * @param  {Object} p A plugin object as set in require. This method throws errors
+     * @param  {object} p A plugin object as set in require. This method throws errors
      * @param  {[PluginAPI]} [plugins=[]] plugins The plugin API array
      */
     checkPluginSanity(p, plugins = []) {

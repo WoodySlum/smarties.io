@@ -19,6 +19,7 @@ function loaded(api) {
 
     /**
      * This class provides a form for roomba actions
+     *
      * @class
      */
     class RoombaScenarioForm extends api.exported.FormObject.class {
@@ -56,7 +57,7 @@ function loaded(api) {
         /**
          * Form injection method for roomba id
          *
-         * @param  {...Object} inject The hue list array
+         * @param  {...object} inject The hue list array
          * @returns {Array}        An array of hue ids
          */
         static getRoombaIds(...inject) {
@@ -66,7 +67,7 @@ function loaded(api) {
         /**
          * Form injection method for roomba names
          *
-         * @param  {...Object} inject The hue list array
+         * @param  {...object} inject The hue list array
          * @returns {Array}        An array of hue ids
          */
         static getRoombaNames(...inject) {
@@ -76,7 +77,7 @@ function loaded(api) {
         /**
          * Form injection method for roomba command id
          *
-         * @param  {...Object} inject The hue list array
+         * @param  {...object} inject The hue list array
          * @returns {Array}        An array of hue ids
          */
         static getRoombaCommandIds(...inject) {
@@ -86,7 +87,7 @@ function loaded(api) {
         /**
          * Form injection method for roomba command names
          *
-         * @param  {...Object} inject The hue list array
+         * @param  {...object} inject The hue list array
          * @returns {Array}        An array of hue ids
          */
         static getRoombaCommandNames(...inject) {
@@ -96,7 +97,7 @@ function loaded(api) {
         /**
          * Convert json data
          *
-         * @param  {Object} data Some key / value data
+         * @param  {object} data Some key / value data
          * @returns {RoombaScenarioForm}      A form object
          */
         json(data) {
@@ -107,6 +108,7 @@ function loaded(api) {
 
     /**
      * This class manage Roomba esp8266
+     *
      * @class
      */
     class Esp8266Roomba {

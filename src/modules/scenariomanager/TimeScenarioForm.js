@@ -2,6 +2,7 @@ var FormObject = require("./../formmanager/FormObject");
 
 /**
  * This class provides a form for a time trigger event for scenario
+ *
  * @class
  */
 class TimeScenarioForm extends FormObject.class {
@@ -37,7 +38,7 @@ class TimeScenarioForm extends FormObject.class {
     /**
      * Convert json data
      *
-     * @param  {Object} data Some key / value data
+     * @param  {object} data Some key / value data
      * @returns {TimeScenarioForm}      A form object
      */
     json(data) {

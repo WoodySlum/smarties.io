@@ -24,6 +24,7 @@ const USER_COMPARE_CONFIDENCE = 0.31;
 
 /**
 * This class allows to manage users (create, delete, search, ...)
+ *
 * @class
 */
 class UserManager {
@@ -147,7 +148,7 @@ class UserManager {
     * Get a theme for a specific user
     *
     * @param  {string} username The username
-    * @returns {Object}   A theme
+    * @returns {object}   A theme
     */
     getTheme(username) {
         const user = this.getUser(username);

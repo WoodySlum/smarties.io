@@ -9,13 +9,14 @@ function loaded(api) {
 
     /**
      * This class is extended by rain time sensors
+     *
      * @class
      */
     class RainTimeSensorForm extends api.exported.SensorForm {
         /**
          * Convert JSON data to object
          *
-         * @param  {Object} data Some data
+         * @param  {object} data Some data
          * @returns {RainTimeSensorForm}      An instance
          */
         json(data) {
@@ -27,6 +28,7 @@ function loaded(api) {
 
     /**
      * This class is overloaded by sensors
+     *
      * @class
      */
     class RainTimeSensor extends api.exported.Sensor {
@@ -35,7 +37,7 @@ function loaded(api) {
          *
          * @param  {PluginAPI} api                                                           A plugin api
          * @param  {number} [id=null]                                                        An id
-         * @param  {Object} [configuration=null]                                             The configuration for sensor
+         * @param  {object} [configuration=null]                                             The configuration for sensor
          * @returns {RainTimeSensor}                                                       The instance
          */
         constructor(api, id, configuration) {

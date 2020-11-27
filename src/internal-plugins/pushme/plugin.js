@@ -12,6 +12,7 @@ function loaded(api) {
 
     /**
      * This class is extended by user form
+     *
      * @class
      */
     class PushMeForm extends api.exported.FormObject.class {
@@ -36,7 +37,7 @@ function loaded(api) {
         /**
          * Convert JSON data to object
          *
-         * @param  {Object} data Some data
+         * @param  {object} data Some data
          * @returns {PushMeForm}      An instance
          */
         json(data) {
@@ -48,6 +49,7 @@ function loaded(api) {
 
     /**
      * Push me plugin class
+     *
      * @class
      */
     class PushMe extends api.exported.MessageProvider {

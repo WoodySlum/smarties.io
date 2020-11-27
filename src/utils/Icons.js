@@ -3,6 +3,7 @@ const icons = require("./../../res/icons/icons-svg.json");
 
 /**
  * Utility class for icons
+ *
  * @class
  */
 class Icons {
@@ -10,7 +11,7 @@ class Icons {
     /**
      * Return the svg icons list
      *
-     * @returns {Object} Svg icons object
+     * @returns {object} Svg icons object
      */
     static iconsSvg() {
         return icons;
@@ -19,7 +20,7 @@ class Icons {
     /**
      * Return the svg icons list
      *
-     * @returns {Object} Svg icons object
+     * @returns {object} Svg icons object
      */
     static icons() {
         const r = {};
@@ -33,7 +34,7 @@ class Icons {
     /**
      * Return a list of icons (key / value)
      *
-     * @returns {Object} The icons under Key / Value format
+     * @returns {object} The icons under Key / Value format
      */
     static list() {
         return this.icons();

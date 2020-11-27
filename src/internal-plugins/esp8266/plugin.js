@@ -11,6 +11,7 @@ function loaded(api) {
 
     /**
      * ESP8266 form class
+     *
      * @class
      */
     class ESP8266Form extends api.exported.FormObject.class {
@@ -56,7 +57,7 @@ function loaded(api) {
         /**
          * Convert JSON data to object
          *
-         * @param  {Object} data Some data
+         * @param  {object} data Some data
          * @returns {ESP8266Form}      An instance
          */
         json(data) {
@@ -73,6 +74,7 @@ function loaded(api) {
 
     /**
      * ESP8266 manager class
+     *
      * @class
      */
     class Esp8266 {
@@ -137,7 +139,7 @@ function loaded(api) {
          * Modes : `MODE_DEEP_SLEEP`, `MODE_SLEEP`, `MODE_ALWAYS_POWERED` or `MODE_LIGHT_SLEEP`
          * Time : `EVERY_HOUR`, `EVERY_DAY` or `EVERY_WEEK`
          *
-         * @returns {Object} The constants
+         * @returns {object} The constants
          */
         constants() {
             return {
@@ -158,7 +160,7 @@ function loaded(api) {
          * @param  {int} powerMode The power mode. Can be `api.getPluginInstance("esp8266").constants().MODE_DEEP_SLEEP`, `api.getPluginInstance("esp8266").constants().MODE_SLEEP`, `api.getPluginInstance("esp8266").constants().MODE_ALWAYS_POWERED` or `api.getPluginInstance("esp8266").constants().MODE_LIGHT_SLEEP`
          * @param  {int} timer     A timer for mode deep sleep, light sleep or sleep in `seconds`. Can be a constant `api.getPluginInstance("esp8266").constants().EVERY_HOUR`, `api.getPluginInstance("esp8266").constants().EVERY_DAY` or `api.getPluginInstance("esp8266").constants().EVERY_WEEK`
          *
-         * @returns {Object}           The options object
+         * @returns {object}           The options object
          */
         generateOptions(powerMode, timer) {
             if (powerMode < 0 || powerMode > 3) {

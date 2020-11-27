@@ -9,6 +9,7 @@ function loaded(api) {
 
     /**
      * Esp pressure form sensor
+     *
      * @class
      */
     class EspPressureSensorForm extends api.exported.PressureSensorForm {
@@ -16,7 +17,7 @@ function loaded(api) {
         /**
          * Convert JSON data to object
          *
-         * @param  {Object} data Some data
+         * @param  {object} data Some data
          * @returns {EspPressureSensorForm}      An instance
          */
         json(data) {
@@ -29,6 +30,7 @@ function loaded(api) {
 
     /**
      * This class is overloaded by sensors
+     *
      * @class
      */
     class EspPressureSensor extends api.exported.PressureSensor {
@@ -37,7 +39,7 @@ function loaded(api) {
          *
          * @param  {PluginAPI} api                                                           A plugin api
          * @param  {number} [id=null]                                                        An id
-         * @param  {Object} [configuration=null]                                             The configuration for sensor
+         * @param  {object} [configuration=null]                                             The configuration for sensor
          * @returns {EspPressureSensor}                                                       The instance
          */
         constructor(api, id, configuration) {

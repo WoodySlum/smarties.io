@@ -5,6 +5,7 @@ const ServicesManager = require("./../../servicesmanager/ServicesManager");
 
 /**
  * Public API for services manager
+ *
  * @class
  */
 class ServicesManagerAPI {
@@ -86,7 +87,7 @@ class ServicesManagerAPI {
     /**
      * Expose a list of constants
      *
-     * @returns {Object} Constants
+     * @returns {object} Constants
      */
     constants() {
         return Cleaner.class.exportConstants(ServicesManager);

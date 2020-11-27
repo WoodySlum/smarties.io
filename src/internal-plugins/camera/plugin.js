@@ -11,6 +11,7 @@ function loaded(api) {
 
     /**
      * This class is extended by cameras forms
+     *
      * @class
      */
     class CameraForm extends api.exported.FormObject.class {
@@ -124,7 +125,7 @@ function loaded(api) {
         /**
          * Convert JSON data to object
          *
-         * @param  {Object} data Some data
+         * @param  {object} data Some data
          * @returns {CameraForm}      An instance
          */
         json(data) {
@@ -136,6 +137,7 @@ function loaded(api) {
 
     /**
      * This class is extended by cameras
+     *
      * @class
      */
     class Camera {
@@ -145,7 +147,7 @@ function loaded(api) {
          *
          * @param  {PluginAPI} api                                                           A plugin api
          * @param  {number} [id=null]                                                        An id
-         * @param  {Object} [configuration=null]                                             The configuration for camera
+         * @param  {object} [configuration=null]                                             The configuration for camera
          * @param  {string} [snapshotUrl=null]   The snapshot URL template (Parameters : %port%, %ip%, %username%, %password%), without protocol and ip. For example, `cgi-bin/snap.cgi?username=%username%&password=%password%`
          * @param  {string} [mjpegUrl=null]      The MJPEG URL template (Parameters : %port%, %ip%, %username%, %password%), without protocol and ip. For example, `cgi-bin/videostream.cgi?username=%username%&password=%password%`
          * @param  {string} [rtspUrl=null]       The RTSP URL template (Parameters : %port%, %ip%, %username%, %password%), without protocol and ip. For example, `cgi-bin/snap.cgi?username=%username%&password=%password%`

@@ -18,6 +18,7 @@ const STATUS_ERROR   = 4;
 
 /**
  * This class allows to generate timelapse
+ *
  * @class
  */
 class TimelapseGenerator {

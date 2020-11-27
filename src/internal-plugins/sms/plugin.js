@@ -26,6 +26,7 @@ function loaded(api) {
 
     /**
      * This class provides configuration form for SMS
+     *
      * @class
      */
     class SMSForm extends api.exported.FormObject.class {
@@ -61,7 +62,7 @@ function loaded(api) {
         /**
          * Form injection method for ports
          *
-         * @param  {...Object} inject The modules list array
+         * @param  {...object} inject The modules list array
          * @returns {Array}        An array of ports
          */
         static getPorts(...inject) {
@@ -71,7 +72,7 @@ function loaded(api) {
         /**
          * Form injection method for ports labels
          *
-         * @param  {...Object} inject The modules list array
+         * @param  {...object} inject The modules list array
          * @returns {Array}        An array of ports labels
          */
         static getPortsLabels(...inject) {
@@ -81,7 +82,7 @@ function loaded(api) {
         /**
          * Convert json data
          *
-         * @param  {Object} data Some key / value data
+         * @param  {object} data Some key / value data
          * @returns {SMSForm}      A form object
          */
         json(data) {
@@ -91,6 +92,7 @@ function loaded(api) {
 
     /**
      * This class is extended by user form
+     *
      * @class
      */
     class SMSUserForm extends api.exported.FormObject.class {
@@ -115,7 +117,7 @@ function loaded(api) {
         /**
          * Convert JSON data to object
          *
-         * @param  {Object} data Some data
+         * @param  {object} data Some data
          * @returns {SMSUserForm}      An instance
          */
         json(data) {
@@ -127,6 +129,7 @@ function loaded(api) {
 
     /**
      * Prowl plugin class
+     *
      * @class
      */
     class SMS extends api.exported.MessageProvider {

@@ -25,6 +25,7 @@ const RECORDING_TIME = 10;//60 * 5; // In seconds
 
 /**
  * This class allows to manage alarm (nable, disable, ...)
+ *
  * @class
  */
 class AlarmManager {

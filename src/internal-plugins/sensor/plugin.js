@@ -18,6 +18,7 @@ function loaded(api) {
     /**
      * This class should not be implemented but only inherited.
      * This class is used for sensors database
+     *
      * @class
      */
     class DbSensor extends api.exported.DbObject.class {
@@ -25,7 +26,7 @@ function loaded(api) {
          * Radio table descriptor
          *
          * @param  {DbHelper} [dbHelper=null] A database helper
-         * @param  {...Object} values          The values
+         * @param  {...object} values          The values
          * @returns {DbObject}                 A database object
          */
         constructor(dbHelper = null, ...values) {
@@ -63,6 +64,7 @@ function loaded(api) {
 
     /**
      * This class manage Sensors global form configuration
+     *
      * @class
      */
     class SensorGlobalForm extends api.exported.FormObject.class {
@@ -89,7 +91,7 @@ function loaded(api) {
         /**
          * Convert a json object to SensorGlobalForm object
          *
-         * @param  {Object} data Some data
+         * @param  {object} data Some data
          * @returns {SensorGlobalForm}      An instance
          */
         json(data) {
@@ -102,6 +104,7 @@ function loaded(api) {
 
     /**
      * This class is extended by sensors forms
+     *
      * @class
      */
     class SensorForm extends api.exported.FormObject.class {
@@ -175,7 +178,7 @@ function loaded(api) {
         /**
          * Convert JSON data to object
          *
-         * @param  {Object} data Some data
+         * @param  {object} data Some data
          * @returns {SensorForm}      An instance
          */
         json(data) {
@@ -207,6 +210,7 @@ function loaded(api) {
 
     /**
      * This class is extended by sensors
+     *
      * @class
      */
     class Sensor {
@@ -216,7 +220,7 @@ function loaded(api) {
          * @param  {PluginAPI} api                                                           A plugin api
          * @param  {number} [id=null]                                                        An id
          * @param  {string} [type="UNKNOWN"]                                                 A plugin type
-         * @param  {Object} [configuration=null]                                             The configuration for sensor
+         * @param  {object} [configuration=null]                                             The configuration for sensor
          * @param  {string} [icon=null]                                                      An icon
          * @param  {number} [round=0]                                                        Round value (number of digits after comma)
          * @param  {string} [unit=null]                                                      Base unit
@@ -256,7 +260,7 @@ function loaded(api) {
         /**
          * Access to constants
          *
-         * @returns {Object} A list of constants
+         * @returns {object} A list of constants
          */
         static constants() {
             return {AGGREGATION_MODE_AVG:AGGREGATION_MODE_AVG, AGGREGATION_MODE_SUM:AGGREGATION_MODE_SUM, AGGREGATION_MODE_MIN:AGGREGATION_MODE_MIN, AGGREGATION_MODE_MAX:AGGREGATION_MODE_MAX, AGGREGATION_MODE_LAST:AGGREGATION_MODE_LAST, AGGREGATION_MODE_COUNT:AGGREGATION_MODE_COUNT,
@@ -295,7 +299,7 @@ function loaded(api) {
          *
          * @param  {number} value            A value to convert
          * @param  {string} [forceUnit=null] If set, this will force conversion to the specified value. Otherwise will use adapted value
-         * @returns {Object}                  An object with transformed value and unit
+         * @returns {object}                  An object with transformed value and unit
          */
         aggregateUnit(value, forceUnit = null) {
             let thresholdsKeys = Object.keys(this.unitAggregation);
@@ -323,7 +327,7 @@ function loaded(api) {
          *
          * @param  {number} value A value
          * @param  {string} [forceUnit=null] Force unit conversion
-         * @returns {Object}       An object with two properties (value, unit)
+         * @returns {object}       An object with two properties (value, unit)
          */
         convertValue(value, forceUnit = null) {
             // Convert to float
@@ -698,7 +702,7 @@ function loaded(api) {
          * Register alert battery
          *
          * @param  {PluginAPI} api                                                           A plugin api
-         * @param  {Object} [configuration=null]                                             The configuration for sensor
+         * @param  {object} [configuration=null]                                             The configuration for sensor
          * @param  {DbHelper} dbHelper      A database helper object
          */
         registerBatteryAlert(api, configuration, dbHelper) {

@@ -7,6 +7,7 @@ const WebServices = require("./../../../services/webservices/WebServices");
 
 /**
  * Public API for Web services
+ *
  * @class
  */
 class WebAPI {
@@ -26,7 +27,7 @@ class WebAPI {
     /**
      * Register to a specific web service be notified when a route and/or method is called
      *
-     * @param  {Object} delegate     A delegate which implements the processAPI(apiRequest) function
+     * @param  {object} delegate     A delegate which implements the processAPI(apiRequest) function
      * @param  {string} [method="*"] A method (*, WebServices.GET / WebServices.POST)
      * @param  {string} [route="*"]  A route (*, :/my/route/)
      * @param  {int} authLevel  An authentification level
@@ -40,7 +41,7 @@ class WebAPI {
     /**
      * Unregister to a specific web service be notified when a route and/or method is called
      *
-     * @param  {Object} delegate     A delegate which implements the processAPI(apiRequest) function
+     * @param  {object} delegate     A delegate which implements the processAPI(apiRequest) function
      * @param  {string} [method="*"] A method (*, WebServices.GET / WebServices.POST)
      * @param  {string} [route="*"]  A route (*, :/my/route/)
      */
@@ -51,7 +52,7 @@ class WebAPI {
     /**
      * Get authentication constants : e.g. :  this.webApi.Authentication().AUTH_NO_LEVEL
      *
-     * @returns {Object} All constants as properties
+     * @returns {object} All constants as properties
      */
     Authentication() {
         return Authentication;
@@ -61,7 +62,7 @@ class WebAPI {
      * Create an APIResponse object
      *
      * @param  {boolean} [success=false]     Set to true if API success, else false
-     * @param  {Object}  [response={}]       A response object to transmit (optional)
+     * @param  {object}  [response={}]       A response object to transmit (optional)
      * @param  {int}  [errorCode=-1]         The error code (optional)
      * @param  {string}  [errorMessage=null] The error message (optional)
      * @returns {APIResponse}                 The instance
@@ -73,7 +74,7 @@ class WebAPI {
     /**
      * Access to web services constants
      *
-     * @returns {Object} The constants
+     * @returns {object} The constants
      */
     constants() {
         return Cleaner.class.exportConstants(WebServices);

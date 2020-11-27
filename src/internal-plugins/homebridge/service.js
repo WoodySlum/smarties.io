@@ -19,6 +19,7 @@ const WAIT_FOR_STARTING_SERVICE = 10; // Wait before starting the service (in se
 function loaded(api) {
     /**
      * This class starts the homebridge service
+     *
      * @class
      */
     class HomebridgeService extends api.exported.Service.class {

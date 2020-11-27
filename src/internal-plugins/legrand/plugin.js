@@ -17,6 +17,7 @@ function loaded(api) {
 
     /**
      * This class manage Legrand device form configuration
+     *
      * @class
      */
     class LegrandDeviceForm extends api.exported.FormObject.class {
@@ -43,7 +44,7 @@ function loaded(api) {
         /**
          * Form injection method for ports
          *
-         * @param  {...Object} inject The ports list array
+         * @param  {...object} inject The ports list array
          * @returns {Array}        An array of ports
          */
         static getLegrandIds(...inject) {
@@ -53,7 +54,7 @@ function loaded(api) {
         /**
          * Form injection method for ports name
          *
-         * @param  {...Object} inject The ports name list array
+         * @param  {...object} inject The ports name list array
          * @returns {Array}        An array of ports name
          */
         static getLegrandIdsLabels(...inject) {
@@ -63,7 +64,7 @@ function loaded(api) {
         /**
          * Convert a json object to HueForm object
          *
-         * @param  {Object} data Some data
+         * @param  {object} data Some data
          * @returns {LegrandDeviceForm}      An instance
          */
         json(data) {
@@ -73,6 +74,7 @@ function loaded(api) {
 
     /**
      * This class manage Legrand smart things
+     *
      * @class
      */
     class Legrand {
@@ -113,7 +115,7 @@ function loaded(api) {
         /**
          * oAuth callback
          *
-         * @param  {Object} oAuthData The oAuth data
+         * @param  {object} oAuthData The oAuth data
          */
         onOAuthData(oAuthData) {
             oAuthData.plant = this.plant;
@@ -126,7 +128,7 @@ function loaded(api) {
         /**
          * Get Legrand API headers
          *
-         * @returns {Object}        The headers
+         * @returns {object}        The headers
          */
         getApiHeaders() {
             return {
@@ -160,7 +162,7 @@ function loaded(api) {
         /**
          * Get modules
          *
-         * @param  {Object} plant The plant
+         * @param  {object} plant The plant
          * @param  {Function} cb The callback `(err, data) => {}`
          */
         getModules(plant, cb) {
@@ -182,8 +184,8 @@ function loaded(api) {
         /**
          * Set automation status
          *
-         * @param  {Object} plant The plant
-         * @param  {Object} automation The automation to updaye
+         * @param  {object} plant The plant
+         * @param  {object} automation The automation to updaye
          * @param  {number} status The status (0 or 100)
          * @param  {Function} cb The callback `(err, data) => {}`
          */

@@ -14,6 +14,7 @@ const ERROR_EMPTY_DATA = "No data request";
 
 /**
  * This class allows to manage form configuration
+ *
  * @class
  */
 class FormConfiguration {
@@ -26,7 +27,7 @@ class FormConfiguration {
      * @param  {string} name        A name or identifier
      * @param  {boolean} [list=false]     True if form configuration manage a list, false otherwise
      * @param  {Class} formClass A form annotation's implemented class. Can be called later through `register` method
-     * @param  {...Object} inject Parameters injection on static methods
+     * @param  {...object} inject Parameters injection on static methods
      * @returns {FormConfiguration}             The instance
      */
     constructor(confManager, formManager, webServices, name, list = false, formClass = null, ...inject) {
@@ -83,7 +84,7 @@ class FormConfiguration {
      * @param {Class} form A form
      * @param {string} title The form title
      * @param {boolean} isList `true` if this is a list of objects, otherwise `false`
-     * @param  {...Object} inject Parameters injection on static methods
+     * @param  {...object} inject Parameters injection on static methods
      */
     addAdditionalFields(form, title, isList, ...inject) {
         this.addAdditionalFieldsWithSort(form, title, isList, null, ...inject);
@@ -96,7 +97,7 @@ class FormConfiguration {
      * @param {string} title The form title
      * @param {boolean} isList `true` if this is a list of objects, otherwise `false`
      * @param  {number} [sort=null]      Sort
-     * @param  {...Object} inject Parameters injection on static methods
+     * @param  {...object} inject Parameters injection on static methods
      */
     addAdditionalFieldsWithSort(form, title, isList, sort = null, ...inject) {
         if (this.additionalFields.indexOf(form) === -1 && this.formClass) {
@@ -125,7 +126,7 @@ class FormConfiguration {
     /**
      * Save configuration
      *
-     * @param  {Object} data Object data
+     * @param  {object} data Object data
      */
     saveConfig(data) {
         if (!data.id) {
@@ -155,8 +156,8 @@ class FormConfiguration {
     /**
      * List comparator for ConfManager
      *
-     * @param  {Object} obj1 An first object
-     * @param  {Object} obj2 A second object
+     * @param  {object} obj1 An first object
+     * @param  {object} obj2 A second object
      * @returns {boolean}      True if equals, false otherwise
      */
     comparator(obj1, obj2) {
@@ -167,7 +168,7 @@ class FormConfiguration {
      * Register a form shortcut
      *
      * @param  {Class} formClass A form annotation's implemented class
-     * @param  {...Object} inject    The inject objects
+     * @param  {...object} inject    The inject objects
      */
     registerForm(formClass, ...inject) {
         this.formClass = formClass;
@@ -240,7 +241,7 @@ class FormConfiguration {
     /**
      * Returns a copy of the data object
      *
-     * @returns {Array|Object} A copy of data
+     * @returns {Array | object} A copy of data
      */
     getDataCopy() {
         if (this.data instanceof Array) {
@@ -261,7 +262,7 @@ class FormConfiguration {
     /**
      * Return configuration
      *
-     * @returns {Object} A configuration
+     * @returns {object} A configuration
      */
     getConfig() {
         return this.data;
@@ -270,7 +271,7 @@ class FormConfiguration {
     /**
      * Return the form
      *
-     * @returns {Object} A formatted form object
+     * @returns {object} A formatted form object
      */
     getForm() {
         return this.formManager.getForm(this.formClass);

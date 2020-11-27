@@ -15,6 +15,7 @@ function loaded(api) {
 
     /**
     * This class is used for bmw form
+     *
     * @class
     */
     class BmwForm extends api.exported.FormObject.class {
@@ -59,7 +60,7 @@ function loaded(api) {
         /**
          * Convert json data
          *
-         * @param  {Object} data Some key / value data
+         * @param  {object} data Some key / value data
          * @returns {BmwForm}      A form object
          */
         json(data) {
@@ -71,6 +72,7 @@ function loaded(api) {
 
     /**
      * This class manage bmw cars
+     *
      * @class
      */
     class Bmw {

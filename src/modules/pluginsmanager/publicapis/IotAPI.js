@@ -5,6 +5,7 @@ const callsite = require("callsite");
 
 /**
  * Public API for iot
+ *
  * @class
  */
 class IotAPI {

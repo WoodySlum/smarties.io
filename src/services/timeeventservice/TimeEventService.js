@@ -17,6 +17,7 @@ const CUSTOM = 99;
 
 /**
  * This class allows registered items to be notified on tile recursively
+ *
  * @class
  */
 class TimeEventService extends Service.class {
@@ -91,7 +92,7 @@ class TimeEventService extends Service.class {
      * Register an timer element
      *
      * @param  {Function} cb            A callback triggered when conditions are reached (context will be set back as parameter). Example : `(self) => {}`
-     * @param  {Object} context            The context to exectue the callback
+     * @param  {object} context            The context to exectue the callback
      * @param  {int}   mode          Mode (enum) : `EVERY_SECONDS`, `EVERY_MINUTES`, `EVERY_HOURS`, `EVERY_DAYS` or `CUSTOM`
      * @param  {string}   [hour=null]   The hour value. `*` for all
      * @param  {string}   [minute=null] The minute value. `*` for all
@@ -149,8 +150,8 @@ class TimeEventService extends Service.class {
     /**
      * Convert values fro menum to valid hour, minute and seconds
      *
-     * @param  {Object} obj  A TimerEvent object
-     * @returns {Object}      A converted timerEvent object
+     * @param  {object} obj  A TimerEvent object
+     * @returns {object}      A converted timerEvent object
      */
     convertMode(obj) {
         switch (obj.mode) {

@@ -3,6 +3,7 @@
 /**
  * Form objects
  * This class must be extended
+ *
  * @class
  */
 class FormObject {
@@ -28,7 +29,7 @@ class FormObject {
     /**
      * Convert json data
      *
-     * @param  {Object} data Some key / value data
+     * @param  {object} data Some key / value data
      * @returns {FormObject}      A form object
      */
     json(data) {

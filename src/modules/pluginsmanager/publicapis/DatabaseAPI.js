@@ -5,6 +5,7 @@ const DbSchemaConverter = require("./../../dbmanager/DbSchemaConverter");
 
 /**
  * Public API for database
+ *
  * @class
  */
 class DatabaseAPI {

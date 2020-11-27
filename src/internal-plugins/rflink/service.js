@@ -11,6 +11,7 @@ function loaded(api) {
 
     /**
      * This class conect to RFLink using serial port on a pseicif thread.
+     *
      * @class
      */
     class RFLinkService extends api.exported.Service.class {
@@ -39,7 +40,7 @@ function loaded(api) {
         /**
          * Main threaded loop
          *
-         * @param  {Object} data    A data passed as initial value
+         * @param  {object} data    A data passed as initial value
          * @param  {Function} send Send a message to parent process
          */
         run(data, send) {
@@ -322,7 +323,7 @@ function loaded(api) {
          * Retrieve data from process
          * Should be overloaded by service
          *
-         * @param  {Object} data    A data passed as initial value
+         * @param  {object} data    A data passed as initial value
          */
         threadCallback(data) {
             if (data.method === "rflinkData") {

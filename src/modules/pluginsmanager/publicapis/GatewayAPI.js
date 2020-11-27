@@ -3,6 +3,7 @@ const PrivateProperties = require("./../PrivateProperties");
 
 /**
  * Public API for gateway
+ *
  * @class
  */
 class GatewayAPI {

@@ -2,6 +2,7 @@ var FormObject = require("./../formmanager/FormObject");
 
 /**
  * This class provides a form for one device
+ *
  * @class
  */
 class CamerasForm extends FormObject.class {
@@ -29,7 +30,7 @@ class CamerasForm extends FormObject.class {
     /**
      * Cameras id injection
      *
-     * @param  {...Object} inject Inject parameters
+     * @param  {...object} inject Inject parameters
      * @returns {Array}        An array of ids
      */
     static getCameraIds(...inject) {
@@ -39,7 +40,7 @@ class CamerasForm extends FormObject.class {
     /**
      * Cameras name injection
      *
-     * @param  {...Object} inject Inject parameters
+     * @param  {...object} inject Inject parameters
      * @returns {Array}        An array of names
      */
     static getCameraNames(...inject) {
@@ -50,7 +51,7 @@ class CamerasForm extends FormObject.class {
     /**
      * Convert json data
      *
-     * @param  {Object} data Some key / value data
+     * @param  {object} data Some key / value data
      * @returns {CamerasForm}      A form object
      */
     json(data) {

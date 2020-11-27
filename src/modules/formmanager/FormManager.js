@@ -12,6 +12,7 @@ const BASE_SORTING = 100;
 /**
  * Generate forms from a specific object
  * The generated form is compatible with https://mozilla-services.github.io/react-jsonschema-form/ library
+ *
  * @class
  */
 class FormManager {
@@ -31,7 +32,7 @@ class FormManager {
      * Register a form class
      *
      * @param  {Class} cl     A class with form annotations
-     * @param  {...Object} inject Parameters injection on static methods
+     * @param  {...object} inject Parameters injection on static methods
      */
     register(cl, ...inject) {
         this.registerWithAdditionalFields(cl, {}, ...inject);
@@ -41,8 +42,8 @@ class FormManager {
      * Register a form class with additional fields
      *
      * @param  {Class} cl     A class with form annotations
-     * @param  {Object} additionalFields     Additional fields object in annotation format
-     * @param  {...Object} inject Parameters injection on static methods
+     * @param  {object} additionalFields     Additional fields object in annotation format
+     * @param  {...object} inject Parameters injection on static methods
      */
     registerWithAdditionalFields(cl, additionalFields, ...inject) {
         this.sanitize(cl);
@@ -113,23 +114,20 @@ class FormManager {
         if (cl.name !== "FormObject") {
             let extendedFound = true;
             let lastExtendedClass = null;
-            try {
-                while(extendedFound) {
-                    let extendedClass = this.getExtendedClass(cl);
-                    if (extendedClass) {
-                        lastExtendedClass = extendedClass;
 
-                        if (!this.registeredForms[extendedClass]) {
-                            throw Error(ERROR_PARENT_CLASS_NOT_REGISTERED);
-                        } else {
-                            cl = this.registeredForms[extendedClass].class;
-                        }
+            while(extendedFound) {
+                let extendedClass = this.getExtendedClass(cl);
+                if (extendedClass) {
+                    lastExtendedClass = extendedClass;
+
+                    if (!this.registeredForms[extendedClass]) {
+                        throw Error(ERROR_PARENT_CLASS_NOT_REGISTERED);
                     } else {
-                        extendedFound = false;
+                        cl = this.registeredForms[extendedClass].class;
                     }
+                } else {
+                    extendedFound = false;
                 }
-            } catch(e) {
-                throw e;
             }
 
             if (lastExtendedClass !== "FormObject") {
@@ -173,7 +171,7 @@ class FormManager {
     /**
      * Init schema
      *
-     * @returns {Object} An initialized schema
+     * @returns {object} An initialized schema
      */
     initSchema() {
         return {type:"object", required:[], properties:{}};
@@ -182,7 +180,7 @@ class FormManager {
     /**
      * Init UI schema
      *
-     * @returns {Object} An initialized schema
+     * @returns {object} An initialized schema
      */
     initSchemaUI() {
         return {};
@@ -191,7 +189,7 @@ class FormManager {
     /**
      * Sort the form recursively
      *
-     * @param  {Object} schema A form schema
+     * @param  {object} schema A form schema
      */
     sort(schema) {
         let properties = [];
@@ -249,8 +247,8 @@ class FormManager {
      * Get a form object
      *
      * @param  {Class} cl     A class with form annotations
-     * @param  {...Object} inject Parameters injection on static methods
-     * @returns {Object}        A form object with the properties `schema` and `schemaUI`
+     * @param  {...object} inject Parameters injection on static methods
+     * @returns {object}        A form object with the properties `schema` and `schemaUI`
      */
     getForm(cl, ...inject) {
         if (!this.registeredForms[cl.name]) {
@@ -287,11 +285,11 @@ class FormManager {
      * Generates a form for a specific class
      *
      * @param  {Class} cl     A class with form annotations
-     * @param  {Object} additionalFields     Additional fields object in annotation format
-     * @param  {Object} schema   Current schema (append)
-     * @param  {Object} schemaUI   Current UI schema (append)
-     * @param  {...Object} inject Parameters injection on static methods
-     * @returns {Object}        A form object with the properties `schema` and `schemaUI`
+     * @param  {object} additionalFields     Additional fields object in annotation format
+     * @param  {object} schema   Current schema (append)
+     * @param  {object} schemaUI   Current UI schema (append)
+     * @param  {...object} inject Parameters injection on static methods
+     * @returns {object}        A form object with the properties `schema` and `schemaUI`
      */
     generateForm(cl, additionalFields, schema, schemaUI, ...inject) {
         let c = cl.toString();

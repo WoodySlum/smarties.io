@@ -4,6 +4,7 @@ const FormConfiguration = require("../../formconfiguration/FormConfiguration");
 
 /**
  * Public API for configuration
+ *
  * @class
  */
 class ConfigurationAPI {
@@ -43,7 +44,7 @@ class ConfigurationAPI {
      * Register a form
      *
      * @param  {Class} formClass A form annotation's implemented class
-     * @param  {...Object} inject    The injected objects
+     * @param  {...object} inject    The injected objects
      */
     register(formClass, ...inject) {
         PrivateProperties.oprivate(this).formConfiguration.registerForm(formClass, ...inject);
@@ -57,7 +58,7 @@ class ConfigurationAPI {
     /**
      * Returns the configuration
      *
-     * @returns {Object} Configuration object
+     * @returns {object} Configuration object
      */
     getConfiguration() {
         return PrivateProperties.oprivate(this).formConfiguration.getConfig();
@@ -66,7 +67,7 @@ class ConfigurationAPI {
     /**
      * Return the formatted form object
      *
-     * @returns {Object} Formatted form object
+     * @returns {object} Formatted form object
      */
     getForm() {
         if (PrivateProperties.oprivate(this).formConfiguration) {
@@ -105,7 +106,7 @@ class ConfigurationAPI {
     /**
      * Save data manually for a specific key. Can throw error.
      *
-     * @param  {Object} data A JS object
+     * @param  {object} data A JS object
      */
     saveData(data) {
         if (PrivateProperties.oprivate(this).confManager.formConfiguration) {

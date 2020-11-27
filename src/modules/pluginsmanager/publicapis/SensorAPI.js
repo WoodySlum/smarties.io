@@ -6,6 +6,7 @@ const SensorsManager = require("./../../sensorsmanager/SensorsManager");
 
 /**
  * Public API for sensor
+ *
  * @class
  */
 class SensorAPI {
@@ -33,7 +34,7 @@ class SensorAPI {
      * Register a sensor form
      *
      * @param  {Class} formClass A form annotation's implemented class
-     * @param  {...Object} inject    The injected objects
+     * @param  {...object} inject    The injected objects
      */
     registerForm(formClass, ...inject) {
         this.form = formClass;
@@ -100,7 +101,7 @@ class SensorAPI {
      *
      * @param  {string} [type=null] Sensor's type or category. If not specified, send back all sensors.
      *
-     * @returns {Object} On object with id:name
+     * @returns {object} On object with id:name
      */
     getSensors(type = null) {
         return PrivateProperties.oprivate(this).sensorsManager.getAllSensors(type);
@@ -138,7 +139,7 @@ class SensorAPI {
     /**
      * Expose a list of constants (status)
      *
-     * @returns {Object} Constants
+     * @returns {object} Constants
      */
     constants() {
         return Cleaner.class.exportConstants(SensorsManager);

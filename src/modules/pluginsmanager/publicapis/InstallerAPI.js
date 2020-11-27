@@ -3,6 +3,7 @@ const PrivateProperties = require("./../PrivateProperties");
 
 /**
  * Public API for installation of external apps
+ *
  * @class
  */
 class InstallerAPI {
@@ -40,7 +41,7 @@ class InstallerAPI {
      * @param  {string}  command     The command
      * @param  {boolean} [wait=true] True if command is executed synchronously, false otherwise
      * @param  {Function}  [cb=null]   A callback (only if wait parameter is false) : `(error, stdout, stderr) => {}`
-     * @returns {Object}              An object result if wait is `true`
+     * @returns {object}              An object result if wait is `true`
      */
     executeCommand(command, wait = true, cb = null) {
         PrivateProperties.oprivate(this).installationManager.executeCommand(command, wait, cb);

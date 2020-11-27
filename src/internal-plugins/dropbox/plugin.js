@@ -15,6 +15,7 @@ function loaded(api) {
 
     /**
      * This class manage Dropbox form configuration
+     *
      * @class
      */
     class DropboxForm extends api.exported.FormObject.class {
@@ -101,7 +102,7 @@ function loaded(api) {
         /**
          * Convert a json object to DropboxForm object
          *
-         * @param  {Object} data Some data
+         * @param  {object} data Some data
          * @returns {DropboxForm}      An instance
          */
         json(data) {
@@ -114,6 +115,7 @@ function loaded(api) {
 
     /**
      * This class manage Dropbox backups
+     *
      * @class
      */
     class Dropbox {
@@ -148,7 +150,7 @@ function loaded(api) {
         /**
          * Automatic backup
          *
-         * @param  {Object} data    Form configuration data
+         * @param  {object} data    Form configuration data
          * @param  {Dropbox} context The context. If null, set to this
          */
         autoBackup(data, context) {
@@ -185,7 +187,7 @@ function loaded(api) {
         /**
          * Backup to dropbox
          *
-         * @param  {Object} data    Form configuration data
+         * @param  {object} data    Form configuration data
          * @param  {Dropbox} context The context. If null, set to this
          * @param  {string} username The username
          */

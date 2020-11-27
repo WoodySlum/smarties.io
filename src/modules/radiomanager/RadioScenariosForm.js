@@ -2,6 +2,7 @@ var FormObject = require("./../formmanager/FormObject");
 
 /**
  * This class provides a list of radio form part
+ *
  * @class
  */
 class RadioScenariosForm  extends FormObject.class {
@@ -26,7 +27,7 @@ class RadioScenariosForm  extends FormObject.class {
     /**
      * Convert json data
      *
-     * @param  {Object} data Some key / value data
+     * @param  {object} data Some key / value data
      * @returns {RadioScenariosForm}      A form object
      */
     json(data) {

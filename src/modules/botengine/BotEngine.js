@@ -27,6 +27,7 @@ const ERROR_MIC_IS_NOT_DEFINED = "Could not execute action : mic is not defined"
 
 /**
  * This class manage the Smarties bot
+ *
  * @class
  */
 class BotEngine {
@@ -36,7 +37,7 @@ class BotEngine {
      * @param  {AppConfiguration} appConfiguration The app configuration object
      * @param  {TranslateManager} translateManager The translation manager
      * @param  {MessageManager} messageManager The message manager
-     * @param  {Object} botConfiguration The bot configuration
+     * @param  {object} botConfiguration The bot configuration
      * @param  {InstallationManager} installationManager The installation manager
      * @param  {DashboardManager} dashboardManager The dashboard manager
      * @param  {ThemeManager} themeManager The theme manager
@@ -267,7 +268,7 @@ class BotEngine {
     /**
      * Callback when a new message is received
      *
-     * @param  {Object} message A message
+     * @param  {object} message A message
      * @param  {Function} botCb A callback that should be called when data processing is done
      */
     onMessageReceived(message, botCb) {

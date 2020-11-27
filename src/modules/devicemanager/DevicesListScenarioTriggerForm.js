@@ -2,6 +2,7 @@ var FormObject = require("./../formmanager/FormObject");
 
 /**
  * This class provides a form for one device
+ *
  * @class
  */
 class DevicesListScenarioTriggerForm extends FormObject.class {
@@ -38,7 +39,7 @@ class DevicesListScenarioTriggerForm extends FormObject.class {
     /**
      * Form injection method for Devices name
      *
-     * @param  {...Object} inject The modules list array
+     * @param  {...object} inject The modules list array
      * @returns {Array}        An array of devices name
      */
     static getDevicesName(...inject) {
@@ -48,7 +49,7 @@ class DevicesListScenarioTriggerForm extends FormObject.class {
     /**
      * Form injection method for Devices ids
      *
-     * @param  {...Object} inject The modules list array
+     * @param  {...object} inject The modules list array
      * @returns {Array}        An array of devices id
      */
     static getDevicesId(...inject) {
@@ -58,7 +59,7 @@ class DevicesListScenarioTriggerForm extends FormObject.class {
     /**
      * Convert json data
      *
-     * @param  {Object} data Some key / value data
+     * @param  {object} data Some key / value data
      * @returns {DevicesListScenarioTriggerForm}      A form object
      */
     json(data) {

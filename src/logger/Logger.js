@@ -16,6 +16,7 @@ const logHistory = [];
 
 /**
  * This class provides static methods to log into a file.
+ *
  * @class
  */
 class Logger {

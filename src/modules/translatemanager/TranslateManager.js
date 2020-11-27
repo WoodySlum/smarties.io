@@ -5,6 +5,7 @@ const DEFAULT_LANGUAGE = "en";
 
 /**
  * This class manage translations
+ *
  * @class
  */
 class TranslateManager {

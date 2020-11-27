@@ -2,6 +2,7 @@ var FormObject = require("./../formmanager/FormObject");
 
 /**
  * This class provides a form for one device
+ *
  * @class
  */
 class SensorScenarioForm extends FormObject.class {
@@ -46,7 +47,7 @@ class SensorScenarioForm extends FormObject.class {
     /**
      * Convert json data
      *
-     * @param  {Object} data Some key / value data
+     * @param  {object} data Some key / value data
      * @returns {SensorScenarioForm}      A form object
      */
     json(data) {

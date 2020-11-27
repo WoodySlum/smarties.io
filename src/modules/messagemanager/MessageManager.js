@@ -23,6 +23,7 @@ const MAX_SIZE_OF_MESSAGES_B = 1000000;
 
 /**
  * This class allows to manage message sending
+ *
  * @class
  */
 class MessageManager {
@@ -86,7 +87,7 @@ class MessageManager {
     /**
      * Register an object to message events. The callback must implement `onMessageReceived(message)` method
      *
-     * @param  {Object} o An object that implements callback
+     * @param  {object} o An object that implements callback
      */
     register(o) {
         if (this.registered.indexOf(o) === -1) {
@@ -97,7 +98,7 @@ class MessageManager {
     /**
      * Unregister an object to message events
      *
-     * @param  {Object} o An object that implements callback
+     * @param  {object} o An object that implements callback
      */
     unregister(o) {
         const index = this.registered.indexOf(o);
@@ -312,9 +313,9 @@ class MessageManager {
     /**
      * Trigger scenario elements
      *
-     * @param  {Object} scenario A dynamic scenario object
+     * @param  {object} scenario A dynamic scenario object
      * @param  {DeviceManager} context  The context
-     * @param  {Object} additionalInfos Additional infos
+     * @param  {object} additionalInfos Additional infos
      */
     triggerScenario(scenario, context, additionalInfos) {
         if (scenario && scenario.MessageScenarioForm) {

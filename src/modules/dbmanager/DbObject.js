@@ -5,6 +5,7 @@ const DbRequestBuilder = require("./DbRequestBuilder");
 /**
  * Database objects
  * This class must be extended
+ *
  * @class
  */
 class DbObject {
@@ -42,7 +43,7 @@ class DbObject {
     /**
      * Creates an object cloned with only field properties
      *
-     * @returns {Object} A cloned object without any methods
+     * @returns {object} A cloned object without any methods
      */
     base() {
         let baseObj = {};

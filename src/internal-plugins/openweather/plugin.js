@@ -17,6 +17,7 @@ function loaded(api) {
 
     /**
      * This class is used for Openweather database
+     *
      * @class
      */
     class OpenWeatherDb extends api.exported.DbObject.class {
@@ -24,7 +25,7 @@ function loaded(api) {
          * Openweather table descriptor
          *
          * @param  {DbHelper} [dbHelper=null] A database helper
-         * @param  {...Object} values          The values
+         * @param  {...object} values          The values
          * @returns {DbObject}                 A database object
          */
         constructor(dbHelper = null, ...values) {
@@ -111,6 +112,7 @@ function loaded(api) {
 
     /**
     * This class is used for OpenWeather form
+     *
     * @class
     */
     class OpenWeatherForm extends api.exported.FormObject.class {
@@ -164,7 +166,7 @@ function loaded(api) {
         /**
          * Convert json data
          *
-         * @param  {Object} data Some key / value data
+         * @param  {object} data Some key / value data
          * @returns {OpenWeatherForm}      A form object
          */
         json(data) {
@@ -176,6 +178,7 @@ function loaded(api) {
 
     /**
      * This class manage openweather APIs
+     *
      * @class
      */
     class OpenWeather {
@@ -544,7 +547,7 @@ function loaded(api) {
         /**
          * Register weather rain forecast tile
          *
-         * @param  {Object} forecast Forecast object
+         * @param  {object} forecast Forecast object
          */
         registerRainForecastTile(forecast) {
             const config = api.configurationAPI.getConfiguration();

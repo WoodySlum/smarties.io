@@ -3,6 +3,7 @@ const PrivateProperties = require("./../PrivateProperties");
 
 /**
  * Public API for radio events
+ *
  * @class
  */
 class RadioAPI {
@@ -43,7 +44,7 @@ class RadioAPI {
      * Compare a `RadioScenarioForm` object and a standard received `RadioObject`
      *
      * @param  {RadioScenarioForm} radioFormObject The radio scenario form object
-     * @param  {Object} radioObject     A standard radio object
+     * @param  {object} radioObject     A standard radio object
      * @returns {boolean}                 `true` if objects matches, `false` otherwise
      */
     compareFormObject(radioFormObject, radioObject) {

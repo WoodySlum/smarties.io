@@ -42,6 +42,7 @@ const INFOS_ENDPOINT = ":/infos/";
 
 /**
  * This class manage Web Services call, and more specifically the external APIs
+ *
  * @class
  */
 class WebServices extends Service.class {
@@ -335,7 +336,7 @@ class WebServices extends Service.class {
     /**
      * Override Register service callback
      *
-     * @param  {Object} delegate The service delegate
+     * @param  {object} delegate The service delegate
      */
     register(delegate) {
         this.registerAPI(delegate);
@@ -344,7 +345,7 @@ class WebServices extends Service.class {
     /**
      * Override Unregister service callback
      *
-     * @param  {Object} delegate The service delegate
+     * @param  {object} delegate The service delegate
      */
     unregister(delegate) {
         this.unregisterAPI(delegate);
@@ -353,7 +354,7 @@ class WebServices extends Service.class {
     /**
      * Register to a specific API to be notified when a route and/or method is called
      *
-     * @param  {Object} delegate     A delegate which implements the processAPI(apiRequest) function
+     * @param  {object} delegate     A delegate which implements the processAPI(apiRequest) function
      * @param  {string} [method="*"] A method (*, WebServices.GET / WebServices.POST / WebServices.DELETE)
      * @param  {string} [route="*"]  A route (*, :/my/route/)
      * @param  {int} authLevel  An authentification level
@@ -387,7 +388,7 @@ class WebServices extends Service.class {
     /**
      * Unregister a specific API to be not notified when a route and/or method is called
      *
-     * @param  {Object} delegate     A delegate which implements the processAPI(apiRequest) function
+     * @param  {object} delegate     A delegate which implements the processAPI(apiRequest) function
      * @param  {string} [method="*"] A method (*, WebServices.GET / WebServices.POST)
      * @param  {string} [route="*"]  A route (*, :/my/route/)
      */

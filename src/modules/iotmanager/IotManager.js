@@ -34,6 +34,7 @@ const IOT_MANAGER_FIRMWARE_GET = IOT_MANAGER_FIRMWARE_GET_BASE + "/[id]/";
 
 /**
  * This class allows to manage iot apps
+ *
  * @class
  */
 class IotManager {
@@ -107,9 +108,9 @@ class IotManager {
      * @param  {string} path        The library path
      * @param  {string} appId       An app identifier
      * @param  {int} [version=0] A version number
-     * @param  {Object} [wiringSchema={}] A wiring schema with the following properties, e.g. : `{left:{"D1":"", "D2":""}, right:{"D3":"", "D4":""}, up:{}, down:{}}`
+     * @param  {object} [wiringSchema={}] A wiring schema with the following properties, e.g. : `{left:{"D1":"", "D2":""}, right:{"D3":"", "D4":""}, up:{}, down:{}}`
      * @param  {FormObject} [form=null] A form
-     * @param  {...Object} inject      Some form injection parameters
+     * @param  {...object} inject      Some form injection parameters
      */
     registerLib(path, appId, version = 0, wiringSchema = {}, form = null, ...inject) {
         if (!fs.existsSync(path + "/" + LIB_FOLDER)) {
@@ -139,7 +140,7 @@ class IotManager {
     /**
      * Get the constants `constants().PLATFORMS`, `constants().BOARDS` and `constants().FRAMEWORKS`
      *
-     * @returns {Object} The constants object
+     * @returns {object} The constants object
      */
     constants() {
         return {
@@ -168,10 +169,10 @@ class IotManager {
      * @param  {string} board          A board type
      * @param  {string} framework      A framework
      * @param  {Array} dependencies    The array of library dependencies. Can be en empty array or an array of library app identifiers.
-     * @param  {Object} [options=null] A list of options injected in IoT configuration during flash sequence
-     * @param  {Object} [wiringSchema={}] A wiring schema with the following properties, e.g. : `{left:{"D1":"", "D2":""}, right:{"D3":"", "D4":""}, up:{}, down:{}}`
+     * @param  {object} [options=null] A list of options injected in IoT configuration during flash sequence
+     * @param  {object} [wiringSchema={}] A wiring schema with the following properties, e.g. : `{left:{"D1":"", "D2":""}, right:{"D3":"", "D4":""}, up:{}, down:{}}`
      * @param  {FormObject} [form=null] A form
-     * @param  {...Object} inject      Some form injection parameters
+     * @param  {...object} inject      Some form injection parameters
      */
     registerApp(path, appId, name, version, platform, board, framework, dependencies, options = null, wiringSchema = {}, form = null, ...inject) {
         if (!path || !appId || !name || !version || !platform || !board || !framework) {
@@ -250,7 +251,7 @@ class IotManager {
      * @param  {string}   id         The iot identifier
      * @param  {string}   appId         An app identifier
      * @param  {boolean}  [flash=false] `true` if USB flash sequence should be done after build, `false` otherwise
-     * @param  {Object}   [config=null] A configuration injected to firmware
+     * @param  {object}   [config=null] A configuration injected to firmware
      * @param  {Function} cb            A callback `(error, result) => {}` called when firmware / flash is done. The result object contains 2 properties, `firmwarePath` for the firmware, `stdout` for the results
      */
     build(id, appId, flash = false, config = null, cb) {
@@ -386,7 +387,7 @@ class IotManager {
      * Retrive an IoT app object
      *
      * @param  {string} appId An app identifier
-     * @returns {Object}       An IoT app
+     * @returns {object}       An IoT app
      */
     getIotApp(appId) {
         if (this.iotApps[appId]) {
@@ -400,7 +401,7 @@ class IotManager {
      * Retrieve an IoT (not application, but configured instance)
      *
      * @param  {number} id An IoT identifier
-     * @returns {Object}    An IoT configuration object
+     * @returns {object}    An IoT configuration object
      */
     getIot(id) {
         let iotFound = null;
@@ -570,8 +571,8 @@ class IotManager {
     /**
      * Compare IoT data
      *
-     * @param  {Object} iotData1 Iot data 1
-     * @param  {Object} iotData2 Iot data 2
+     * @param  {object} iotData1 Iot data 1
+     * @param  {object} iotData2 Iot data 2
      * @returns {boolean}             True if id is the same, false otherwise
      */
     comparator(iotData1, iotData2) {
@@ -591,7 +592,7 @@ class IotManager {
      * Returns the schema for a specific lib
      *
      * @param  {string} lib The lib name
-     * @returns {Object}             A wiring schema object
+     * @returns {object}             A wiring schema object
      */
     getWiringSchemaForLib(lib) {
         if (this.iotLibs[lib] && this.iotLibs[lib].wiringSchema) {

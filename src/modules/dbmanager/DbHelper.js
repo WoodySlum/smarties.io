@@ -6,6 +6,7 @@ const DateUtils = require("./../../utils/DateUtils");
 
 /**
  * Public API for database manager
+ *
  * @class
  */
 class DbHelper {
@@ -13,7 +14,7 @@ class DbHelper {
      * Encapsulate DbManager to be more easier
      *
      * @param  {DbManager} dbManager A DbManager instance
-     * @param  {Object} schema    A database schema
+     * @param  {object} schema    A database schema
      * @param  {string} table     A table
      * @param  {Class} [dbObjectClass=null]     A DbObject extended class. If not provided, a classic DbObject will be provided
      * @returns {DbHelper}           The instance
@@ -60,7 +61,7 @@ class DbHelper {
      * FIELD_ID
      * FIELD_TIMESTAMP
      *
-     * @returns {Object}       A list of constants
+     * @returns {object}       A list of constants
      */
     Operators() {
         return PrivateProperties.oprivate(this).dbManager.Operators();
@@ -78,7 +79,7 @@ class DbHelper {
     /**
      * Save an object in database (upsert mode)
      *
-     * @param  {Object} object    An object macthing schema
+     * @param  {object} object    An object macthing schema
      * @param  {Function} [cb=null] Callback of type `(error) => {}`. Error is null if no errors
      */
     saveObject(object, cb = null) {
@@ -102,7 +103,7 @@ class DbHelper {
     /**
      * Get an object from database
      *
-     * @param  {Object} object    An object macthing schema, with values inside. Example `getObject("myTable", schema, {id:152}, (err, object) => {console.log(object);})`
+     * @param  {object} object    An object macthing schema, with values inside. Example `getObject("myTable", schema, {id:152}, (err, object) => {console.log(object);})`
      * @param  {Function} [cb=null] Callback of type `(error, object) => {}`. Error is null if no errors
      */
     getObject(object, cb = null) {
@@ -217,7 +218,7 @@ class DbHelper {
     /**
      * Delete an object from database
      *
-     * @param  {Object} object    An object macthing schema, with values inside. Example `getObject("myTable", schema, {id:152}, (err) => {})`
+     * @param  {object} object    An object macthing schema, with values inside. Example `getObject("myTable", schema, {id:152}, (err) => {})`
      * @param  {Function} [cb=null] Callback of type `(error) => {}`. Error is null if no errors
      */
     delObject(object, cb = null) {

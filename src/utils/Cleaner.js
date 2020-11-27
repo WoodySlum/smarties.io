@@ -2,14 +2,15 @@
 
 /**
  * Utility class for cleaning stuff
+ *
  * @class
  */
 class Cleaner {
     /**
      * Clean an exported class by removing the `class` property
      *
-     * @param  {Object} exported An exported object with `class` property
-     * @returns {Object}          A clean object
+     * @param  {object} exported An exported object with `class` property
+     * @returns {object}          A clean object
      */
     static exportConstants(exported) {
         let o = Object.assign({}, exported);
@@ -21,7 +22,7 @@ class Cleaner {
      * Clean a DbObject by removing DbHelper
      *
      * @param  {DbObject} dbObject A database object
-     * @returns {Object}          A cleaned object
+     * @returns {object}          A cleaned object
      */
     static cleanDbObject(dbObject) {
         if (dbObject && dbObject.dbHelper) {

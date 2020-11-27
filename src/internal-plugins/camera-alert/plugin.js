@@ -13,6 +13,7 @@ function loaded(api) {
 
     /**
     * This class is used for camera alert form
+     *
     * @class
     */
     class CameraAlertForm extends api.exported.FormObject.class {
@@ -70,7 +71,7 @@ function loaded(api) {
         /**
          * Form injection method
          *
-         * @param  {...Object} inject The objects title
+         * @param  {...object} inject The objects title
          * @returns {Array}        An array of objects title
          */
         static getObjectsTitle(...inject) {
@@ -80,7 +81,7 @@ function loaded(api) {
         /**
          * Form injection method
          *
-         * @param  {...Object} inject The objects
+         * @param  {...object} inject The objects
          * @returns {Array}        An array of objects
          */
         static getObjects(...inject) {
@@ -91,7 +92,7 @@ function loaded(api) {
         /**
          * Convert json data
          *
-         * @param  {Object} data Some key / value data
+         * @param  {object} data Some key / value data
          * @returns {CameraAlertForm}      A form object
          */
         json(data) {
@@ -105,6 +106,7 @@ function loaded(api) {
 
     /**
      * This class manage camera alert
+     *
      * @class
      */
     class CameraAlert {

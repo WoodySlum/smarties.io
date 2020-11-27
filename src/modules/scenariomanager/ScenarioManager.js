@@ -31,6 +31,7 @@ const ERROR_CODE_URL_TRIGGER = 400;
 
 /**
  * This class allows to manage scenarios
+ *
  * @class
  */
 class ScenarioManager {
@@ -211,7 +212,7 @@ class ScenarioManager {
      * @param  {string} [title=null]     The title for sub form
      * @param  {number} [sort=null]      Sort
      * @param {boolean} isList `false` if this is a list of objects, otherwise `false`
-     * @param  {...Object} inject Parameters injection on static methods
+     * @param  {...object} inject Parameters injection on static methods
      */
     registerWithInjection(formPart, triggerCb = null, title = null, sort = null, isList = false, ...inject) {
         this.unregister(formPart, triggerCb);
@@ -264,7 +265,7 @@ class ScenarioManager {
      *
      * @param  {ScenarioForm} scenario A scenario
      * @param  {boolean} [isScheduled=false] Flag to detect if action should be executed immediately or scheduled
-     * @param  {Object}  [additionalInfos={}] Additional informations
+     * @param  {object}  [additionalInfos={}] Additional informations
      */
     triggerScenario(scenario, isScheduled = false, additionalInfos = {}) {
         const self = this;

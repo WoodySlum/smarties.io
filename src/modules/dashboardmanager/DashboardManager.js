@@ -17,6 +17,7 @@ const CONF_KEY = "dashboard-preferences";
 
 /**
  * This class generates dashboard from tiles
+ *
  * @class
  */
 class DashboardManager {
@@ -200,7 +201,7 @@ class DashboardManager {
      * @param  {string} username Username
      * @param  {boolean} allTiles `true` if should return all tiles, `false` otherwise
      * @param  {boolean} light `true` if no images in stream, `false` otherwise
-     * @returns {Object} A dashboard object
+     * @returns {object} A dashboard object
      */
     buildDashboard(username, allTiles = true, light = false) {
         const tiles = this.getReadableTiles(username, light).sort(function(a, b) {

@@ -28,6 +28,7 @@ const COUNT = "COUNT";
 /**
  * DBRequest builder class
  * This class generates a SQL query from parameters, but does NOT check that SQL query is valid. Does not throw any error / exception.
+ *
  * @class
  */
 class DbRequestBuilder {
@@ -35,7 +36,7 @@ class DbRequestBuilder {
      * Constructor
      *
      * @param  {string} table  Database table
-     * @param  {Object} schema A JSON Database schema
+     * @param  {object} schema A JSON Database schema
      * @returns {DbRequestBuilder}        The instance
      */
     constructor(table, schema) {
@@ -101,7 +102,7 @@ class DbRequestBuilder {
      * Encapsulate data. For example, if field is a string << L'envie >>, returns << 'L''envie' >> depending on field type
      *
      * @param  {*} value A value
-     * @param  {Object} meta  The field meta data from schema
+     * @param  {object} meta  The field meta data from schema
      * @returns {string}       The encapsulated value
      */
     getValueEncapsulated(value, meta) {
@@ -123,7 +124,7 @@ class DbRequestBuilder {
      * Internal, get meta data from shcema for a specific field
      *
      * @param  {string} field A field
-     * @returns {Object}       Metadata for field, null if nothing match
+     * @returns {object}       Metadata for field, null if nothing match
      */
     getMetaForField(field) {
         let meta = null;
@@ -146,7 +147,7 @@ class DbRequestBuilder {
     /**
      * Create a request for saving an object
      *
-     * @param  {Object} obj An object with some values inside in relation with the database schema
+     * @param  {object} obj An object with some values inside in relation with the database schema
      * @returns {DbRequestBuilder}     The instance
      */
     save(obj) {
@@ -166,7 +167,7 @@ class DbRequestBuilder {
      * Create a request with the exact object content and returns from database
      * The execution of the request will return an object matching the object contents
      *
-     * @param  {Object} obj An object with some values inside in relation with the database schema
+     * @param  {object} obj An object with some values inside in relation with the database schema
      * @returns {DbRequestBuilder}     The instance
      */
     get(obj) {
@@ -182,7 +183,7 @@ class DbRequestBuilder {
      * Create a request with the exact object content
      * The execution of the request will delete an object matching the object contents
      *
-     * @param  {Object} obj An object with some values inside in relation with the database schema
+     * @param  {object} obj An object with some values inside in relation with the database schema
      * @returns {DbRequestBuilder}     The instance
      */
     del(obj) {

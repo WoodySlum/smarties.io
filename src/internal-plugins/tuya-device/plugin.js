@@ -11,6 +11,7 @@ function loaded(api) {
 
     /**
      * This class is used for TpLink TL-MR6400 form
+     *
      * @class
      */
     class TuyaForm extends api.exported.FormObject.class {
@@ -44,7 +45,7 @@ function loaded(api) {
         /**
          * Convert json data
          *
-         * @param  {Object} data Some key / value data
+         * @param  {object} data Some key / value data
          * @returns {TuyaForm}      A form object
          */
         json(data) {
@@ -56,6 +57,7 @@ function loaded(api) {
 
     /**
      * This class manage Tuya device form configuration
+     *
      * @class
      */
     class TuyaDeviceForm extends api.exported.FormObject.class {
@@ -82,7 +84,7 @@ function loaded(api) {
         /**
          * Form injection method for ports
          *
-         * @param  {...Object} inject The ports list array
+         * @param  {...object} inject The ports list array
          * @returns {Array}        An array of ports
          */
         static getTuyaIds(...inject) {
@@ -92,7 +94,7 @@ function loaded(api) {
         /**
          * Form injection method for ports name
          *
-         * @param  {...Object} inject The ports name list array
+         * @param  {...object} inject The ports name list array
          * @returns {Array}        An array of ports name
          */
         static getTuyaIdsLabels(...inject) {
@@ -102,7 +104,7 @@ function loaded(api) {
         /**
          * Convert a json object to HueForm object
          *
-         * @param  {Object} data Some data
+         * @param  {object} data Some data
          * @returns {TuyaDeviceForm}      An instance
          */
         json(data) {
@@ -112,6 +114,7 @@ function loaded(api) {
 
     /**
      * This class manage Tuya devices (outlets, ...)
+     *
      * @class
      */
     class TuyaDevice {

@@ -8,6 +8,7 @@ const ROUND_TIMESTAMP_MONTH = 3;
 
 /**
  * Utility class for dates
+ *
  * @class
  */
 class DateUtils {
@@ -109,7 +110,7 @@ class DateUtils {
      *
      * @param  {string} country The ISO-3166-3 country code
      * @param  {number} [timestamp=null] A timestamp in seconds. If null current timestamp provided.
-     * @returns {boolean|Object}           The result
+     * @returns {boolean | object}           The result
      */
     static isHoliday(country, timestamp = null) {
         if (country) {

@@ -5,6 +5,7 @@ const ThemeManager = require("./../../thememanager/ThemeManager");
 
 /**
  * Public API for theme, colors
+ *
  * @class
  */
 class ThemeAPI {
@@ -25,7 +26,7 @@ class ThemeAPI {
      * Retrieve the theme colors
      *
      * @param  {string} [username=null] A username, for customization
-     * @returns {Object} Colors
+     * @returns {object} Colors
      */
     getColors(username = null) {
         return PrivateProperties.oprivate(this).themeManager.getColors(username);
@@ -34,7 +35,7 @@ class ThemeAPI {
     /**
      * Access to web services constants
      *
-     * @returns {Object} The constants
+     * @returns {object} The constants
      */
     constants() {
         return Cleaner.class.exportConstants(ThemeManager);

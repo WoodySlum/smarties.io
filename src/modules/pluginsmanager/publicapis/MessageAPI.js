@@ -3,6 +3,7 @@ const PrivateProperties = require("./../PrivateProperties");
 
 /**
  * Public API for messages
+ *
  * @class
  */
 class MessageAPI {
@@ -36,7 +37,7 @@ class MessageAPI {
     /**
      * Register an object to message events. The callback must implement `onMessageReceived(message)` method
      *
-     * @param  {Object} o An object that implements callback
+     * @param  {object} o An object that implements callback
      */
     register(o) {
         PrivateProperties.oprivate(this).messageManager.register(o);
@@ -45,7 +46,7 @@ class MessageAPI {
     /**
      * Unregister an object to message events
      *
-     * @param  {Object} o An object that implements callback
+     * @param  {object} o An object that implements callback
      */
     unregister(o) {
         PrivateProperties.oprivate(this).messageManager.unregister(o);

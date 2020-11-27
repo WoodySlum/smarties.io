@@ -2,6 +2,7 @@ var FormObject = require("./../formmanager/FormObject");
 
 /**
  * This class provides a scenario form for the alarm
+ *
  * @class
  */
 class AlarmScenarioForm extends FormObject.class {
@@ -30,7 +31,7 @@ class AlarmScenarioForm extends FormObject.class {
     /**
      * Convert json data
      *
-     * @param  {Object} data Some key / value data
+     * @param  {object} data Some key / value data
      * @returns {AlarmScenarioForm}      A form object
      */
     json(data) {

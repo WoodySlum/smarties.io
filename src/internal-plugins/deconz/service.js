@@ -8,6 +8,7 @@
 function loaded(api) {
     /**
      * This class conect to RFLink using serial port on a pseicif thread.
+     *
      * @class
      */
     class DeconzService extends api.exported.Service.class {
