@@ -1,9 +1,10 @@
 # Update node engine procedure
 # 1. Update package.json node-engines
 # 2. Modify this script (IMG-TAG) and run script (enable docker experimental feature first)
-# 3. Under gitlab, go to CI/CD, Pipelines and click on Clear Runner Caches button
-# 4. Update libraries if necessary and run lint, test and build
-# 5. Push
+# 3. Under gitlab go to core-node project, settings, CI/CD, Variables and update NODE_VERSION
+# 4. Under gitlab, go to CI/CD, Pipelines and click on Clear Runner Caches button
+# 5. Update libraries if necessary and run lint, test and build
+# 6. Push
 
 #!/bin/sh
 docker login
