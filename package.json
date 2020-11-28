@@ -121,7 +121,7 @@
         "nodemon": "^1.19",
         "nyc": "^15.0",
         "parse-domain": "2.1",
-        "pkg": "^4.4.8",
+        "pkg": "^4.4.2",
         "remove-console-logs": "^0.1",
         "resolve-options": "^1.1",
         "sinon": "^7.5"
