@@ -108,7 +108,6 @@
     "author": "WoodySlum",
     "license": "ISC",
     "devDependencies": {
-        "es-get-iterator": "git://github.com/WoodySlum/es-get-iterator.git#master",
         "chai": "^4.2",
         "documentation": "^13.1",
         "eslint": "^7.14",
@@ -128,6 +127,7 @@
         "sinon": "^7.5"
     },
     "dependencies": {
+        "es-get-iterator": "git://github.com/WoodySlum/es-get-iterator.git#master",
         "@mihaiblaga89/bmw-connecteddrive-api": "^0.5",
         "ajv": "^6.12",
         "annotation": "git://github.com/WoodySlum/node-annotation.git#master",
