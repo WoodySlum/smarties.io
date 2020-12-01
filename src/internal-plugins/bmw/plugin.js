@@ -1,6 +1,6 @@
 "use strict";
 
-const ConnectedDriveApi = require("@mihaiblaga89/bmw-connecteddrive-api");
+const ConnectedDriveApi = require("./lib/bmw-connecteddrive-api");
 const request = require("request");
 const fs = require("fs-extra");
 const sha256 = require("sha256");
