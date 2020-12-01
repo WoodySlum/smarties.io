@@ -51,6 +51,7 @@ class DashboardManager {
         this.lastGenerated = DateUtils.class.timestamp();
 
         this.tiles = [];
+        this.unregistered = [];
 
         // Scenario
         this.scenarioManager.register(DashboardScenarioTrigger.class, null, "dashboard.scenario.trigger.form.title", 200);
@@ -141,6 +142,10 @@ class DashboardManager {
                 return tile1.order - tile2.order;
             });
 
+            if (this.unregistered.indexOf(tile.identifier) >= 0) {
+                this.unregistered.splice(this.unregistered.indexOf(tile.identifier), 1);
+            }
+
             Logger.verbose("Tile " + tile.identifier + " registered");
 
             // Save generation date
@@ -169,6 +174,10 @@ class DashboardManager {
         indexes.forEach((index) => {
             this.tiles.splice(index, 1);
         });
+
+        if (this.unregistered.indexOf(identifier) == -1) {
+            this.unregistered.push(identifier);
+        }
 
         // Save generation date
         this.lastGenerated = DateUtils.class.timestamp();
@@ -224,12 +233,20 @@ class DashboardManager {
             }
         });
 
+        let allTilesGenerated = true;
+        tiles.forEach((tile) => {
+            if (timestamp > tile.lastGenerated) {
+                allTilesGenerated = false;
+            }
+        });
+
         const realTiles = this.filterTiles(tiles, allTiles?null:username, timestamp);
 
         return {
             timestamp:this.lastGenerated,
+            allTilesGenerated: allTilesGenerated,
             timestampFormatted: DateUtils.class.dateFormatted(this.translateManager.t("datetime.format"), this.lastGenerated),
-            excludeTiles:(this.dashboardPreferences[username] && this.dashboardPreferences[username].excludeTiles)?this.dashboardPreferences[username].excludeTiles:[],
+            excludeTiles: this.unregistered.concat((this.dashboardPreferences[username] && this.dashboardPreferences[username].excludeTiles)?this.dashboardPreferences[username].excludeTiles:[]),
             tiles: realTiles
         };
     }
