@@ -87,6 +87,7 @@ class DashboardManager {
             if (!user || user && user.level >= tile.authentication) {
                 tile.customize(username); // Customize tile colors depending on theme
                 tile.applyMode(username, light);
+
                 tiles.push(tile.get());
             }
         });
@@ -131,7 +132,7 @@ class DashboardManager {
 
         if (shouldRegister) {
             this.unregisterTile(tile.identifier);
-
+            tile.lastGenerated = DateUtils.class.timestamp();
             // Add tile
             this.tiles.push(tile);
 
@@ -178,13 +179,14 @@ class DashboardManager {
      *
      * @param  {Array} tiles The tiles
      * @param  {string} username Username
+     * @param  {number} [timestamp=0] The last refresh timestamp
      * @returns {Array}          Tiles
      */
-    filterTiles(tiles, username = null) {
+    filterTiles(tiles, username = null, timestamp = 0) {
         if (this.dashboardPreferences[username] && this.dashboardPreferences[username].excludeTiles) {
             const includeTiles = [];
             tiles.forEach((tile) => {
-                if (this.dashboardPreferences[username].excludeTiles.indexOf(tile.identifier) === -1) {
+                if (this.dashboardPreferences[username].excludeTiles.indexOf(tile.identifier) === -1 && tile.lastGenerated > timestamp) {
                     includeTiles.push(tile);
                 }
             });
@@ -201,9 +203,10 @@ class DashboardManager {
      * @param  {string} username Username
      * @param  {boolean} allTiles `true` if should return all tiles, `false` otherwise
      * @param  {boolean} light `true` if no images in stream, `false` otherwise
+     * @param  {number} [timestamp=0] The last refresh timestamp
      * @returns {object} A dashboard object
      */
-    buildDashboard(username, allTiles = true, light = false) {
+    buildDashboard(username, allTiles = true, light = false, timestamp = 0) {
         const tiles = this.getReadableTiles(username, light).sort(function(a, b) {
             if (parseFloat(a.order) > parseFloat(b.order)) {
                 return 1;
@@ -221,7 +224,7 @@ class DashboardManager {
             }
         });
 
-        const realTiles = this.filterTiles(tiles, allTiles?null:username);
+        const realTiles = this.filterTiles(tiles, allTiles?null:username, timestamp);
 
         return {
             timestamp:this.lastGenerated,
@@ -246,10 +249,10 @@ class DashboardManager {
                         // Up to date !
                         resolve(new APIResponse.class(true, {}, null, null, true));
                     } else {
-                        resolve(new APIResponse.class(true, self.buildDashboard(apiRequest.authenticationData.username, apiRequest.data.all?(apiRequest.data.all == "1"?true:false):false, apiRequest.data.light?(apiRequest.data.light == "1"?true:false):false)));
+                        resolve(new APIResponse.class(true, self.buildDashboard(apiRequest.authenticationData.username, apiRequest.data.all?(apiRequest.data.all == "1"?true:false):false, apiRequest.data.light?(apiRequest.data.light == "1"?true:false):false, apiRequest.data.timestamp)));
                     }
                 } else {
-                    resolve(new APIResponse.class(true, self.buildDashboard(apiRequest.authenticationData.username, apiRequest.data.all?(apiRequest.data.all == "1"?true:false):false, apiRequest.data.light?(apiRequest.data.light == "1"?true:false):false)));
+                    resolve(new APIResponse.class(true, self.buildDashboard(apiRequest.authenticationData.username, apiRequest.data.all?(apiRequest.data.all == "1"?true:false):false, apiRequest.data.light?(apiRequest.data.light == "1"?true:false):false, apiRequest.data.timestamp)));
                 }
             });
         } else if (apiRequest.route === BASE_ROUTE_CUSTOMIZE) {

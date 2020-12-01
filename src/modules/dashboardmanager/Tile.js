@@ -82,6 +82,7 @@ class Tile {
      */
     customize(username = null) {
         this.themeColors = this.themeManager.getColors(username);
+        delete this.themeColors.icons;
         if (this.type === TILE_INFO_ONE_TEXT || this.type === TILE_INFO_TWO_TEXT || this.type === TILE_INFO_TWO_ICONS || this.type === TILE_PICTURES) {
             this.colors.colorDefault = this.themeManager.getColors(username).secondaryColor;
             this.colors.colorContent = this.themeManager.getColors(username).clearColor;
