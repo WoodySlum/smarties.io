@@ -1145,7 +1145,7 @@ Register a camera form
 #### Parameters
 
 -   `formClass` **Class** A form annotation's implemented class
--   `inject` **...[Object][937]** The injected objects
+-   `inject` **...[object][937]** The injected objects
 
 ### registerClass
 
@@ -1159,7 +1159,7 @@ Register a camera class
 
 Get all cameras
 
-Returns **[Object][937]** On object with id:name
+Returns **[object][937]** On object with id:name
 
 ### getImage
 
@@ -1227,19 +1227,19 @@ Register a form
 #### Parameters
 
 -   `formClass` **Class** A form annotation's implemented class
--   `inject` **...[Object][937]** The injected objects
+-   `inject` **...[object][937]** The injected objects
 
 ### getConfiguration
 
 Returns the configuration
 
-Returns **[Object][937]** Configuration object
+Returns **[object][937]** Configuration object
 
 ### getForm
 
 Return the formatted form object
 
-Returns **[Object][937]** Formatted form object
+Returns **[object][937]** Formatted form object
 
 ### setUpdateCb
 
@@ -1266,7 +1266,7 @@ Save data manually for a specific key. Can throw error.
 
 #### Parameters
 
--   `data` **[Object][937]** A JS object
+-   `data` **[object][937]** A JS object
 
 ### getConfManager
 
@@ -1286,7 +1286,7 @@ This class allows to manage form configuration
 -   `name` **[string][932]** A name or identifier
 -   `list` **[boolean][936]** True if form configuration manage a list, false otherwise (optional, default `false`)
 -   `formClass` **Class** A form annotation's implemented class. Can be called later through `register` method (optional, default `null`)
--   `inject` **...[Object][937]** Parameters injection on static methods
+-   `inject` **...[object][937]** Parameters injection on static methods
 
 ### setUpdateCb
 
@@ -1306,7 +1306,7 @@ Deprecated - Use addAdditionalFieldsWithSort
 -   `form` **Class** A form
 -   `title` **[string][932]** The form title
 -   `isList` **[boolean][936]** `true` if this is a list of objects, otherwise `false`
--   `inject` **...[Object][937]** Parameters injection on static methods
+-   `inject` **...[object][937]** Parameters injection on static methods
 
 ### addAdditionalFieldsWithSort
 
@@ -1318,7 +1318,7 @@ Add additional fields
 -   `title` **[string][932]** The form title
 -   `isList` **[boolean][936]** `true` if this is a list of objects, otherwise `false`
 -   `sort` **[number][935]** Sort (optional, default `null`)
--   `inject` **...[Object][937]** Parameters injection on static methods
+-   `inject` **...[object][937]** Parameters injection on static methods
 
 ### loadConfig
 
@@ -1330,7 +1330,7 @@ Save configuration
 
 #### Parameters
 
--   `data` **[Object][937]** Object data
+-   `data` **[object][937]** Object data
 
 ### save
 
@@ -1342,8 +1342,8 @@ List comparator for ConfManager
 
 #### Parameters
 
--   `obj1` **[Object][937]** An first object
--   `obj2` **[Object][937]** A second object
+-   `obj1` **[object][937]** An first object
+-   `obj2` **[object][937]** A second object
 
 Returns **[boolean][936]** True if equals, false otherwise
 
@@ -1354,7 +1354,7 @@ Register a form shortcut
 #### Parameters
 
 -   `formClass` **Class** A form annotation's implemented class
--   `inject` **...[Object][937]** The inject objects
+-   `inject` **...[object][937]** The inject objects
 
 ### processAPI
 
@@ -1370,19 +1370,19 @@ Returns **[Promise][934]** A promise with an APIResponse object
 
 Returns a copy of the data object
 
-Returns **([Array][933] \| [Object][937])** A copy of data
+Returns **([Array][933] \| [object][937])** A copy of data
 
 ### getConfig
 
 Return configuration
 
-Returns **[Object][937]** A configuration
+Returns **[object][937]** A configuration
 
 ### getForm
 
 Return the form
 
-Returns **[Object][937]** A formatted form object
+Returns **[object][937]** A formatted form object
 
 ### setSortFunction
 
@@ -1408,7 +1408,7 @@ Dispatch an event through all registered modules
 #### Parameters
 
 -   `name` **[string][932]** An event name
--   `data` **[Object][937]** Some data (optional, default `null`)
+-   `data` **[object][937]** Some data (optional, default `null`)
 
 ### registerEvent
 
@@ -1466,7 +1466,7 @@ Constructor
 -   `status` **[number][935]** A status (0, 1, ...) (optional, default `0`)
 -   `order` **[number][935]** A number that represents the place of the tile. 1 is on top, 999999 is on bottom :) (optional, default `1`)
 -   `action` **[string][932]** The action (route endpoint without `:`) (optional, default `null`)
--   `object` **[Object][937]** An object (optional, default `null`)
+-   `object` **[object][937]** An object (optional, default `null`)
 -   `authentication` **[number][935]** The authentication level (optional, default `api.webAPI.Authentication().AUTH_USAGE_LEVEL`)
 
 Returns **[Tile][940]** A tile
@@ -1475,7 +1475,7 @@ Returns **[Tile][940]** A tile
 
 Expose a list of tile's type : `TILE_INFO_ONE_TEXT`, `TILE_INFO_TWO_TEXT`, `TILE_INFO_TWO_ICONS`, `TILE_ACTION_ONE_ICON`, `TILE_PICTURE_TEXT`, `TILE_PICTURES`, `TILE_GENERIC_ACTION` or `TILE_GENERIC_ACTION_STATUS`
 
-Returns **[Object][937]** Constants
+Returns **[object][937]** Constants
 
 ## Tile
 
@@ -1495,14 +1495,14 @@ This class describes tiles
 -   `status` **[number][935]** A status (0, 1, ...) (optional, default `0`)
 -   `order` **[number][935]** A number that represents the place of the tile. 1 is on top, 999999 is on bottom :) (optional, default `1`)
 -   `action` **[string][932]** The action (route endpoint without `:`) (optional, default `null`)
--   `object` **[Object][937]** An object (optional, default `null`)
+-   `object` **[object][937]** An object (optional, default `null`)
 -   `authentication` **[number][935]** The authentication level (optional, default `Authentication.AUTH_USAGE_LEVEL`)
 
 ### get
 
 Get the tile without useless informations
 
-Returns **[Object][937]** A tile ready to be serialized
+Returns **[object][937]** A tile ready to be serialized
 
 ### customize
 
@@ -1564,7 +1564,7 @@ Public API for database manager
 ### Parameters
 
 -   `dbManager` **DbManager** A DbManager instance
--   `schema` **[Object][937]** A database schema
+-   `schema` **[object][937]** A database schema
 -   `table` **[string][932]** A table
 -   `dbObjectClass` **Class** A DbObject extended class. If not provided, a classic DbObject will be provided (optional, default `null`)
 
@@ -1596,7 +1596,7 @@ COUNT
 FIELD_ID
 FIELD_TIMESTAMP
 
-Returns **[Object][937]** A list of constants
+Returns **[object][937]** A list of constants
 
 ### getFieldsForTable
 
@@ -1610,7 +1610,7 @@ Save an object in database (upsert mode)
 
 #### Parameters
 
--   `object` **[Object][937]** An object macthing schema
+-   `object` **[object][937]** An object macthing schema
 -   `cb` **[Function][931]** Callback of type `(error) => {}`. Error is null if no errors (optional, default `null`)
 
 ### getObject
@@ -1619,7 +1619,7 @@ Get an object from database
 
 #### Parameters
 
--   `object` **[Object][937]** An object macthing schema, with values inside. Example `getObject("myTable", schema, {id:152}, (err, object) => {console.log(object);})`
+-   `object` **[object][937]** An object macthing schema, with values inside. Example `getObject("myTable", schema, {id:152}, (err, object) => {console.log(object);})`
 -   `cb` **[Function][931]** Callback of type `(error, object) => {}`. Error is null if no errors (optional, default `null`)
 
 ### getObjects
@@ -1645,7 +1645,7 @@ Delete an object from database
 
 #### Parameters
 
--   `object` **[Object][937]** An object macthing schema, with values inside. Example `getObject("myTable", schema, {id:152}, (err) => {})`
+-   `object` **[object][937]** An object macthing schema, with values inside. Example `getObject("myTable", schema, {id:152}, (err) => {})`
 -   `cb` **[Function][931]** Callback of type `(error) => {}`. Error is null if no errors (optional, default `null`)
 
 ### delObjects
@@ -1671,7 +1671,7 @@ This class must be extended
 
 Creates an object cloned with only field properties
 
-Returns **[Object][937]** A cloned object without any methods
+Returns **[object][937]** A cloned object without any methods
 
 ### save
 
@@ -1697,7 +1697,7 @@ This class generates a SQL query from parameters, but does NOT check that SQL qu
 ### Parameters
 
 -   `table` **[string][932]** Database table
--   `schema` **[Object][937]** A JSON Database schema
+-   `schema` **[object][937]** A JSON Database schema
 
 ### removeLastComma
 
@@ -1726,7 +1726,7 @@ Encapsulate data. For example, if field is a string &lt;&lt; L'envie >>, returns
 #### Parameters
 
 -   `value` **any** A value
--   `meta` **[Object][937]** The field meta data from schema
+-   `meta` **[object][937]** The field meta data from schema
 
 Returns **[string][932]** The encapsulated value
 
@@ -1738,7 +1738,7 @@ Internal, get meta data from shcema for a specific field
 
 -   `field` **[string][932]** A field
 
-Returns **[Object][937]** Metadata for field, null if nothing match
+Returns **[object][937]** Metadata for field, null if nothing match
 
 ### save
 
@@ -1746,7 +1746,7 @@ Create a request for saving an object
 
 #### Parameters
 
--   `obj` **[Object][937]** An object with some values inside in relation with the database schema
+-   `obj` **[object][937]** An object with some values inside in relation with the database schema
 
 Returns **[DbRequestBuilder][944]** The instance
 
@@ -1757,7 +1757,7 @@ The execution of the request will return an object matching the object contents
 
 #### Parameters
 
--   `obj` **[Object][937]** An object with some values inside in relation with the database schema
+-   `obj` **[object][937]** An object with some values inside in relation with the database schema
 
 Returns **[DbRequestBuilder][944]** The instance
 
@@ -1768,7 +1768,7 @@ The execution of the request will delete an object matching the object contents
 
 #### Parameters
 
--   `obj` **[Object][937]** An object with some values inside in relation with the database schema
+-   `obj` **[object][937]** An object with some values inside in relation with the database schema
 
 Returns **[DbRequestBuilder][944]** The instance
 
@@ -1990,7 +1990,7 @@ Convert DbObject annotations to db schema
 
 -   `dbObjectClass` **[DbObject][942]** A class extending DbObject
 
-Returns **[Object][937]** A database schema
+Returns **[object][937]** A database schema
 
 ## Convert
 
@@ -2002,9 +2002,9 @@ Convert key / values object into a single one. Example `[{key:"Foo", value:"Bar"
 
 #### Parameters
 
--   `inputObject` **[Object][937]** An input object
+-   `inputObject` **[object][937]** An input object
 
-Returns **[Object][937]** An output object
+Returns **[object][937]** An output object
 
 ## DeviceAPI
 
@@ -2036,7 +2036,7 @@ Switch a device status
 
 Expose a list of constants (status)
 
-Returns **[Object][937]** Constants
+Returns **[object][937]** Constants
 
 ### getDeviceStatus
 
@@ -2058,7 +2058,7 @@ Add a form device part
 -   `form` **Form** A form
 -   `title` **[string][932]** A title
 -   `isList` **[boolean][936]** `true` if this is a list of subforms, `false` otherwise (optional, default `false`)
--   `inject` **...[Object][937]** The injected objects
+-   `inject` **...[object][937]** The injected objects
 
 ### registerSwitchDevice
 
@@ -2077,7 +2077,7 @@ Save a device
 
 #### Parameters
 
--   `device` **[Object][937]** A device
+-   `device` **[object][937]** A device
 
 ### getDeviceTypes
 
@@ -2085,7 +2085,7 @@ Returns the supported modes for a specific device (e.g. light, dimmable, color, 
 
 #### Parameters
 
--   `device` **[Object][937]** A device
+-   `device` **[object][937]** A device
 
 Returns **\[[string][932]]** The list of supported modes
 
@@ -2097,7 +2097,7 @@ Returns a device from an identifier
 
 -   `id` **[string][932]** An identifier
 
-Returns **[Object][937]** A device
+Returns **[object][937]** A device
 
 ### switchDeviceWithDevice
 
@@ -2105,7 +2105,7 @@ Switch device with a device object
 
 #### Parameters
 
--   `device` **[Object][937]** A device
+-   `device` **[object][937]** A device
 
 ### getDbHelper
 
@@ -2176,7 +2176,7 @@ Trigger scenario elements
 
 #### Parameters
 
--   `scenario` **[Object][937]** A dynamic scenario object
+-   `scenario` **[object][937]** A dynamic scenario object
 -   `context` **[DeviceManager][947]** The context
 
 ### registerDeviceListForm
@@ -2229,7 +2229,7 @@ Returns the supported modes for a specific device (e.g. light, dimmable, color, 
 
 #### Parameters
 
--   `device` **[Object][937]** A device
+-   `device` **[object][937]** A device
 
 Returns **\[[string][932]]** The list of supported modes
 
@@ -2241,7 +2241,7 @@ Returns a device from an identifier
 
 -   `id` **[string][932]** An identifier
 
-Returns **[Object][937]** A device
+Returns **[object][937]** A device
 
 ### switchDevice
 
@@ -2276,7 +2276,7 @@ Switch device with a device object
 
 #### Parameters
 
--   `device` **[Object][937]** A device
+-   `device` **[object][937]** A device
 
 ### saveDevice
 
@@ -2284,7 +2284,7 @@ Save device
 
 #### Parameters
 
--   `device` **[Object][937]** A device
+-   `device` **[object][937]** A device
 
 ### switchAll
 
@@ -2363,7 +2363,7 @@ Convert json data
 
 #### Parameters
 
--   `data` **[Object][937]** Some key / value data
+-   `data` **[object][937]** Some key / value data
 
 Returns **[DeviceForm][948]** A form object
 
@@ -2410,7 +2410,7 @@ Convert json data
 
 #### Parameters
 
--   `data` **[Object][937]** Some key / value data
+-   `data` **[object][937]** Some key / value data
 
 Returns **[DevicesListForm][949]** A form object
 
@@ -2420,7 +2420,7 @@ Form injection method for Devices name
 
 #### Parameters
 
--   `inject` **...[Object][937]** The modules list array
+-   `inject` **...[object][937]** The modules list array
 
 Returns **[Array][933]** An array of devices name
 
@@ -2430,7 +2430,7 @@ Form injection method for Devices ids
 
 #### Parameters
 
--   `inject` **...[Object][937]** The modules list array
+-   `inject` **...[object][937]** The modules list array
 
 Returns **[Array][933]** An array of devices id
 
@@ -2453,7 +2453,7 @@ Convert json data
 
 #### Parameters
 
--   `data` **[Object][937]** Some key / value data
+-   `data` **[object][937]** Some key / value data
 
 Returns **[DevicesListSimpleForm][950]** A form object
 
@@ -2463,7 +2463,7 @@ Form injection method for Devices name
 
 #### Parameters
 
--   `inject` **...[Object][937]** The modules list array
+-   `inject` **...[object][937]** The modules list array
 
 Returns **[Array][933]** An array of devices name
 
@@ -2473,7 +2473,7 @@ Form injection method for Devices ids
 
 #### Parameters
 
--   `inject` **...[Object][937]** The modules list array
+-   `inject` **...[object][937]** The modules list array
 
 Returns **[Array][933]** An array of devices id
 
@@ -2499,7 +2499,7 @@ Convert json data
 
 #### Parameters
 
--   `data` **[Object][937]** Some key / value data
+-   `data` **[object][937]** Some key / value data
 
 Returns **[DevicesListScenarioTriggerForm][951]** A form object
 
@@ -2509,7 +2509,7 @@ Form injection method for Devices name
 
 #### Parameters
 
--   `inject` **...[Object][937]** The modules list array
+-   `inject` **...[object][937]** The modules list array
 
 Returns **[Array][933]** An array of devices name
 
@@ -2519,7 +2519,7 @@ Form injection method for Devices ids
 
 #### Parameters
 
--   `inject` **...[Object][937]** The modules list array
+-   `inject` **...[object][937]** The modules list array
 
 Returns **[Array][933]** An array of devices id
 
@@ -2551,7 +2551,7 @@ Convert json data
 
 #### Parameters
 
--   `data` **[Object][937]** Some key / value data
+-   `data` **[object][937]** Some key / value data
 
 Returns **[DevicesListScenarioForm][952]** A form object
 
@@ -2563,19 +2563,19 @@ Utility class for icons
 
 Return the svg icons list
 
-Returns **[Object][937]** Svg icons object
+Returns **[object][937]** Svg icons object
 
 ### icons
 
 Return the svg icons list
 
-Returns **[Object][937]** Svg icons object
+Returns **[object][937]** Svg icons object
 
 ### list
 
 Return a list of icons (key / value)
 
-Returns **[Object][937]** The icons under Key / Value format
+Returns **[object][937]** The icons under Key / Value format
 
 ## DeviceStatus
 
@@ -2650,7 +2650,7 @@ Set color temperature
 
 Generates a standard object format for tile
 
-Returns **[Object][937]** Standard object
+Returns **[object][937]** Standard object
 
 ## DbDevice
 
@@ -2661,7 +2661,7 @@ This class is used for devices database
 ### Parameters
 
 -   `dbHelper` **[DbHelper][943]** A database helper (optional, default `null`)
--   `values` **...[Object][937]** The values
+-   `values` **...[object][937]** The values
 
 ## identifier
 
@@ -2687,7 +2687,7 @@ Public API for home environement
 
 Return the home's coordinates
 
-Returns **[Object][937]** The coordinates
+Returns **[object][937]** The coordinates
 
 ### setDay
 
@@ -2755,7 +2755,7 @@ Returns **[string][932]** The local IP address
 
 Expose a list of constants (status)
 
-Returns **[Object][937]** Constants
+Returns **[object][937]** Constants
 
 ## EnvironmentManager
 
@@ -2786,7 +2786,7 @@ Set timezone
 
 #### Parameters
 
--   `appConfiguration` **[Object][937]** An app configuration
+-   `appConfiguration` **[object][937]** An app configuration
 
 ### registerDayNightNotifications
 
@@ -2814,7 +2814,7 @@ Register day / night tile
 
 Return the home's coordinates
 
-Returns **[Object][937]** The coordinates
+Returns **[object][937]** The coordinates
 
 ### getCountry
 
@@ -2880,7 +2880,7 @@ Save the main configuration. This method throw an error if something wrong occur
 
 #### Parameters
 
--   `data` **[Object][937]** The configuration data to be updated
+-   `data` **[object][937]** The configuration data to be updated
 
 ### processAPI
 
@@ -2945,7 +2945,7 @@ Convert json data
 
 #### Parameters
 
--   `data` **[Object][937]** Some key / value data
+-   `data` **[object][937]** Some key / value data
 
 Returns **[EnvironmentForm][956]** A form object
 
@@ -2968,7 +2968,7 @@ Convert json data
 
 #### Parameters
 
--   `data` **[Object][937]** Some key / value data
+-   `data` **[object][937]** Some key / value data
 
 Returns **[DayNightScenarioForm][957]** A form object
 
@@ -2994,7 +2994,7 @@ Convert json data
 
 #### Parameters
 
--   `data` **[Object][937]** Some key / value data
+-   `data` **[object][937]** Some key / value data
 
 Returns **[DayNightScenarioTriggerForm][958]** A form object
 
@@ -3023,7 +3023,7 @@ Convert json data
 
 #### Parameters
 
--   `data` **[Object][937]** Some key / value data
+-   `data` **[object][937]** Some key / value data
 
 Returns **[IpScanForm][959]** A form object
 
@@ -3108,7 +3108,7 @@ Execute a command. Can throw an error if wait is `true`
 -   `wait` **[boolean][936]** True if command is executed synchronously, false otherwise (optional, default `true`)
 -   `cb` **[Function][931]** A callback (only if wait parameter is false) : `(error, stdout, stderr) => {}` (optional, default `null`)
 
-Returns **[Object][937]** An object result if wait is `true`
+Returns **[object][937]** An object result if wait is `true`
 
 ## IotAPI
 
@@ -3286,7 +3286,7 @@ Register an object to message events. The callback must implement `onMessageRece
 
 #### Parameters
 
--   `o` **[Object][937]** An object that implements callback
+-   `o` **[object][937]** An object that implements callback
 
 ### unregister
 
@@ -3294,7 +3294,7 @@ Unregister an object to message events
 
 #### Parameters
 
--   `o` **[Object][937]** An object that implements callback
+-   `o` **[object][937]** An object that implements callback
 
 ### onMessageReceived
 
@@ -3348,7 +3348,7 @@ Compare a `RadioScenarioForm` object and a standard received `RadioObject`
 #### Parameters
 
 -   `radioFormObject` **RadioScenarioForm** The radio scenario form object
--   `radioObject` **[Object][937]** A standard radio object
+-   `radioObject` **[object][937]** A standard radio object
 
 Returns **[boolean][936]** `true` if objects matches, `false` otherwise
 
@@ -3380,7 +3380,7 @@ Register a subform class for using into another form
 #### Parameters
 
 -   `formPart` **Class** A class with form annotations
--   `inject` **...[Object][937]** Parameters injection on static methods
+-   `inject` **...[object][937]** Parameters injection on static methods
 
 ### register
 
@@ -3405,7 +3405,7 @@ Register to scenario execution engine with injection
 -   `title` **[string][932]** The title for sub form (optional, default `null`)
 -   `sort` **[number][935]** Sort (optional, default `null`)
 -   `isList` **[boolean][936]** `false` if this is a list of objects, otherwise `false` (optional, default `false`)
--   `inject` **...[Object][937]** Parameters injection on static methods
+-   `inject` **...[object][937]** Parameters injection on static methods
 
 ### unregister
 
@@ -3423,7 +3423,7 @@ Called when a scenario is triggered
 #### Parameters
 
 -   `scenario` **ScenarioForm** A scenario
--   `additionalInfos` **[Object][937]** Additional informations (optional, default `{}`)
+-   `additionalInfos` **[object][937]** Additional informations (optional, default `{}`)
 
 ### getScenarios
 
@@ -3472,7 +3472,7 @@ Schedule an operation for a registered callback
 
 -   `id` **[string][932]** An identifier (must be unique)
 -   `timestamp` **timestamp** A timestamp or a constant : `IN_A_MINUTE`, `IN_FIVE_MINUTES`, `IN_TEN_MINUTES`, `IN_THIRTY_MINUTES`, `IN_A_HOUR`, `IN_TWELVE_HOUR`, `IN_A_DAY`
--   `data` **[Object][937]** A data passed to callback when triggered (optional, default `{}`)
+-   `data` **[object][937]** A data passed to callback when triggered (optional, default `{}`)
 
 ### cancel
 
@@ -3486,7 +3486,7 @@ Cancel a scheduled operation
 
 Expose a list of constants : `IN_A_MINUTE`, `IN_FIVE_MINUTES`, `IN_TEN_MINUTES`, `IN_THIRTY_MINUTES`, `IN_A_HOUR`, `IN_TWELVE_HOUR`, `IN_A_DAY`
 
-Returns **[Object][937]** Constants
+Returns **[object][937]** Constants
 
 ## SchedulerService
 
@@ -3532,7 +3532,7 @@ Schedule an operation for a registered callback
 
 -   `id` **[string][932]** An identifier (must be unique)
 -   `timestamp` **timestamp** A timestamp or a constant : `IN_A_MINUTE`, `IN_FIVE_MINUTES`, `IN_TEN_MINUTES`, `IN_THIRTY_MINUTES`, `IN_A_HOUR`, `IN_TWELVE_HOUR`, `IN_A_DAY`
--   `data` **[Object][937]** A data passed to callback when triggered (optional, default `{}`)
+-   `data` **[object][937]** A data passed to callback when triggered (optional, default `{}`)
 
 ### cancel
 
@@ -3559,7 +3559,7 @@ Database object and schema for scheduler
 ### Parameters
 
 -   `dbHelper` **[DbHelper][943]** A DbHelper object mapping (optional, default `null`)
--   `values` **...[Object][937]** The values
+-   `values` **...[object][937]** The values
 
 ## data
 
@@ -3584,7 +3584,7 @@ Register a sensor form
 #### Parameters
 
 -   `formClass` **Class** A form annotation's implemented class
--   `inject` **...[Object][937]** The injected objects
+-   `inject` **...[object][937]** The injected objects
 
 ### registerClass
 
@@ -3622,7 +3622,7 @@ Get all sensors
 
 -   `type` **[string][932]** Sensor's type or category. If not specified, send back all sensors. (optional, default `null`)
 
-Returns **[Object][937]** On object with id:name
+Returns **[object][937]** On object with id:name
 
 ### getValue
 
@@ -3653,7 +3653,7 @@ The method should be called before `registerForm()` !
 
 Expose a list of constants (status)
 
-Returns **[Object][937]** Constants
+Returns **[object][937]** Constants
 
 ### guessSensorValue
 
@@ -3689,7 +3689,7 @@ Convert json data
 
 #### Parameters
 
--   `data` **[Object][937]** Some key / value data
+-   `data` **[object][937]** Some key / value data
 
 Returns **[IotsListForm][962]** A form object
 
@@ -3699,7 +3699,7 @@ Form injection method for Iots name
 
 #### Parameters
 
--   `inject` **...[Object][937]** The modules list array
+-   `inject` **...[object][937]** The modules list array
 
 Returns **[Array][933]** An array of iots name
 
@@ -3709,7 +3709,7 @@ Form injection method for Iots ids
 
 #### Parameters
 
--   `inject` **...[Object][937]** The modules list array
+-   `inject` **...[object][937]** The modules list array
 
 Returns **[Array][933]** An array of iots id
 
@@ -3728,7 +3728,7 @@ Convert json data
 
 #### Parameters
 
--   `data` **[Object][937]** Some key / value data
+-   `data` **[object][937]** Some key / value data
 
 Returns **[FormObject][960]** A form object
 
@@ -3776,7 +3776,7 @@ Init a sensor instance and add to local array
 
 #### Parameters
 
--   `configuration` **[Object][937]** The sensor configuration
+-   `configuration` **[object][937]** The sensor configuration
 
 ### registerSensorEvent
 
@@ -3816,7 +3816,7 @@ Get all sensors
 
 -   `type` **[string][932]** Sensor's type or category. If not specified, send back all sensors. (optional, default `null`)
 
-Returns **[Object][937]** On object with id:name
+Returns **[object][937]** On object with id:name
 
 ### onNewSensorValue
 
@@ -3889,8 +3889,8 @@ Compare sensor data
 
 #### Parameters
 
--   `sensorData1` **[Object][937]** Sensor data 1
--   `sensorData2` **[Object][937]** Sensor data 2
+-   `sensorData1` **[object][937]** Sensor data 1
+-   `sensorData2` **[object][937]** Sensor data 2
 
 Returns **[boolean][936]** True if id is the same, false otherwise
 
@@ -3902,7 +3902,7 @@ Get sensor configuration. If no parameters are passed, returns the array of all 
 
 -   `sensorId` **[string][932]** The sensor identifier. Can be null. (optional, default `null`)
 
-Returns **[Object][937]** The sensor configuration, or configurations, or null if nothing found
+Returns **[object][937]** The sensor configuration, or configurations, or null if nothing found
 
 ### registerSensorsListForm
 
@@ -3927,7 +3927,7 @@ Convert json data
 
 #### Parameters
 
--   `data` **[Object][937]** Some key / value data
+-   `data` **[object][937]** Some key / value data
 
 Returns **[SensorsForm][964]** A form object
 
@@ -3937,7 +3937,7 @@ Sensors id injection
 
 #### Parameters
 
--   `inject` **...[Object][937]** Inject parameters
+-   `inject` **...[object][937]** Inject parameters
 
 Returns **[Array][933]** An array of ids
 
@@ -3947,7 +3947,7 @@ Sensors name injection
 
 #### Parameters
 
--   `inject` **...[Object][937]** Inject parameters
+-   `inject` **...[object][937]** Inject parameters
 
 Returns **[Array][933]** An array of names
 
@@ -3970,7 +3970,7 @@ Convert json data
 
 #### Parameters
 
--   `data` **[Object][937]** Some key / value data
+-   `data` **[object][937]** Some key / value data
 
 Returns **[SensorsListForm][965]** A form object
 
@@ -3980,7 +3980,7 @@ Form injection method for Sensors name
 
 #### Parameters
 
--   `inject` **...[Object][937]** The modules list array
+-   `inject` **...[object][937]** The modules list array
 
 Returns **[Array][933]** An array of sensors name
 
@@ -3990,7 +3990,7 @@ Form injection method for Sensors ids
 
 #### Parameters
 
--   `inject` **...[Object][937]** The modules list array
+-   `inject` **...[object][937]** The modules list array
 
 Returns **[Array][933]** An array of sensors id
 
@@ -4013,7 +4013,7 @@ Convert json data
 
 #### Parameters
 
--   `data` **[Object][937]** Some key / value data
+-   `data` **[object][937]** Some key / value data
 
 Returns **[SensorsListScenarioForm][966]** A form object
 
@@ -4042,7 +4042,7 @@ Convert json data
 
 #### Parameters
 
--   `data` **[Object][937]** Some key / value data
+-   `data` **[object][937]** Some key / value data
 
 Returns **[SensorScenarioForm][967]** A form object
 
@@ -4071,7 +4071,7 @@ This class manage plugins
 -   `alarmManager` **AlarmManager** The alarm manager
 -   `camerasManager` **CamerasManager** The cameras manager
 -   `radioManager` **RadioManager** The radio manager
--   `appConfiguration` **[Object][937]** The global configuration
+-   `appConfiguration` **[object][937]** The global configuration
 -   `environmentManager` **[EnvironmentManager][945]** The environment manager
 -   `iotManager` **IotManager** The IoT manager
 -   `botEngine` **BotEngine** The bot engine
@@ -4097,7 +4097,7 @@ Check plugin sanity. A plugin should have name, version and description properti
 
 #### Parameters
 
--   `p` **[Object][937]** A plugin object as set in require. This method throws errors
+-   `p` **[object][937]** A plugin object as set in require. This method throws errors
 -   `plugins` **\[PluginAPI]** plugins The plugin API array (optional, default `[]`)
 
 ### initPlugin
@@ -4288,7 +4288,7 @@ Register an instance as Entry point.
 
 #### Parameters
 
--   `i` **[Object][937]** An instance
+-   `i` **[object][937]** An instance
 
 ### getPluginInstance
 
@@ -4304,7 +4304,7 @@ Returns **PluginAPI** A plugin
 
 Expose a list of constants
 
-Returns **[Object][937]** Constants
+Returns **[object][937]** Constants
 
 ### getPluginsIdentifiersByCategory
 
@@ -4330,7 +4330,7 @@ Renew oauth token
 #### Parameters
 
 -   `url` **[string][932]** oAuth URL
--   `params` **[Object][937]** The parameters for oauth request
+-   `params` **[object][937]** The parameters for oauth request
 -   `cb` **[Function][931]** The callback `(err) => {}` (optional, default `null`)
 
 ## IotForm
@@ -4355,7 +4355,7 @@ Convert json data
 
 #### Parameters
 
--   `data` **[Object][937]** Some key / value data
+-   `data` **[object][937]** Some key / value data
 
 Returns **[IotForm][971]** A form object
 
@@ -4458,7 +4458,7 @@ Transform json raw object to instance
 
 #### Parameters
 
--   `data` **[Object][937]** JSON object data
+-   `data` **[object][937]** JSON object data
 
 Returns **[PluginConf][970]** A User instance
 
@@ -4504,7 +4504,7 @@ Returns **ThreadsManager** The threads manager
 
 Expose a list of constants
 
-Returns **[Object][937]** Constants
+Returns **[object][937]** Constants
 
 ## ServicesManager
 
@@ -4581,13 +4581,13 @@ Retrieve the theme colors
 
 -   `username` **[string][932]** A username, for customization (optional, default `null`)
 
-Returns **[Object][937]** Colors
+Returns **[object][937]** Colors
 
 ### constants
 
 Access to web services constants
 
-Returns **[Object][937]** The constants
+Returns **[object][937]** The constants
 
 ## ThemeManager
 
@@ -4615,7 +4615,7 @@ Set a specific theme for a user
 #### Parameters
 
 -   `username` **[string][932]** A username
--   `theme` **[Object][937]** A theme
+-   `theme` **[object][937]** A theme
 
 ### getColors
 
@@ -4625,7 +4625,7 @@ Retrieve the theme colors
 
 -   `username` **[string][932]** A username (optional, default `null`)
 
-Returns **[Object][937]** Colors
+Returns **[object][937]** Colors
 
 ### processAPI
 
@@ -4652,7 +4652,7 @@ Register an timer element
 #### Parameters
 
 -   `cb` **[Function][931]** A callback triggered when conditions are reached (context will be set back as parameter). Example : `(self) => {}`
--   `context` **[Object][937]** The context to exectue the callback
+-   `context` **[object][937]** The context to exectue the callback
 -   `mode` **int** Mode (enum) : `EVERY_SECONDS`, `EVERY_MINUTES`, `EVERY_HOURS`, `EVERY_DAYS` or `CUSTOM`
 -   `hour` **[string][932]** The hour value. `*` for all (optional, default `null`)
 -   `minute` **[string][932]** The minute value. `*` for all (optional, default `null`)
@@ -4676,7 +4676,7 @@ Unegister an timer element
 
 Expose a list of constants : `EVERY_SECONDS`, `EVERY_MINUTES`, `EVERY_HOURS`, `EVERY_DAYS` or `CUSTOM`
 
-Returns **[Object][937]** Constants
+Returns **[object][937]** Constants
 
 ## TimeEventService
 
@@ -4723,7 +4723,7 @@ Register an timer element
 #### Parameters
 
 -   `cb` **[Function][931]** A callback triggered when conditions are reached (context will be set back as parameter). Example : `(self) => {}`
--   `context` **[Object][937]** The context to exectue the callback
+-   `context` **[object][937]** The context to exectue the callback
 -   `mode` **int** Mode (enum) : `EVERY_SECONDS`, `EVERY_MINUTES`, `EVERY_HOURS`, `EVERY_DAYS` or `CUSTOM`
 -   `hour` **[string][932]** The hour value. `*` for all (optional, default `null`)
 -   `minute` **[string][932]** The minute value. `*` for all (optional, default `null`)
@@ -4749,9 +4749,9 @@ Convert values fro menum to valid hour, minute and seconds
 
 #### Parameters
 
--   `obj` **[Object][937]** A TimerEvent object
+-   `obj` **[object][937]** A TimerEvent object
 
-Returns **[Object][937]** A converted timerEvent object
+Returns **[object][937]** A converted timerEvent object
 
 ### timeEvent
 
@@ -4799,7 +4799,7 @@ Add additional fields to user registration
 #### Parameters
 
 -   `form` **[FormObject][960]** A form object
--   `inject` **...[Object][937]** Parameters injection on static methods
+-   `inject` **...[object][937]** Parameters injection on static methods
 
 ### getUsers
 
@@ -4855,7 +4855,7 @@ Register to a specific web service be notified when a route and/or method is cal
 
 #### Parameters
 
--   `delegate` **[Object][937]** A delegate which implements the processAPI(apiRequest) function
+-   `delegate` **[object][937]** A delegate which implements the processAPI(apiRequest) function
 -   `method` **[string][932]** A method (\*, WebServices.GET / WebServices.POST) (optional, default `"*"`)
 -   `route` **[string][932]** A route (\*, :/my/route/) (optional, default `"*"`)
 -   `authLevel` **int** An authentification level (optional, default `Authentication.AUTH_USAGE_LEVEL`)
@@ -4867,7 +4867,7 @@ Unregister to a specific web service be notified when a route and/or method is c
 
 #### Parameters
 
--   `delegate` **[Object][937]** A delegate which implements the processAPI(apiRequest) function
+-   `delegate` **[object][937]** A delegate which implements the processAPI(apiRequest) function
 -   `method` **[string][932]** A method (\*, WebServices.GET / WebServices.POST) (optional, default `"*"`)
 -   `route` **[string][932]** A route (\*, :/my/route/) (optional, default `"*"`)
 
@@ -4875,7 +4875,7 @@ Unregister to a specific web service be notified when a route and/or method is c
 
 Get authentication constants : e.g. :  this.webApi.Authentication().AUTH_NO_LEVEL
 
-Returns **[Object][937]** All constants as properties
+Returns **[object][937]** All constants as properties
 
 ### APIResponse
 
@@ -4884,7 +4884,7 @@ Create an APIResponse object
 #### Parameters
 
 -   `success` **[boolean][936]** Set to true if API success, else false (optional, default `false`)
--   `response` **[Object][937]** A response object to transmit (optional) (optional, default `{}`)
+-   `response` **[object][937]** A response object to transmit (optional) (optional, default `{}`)
 -   `errorCode` **int** The error code (optional) (optional, default `-1`)
 -   `errorMessage` **[string][932]** The error message (optional) (optional, default `null`)
 
@@ -4894,7 +4894,7 @@ Returns **[APIResponse][973]** The instance
 
 Access to web services constants
 
-Returns **[Object][937]** The constants
+Returns **[object][937]** The constants
 
 ### getToken
 
@@ -5068,7 +5068,7 @@ Return the number of seconds elapsed since midnight in UTC format
 -   `country` **[string][932]** The ISO-3166-3 country code
 -   `timestamp` **[number][935]** A timestamp in seconds. If null current timestamp provided. (optional, default `null`)
 
-Returns **([boolean][936] \| [Object][937])** The result
+Returns **([boolean][936] \| [object][937])** The result
 
 ## Logger
 
@@ -5169,7 +5169,7 @@ This class is a POJO representing an APIResponse item
 ### Parameters
 
 -   `success` **[boolean][936]** Set to true if API success, else false (optional, default `false`)
--   `response` **[Object][937]** A response object to transmit (optional) (optional, default `{}`)
+-   `response` **[object][937]** A response object to transmit (optional) (optional, default `{}`)
 -   `errorCode` **int** The error code (optional) (optional, default `-1`)
 -   `errorMessage` **[string][932]** The error message (optional) (optional, default `null`)
 -   `upToDate` **[boolean][936]** True will return 304 no content. (optional, default `false`)
@@ -5185,7 +5185,7 @@ Type: bool
 
 Response
 
-Type: [Object][937]
+Type: [object][937]
 
 ### errorCode
 
@@ -5209,9 +5209,9 @@ Clean an exported class by removing the `class` property
 
 #### Parameters
 
--   `exported` **[Object][937]** An exported object with `class` property
+-   `exported` **[object][937]** An exported object with `class` property
 
-Returns **[Object][937]** A clean object
+Returns **[object][937]** A clean object
 
 ### cleanDbObject
 
@@ -5221,7 +5221,7 @@ Clean a DbObject by removing DbHelper
 
 -   `dbObject` **[DbObject][942]** A database object
 
-Returns **[Object][937]** A cleaned object
+Returns **[object][937]** A cleaned object
 
 ## WebServices
 
@@ -5282,7 +5282,7 @@ Override Register service callback
 
 #### Parameters
 
--   `delegate` **[Object][937]** The service delegate
+-   `delegate` **[object][937]** The service delegate
 
 ### unregister
 
@@ -5290,7 +5290,7 @@ Override Unregister service callback
 
 #### Parameters
 
--   `delegate` **[Object][937]** The service delegate
+-   `delegate` **[object][937]** The service delegate
 
 ### registerAPI
 
@@ -5298,7 +5298,7 @@ Register to a specific API to be notified when a route and/or method is called
 
 #### Parameters
 
--   `delegate` **[Object][937]** A delegate which implements the processAPI(apiRequest) function
+-   `delegate` **[object][937]** A delegate which implements the processAPI(apiRequest) function
 -   `method` **[string][932]** A method (\*, WebServices.GET / WebServices.POST / WebServices.DELETE) (optional, default `"*"`)
 -   `route` **[string][932]** A route (\*, :/my/route/) (optional, default `"*"`)
 -   `authLevel` **int** An authentification level (optional, default `Authentication.AUTH_USAGE_LEVEL`)
@@ -5310,7 +5310,7 @@ Unregister a specific API to be not notified when a route and/or method is calle
 
 #### Parameters
 
--   `delegate` **[Object][937]** A delegate which implements the processAPI(apiRequest) function
+-   `delegate` **[object][937]** A delegate which implements the processAPI(apiRequest) function
 -   `method` **[string][932]** A method (\*, WebServices.GET / WebServices.POST) (optional, default `"*"`)
 -   `route` **[string][932]** A route (\*, :/my/route/) (optional, default `"*"`)
 
@@ -5422,7 +5422,7 @@ Send data to sub process
 #### Parameters
 
 -   `event` **[string][932]** An event
--   `data` **[Object][937]** A data (optional, default `null`)
+-   `data` **[object][937]** A data (optional, default `null`)
 
 ### startThreaded
 
@@ -5464,7 +5464,7 @@ Register service callback
 
 #### Parameters
 
--   `delegate` **[Object][937]** The service delegate
+-   `delegate` **[object][937]** The service delegate
 
 ### unregister
 
@@ -5472,7 +5472,7 @@ Unregister service callback
 
 #### Parameters
 
--   `delegate` **[Object][937]** The service delegate
+-   `delegate` **[object][937]** The service delegate
 
 ### setThreadsManager
 
@@ -5501,10 +5501,10 @@ This class is a POJO representing an APIRequest item
 -   `route` **[string][932]** The route
 -   `path` **[Array][933]** The path (route splitted in array)
 -   `action` **[string][932]** The action (first element of route)
--   `params` **[Object][937]** The parameters under key / value format
+-   `params` **[object][937]** The parameters under key / value format
 -   `req` **[Request][974]?** The request
 -   `res` **[Response][975]?** The response
--   `data` **[Object][937]** The object sent (optional, default `null`)
+-   `data` **[object][937]** The object sent (optional, default `null`)
 -   `apiRegistration` **[APIRegistration][977]** The corresponding API registration (optional, default `null`)
 
 ### method
@@ -5569,7 +5569,7 @@ This class is a POJO representing an APIRegistration item
 
 ### Parameters
 
--   `delegate` **[Object][937]** The object which implements the processAPI callback
+-   `delegate` **[object][937]** The object which implements the processAPI callback
 -   `method` **[string][932]** The method (GET, POST, ...) (optional, default `"*"`)
 -   `route` **[string][932]** The needed route (:/foo/bar) (optional, default `"*"`)
 -   `authLevel` **int** The authentication level needed to be called (optional, default `Authentication.AUTH_USAGE_LEVEL`)
@@ -5580,7 +5580,7 @@ This class is a POJO representing an APIRegistration item
 
 delegate
 
-Type: [Object][937]
+Type: [object][937]
 
 ### method
 
@@ -5626,7 +5626,7 @@ This class manage gateway communications
 -   `version` **[string][932]** Smarties version
 -   `hash` **[string][932]** Smarties commit hash
 -   `timeEventService` **[TimeEventService][954]** Time event service
--   `appConfiguration` **[Object][937]** App configuration
+-   `appConfiguration` **[object][937]** App configuration
 -   `webServices` **[WebServices][938]** The web services
 -   `eventBus` **EventEmitter** The global event bus
 -   `scenarioManager` **ScenarioManager** The scenario manager
@@ -5660,7 +5660,7 @@ Transmit function threaded methods (threads manager)
 
 #### Parameters
 
--   `data` **[Object][937]** The needs
+-   `data` **[object][937]** The needs
 -   `message` **[Function][931]** Called to send back answer
 
 ### sandboxedRequestresponse
@@ -5669,7 +5669,7 @@ Transmit function sandbox callback
 
 #### Parameters
 
--   `data` **[Object][937]** Results
+-   `data` **[object][937]** Results
 -   `threadsManager` **ThreadsManager** The threads manager (can be used to call kill)
 -   `context` **[GatewayManager][969]** This instance
 

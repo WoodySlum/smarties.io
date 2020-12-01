@@ -128,6 +128,7 @@
     },
     "dependencies": {
         "es-get-iterator": "git://github.com/WoodySlum/es-get-iterator.git#master",
+        "deep-equal": "git://github.com/WoodySlum/node-deep-equal.git#master",
         "@mihaiblaga89/bmw-connecteddrive-api": "^0.5",
         "ajv": "^6.12",
         "annotation": "git://github.com/WoodySlum/node-annotation.git#master",
