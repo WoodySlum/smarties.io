@@ -180,6 +180,7 @@ function loaded(api) {
                                             }
                                         } else {
                                             this.api.exported.Logger.err("Could not change tuya device status");
+                                            this.api.exported.Logger.err(r);
                                             // deviceStatus.status = (deviceStatus.getStatus() === api.deviceAPI.constants().INT_STATUS_ON) ? api.deviceAPI.constants().INT_STATUS_OFF : api.deviceAPI.constants().INT_STATUS_ON;
                                         }
                                     })
