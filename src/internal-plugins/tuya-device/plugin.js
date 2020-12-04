@@ -1,5 +1,6 @@
 "use strict";
 const CloudTuya = require("cloudtuya");
+const CREDENTIAL_RETENTION_TIME_S = 8 * 60 * 60;
 
 /**
  * Loaded plugin function
@@ -135,12 +136,35 @@ function loaded(api) {
                 }
             }, this, api.timeEventAPI.constants().EVERY_SECONDS);
 
+            this.tuyaApi = null;
+            this.lastLogin = 0;
+
             this.registerSwitchCommand(); // For init
             this.retrieveDevicesAndStates();
 
             this.api.configurationAPI.setUpdateCb(() => {
                 this.retrieveDevicesAndStates();
             });
+        }
+
+        /**
+         * Authenticate mechanism
+         *
+         * @param  {Function} [cb] The callback
+         */
+        authenticate(cb) {
+            const self = this;
+            if ((self.lastLogin + CREDENTIAL_RETENTION_TIME_S) > api.exported.DateUtils.class.timestamp()) {
+                cb(self);
+            } else {
+                self.tuyaApi.login().then(() => {
+                    self.lastLogin = api.exported.DateUtils.class.timestamp();
+                    cb(self);
+                })
+                    .catch((e) => {
+                        self.api.exported.Logger.err(e);
+                    });
+            }
         }
 
         /**
@@ -163,34 +187,27 @@ function loaded(api) {
                         if (tuyaConfig && tuyaConfig.tuyaId) {
                             const configuration = this.api.configurationAPI.getConfiguration();
                             if (configuration && configuration.username && configuration.password) {
-                                const tuyaApi = new CloudTuya({
-                                    userName: configuration.username,
-                                    password: configuration.password
-                                });
-
-                                tuyaApi.login().then(() => {
-                                    tuyaApi.setState({devId: tuyaConfig.tuyaId, setState: ((deviceStatus.getStatus() === api.deviceAPI.constants().INT_STATUS_ON) ? 1 : 0)}).then((r) => {
+                                this.authenticate((self) => {
+                                    self.tuyaApi.setState({devId: tuyaConfig.tuyaId, setState: ((deviceStatus.getStatus() === api.deviceAPI.constants().INT_STATUS_ON) ? 1 : 0)}).then((r) => {
                                         if (r && r.header && r.header.code === "SUCCESS") {
-                                            this.api.exported.Logger.info("Tuya device sucessfully updated");
+                                            self.api.exported.Logger.info("Tuya device sucessfully updated");
                                             // Update local state
                                             for (let i = 0 ; i < this.tuyaDevices.length ; i++) {
-                                                if (this.tuyaDevices[i].id === tuyaConfig.tuyaId) {
-                                                    this.tuyaDevices[i].data.state = ((deviceStatus.getStatus() === api.deviceAPI.constants().INT_STATUS_ON) ? true : false);
+                                                if (self.tuyaDevices[i].id === tuyaConfig.tuyaId) {
+                                                    self.tuyaDevices[i].data.state = ((deviceStatus.getStatus() === api.deviceAPI.constants().INT_STATUS_ON) ? true : false);
                                                 }
                                             }
                                         } else {
-                                            this.api.exported.Logger.err("Could not change tuya device status");
-                                            this.api.exported.Logger.err(r);
+                                            self.api.exported.Logger.err("Could not change tuya device status");
+                                            self.api.exported.Logger.err(r);
                                             // deviceStatus.status = (deviceStatus.getStatus() === api.deviceAPI.constants().INT_STATUS_ON) ? api.deviceAPI.constants().INT_STATUS_OFF : api.deviceAPI.constants().INT_STATUS_ON;
                                         }
                                     })
                                         .catch((e) => {
-                                            this.api.exported.Logger.err(e.message);
+                                            self.api.exported.Logger.err(e.message);
                                         });
-                                })
-                                    .catch((e) => {
-                                        this.api.exported.Logger.err(e.message);
-                                    });
+                                });
+
                             }
                         } else {
                             api.exported.Logger.warn("Invalid configuration for tuya");
@@ -210,30 +227,28 @@ function loaded(api) {
         retrieveDevicesAndStates(cb = null) {
             const configuration = this.api.configurationAPI.getConfiguration();
             if (configuration && configuration.username && configuration.password) {
-                const tuyaApi = new CloudTuya({
+                this.tuyaApi = new CloudTuya({
                     userName: configuration.username,
                     password: configuration.password
                 });
 
-                tuyaApi.login().then(() => {
-                    tuyaApi.find().then((r) => {
+                this.authenticate((self) => {
+                    self.tuyaApi.find().then((r) => {
                         if (!r) {
-                            this.api.exported.Logger.err("Error while retrieving tuya devices. Maybe username or password is wrong ...");
+                            self.api.exported.Logger.err("Error while retrieving tuya devices. Maybe username or password is wrong ...");
                         } else {
-                            this.tuyaDevices = r;
-                            this.registerSwitchCommand();
+                            self.tuyaDevices = r;
+                            self.registerSwitchCommand();
                             if (cb) {
                                 cb();
                             }
                         }
                     })
                         .catch((e) => {
-                            this.api.exported.Logger.err(e.message);
+                            self.api.exported.Logger.err(e.message);
                         });
-                })
-                    .catch((e) => {
-                        this.api.exported.Logger.err(e.message);
-                    });
+                });
+
             }
 
 
