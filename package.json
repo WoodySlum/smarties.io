@@ -136,7 +136,7 @@
         "bayes": "^1.0",
         "body-parser": "^1.19",
         "callsite": "^1.0",
-        "cloudtuya": "git://github.com/WoodySlum/cloudtuya.git#master",
+        "cloudtuya": "git://github.com/unparagoned/cloudtuya.git#master",
         "color-util": "^2.2",
         "columnify": "^1.5",
         "compression": "^1.7.4",
