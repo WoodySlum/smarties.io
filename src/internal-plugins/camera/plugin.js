@@ -21,6 +21,7 @@ function loaded(api) {
          * @param  {number} id              An identifier
          * @param  {string} plugin          A plugin
          * @param  {string} name            Camera's name
+         * @param  {boolean} def            Camera's default
          * @param  {string} ip              Camera's IP
          * @param  {string} port              Camera's port
          * @param  {string} username          Camera's username
@@ -31,7 +32,7 @@ function loaded(api) {
          * @param  {boolean} cvlive          Computer vision live view
          * @returns {CameraForm}                 The instance
          */
-        constructor(id, plugin, name, ip, port, username, password, archive = true, cv = false, cvfps = 3, cvlive = false) {
+        constructor(id, plugin, name, def = false, ip, port, username, password, archive = true, cv = false, cvfps = 3, cvlive = false) {
             super(id);
 
             this.plugin = plugin;
@@ -45,12 +46,12 @@ function loaded(api) {
             this.name = name;
 
             /**
-             * @Property("default");
+             * @Property("def");
              * @Title("camera.default");
              * @Type("boolean");
              * @Default(false);
              */
-            this.name = name;
+            this.def = def;
 
             /**
              * @Property("ip");
@@ -129,7 +130,7 @@ function loaded(api) {
          * @returns {CameraForm}      An instance
          */
         json(data) {
-            return new CameraForm(data.id, data.plugin, data.name, data.ip, data.port, data.username, data.password, data.archive, data.cv, data.cvfps, data.cvlive);
+            return new CameraForm(data.id, data.plugin, data.name, data.def, data.ip, data.port, data.username, data.password, data.archive, data.cv, data.cvfps, data.cvlive);
         }
     }
 
@@ -166,7 +167,7 @@ function loaded(api) {
             this.id = id;
             this.configuration = configuration;
             this.name = this.configuration.name;
-            this.default = this.configuration.default;
+            this.def = this.configuration.def;
             this.leftUrl = this.generateUrlFromTemplate(leftUrl);
             this.rightUrl = this.generateUrlFromTemplate(rightUrl);
             this.upUrl = this.generateUrlFromTemplate(upUrl);
@@ -312,6 +313,13 @@ function loaded(api) {
                     this.downCb(Error("No down camera url define"));
                 }
             }
+        }
+
+        /**
+         * Save configuration
+         */
+        updateConfiguration() {
+            this.api.cameraAPI.saveConfiguration(this.configuration);
         }
     }
 

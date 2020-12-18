@@ -109,6 +109,15 @@ class CameraAPI {
     unregisterCameraEvent(key) {
         PrivateProperties.oprivate(this).camerasManager.unregisterCameraEvent(key);
     }
+
+    /**
+     * Save camera configuration
+     *
+     * @param  {object} cameraConfiguration The camera configuration
+     */
+    saveConfiguration(cameraConfiguration) {
+        PrivateProperties.oprivate(this).camerasManager.saveCamera(cameraConfiguration);
+    }
 }
 
 module.exports = {class:CameraAPI};

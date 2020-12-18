@@ -210,7 +210,7 @@ class MjpegProxy {
             this.mjpegRequest.end();
 
         } else {
-            this.stream = new rtsp.FFMpeg({input: rtspUrl, rate: 5});
+            this.stream = new rtsp.FFMpeg({input: rtspUrl, rate: 5, quality: 3});
 
             setTimeout(() => {
                 this.audienceResponses.forEach((res) => {
@@ -224,6 +224,7 @@ class MjpegProxy {
 
                 let childProcess = null;
                 this.stream.on("data", (data) => {
+                    console.log("Data");
                     let buffer = Buffer.from(data, "binary");
                     if (this.cb) {
                         buffer = this.cb(null, buffer);
@@ -301,6 +302,8 @@ class MjpegProxy {
 
         if (this.stream) {
             this.stream.stop();
+            this.stream = null;
+            this.childProcess = null;
         }
     }
 

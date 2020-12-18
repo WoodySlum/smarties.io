@@ -204,6 +204,15 @@ class CamerasManager {
     }
 
     /**
+     * Save camera configuration
+     *
+     * @param  {object} cameraConfiguration The camera configuration
+     */
+    saveCamera(cameraConfiguration) {
+        this.camerasConfiguration = this.confManager.setData(CONF_MANAGER_KEY, cameraConfiguration, this.camerasConfiguration, this.comparator);
+    }
+
+    /**
      * Called automatically when plugins are loaded. Used in separate methods for testing.
      * Initially, this method wad used in contructor.
      *
@@ -488,7 +497,6 @@ class CamerasManager {
                                                 });
                                         }
                                     }
-                                    // console.log(data);process.exit(0);
                                 } else {
                                     Logger.err("Error : " + err.message);
                                     isProcessing = false;
@@ -605,7 +613,7 @@ class CamerasManager {
                                 apiRequest.data.id = parseInt(apiRequest.data.id);
                             }
 
-                            self.camerasConfiguration = self.confManager.setData(CONF_MANAGER_KEY, apiRequest.data, self.camerasConfiguration, self.comparator);
+                            self.saveCamera(apiRequest.data);
                             self.initCameras();
                             resolve(new APIResponse.class(true, {success:true}));
                         } else {
@@ -648,7 +656,7 @@ class CamerasManager {
                             resolve(new APIResponse.class(true, data, null, null, false, contentType));
                         }
                     }, apiRequest.data.timestamp?apiRequest.data.timestamp:null);
-                } else if (mode === MODE_MJPEG) {
+                } else if (mode === MODE_MJPEG || mode === MODE_RTSP) {
                     const camera = self.getCamera(id);
                     let mjpegProxy;
                     if (camera && camera.configuration && camera.configuration.cvlive) {
@@ -671,19 +679,6 @@ class CamerasManager {
                     });
 
                     mjpegProxy.proxyRequest(apiRequest.req, apiRequest.res);
-                } else if (mode === MODE_RTSP) {
-                    const camera = this.getCamera(id);
-                    if (camera) {
-                        // if (camera.rtspUrl) {
-                        //     if (apiRequest.authenticationData) {
-                        //         apiRequest.res  = new MjpegProxy.class(camera.rtspUrl).proxyRequest(apiRequest.req, apiRequest.res);
-                        //     }
-                        // } else {
-                        reject(new APIResponse.class(false, {}, 766, ERROR_UNSUPPORTED_MODE));
-                        // }
-                    } else {
-                        reject(new APIResponse.class(false, {}, 766, ERROR_UNKNOWN_IDENTIFIER));
-                    }
                 } else {
                     reject(new APIResponse.class(false, {}, 764, ERROR_UNKNOWN_MODE));
                 }
@@ -1037,7 +1032,7 @@ class CamerasManager {
     getDefaultCamera() {
         let camera = null;
         this.cameras.forEach((cam) => {
-            if (cam.default) {
+            if (cam.def) {
                 camera = cam;
             }
         });

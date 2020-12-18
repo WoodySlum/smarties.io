@@ -117,7 +117,8 @@ const INTERNAL_PLUGINS = [
     "bmw-distance-sensor",
     "nuki",
     "legrand",
-    "reboot"
+    "reboot",
+    "onvif"
 ];
 
 const CORE_PLUGINS = [
@@ -150,7 +151,8 @@ const CORE_PLUGINS = [
     "contact-sensor",
     "switch-sensor",
     "distance-sensor",
-    "reboot"
+    "reboot",
+    "onvif"
 ];
 
 /**
