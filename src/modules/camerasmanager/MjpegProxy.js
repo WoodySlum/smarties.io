@@ -224,7 +224,6 @@ class MjpegProxy {
 
                 let childProcess = null;
                 this.stream.on("data", (data) => {
-                    console.log("Data");
                     let buffer = Buffer.from(data, "binary");
                     if (this.cb) {
                         buffer = this.cb(null, buffer);
