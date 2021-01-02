@@ -29,7 +29,7 @@ class TimeEventService extends Service.class {
      */
     constructor() {
         super("time-event-service");
-        this.timer = null;
+        this.timers = {};
         this.registeredElements = [];
     }
 
@@ -38,7 +38,10 @@ class TimeEventService extends Service.class {
      */
     start() {
         if (this.status != Service.RUNNING) {
-            this.timer = setInterval(this.timeEvent, 1000, this);
+            Object.keys(this.timers).forEach((hash) => {
+                this.timers[hash] = setInterval(this.timeEvent, 1000, this, hash);
+            });
+
             super.start();
         }
     }
@@ -48,7 +51,9 @@ class TimeEventService extends Service.class {
      */
     stop() {
         if (this.timer && this.status == Service.RUNNING) {
-            clearInterval(this.timer);
+            Object.keys(this.timers).forEach((hash) => {
+                clearInterval(this.timers[hash]);
+            });
             super.stop();
         }
     }
@@ -113,6 +118,7 @@ class TimeEventService extends Service.class {
         const index = this.elementForHash(obj.hash);
         if (index === -1) {
             this.registeredElements.push(obj);
+            this.timers[obj.hash] = setInterval(this.timeEvent, 1000, this, obj.hash);
         } else {
             Logger.warn("Element already registered");
         }
@@ -144,6 +150,8 @@ class TimeEventService extends Service.class {
             Logger.verbose("Element not found");
         } else {
             this.registeredElements.splice(index ,1);
+            clearInterval(this.timers[obj.hash]);
+            delete this.timers[obj.hash];
         }
     }
 
@@ -205,26 +213,28 @@ class TimeEventService extends Service.class {
      *
      * @param  {TimerEventService} self Current timer event service reference (context)
      */
-    timeEvent(self) {
+    timeEvent(self, hash) {
         const dt = new Date();
         const nowSeconds = dt.getSeconds();
         const nowMinutes = dt.getMinutes();
         const nowHours = dt.getHours();
         self.registeredElements.forEach((registeredEl) => {
-            let seconds = registeredEl.second;
-            let minutes = registeredEl.minute;
-            let hours = registeredEl.hour;
+            if (registeredEl.hash == hash) {
+                let seconds = registeredEl.second;
+                let minutes = registeredEl.minute;
+                let hours = registeredEl.hour;
 
-            if (parseInt(seconds) === nowSeconds || seconds === "*" || (String(seconds).indexOf("/") > 0 && nowSeconds % parseInt(seconds.split("/")[1]) == 0)) {
-                if (parseInt(minutes) === nowMinutes || minutes === "*" || (String(minutes).indexOf("/") > 0 && nowMinutes % parseInt(minutes.split("/")[1]) == 0)) {
-                    if (parseInt(hours) === nowHours || hours === "*" || (String(hours).indexOf("/") > 0 && nowHours % parseInt(hours.split("/")[1]) == 0)) {
-                        try {
-                            // Set timeout generate in a new thread
-                            setTimeout(() => {
-                                registeredEl.cb(registeredEl.context, nowHours, nowMinutes, nowSeconds);
-                            }, 1);
-                        } catch(e) {
-                            Logger.err(e.message);
+                if (parseInt(seconds) === nowSeconds || seconds === "*" || (String(seconds).indexOf("/") > 0 && nowSeconds % parseInt(seconds.split("/")[1]) == 0)) {
+                    if (parseInt(minutes) === nowMinutes || minutes === "*" || (String(minutes).indexOf("/") > 0 && nowMinutes % parseInt(minutes.split("/")[1]) == 0)) {
+                        if (parseInt(hours) === nowHours || hours === "*" || (String(hours).indexOf("/") > 0 && nowHours % parseInt(hours.split("/")[1]) == 0)) {
+                            try {
+                                // Set timeout generate in a new thread
+                                setTimeout(() => {
+                                    registeredEl.cb(registeredEl.context, nowHours, nowMinutes, nowSeconds);
+                                }, 1);
+                            } catch(e) {
+                                Logger.err(e.message);
+                            }
                         }
                     }
                 }
