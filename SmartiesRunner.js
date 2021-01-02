@@ -33,6 +33,7 @@ class SmartiesRunner {
         });
 
         try {
+            os.setPriority(process.pid, -20); // Highest priority
             this.start(this);
         } catch (e) {
             Logger.err(e);
