@@ -100,14 +100,11 @@ describe("RadioManager", function() {
             expect(radioObject.deviceId).to.be.equal("foo");
             expect(radioObject.switchId).to.be.equal("bar");
             expect(radioObject.status).to.be.equal(radioPlugin.instance.constants().STATUS_ON);
+            radioManager.onRadioEvent.restore();
             done();
         });
 
         radioPlugin.instance.onRflinkReceive({protocol:"foobar", code:"foo", subcode:"bar", status:"ON"});
-
-        expect(radioManager.onRadioEvent.calledOnce).to.be.true;
-
-        radioManager.onRadioEvent.restore();
     });
 
 

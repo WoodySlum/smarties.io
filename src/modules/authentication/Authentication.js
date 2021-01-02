@@ -47,7 +47,7 @@ class Authentication {
      * @returns {Authentication} Instance
      */
     constructor(webService, userManager, environmentManager) {
-        const GET = WebServices.GET;
+        const GET = "GET"; // WebServices.GET : module exports inside circular dependency fix
         webService.registerAPI(this, "*", "*", AUTH_NO_LEVEL);
         webService.registerAPI(this, GET, LOGIN_ROUTE, AUTH_GUEST_LEVEL);
         webService.registerAPI(this, GET, TOKEN_ROUTE, AUTH_USAGE_LEVEL);

@@ -1,6 +1,6 @@
 "use strict";
 require("dialog-router-api");
-const MAX_EVENT_BUS_LISTENER = 500;
+const MAX_EVENT_BUS_LISTENER = 512;
 const fs = require("fs-extra");
 const path = require("path");
 const Logger = require("./logger/Logger");
