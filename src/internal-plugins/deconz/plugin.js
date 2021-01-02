@@ -561,7 +561,7 @@ function loaded(api) {
             this.api.exported.Logger.debug("Switch light params : " + JSON.stringify(data));
             // {alert: "lselect"
             // alert: "none"
-            request.put({
+            setImmediate(request.put({
                 headers: {"content-type" : "application/json"},
                 url:     this.getApiUrl() + "/lights/" + light.key + "/state",
                 body:    JSON.stringify(data)
@@ -584,7 +584,7 @@ function loaded(api) {
                         cb(null, resp);
                     }
                 }
-            });
+            }));
 
             return deviceStatus;
         }
@@ -736,12 +736,12 @@ function loaded(api) {
         processSensor(d) {
             // Light
             if (d && d.state && d.uniqueid && d.r == "sensors" && d.state.hasOwnProperty("lux")) {
-                this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, d.state.lux, this.constants().STATUS_ON, "LIGHT");
+                setImmediate(this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, d.state.lux, this.constants().STATUS_ON, "LIGHT"));
             }
 
             // Presence
             if (d && d.state && d.uniqueid && d.r == "sensors" && d.state.hasOwnProperty("presence")) {
-                this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.state.presence ? 1 : 0), this.constants().STATUS_ON, "PRESENCE");
+                setImmediate(this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.state.presence ? 1 : 0), this.constants().STATUS_ON, "PRESENCE"));
             }
 
             // Battery
@@ -755,49 +755,49 @@ function loaded(api) {
 
             // Temperature
             if (d && d.config && d.uniqueid && d.config && d.config.hasOwnProperty("temperature")) {
-                this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.config.temperature / 100), this.constants().STATUS_ON, "TEMPERATURE");
+                setImmediate(this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.config.temperature / 100), this.constants().STATUS_ON, "TEMPERATURE"));
             }
             if (d && d.uniqueid && d.state && d.state.hasOwnProperty("temperature")) {
-                this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.state.temperature / 100), this.constants().STATUS_ON, "TEMPERATURE");
+                setImmediate(this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.state.temperature / 100), this.constants().STATUS_ON, "TEMPERATURE"));
             }
 
             // Contact sensors
             if (d && d.config && d.uniqueid && d.config && d.config.hasOwnProperty("open")) {
-                this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.config.open ? 1 : 0), this.constants().STATUS_ON, "CONTACT");
+                setImmediate(this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.config.open ? 1 : 0), this.constants().STATUS_ON, "CONTACT"));
             }
             if (d && d.uniqueid && d.state && d.state.hasOwnProperty("open")) {
-                this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.state.open ? 1 : 0), this.constants().STATUS_ON, "CONTACT");
+                setImmediate(this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.state.open ? 1 : 0), this.constants().STATUS_ON, "CONTACT"));
             }
 
             // Humidity
             if (d && d.config && d.uniqueid && d.config && d.config.hasOwnProperty("humidity")) {
-                this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.config.humidity / 100), this.constants().STATUS_ON, "HUMIDITY");
+                setImmediate(this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.config.humidity / 100), this.constants().STATUS_ON, "HUMIDITY"));
             }
             if (d && d.uniqueid && d.state && d.state.hasOwnProperty("humidity")) {
-                this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.state.humidity / 100), this.constants().STATUS_ON, "HUMIDITY");
+                setImmediate(this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.state.humidity / 100), this.constants().STATUS_ON, "HUMIDITY"));
             }
 
             // Pressure
             if (d && d.config && d.uniqueid && d.config && d.config.hasOwnProperty("pressure")) {
-                this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.config.pressure * 100), this.constants().STATUS_ON, "PRESSURE");
+                setImmediate(this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.config.pressure * 100), this.constants().STATUS_ON, "PRESSURE"));
             }
             if (d && d.uniqueid && d.state && d.state.hasOwnProperty("pressure")) {
-                this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.state.pressure * 100), this.constants().STATUS_ON, "PRESSURE");
+                setImmediate(this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.state.pressure * 100), this.constants().STATUS_ON, "PRESSURE"));
             }
 
             // Water leak
             if (d && d.state && d.uniqueid && d.r == "sensors" && d.state.hasOwnProperty("water")) {
-                this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.state.water ? 1 : 0), this.constants().STATUS_ON, "WATER-LEAK");
+                setImmediate(this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.state.water ? 1 : 0), this.constants().STATUS_ON, "WATER-LEAK"));
             }
 
             // Fire
             if (d && d.state && d.uniqueid && d.r == "sensors" && d.state.hasOwnProperty("fire")) {
-                this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.state.fire ? 1 : 0), this.constants().STATUS_ON, "SMOKE");
+                setImmediate(this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.state.fire ? 1 : 0), this.constants().STATUS_ON, "SMOKE"));
             }
 
             // Switch
             if (d && d.state && d.state.buttonevent && d.uniqueid) {
-                this.onRadioEvent(2400, "zigbee", d.uniqueid, d.state.buttonevent, d.state.buttonevent, this.constants().STATUS_ON);
+                setImmediate(this.onRadioEvent(2400, "zigbee", d.uniqueid, d.state.buttonevent, d.state.buttonevent, this.constants().STATUS_ON));
             }
         }
 

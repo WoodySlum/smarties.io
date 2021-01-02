@@ -230,10 +230,7 @@ class TimeEventService extends Service.class {
                     if (parseInt(minutes) === nowMinutes || minutes === "*" || (String(minutes).indexOf("/") > 0 && nowMinutes % parseInt(minutes.split("/")[1]) == 0)) {
                         if (parseInt(hours) === nowHours || hours === "*" || (String(hours).indexOf("/") > 0 && nowHours % parseInt(hours.split("/")[1]) == 0)) {
                             try {
-                                // Set timeout generate in a new thread
-                                setTimeout(() => {
-                                    registeredEl.cb(registeredEl.context, nowHours, nowMinutes, nowSeconds);
-                                }, 1);
+                                registeredEl.cb(registeredEl.context, nowHours, nowMinutes, nowSeconds);
                             } catch(e) {
                                 Logger.err(e.message);
                             }

@@ -376,7 +376,7 @@ function loaded(api) {
          */
         onRflinkReceive(data) {
             // TODO: Support values and sensors
-            super.onRadioEvent(this.defaultFrequency(), data.protocol, data.code, data.subcode, null, this.rflinkStatusToRadioStatus(data.status));
+            setImmediate(super.onRadioEvent(this.defaultFrequency(), data.protocol, data.code, data.subcode, null, this.rflinkStatusToRadioStatus(data.status)));
         }
 
         /**
@@ -453,7 +453,7 @@ function loaded(api) {
 
                     me.retryList[retryHash] = setTimeout((self) => {
                         self.retryList[retryHash] = null;
-                        self.service.send("rflinkSend", self.formatRadioObjectBeforeSending(radioObject));
+                        setImmediate(self.service.send("rflinkSend", self.formatRadioObjectBeforeSending(radioObject)));
                     }, retry * 1000, me);
                 }
 
