@@ -209,15 +209,17 @@ class TimeEventService extends Service.class {
     }
 
     /**
-     * Called when services starts, every seconds and trigger time vents
+     * Called when services starts, every seconds and trigger time events
      *
      * @param  {TimerEventService} self Current timer event service reference (context)
+     * @param  {string} hash The hash key
      */
     timeEvent(self, hash) {
         const dt = new Date();
         const nowSeconds = dt.getSeconds();
         const nowMinutes = dt.getMinutes();
         const nowHours = dt.getHours();
+
         self.registeredElements.forEach((registeredEl) => {
             if (registeredEl.hash == hash) {
                 let seconds = registeredEl.second;
