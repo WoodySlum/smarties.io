@@ -3,7 +3,6 @@
 
 const AuthenticationData = require("./AuthenticationData");
 const APIResponse = require("./../../services/webservices/APIResponse");
-const WebServices = require("./../../services/webservices/WebServices");
 const DateUtils = require("./../../utils/DateUtils");
 const Logger = require("./../../logger/Logger");
 const sha256 = require("sha256");
