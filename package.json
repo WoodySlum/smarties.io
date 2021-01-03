@@ -142,7 +142,7 @@
         "deep-equal": "git://github.com/WoodySlum/node-deep-equal.git#master",
         "dialog-router-api": "git://github.com/WoodySlum/dialog-router-api.git#master",
         "diskusage": "^1.1.3",
-        "dropbox": "^8.1",
+        "dropbox-v2-api": "^2.4.32",
         "es-get-iterator": "git://github.com/WoodySlum/es-get-iterator.git#master",
         "exec-extra": "^2.8.0",
         "express": "^4.17.1",
