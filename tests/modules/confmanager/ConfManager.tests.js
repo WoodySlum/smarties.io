@@ -131,6 +131,8 @@ describe("ConfManager", function() {
 
     it("saveData should throw error", function() {
         confManager.fs = fsMockException;
+        confManager.isWriting = false;
+        confManager.writeFilePlanTimer = null;
         sinon.spy(confManager.fs, 'writeFile');
         try {
             confManager.saveData({foo:"bar"}, "foo");
