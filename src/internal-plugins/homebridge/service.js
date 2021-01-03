@@ -3,10 +3,7 @@
 const hap = require("hap-nodejs");
 const QRCode = require("qrcode");
 const fs = require("fs-extra");
-const sha256 = require("sha256");
 const Server = require("./../../../node_modules/homebridge/lib/server").Server;
-const Plugin = require("./../../../node_modules/homebridge/lib/plugin").Plugin;
-const PluginManager = require("./../../../node_modules/homebridge/lib/pluginManager").PluginManager;
 const User = require("./../../../node_modules/homebridge/lib/user").User;
 const log = require("./../../../node_modules/homebridge/lib/logger");
 const gm = require("gm");
@@ -51,28 +48,16 @@ function loaded(api) {
          */
         init(devices, sensors) {
             const insecureAccess = true;
-            this.clearCache();
-
-            // Plugin.addPluginPath(__dirname + "/homebridge-plugins/homebridge-smarties-lights");
-            // Plugin.addPluginPath(__dirname + "/homebridge-plugins/homebridge-smarties-temperature");
-            // Plugin.addPluginPath(__dirname + "/homebridge-plugins/homebridge-smarties-humidity");
-            // Plugin.addPluginPath(__dirname + "/homebridge-plugins/homebridge-smarties-alarm");
-            // console.log(PluginManager);
-            // PluginManager.loadPlugin(__dirname + "/homebridge-plugins/homebridge-smarties-lights");
-            let a = new Plugin("homebridge-smarties-lights", __dirname + "/homebridge-plugins/homebridge-smarties-lights", __dirname + "/homebridge-plugins/homebridge-smarties-lights/package.json");
-            // new Plugin("homebridge-smarties-temperature", __dirname + "/homebridge-plugins/homebridge-smarties-temperature", __dirname + "/homebridge-plugins/homebridge-smarties-temperature/package.json");
-            // new Plugin("homebridge-smarties-humidity", __dirname + "/homebridge-plugins/homebridge-smarties-humidity", __dirname + "/homebridge-plugins/homebridge-smarties-humidity/package.json");
-            // new Plugin("homebridge-smarties-alarm", __dirname + "/homebridge-plugins/homebridge-smarties-alarm", __dirname + "/homebridge-plugins/homebridge-smarties-alarm/package.json");
 
             const conf = api.configurationAPI.getConfiguration() ? api.configurationAPI.getConfiguration() : {};
             if (!conf.homebridgeIdentifier) {
                 const hid = api.environmentAPI.getFullSmartiesId();
-                conf.homebridgeIdentifier = hid.substr(0,2) + ":" + hid.substr(2,2)  + ":" + hid.substr(4,2)  + ":" + sha256(Math.floor(Math.random() * 100000000).toString()).substr(0,2) + ":" + sha256(Math.floor(Math.random() * 100000000).toString()).substr(0,2) + ":" + sha256(Math.floor(Math.random() * 100000000).toString()).substr(0,2);
+                conf.homebridgeIdentifier = hid.substr(0,2) + ":" + hid.substr(2,2)  + ":" + hid.substr(4,2)  + ":" + hid.substr(6,2) + ":" + hid.substr(8,2) + ":" + hid.substr(10,2);
                 api.configurationAPI.saveData(conf);
             }
 
             const platforms = [];
-            const pin = "021-92-279";
+            const pin = "021-92-280";
             if (conf.alexaUsername && conf.alexaPassword) {
                 platforms.push({
                     platform: "Alexa",
@@ -84,6 +69,12 @@ function loaded(api) {
             }
 
             try {
+                try {
+                    fs.mkdirSync(User.persistPath());
+                } catch(e) {
+                    api.exported.Logger.info(e);
+                }
+
                 hap.init(User.persistPath());
                 this.server = new Server({insecureAccess:insecureAccess, customPluginPath: __dirname + "/homebridge-plugins"});
                 this.server.config = {
@@ -93,7 +84,7 @@ function loaded(api) {
                         port: port,
                         pin: pin
                     },
-                    accessories: devices.concat(sensors).concat(alarm),
+                    accessories: devices.concat(sensors),
                     platforms:platforms
                 };
             } catch(e) {
@@ -132,27 +123,28 @@ function loaded(api) {
             this.startTimer = setTimeout((self) => {
                 if (self.server) {
                     try {
-                        self.server.publishBridge();
+                        self.server.start();
+                        // self.server.publishBridge();
                         const conf = api.configurationAPI.getConfiguration();
                         if (conf && (typeof conf.displayHomekitTile === "undefined" || conf.displayHomekitTile)) {
                             QRCode.toDataURL(self.server.bridge.setupURI(), { errorCorrectionLevel: "L", color:{light:api.themeAPI.getColors().primaryColor + "FF", dark:api.themeAPI.getColors().darkenColor +"FF"}, margin:18}, (err, data) => {
                                 if (!err && data) {
                                     const buf = Buffer.alloc(data.split(",")[1].length, data.split(",")[1], "base64");
                                     gm(buf)
-                                    .stroke(api.themeAPI.getColors().darkenColor)
-                                    .font("./res/fonts/OpenSans-Light.ttf", 8)
-                                    .drawText(90, 165, self.server.bridge._accessoryInfo.pincode)
-                                    .setFormat("png")
-                                    .toBuffer((err, buffer) => {
-                                        if (err) {
-                                            api.exported.Logger.err(err);
-                                        } else {
-                                            const tile = api.dashboardAPI.Tile("homebridge-code", api.dashboardAPI.TileType().TILE_PICTURE_TEXT, null, null, "Homekit", null, buffer.toString("base64"), null, null, 99999999);
-                                            tile.colors.colorContent = api.themeAPI.getColors().darkColor;
+                                        .stroke(api.themeAPI.getColors().darkenColor)
+                                        .font("./res/fonts/OpenSans-Light.ttf", 8)
+                                        .drawText(90, 165, self.server.bridge._accessoryInfo.pincode)
+                                        .setFormat("png")
+                                        .toBuffer((err, buffer) => {
+                                            if (err) {
+                                                api.exported.Logger.err(err);
+                                            } else {
+                                                const tile = api.dashboardAPI.Tile("homebridge-code", api.dashboardAPI.TileType().TILE_PICTURE_TEXT, null, null, "Homekit", null, buffer.toString("base64"), null, null, 99999999);
+                                                tile.colors.colorContent = api.themeAPI.getColors().darkColor;
 
-                                            api.dashboardAPI.registerTile(tile);
-                                        }
-                                    });
+                                                api.dashboardAPI.registerTile(tile);
+                                            }
+                                        });
                                 } else {
                                     api.exported.Logger.err(err);
                                 }
