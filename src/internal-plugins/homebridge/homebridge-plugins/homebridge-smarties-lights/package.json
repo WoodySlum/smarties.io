@@ -1,4 +1,6 @@
 {
+  "private": true,
+  "displayName": "Smarties lights",
   "name": "homebridge-smarties-lights",
   "version": "0.0.1",
   "description": "Smarties plugin for homebridge: https://github.com/nfarina/homebridge",

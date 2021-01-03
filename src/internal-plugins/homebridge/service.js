@@ -9,6 +9,7 @@ const Plugin = require("./../../../node_modules/homebridge/lib/plugin").Plugin;
 const PluginManager = require("./../../../node_modules/homebridge/lib/pluginManager").PluginManager;
 const User = require("./../../../node_modules/homebridge/lib/user").User;
 const log = require("./../../../node_modules/homebridge/lib/logger");
+const gm = require("gm");
 const port = 51826;
 const WAIT_FOR_STARTING_SERVICE = 10; // Wait before starting the service (in seconds)
 
@@ -58,7 +59,7 @@ function loaded(api) {
             // Plugin.addPluginPath(__dirname + "/homebridge-plugins/homebridge-smarties-alarm");
             // console.log(PluginManager);
             // PluginManager.loadPlugin(__dirname + "/homebridge-plugins/homebridge-smarties-lights");
-            // new Plugin("homebridge-smarties-lights", __dirname + "/homebridge-plugins/homebridge-smarties-lights", __dirname + "/homebridge-plugins/homebridge-smarties-lights/package.json");
+            let a = new Plugin("homebridge-smarties-lights", __dirname + "/homebridge-plugins/homebridge-smarties-lights", __dirname + "/homebridge-plugins/homebridge-smarties-lights/package.json");
             // new Plugin("homebridge-smarties-temperature", __dirname + "/homebridge-plugins/homebridge-smarties-temperature", __dirname + "/homebridge-plugins/homebridge-smarties-temperature/package.json");
             // new Plugin("homebridge-smarties-humidity", __dirname + "/homebridge-plugins/homebridge-smarties-humidity", __dirname + "/homebridge-plugins/homebridge-smarties-humidity/package.json");
             // new Plugin("homebridge-smarties-alarm", __dirname + "/homebridge-plugins/homebridge-smarties-alarm", __dirname + "/homebridge-plugins/homebridge-smarties-alarm/package.json");
@@ -84,7 +85,7 @@ function loaded(api) {
 
             try {
                 hap.init(User.persistPath());
-                this.server = new Server({insecureAccess:insecureAccess});//, customPluginPath: __dirname + "/homebridge-plugins"});
+                this.server = new Server({insecureAccess:insecureAccess, customPluginPath: __dirname + "/homebridge-plugins"});
                 this.server.config = {
                     bridge: {
                         name: "Smarties",
@@ -92,8 +93,8 @@ function loaded(api) {
                         port: port,
                         pin: pin
                     },
-                    accessories: []//,devices.concat(sensors).concat(alarm),
-                    ,platforms:platforms
+                    accessories: devices.concat(sensors).concat(alarm),
+                    platforms:platforms
                 };
             } catch(e) {
                 api.exported.Logger.err(e.message);
@@ -131,14 +132,29 @@ function loaded(api) {
             this.startTimer = setTimeout((self) => {
                 if (self.server) {
                     try {
-                        self.server.start();
-                        // self.server.publishBridge();
-                        if (typeof api.configurationAPI.getConfiguration().displayHomekitTile === "undefined" || api.configurationAPI.getConfiguration().displayHomekitTile) {
-                            QRCode.toDataURL(self.server.bridge.setupURI(), { errorCorrectionLevel: "L", color:{light:api.themeAPI.getColors().clearColor + "FF", dark:api.themeAPI.getColors().darkColor +"FF"}, margin:18}, (err, data) => {
+                        self.server.publishBridge();
+                        const conf = api.configurationAPI.getConfiguration();
+                        if (conf && (typeof conf.displayHomekitTile === "undefined" || conf.displayHomekitTile)) {
+                            QRCode.toDataURL(self.server.bridge.setupURI(), { errorCorrectionLevel: "L", color:{light:api.themeAPI.getColors().primaryColor + "FF", dark:api.themeAPI.getColors().darkenColor +"FF"}, margin:18}, (err, data) => {
                                 if (!err && data) {
-                                    const tile = api.dashboardAPI.Tile("homebridge", api.dashboardAPI.TileType().TILE_PICTURE_TEXT, null, null, "Homekit", null, data.split(",")[1], null, null, 99999999);
-                                    tile.colors.colorContent = api.themeAPI.getColors().darkColor;
-                                    api.dashboardAPI.registerTile(tile);
+                                    const buf = Buffer.alloc(data.split(",")[1].length, data.split(",")[1], "base64");
+                                    gm(buf)
+                                    .stroke(api.themeAPI.getColors().darkenColor)
+                                    .font("./res/fonts/OpenSans-Light.ttf", 8)
+                                    .drawText(90, 165, self.server.bridge._accessoryInfo.pincode)
+                                    .setFormat("png")
+                                    .toBuffer((err, buffer) => {
+                                        if (err) {
+                                            api.exported.Logger.err(err);
+                                        } else {
+                                            const tile = api.dashboardAPI.Tile("homebridge-code", api.dashboardAPI.TileType().TILE_PICTURE_TEXT, null, null, "Homekit", null, buffer.toString("base64"), null, null, 99999999);
+                                            tile.colors.colorContent = api.themeAPI.getColors().darkColor;
+
+                                            api.dashboardAPI.registerTile(tile);
+                                        }
+                                    });
+                                } else {
+                                    api.exported.Logger.err(err);
                                 }
                             });
                         }
@@ -157,7 +173,7 @@ function loaded(api) {
             if (this.startTimer) {
                 clearTimeout(this.startTimer);
             }
-            api.dashboardAPI.unregisterTile("homebridge");
+            api.dashboardAPI.unregisterTile("homebridge-code");
             api.exported.Logger.info("Stopping homebridge server");
             if (this.server) {
                 this.server.teardown();

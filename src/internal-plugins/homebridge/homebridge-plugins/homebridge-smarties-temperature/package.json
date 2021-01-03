@@ -1,4 +1,6 @@
 {
+  "private": true,
+  "displayName": "Smarties temperature sensor",
   "name": "homebridge-smarties-temperature",
   "version": "0.0.1",
   "description": "Smarties plugin for homebridge: https://github.com/nfarina/homebridge",
