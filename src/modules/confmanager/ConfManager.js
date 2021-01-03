@@ -173,9 +173,11 @@ class ConfManager {
         }
 
         if (!context.isWriting) {
+            context.isWriting = true;
             Logger.info("Saving configuration files");
             const keys = Object.keys(context.toBeSaved);
             let i = keys.length;
+
             keys.forEach((key) => {
                 // Fix #55
                 // Encrypt configuration data
@@ -209,7 +211,6 @@ class ConfManager {
                     }
                 }
             });
-            context.isWriting = true;
         } else {
             if (context.writeFilePlanTimer) {
                 clearTimeout(context.writeFilePlanTimer);
