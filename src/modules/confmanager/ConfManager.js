@@ -45,6 +45,8 @@ class ConfManager {
         this.fs = fs;
         this.toBeSaved = {};
         this.timeEventService = timeEventService;
+        this.isWriting = false;
+        this.writeFilePlanTimer = null;
 
         // Write file on stop core
         const self = this;
@@ -165,40 +167,64 @@ class ConfManager {
      * @param  {boolean} [async=true] True if save asynchronously, false otherwise
      */
     writeDataToDisk(context, async = true) {
+
         if (!context) {
             context = this;
         }
 
-        Logger.info("Saving configuration files");
-        const keys = Object.keys(context.toBeSaved);
-        keys.forEach((key) => {
-            // Fix #55
-            // Encrypt configuration data
-            try {
-                const cipher = crypto.createCipheriv(ENCRYPTION_ALGORITHM, crypto.createHash("sha256").update(String.fromCharCode.apply(null, ENCRYPTION_KEY)).digest("base64").substr(0, 32), IV);
-                let crypted = cipher.update(context.toBeSaved[key], "utf8", "hex");
-                crypted += cipher.final("hex");
-                context.toBeSaved[key] = crypted;
-            } catch(e) {
-                Logger.err(e.message);
-            }
+        if (!context.isWriting) {
+            context.isWriting = true;
+            Logger.info("Saving configuration files");
+            const keys = Object.keys(context.toBeSaved);
+            let i = keys.length;
 
-            if (async) {
-                context.fs.writeFile(context.getFilePath(key), context.toBeSaved[key], (err) => {
-                    if (err) {
-                        Logger.err(err);
-                    } else {
-                        delete context.toBeSaved[key];
-                    }
-                });
-            } else {
+            keys.forEach((key) => {
+                // Fix #55
+                // Encrypt configuration data
                 try {
-                    context.fs.writeFileSync(context.getFilePath(key), context.toBeSaved[key]);
+                    const cipher = crypto.createCipheriv(ENCRYPTION_ALGORITHM, crypto.createHash("sha256").update(String.fromCharCode.apply(null, ENCRYPTION_KEY)).digest("base64").substr(0, 32), IV);
+                    let crypted = cipher.update(context.toBeSaved[key], "utf8", "hex");
+                    crypted += cipher.final("hex");
+                    context.toBeSaved[key] = crypted;
                 } catch(e) {
                     Logger.err(e.message);
                 }
+
+                if (async) {
+                    context.fs.writeFile(context.getFilePath(key), context.toBeSaved[key], (err) => {
+                        i--;
+                        if (err) {
+                            Logger.err(err);
+                        } else {
+                            delete context.toBeSaved[key];
+                        }
+
+                        if (i == 0) {
+                            context.isWriting = false;
+                        }
+                    });
+                } else {
+                    try {
+                        context.fs.writeFileSync(context.getFilePath(key), context.toBeSaved[key]);
+                    } catch(e) {
+                        Logger.err(e.message);
+                    }
+                }
+            });
+        } else {
+            if (context.writeFilePlanTimer) {
+                clearTimeout(context.writeFilePlanTimer);
             }
-        });
+
+            context.writeFilePlanTimer = setTimeout(() => {
+                context.writeDataToDisk(context, async);
+                context.writeFilePlanTimer = null;
+            }, 5000);
+        }
+
+        if (!async) {
+            context.isWriting = false;
+        }
     }
 
     /**

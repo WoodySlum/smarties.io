@@ -1,6 +1,5 @@
 "use strict";
-const fetch = require("isomorphic-fetch");
-const DropboxApi = require("dropbox").Dropbox;
+const dropboxV2Api = require("dropbox-v2-api");
 const fs = require("fs-extra");
 const BACKUP_FILE_NAME = "smarties-backup.zip";
 const TIME_EVENT_KEY = "dropbox-backup";
@@ -201,71 +200,42 @@ function loaded(api) {
                     if (err) {
                         context.api.exported.Logger.err(err.message);
                     } else {
-                        const dbx = new DropboxApi({accessToken: data.accessToken, fetch: fetch});
-                        dbx.filesDelete({ path: "/" + BACKUP_FILE_NAME })
-                            .then((response) => {
-                                context.api.exported.Logger.info(response);
-                                context.api.exported.Logger.info("Backup uploaded to Dropbox successfully");
-                                context.uploadDropbox(context, dbx, backupFilePath, BACKUP_FILE_NAME);
-                                if (username) {
-                                    context.api.messageAPI.sendMessage([username], context.api.translateAPI.t("dropbox.backup.success"));
-                                }
-                            })
-                            .catch((err) => {
-                            // File not found
-                                if (err.response.status === 409) {
-                                    context.uploadDropbox(context, dbx, backupFilePath, BACKUP_FILE_NAME);
-                                    if (username) {
-                                        context.api.messageAPI.sendMessage([username], context.api.translateAPI.t("dropbox.backup.success"));
-                                    }
-                                } else {
-                                    context.api.exported.Logger.err(err);
+                        const dropbox = dropboxV2Api.authenticate({
+                            token: data.accessToken
+                        });
+                        dropbox({
+                            resource: "files/delete",
+                            parameters: {
+                                path: "/" + BACKUP_FILE_NAME
+                            }
+                        }, (err) => {
+                            if (err) {
+                                api.exported.Logger.err(err);
+                            }
+                            dropbox({
+                                resource: "files/upload",
+                                parameters: {
+                                    path: "/" + BACKUP_FILE_NAME
+                                },
+                                readStream: fs.createReadStream(backupFilePath)
+                            }, (err) => {
+                                if (err) {
+                                    api.exported.Logger.err(err);
                                     if (username) {
                                         context.api.messageAPI.sendMessage([username], context.api.translateAPI.t("dropbox.backup.failed"));
                                     }
+                                } else {
+                                    if (username) {
+                                        context.api.messageAPI.sendMessage([username], context.api.translateAPI.t("dropbox.backup.success"));
+                                    }
                                 }
                             });
+                        });
                     }
                 }, data.saveConfiguration, data.saveDatabase, data.saveCameraHistory);
             } else {
                 context.api.exported.Logger.err("Missing dropbox access token");
             }
-        }
-
-        /**
-         * Upload file to dropbox
-         *
-         * @param  {Dropbox} context The context. If null, set to this
-         * @param  {DropboxApi} dbx            A dropbox api instance
-         * @param  {string} backupFilePath Backup file path
-         * @param  {string} fileName       Dropbox destination file name
-         */
-        uploadDropbox(context, dbx, backupFilePath, fileName) {
-            if (!context) {
-                context = this;
-            }
-
-            fs.readFile(backupFilePath, (err, contents) => {
-                if (err) {
-                    context.api.exported.Logger.err(err.message);
-                } else {
-                    context.api.exported.Logger.info("Uploading backup ...");
-                    dbx.filesUpload({path: "/" + fileName, contents: contents})
-                        .then((response) => {
-                            context.api.exported.Logger.verbose(response);
-                            context.api.exported.Logger.info("Dropbox backup uploaded successfully");
-                            try {
-                                context.api.backupAPI.cleanBackupFile(backupFilePath);
-                            } catch(e) {
-                                context.api.exported.Logger.err(e.message);
-                            }
-                        })
-                        .catch((err) => {
-                            context.api.exported.Logger.err("Dropbox backup uploaded failed");
-                            context.api.exported.Logger.err(err);
-                        });
-                }
-            });
         }
 
         /**
@@ -276,35 +246,31 @@ function loaded(api) {
         restore(context) {
             const accessToken = context.api.configurationAPI.getConfiguration().accessToken;
             if (accessToken) {
-                const dbx = new DropboxApi({accessToken: accessToken, fetch: fetch});
-                dbx.filesAlphaGetMetadata({ path: "/" + BACKUP_FILE_NAME })
-                    .then(() => {
-                        context.api.exported.Logger.info("Downloading backup ...");
-                        dbx.filesDownload({ path: "/" + BACKUP_FILE_NAME })
-                            .then(function (data) {
-                                const backupFilePath = api.exported.cachePath + "backup-" + api.exported.DateUtils.class.timestamp() + ".zip";
-                                fs.writeFile(backupFilePath, data.fileBinary, "binary", function (err) {
-                                    if (err) {
-                                        context.api.exported.Logger.err(err);
-                                    } else {
-                                        context.api.exported.Logger.info("Backup downloaded, now restoring ...");
-                                        context.api.backupAPI.restore(backupFilePath, (err) => {
-                                            if (err) {
-                                                context.api.exported.Logger.err(err.message);
-                                            }
+                const dropbox = dropboxV2Api.authenticate({
+                    token: accessToken
+                });
+                const backupFilePath = api.exported.cachePath + "backup-" + api.exported.DateUtils.class.timestamp() + ".zip";
+                context.api.exported.Logger.info("Downloading backup ...");
+                dropbox({
+                    resource: "files/download",
+                    parameters: {
+                        path: "/" + BACKUP_FILE_NAME
+                    }
+                }, (err) => {
+                    if (!err) {
+                        context.api.exported.Logger.info("Backup downloaded, now restoring ...");
+                        context.api.backupAPI.restore(backupFilePath, (err) => {
+                            if (err) {
+                                context.api.exported.Logger.err(err.message);
+                            }
 
-                                            fs.removeSync(backupFilePath);
-                                        });
-                                    }
-                                });
-                            })
-                            .catch(function (err) {
-                                throw err;
-                            });
-                    })
-                    .catch(() => {
-                        context.api.exported.Logger.err("Probably backup file does not exists ...");
-                    });
+                            fs.removeSync(backupFilePath);
+                        });
+                    } else {
+                        api.exported.Logger.err(err);
+                    }
+                })
+                    .pipe(fs.createWriteStream(backupFilePath));
             } else {
                 context.api.exported.Logger.err("Missing dropbox access token");
             }

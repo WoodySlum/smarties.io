@@ -115,7 +115,7 @@ describe("ConfManager", function() {
          }
     });
 
-    it("saveData should be corrctly done", function() {
+    it("saveData should be corrctly done", function(done) {
          confManager.fs = fsMock;
          sinon.spy(confManager.fs, 'writeFile');
          try {
@@ -126,11 +126,19 @@ describe("ConfManager", function() {
         }
 
          expect(confManager.fs.writeFile.withArgs("/foo/bar/foo.json", sinon.match.any, sinon.match.any).calledOnce).to.be.true;
+         setTimeout(() => {
+             expect(confManager.isWriting).to.be.false;
+             expect(confManager.writeFilePlanTimer).to.be.null;
+             done();
+         }, 500);
+
          confManager.fs.writeFile.restore();
     });
 
     it("saveData should throw error", function() {
         confManager.fs = fsMockException;
+        confManager.isWriting = false;
+        confManager.writeFilePlanTimer = null;
         sinon.spy(confManager.fs, 'writeFile');
         try {
             confManager.saveData({foo:"bar"}, "foo");

@@ -248,74 +248,73 @@ class BackupManager {
 
         // Check backup
         if (fs.existsSync(backupFilePath)) {
-            extractzip(backupFilePath, {dir: backupDirPath}, (err) => {
-                if (!err) {
-                    // Check file descriptor
-                    if (fs.existsSync(backupDirPath + DESCRIPTOR)) {
-                        if (cb) {
-                            // Read descriptor
-                            const descriptor = JSON.parse(fs.readFileSync(backupDirPath + DESCRIPTOR));
+            extractzip(backupFilePath, {dir: backupDirPath}).then(() => {
+                // Check file descriptor
+                if (fs.existsSync(backupDirPath + DESCRIPTOR)) {
+                    if (cb) {
+                        // Read descriptor
+                        const descriptor = JSON.parse(fs.readFileSync(backupDirPath + DESCRIPTOR));
 
-                            Logger.info("Cleaning unsaved configuration files");
-                            Logger.warn("The following files will not be saved : " + JSON.stringify(Object.keys(this.confManager.toBeSaved)));
-                            this.confManager.writeDataToDisk();
-                            let fileRestored = 0;
-                            Logger.info("Restoring " + descriptor.length + " files ...");
-                            descriptor.forEach((descriptorFile) => {
-                                // Check validity
-                                if (md5File.sync(backupDirPath + descriptorFile.file) === descriptorFile.md5) {
-                                    // Restore conf
-                                    if (descriptorFile.dataType === DATA_TYPE_CONF) {
-                                        fs.removeSync(this.sanitize(this.appConfiguration.configurationPath + descriptorFile.file));
-                                        fs.copySync(this.sanitize(backupDirPath + descriptorFile.file), this.sanitize(this.appConfiguration.configurationPath + descriptorFile.file));
-                                        fileRestored++;
-                                    }
-
-                                    // Restore external
-                                    if (descriptorFile.dataType === DATA_TYPE_EXTERNAL) {
-                                        fs.removeSync(this.sanitize(descriptorFile.fullPath));
-                                        fs.ensureDirSync(path.dirname(descriptorFile.fullPath));
-                                        fs.copySync(this.sanitize(backupDirPath + descriptorFile.file), this.sanitize(descriptorFile.fullPath));
-                                        fileRestored++;
-                                    }
-
-                                    // Restore DB
-                                    if (descriptorFile.dataType === DATA_TYPE_DB) {
-                                        fs.removeSync(this.appConfiguration.db);
-                                        fs.copySync(this.sanitize(backupDirPath + descriptorFile.file), this.appConfiguration.db);
-                                        fileRestored++;
-                                    }
-
-                                    // Restore camera
-                                    if (descriptorFile.dataType === DATA_TYPE_CAMERA) {
-                                        fs.removeSync(this.sanitize(this.appConfiguration.cameras.archiveFolder + descriptorFile.file));
-                                        fs.copySync(this.sanitize(backupDirPath + descriptorFile.file), this.sanitize(this.appConfiguration.cameras.archiveFolder + descriptorFile.file));
-                                        fileRestored++;
-                                    }
-                                } else {
-                                    Logger.warn("Invalid checksum for file " + descriptorFile.file);
+                        Logger.info("Cleaning unsaved configuration files");
+                        Logger.warn("The following files will not be saved : " + JSON.stringify(Object.keys(this.confManager.toBeSaved)));
+                        this.confManager.writeDataToDisk();
+                        let fileRestored = 0;
+                        Logger.info("Restoring " + descriptor.length + " files ...");
+                        descriptor.forEach((descriptorFile) => {
+                            // Check validity
+                            if (md5File.sync(backupDirPath + descriptorFile.file) === descriptorFile.md5) {
+                                // Restore conf
+                                if (descriptorFile.dataType === DATA_TYPE_CONF) {
+                                    fs.removeSync(this.sanitize(this.appConfiguration.configurationPath + descriptorFile.file));
+                                    fs.copySync(this.sanitize(backupDirPath + descriptorFile.file), this.sanitize(this.appConfiguration.configurationPath + descriptorFile.file));
+                                    fileRestored++;
                                 }
-                            });
 
-                            Logger.info("Files restored : " + fileRestored + " / " + descriptor.length);
-                            Logger.info("Restarting system in " + RESTART_TIMER + " seconds ...");
-                            setTimeout((self) => {
-                                self.eventBus.emit(SmartiesRunnerConstants.RESTART);
-                            }, RESTART_TIMER * 1000, this);
+                                // Restore external
+                                if (descriptorFile.dataType === DATA_TYPE_EXTERNAL) {
+                                    fs.removeSync(this.sanitize(descriptorFile.fullPath));
+                                    fs.ensureDirSync(path.dirname(descriptorFile.fullPath));
+                                    fs.copySync(this.sanitize(backupDirPath + descriptorFile.file), this.sanitize(descriptorFile.fullPath));
+                                    fileRestored++;
+                                }
 
-                            cb();
-                        }
-                    } else {
-                        this.clean(backupDirPath);
-                        if (cb) {
-                            cb(Error("Missing descriptor file. Can't restore"));
-                        }
+                                // Restore DB
+                                if (descriptorFile.dataType === DATA_TYPE_DB) {
+                                    fs.removeSync(this.appConfiguration.db);
+                                    fs.copySync(this.sanitize(backupDirPath + descriptorFile.file), this.appConfiguration.db);
+                                    fileRestored++;
+                                }
+
+                                // Restore camera
+                                if (descriptorFile.dataType === DATA_TYPE_CAMERA) {
+                                    fs.removeSync(this.sanitize(this.appConfiguration.cameras.archiveFolder + descriptorFile.file));
+                                    fs.copySync(this.sanitize(backupDirPath + descriptorFile.file), this.sanitize(this.appConfiguration.cameras.archiveFolder + descriptorFile.file));
+                                    fileRestored++;
+                                }
+                            } else {
+                                Logger.warn("Invalid checksum for file " + descriptorFile.file);
+                            }
+                        });
+
+                        Logger.info("Files restored : " + fileRestored + " / " + descriptor.length);
+                        Logger.info("Restarting system in " + RESTART_TIMER + " seconds ...");
+                        setTimeout((self) => {
+                            self.eventBus.emit(SmartiesRunnerConstants.RESTART);
+                        }, RESTART_TIMER * 1000, this);
+
+                        cb();
                     }
                 } else {
                     this.clean(backupDirPath);
                     if (cb) {
-                        cb(err);
+                        cb(Error("Missing descriptor file. Can't restore"));
                     }
+                }
+            }).catch((e) => {
+                Logger.err(e);
+                this.clean(backupDirPath);
+                if (cb) {
+                    cb(e);
                 }
             });
         } else {
