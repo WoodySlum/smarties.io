@@ -39,6 +39,9 @@ class TimeEventService extends Service.class {
     start() {
         if (this.status != Service.RUNNING) {
             Object.keys(this.timers).forEach((hash) => {
+                if (this.timers[hash]) {
+                    clearInterval(this.timers[hash]);
+                }
                 this.timers[hash] = setInterval(this.timeEvent, 1000, this, hash);
             });
 
@@ -53,6 +56,7 @@ class TimeEventService extends Service.class {
         if (this.timer && this.status == Service.RUNNING) {
             Object.keys(this.timers).forEach((hash) => {
                 clearInterval(this.timers[hash]);
+                this.timers[hash] = null;
             });
             super.stop();
         }
@@ -118,6 +122,9 @@ class TimeEventService extends Service.class {
         const index = this.elementForHash(obj.hash);
         if (index === -1) {
             this.registeredElements.push(obj);
+            if (this.timers[obj.hash]) {
+                clearInterval(this.timers[obj.hash]);
+            }
             this.timers[obj.hash] = setInterval(this.timeEvent, 1000, this, obj.hash);
         } else {
             Logger.warn("Element already registered");
