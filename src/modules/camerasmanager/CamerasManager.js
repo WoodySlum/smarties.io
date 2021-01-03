@@ -252,7 +252,7 @@ class CamerasManager {
                                         fs.unlink(cameraArchiveFolder + file, (error) => {
                                             if (error) {
                                                 Logger.err("Error while deleting file " + file + " camera archive for id " + camera.id);
-                                                Logger.err(err.message);
+                                                Logger.err(error);
                                             }
                                         });
                                     }
