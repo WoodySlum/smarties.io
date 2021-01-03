@@ -126,6 +126,8 @@ describe("ConfManager", function() {
         }
 
          expect(confManager.fs.writeFile.withArgs("/foo/bar/foo.json", sinon.match.any, sinon.match.any).calledOnce).to.be.true;
+         expect(confManager.isWriting).to.be.false;
+         expect(confManager.writeFilePlanTimer).to.be.null;
          confManager.fs.writeFile.restore();
     });
 
