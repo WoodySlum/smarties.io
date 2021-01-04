@@ -75,7 +75,7 @@ function loaded(api) {
                     api.exported.Logger.info(e);
                 }
 
-                hap.init(User.persistPath());
+                // hap.init(User.persistPath());
                 this.server = new Server({insecureAccess:insecureAccess, customPluginPath: __dirname + "/homebridge-plugins"});
                 this.server.config = {
                     bridge: {
