@@ -124,21 +124,22 @@ function loaded(api) {
                 });
 
                 const dateStart = new Date();
-                dateStart.setDate(dateStart.getDate() - 1);
+                dateStart.setDate(dateStart.getDate() - 30);
                 const dateEnd = new Date();
                 dateEnd.setDate(dateEnd.getDate());
                 const dateTxtStart = dateStart.getFullYear() + "-" + String(dateStart.getMonth() + 1).padStart(2, "0") + "-" + String(dateStart.getDate()).padStart(2, "0");
                 const dateTxtEnd = dateEnd.getFullYear() + "-" + String(dateEnd.getMonth() + 1).padStart(2, "0") + "-" + String(dateEnd.getDate()).padStart(2, "0");
                 session.getDailyConsumption(dateTxtStart, dateTxtEnd).then((result) => {
-
-                    if (result && result.data && result.data.length === 1) {
-                        const value = result.data[0].value;
-                        const timestamp = this.api.exported.DateUtils.class.dateToTimestamp(dateTxtStart + " 00:00:00");
-                        const previousMode = context.aggregationMode;
-                        context.aggregationMode = context.api.exported.Sensor.constants().AGGREGATION_MODE_AVG;
-                        context.setValue(value, 0, () => {
-                            context.aggregationMode = previousMode;
-                        }, timestamp);
+                    if (result && result.data && result.data.length > 1) {
+                        result.data.forEach((data) => {
+                            const value = data.value;
+                            const timestamp = this.api.exported.DateUtils.class.dateToTimestamp(data.date + " 00:00:00");
+                            const previousMode = context.aggregationMode;
+                            context.aggregationMode = context.api.exported.Sensor.constants().AGGREGATION_MODE_AVG;
+                            context.setValue(value, 0, () => {
+                                context.aggregationMode = previousMode;
+                            }, timestamp);
+                        });
                     }
                 }).catch((e) => {
                     context.api.exported.Logger.err(e);
