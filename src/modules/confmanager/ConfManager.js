@@ -181,14 +181,14 @@ class ConfManager {
             keys.forEach((key) => {
                 // Fix #55
                 // Encrypt configuration data
-                try {
-                    const cipher = crypto.createCipheriv(ENCRYPTION_ALGORITHM, crypto.createHash("sha256").update(String.fromCharCode.apply(null, ENCRYPTION_KEY)).digest("base64").substr(0, 32), IV);
-                    let crypted = cipher.update(context.toBeSaved[key], "utf8", "hex");
-                    crypted += cipher.final("hex");
-                    context.toBeSaved[key] = crypted;
-                } catch(e) {
-                    Logger.err(e.message);
-                }
+                // try {
+                //     const cipher = crypto.createCipheriv(ENCRYPTION_ALGORITHM, crypto.createHash("sha256").update(String.fromCharCode.apply(null, ENCRYPTION_KEY)).digest("base64").substr(0, 32), IV);
+                //     let crypted = cipher.update(context.toBeSaved[key], "utf8", "hex");
+                //     crypted += cipher.final("hex");
+                //     context.toBeSaved[key] = crypted;
+                // } catch(e) {
+                //     Logger.err(e.message);
+                // }
 
                 if (async) {
                     context.fs.writeFile(context.getFilePath(key), context.toBeSaved[key], (err) => {
