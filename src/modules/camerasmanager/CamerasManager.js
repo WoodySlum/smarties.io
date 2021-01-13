@@ -84,6 +84,9 @@ const ERROR_RECORD_UNKNOWN = "Unknown record";
 
 const AI_KEY = "cameras";
 
+// Multi process
+const THREAD_ARCHIVE_CAMERA = "camerasManagerArchive";
+
 /**
  * This class allows to manage cameras
  *
@@ -109,9 +112,10 @@ class CamerasManager {
      * @param  {GatewayManager} gatewayManager    The gateway manager
      * @param  {ScenarioManager} scenarioManager    The scenario manager
      * @param  {AiManager} aiManager    The ai manager
+     * @param  {ThreadsManager} threadsManager    The threads manager
      * @returns {CamerasManager}                       The instance
      */
-    constructor(pluginsManager, eventBus, webServices, formManager, confManager, translateManager, themeManager, dashboardManager, timeEventService, camerasConfiguration = null, cachePath = null, installationManager = null, messageManager, gatewayManager, scenarioManager, aiManager) {
+    constructor(pluginsManager, eventBus, webServices, formManager, confManager, translateManager, themeManager, dashboardManager, timeEventService, camerasConfiguration = null, cachePath = null, installationManager = null, messageManager, gatewayManager, scenarioManager, aiManager, threadsManager) {
         this.pluginsManager = pluginsManager;
         this.webServices = webServices;
         this.formManager = formManager;
@@ -130,6 +134,7 @@ class CamerasManager {
         this.gatewayManager = gatewayManager;
         this.scenarioManager = scenarioManager;
         this.aiManager = aiManager;
+        this.threadsManager = threadsManager;
         this.eventBus = eventBus;
         this.cameras = [];
         this.delegates = {};
@@ -201,6 +206,29 @@ class CamerasManager {
 
         // Machine learning
         this.aiManager.register(AI_KEY);
+
+        // Multi process optimization
+        this.prepareMultiProcess();
+    }
+
+    /**
+     * Prepare multi process events
+     */
+    prepareMultiProcess() {
+        this.threadsManager.run(() => {
+            this.saveCameraPicture = (data) => {
+                const fs = require("fs-extra");
+                fs.writeFile(data.file, Buffer.from(data.data.data),  (err) => {
+                    if (err) {
+                        Logger.err("Error while writing camera archive for file " + data.file);
+                        Logger.err(err.message);
+                    }
+                });
+            };
+
+        }, THREAD_ARCHIVE_CAMERA, {}, () => {
+
+        });
     }
 
     /**
@@ -266,12 +294,7 @@ class CamerasManager {
                         // Save camera
                         context.getImage(camera.id, (err, data) => {
                             if (!err) {
-                                fs.writeFile(cameraArchiveFolder + timestamp + CAMERA_FILE_EXTENSION, data,  (err) => {
-                                    if (err) {
-                                        Logger.err("Error while writing camera archive for id " + camera.id);
-                                        Logger.err(err.message);
-                                    }
-                                });
+                                context.threadsManager.send(THREAD_ARCHIVE_CAMERA, "saveCameraPicture", {file: cameraArchiveFolder + timestamp + CAMERA_FILE_EXTENSION, data: data});
                             }
                         });
                     }
@@ -294,12 +317,7 @@ class CamerasManager {
                             // Save camera
                             context.getImage(camera.id, (err, data) => {
                                 if (!err) {
-                                    fs.writeFile(cameraArchiveFolderSeason + dailyTimestamp + CAMERA_FILE_EXTENSION, data,  (err) => {
-                                        if (err) {
-                                            Logger.err("Error while writing camera archive for id " + camera.id);
-                                            Logger.err(err.message);
-                                        }
-                                    });
+                                    context.threadsManager.send(THREAD_ARCHIVE_CAMERA, "saveCameraPicture", {file: cameraArchiveFolderSeason + dailyTimestamp + CAMERA_FILE_EXTENSION, data: data});
                                 }
                             });
                         }

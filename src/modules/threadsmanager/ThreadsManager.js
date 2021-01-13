@@ -36,13 +36,19 @@ class ThreadsManager {
      * @returns {string}      The normalized function as string, needed to be eval
      */
     stringifyFunc(func) {
-        const regex = /(\()(.*)(\))([^]{0,1})({)([^]+)(\})/mg;
-        let regexResults = regex.exec(func.toString());
-        if (regexResults.length === 8) {
-            const prototype = "(" + regexResults[2] + ") => {" + regexResults[6] + " return this;}";
-            return prototype;
-        } else {
-            throw Error(ERROR_STRINGIFY_FUNCTION_THREAD);
+        const funcString = func.toString();
+        if (funcString.split("\n")[0].indexOf("=>") === -1) {
+            const regex = /(\()(.*)(\))([^]{0,1})({)([^]+)(\})/mg;
+            let regexResults = regex.exec(funcString);
+            if (regexResults.length === 8) {
+                const prototype = "(" + regexResults[2] + ") => {" + regexResults[6] + " return this;}";
+
+                return prototype;
+            } else {
+                throw Error(ERROR_STRINGIFY_FUNCTION_THREAD);
+            }
+        } else { // Inline func
+            return funcString.substring(0, funcString.lastIndexOf("\n")) + "\n return this;}";
         }
     }
 
@@ -61,6 +67,7 @@ class ThreadsManager {
     run(func, identifier, data = {}, callback = null, context = null) {
         const prototype = this.stringifyFunc(func);
         const self = this;
+
         const thread  = threads.spawn((input, done, progress) => {
             const Logger = require(input.dirname + "/../../logger/Logger", "may-exclude");
             try {
@@ -102,7 +109,9 @@ class ThreadsManager {
             });
 
         this.threads[identifier] = thread;
-        this.eventBus.emit(this.smartiesRunnerConstants.PID_SPAWN, thread.slave.pid);
+        if (!process.env.TEST) {
+            this.eventBus.emit(this.smartiesRunnerConstants.PID_SPAWN, thread.slave.pid);
+        }
     }
 
     /**
