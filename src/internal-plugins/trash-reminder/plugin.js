@@ -118,7 +118,6 @@ function loaded(api) {
          */
         constructor(api) {
             this.api = api;
-
             this.api.timeEventAPI.register((self) => {
                 const configuration = self.api.configurationAPI.getConfiguration();
                 if (configuration && configuration.reminders && configuration.reminders.length > 0) {

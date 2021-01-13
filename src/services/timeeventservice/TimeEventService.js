@@ -181,18 +181,18 @@ class TimeEventService extends Service.class {
             obj.hour = "*";
             break;
         case EVERY_HOURS:
-            obj.second = Math.floor(Math.random() * 59) + 0; // Sleek seconds for day processing
+            obj.second = Math.floor(Math.random() * 50) + 1; // Sleek seconds for day processing
             obj.minute = 0;
             obj.hour = "*";
             break;
         case EVERY_HOURS_INACCURATE:
-            obj.second = Math.floor(Math.random() * 59) + 0; // Sleek seconds for day processing
-            obj.minute = Math.floor(Math.random() * 59) + 0;
+            obj.second = Math.floor(Math.random() * 50) + 1; // Sleek seconds for day processing
+            obj.minute = Math.floor(Math.random() * 50) + 1;
             obj.hour = "*";
             break;
         case EVERY_DAYS:
             obj.second = 0;
-            obj.minute = Math.floor(Math.random() * 58) + 1; // Sleek minutes for day processing
+            obj.minute = Math.floor(Math.random() * 50) + 1; // Sleek minutes for day processing
             obj.hour = Math.floor(Math.random() * 5) + 0; // Sleek hours for day processing
             break;
         case EVERY_FIVE_MINUTES:
@@ -222,30 +222,33 @@ class TimeEventService extends Service.class {
      * @param  {string} hash The hash key
      */
     timeEvent(self, hash) {
+
         const dt = new Date();
         const nowSeconds = dt.getSeconds();
         const nowMinutes = dt.getMinutes();
         const nowHours = dt.getHours();
 
-        self.registeredElements.forEach((registeredEl) => {
-            if (registeredEl.hash == hash) {
-                let seconds = registeredEl.second;
-                let minutes = registeredEl.minute;
-                let hours = registeredEl.hour;
+        const i = self.elementForHash(hash);
+        if (i != -1) {
+            const registeredEl = self.registeredElements[i];
+            let seconds = registeredEl.second;
+            let minutes = registeredEl.minute;
+            let hours = registeredEl.hour;
 
-                if (parseInt(seconds) === nowSeconds || seconds === "*" || (String(seconds).indexOf("/") > 0 && nowSeconds % parseInt(seconds.split("/")[1]) == 0)) {
-                    if (parseInt(minutes) === nowMinutes || minutes === "*" || (String(minutes).indexOf("/") > 0 && nowMinutes % parseInt(minutes.split("/")[1]) == 0)) {
-                        if (parseInt(hours) === nowHours || hours === "*" || (String(hours).indexOf("/") > 0 && nowHours % parseInt(hours.split("/")[1]) == 0)) {
-                            try {
-                                registeredEl.cb(registeredEl.context, nowHours, nowMinutes, nowSeconds);
-                            } catch(e) {
-                                Logger.err(e.message);
-                            }
+            if (parseInt(seconds) === nowSeconds || seconds === "*" || (String(seconds).indexOf("/") > 0 && nowSeconds % parseInt(seconds.split("/")[1]) == 0)) {
+                if (parseInt(minutes) === nowMinutes || minutes === "*" || (String(minutes).indexOf("/") > 0 && nowMinutes % parseInt(minutes.split("/")[1]) == 0)) {
+                    if (parseInt(hours) === nowHours || hours === "*" || (String(hours).indexOf("/") > 0 && nowHours % parseInt(hours.split("/")[1]) == 0)) {
+                        try {
+                            registeredEl.cb(registeredEl.context, nowHours, nowMinutes, nowSeconds);
+                        } catch(e) {
+                            Logger.err(e.message);
                         }
                     }
                 }
             }
-        });
+        } else {
+            Logger.err("Could not find element for hash " + hash);
+        }
     }
 }
 
