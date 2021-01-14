@@ -71,6 +71,7 @@ class ThreadsManager {
         const thread  = threads.spawn((input, done, progress) => {
             const Logger = require(input.dirname + "/../../logger/Logger", "may-exclude");
             try {
+                this.process.title = "smarties.io child [" + input.identifier + "]";
                 let f = eval(input.prototype);
                 let instance = f(input.data, progress);
 
