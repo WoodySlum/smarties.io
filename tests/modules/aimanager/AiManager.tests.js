@@ -22,6 +22,11 @@ describe("AiManager", function() {
         getSeason: () => { return "winter" }
     }
 
+    const threadsManagerMock = {
+        run: () => {},
+        send: () => {}
+    }
+
     beforeEach(() => {
 
     });
@@ -29,7 +34,7 @@ describe("AiManager", function() {
     it("constructor should call several methods for intialization", () => {
         sinon.spy(eventBusMock, "on");
         sinon.spy(timeEventServiceMock, "register");
-        const aiManager = new AiManager.class("/tmp", eventBusMock, "stop", timeEventServiceMock, environmentManagerMock);
+        const aiManager = new AiManager.class("/tmp", eventBusMock, "stop", timeEventServiceMock, environmentManagerMock, null, null, threadsManagerMock);
         expect(eventBusMock.on.calledOnce).to.be.true;
         expect(timeEventServiceMock.register.calledOnce).to.be.true;
         expect(Object.keys(aiManager.classifiers).length).to.be.equal(0);
@@ -38,7 +43,7 @@ describe("AiManager", function() {
     });
 
     it("register should create entry", () => {
-        const aiManager = new AiManager.class("/tmp", eventBusMock, "stop", timeEventServiceMock, environmentManagerMock);
+        const aiManager = new AiManager.class("/tmp", eventBusMock, "stop", timeEventServiceMock, environmentManagerMock, null, null, threadsManagerMock);
         aiManager.register("foobar");
         expect(Object.keys(aiManager.classifiers).length).to.be.equal(1);
         expect(aiManager.classifiers.foobar).to.be.not.null;
@@ -46,7 +51,7 @@ describe("AiManager", function() {
     });
 
     it("learn and guess model", (done) => {
-        const aiManager = new AiManager.class("/tmp", eventBusMock, "stop", timeEventServiceMock, environmentManagerMock);
+        const aiManager = new AiManager.class("/tmp", eventBusMock, "stop", timeEventServiceMock, environmentManagerMock, null, null, threadsManagerMock);
         aiManager.register("foobar");
 
         aiManager.learn("foobar", ["foo", "day"], "POSITIVE")

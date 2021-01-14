@@ -28,6 +28,8 @@ const CV_DEFAULT_MIN_RATIO_WIDTH_PERC = 0.05;
 const CV_DEFAULT_MAX_RATIO_HEIGHT_PERC = 0.95;
 const CV_DEFAULT_MAX_RATIO_WIDTH_PERC = 0.95;
 
+const THREAD_OPEN_CV = "opencv";
+
 /**
  * This class is used for artificial intelligence and machine learning
  *
@@ -44,23 +46,25 @@ class AiManager {
      * @param  {EnvironmentManager} environmentManager    The environment manager
      * @param  {ThemeManager} themeManager    The theme manager
      * @param  {TranslateManager} translateManager    The translate manager
+     * @param  {ThreadsManager} threadsManager    The threads manager
      *
      * @returns {AiManager} The instance
      */
-    constructor(appConfiguration, eventBus, stopEventName, timeEventService, environmentManager, themeManager, translateManager) {
+    constructor(appConfiguration, eventBus, stopEventName, timeEventService, environmentManager, themeManager, translateManager, threadsManager) {
         this.appConfiguration = appConfiguration;
         this.databaseFile = appConfiguration.configurationPath + "data" + DB_FILE_EXTENSION;
         this.timeEventService = timeEventService;
         this.environmentManager = environmentManager;
         this.themeManager = themeManager;
         this.translateManager = translateManager;
+        this.threadsManager = threadsManager;
         this.classifiers = {};
+        this.cvPromises = {};
 
         // Computer vision
         this.cvMap = null;
         this.cvProtoTxt = null;
         this.cvModelFile = null;
-        this.cvNet = null;
         this.initCv();
 
         try {
@@ -85,6 +89,19 @@ class AiManager {
         this.timeEventService.register(() => {
             self.saveClassifiers();
         }, this, TimeEventService.EVERY_HOURS_INACCURATE);
+
+
+        this.threadsManager.run(this.processCvSandboxed, THREAD_OPEN_CV, {cvMap:this.cvMap, translateManager: this.translateManager}, (data) => {
+            if (this.cvPromises[data.timestamp]) {
+                if (data.error) {
+                    this.cvPromises[data.timestamp].reject(data.error);
+                } else {
+                    this.cvPromises[data.timestamp].resolve(data.success);
+                }
+
+                delete this.cvPromises[data.timestamp];
+            }
+        });
     }
 
     /**
@@ -166,16 +183,17 @@ class AiManager {
         }
 
         if (this.appConfiguration.ai && this.appConfiguration.ai.cv && this.appConfiguration.ai.cv.nbThreads) {
-            cv.setNumThreads(this.appConfiguration.ai.cv.nbThreads);
+            this.cvMap.nbThreads = this.appConfiguration.ai.cv.nbThreads;
         } else {
-            cv.setNumThreads(CV_DEFAULT_NB_THREADS);
+            this.cvMap.nbThreads = CV_DEFAULT_NB_THREADS;
         }
 
         Logger.info("Computer vision params : " + JSON.stringify(this.cvMap));
 
         const cvProtoTxt = "./res/ai/model/deploy.prototxt.txt";
         const cvModelFile = "./res/ai/model/deploy.caffemodel";
-        this.cvNet = cv.readNetFromCaffe(cvProtoTxt, cvModelFile);
+        this.cvMap.cvProtoTxt = cvProtoTxt;
+        this.cvMap.cvModelFile = cvModelFile;
     }
 
     /**
@@ -328,10 +346,28 @@ class AiManager {
     processCvSsd(img) {
         const self = this;
         return new Promise((resolve, reject) => {
+            const timestamp = Date.now();
+            self.cvPromises[timestamp] = {resolve: resolve, reject: reject};
+            self.threadsManager.send(THREAD_OPEN_CV, "processCvSsd", {img: img, timestamp:timestamp});
+        });
+    }
+
+    /**
+     * Process neuronal artificial recognition on image
+     *
+     * @param  {object} input The input data for new process
+     * @param  {Function} message The message function for IPC
+     */
+    processCvSandboxed(input, message) {
+        const cv = require("opencv4nodejs");
+        cv.setNumThreads(input.cvMap.nbThreads);
+        input.cvNet = cv.readNetFromCaffe(input.cvMap.cvProtoTxt, input.cvMap.cvModelFile);
+        this.processCvSsd = (data) => {
+            const img = Buffer.from(data.img.data);
             const tFrame = ((img instanceof cv.Mat) ? img : cv.imdecode(img));
-            cv.blobFromImageAsync((this.cvMap.resize ? tFrame.resizeToMax(this.cvMap.boxSize) : tFrame), this.cvMap.scaleFactor, new cv.Size(this.cvMap.boxSize, this.cvMap.boxSize), new cv.Vec3(this.cvMap.mean, this.cvMap.mean, this.cvMap.mean), true)
-                .then(inputBlob => self.cvNet.setInputAsync(inputBlob))
-                .then(() => self.cvNet.forwardAsync())
+            cv.blobFromImageAsync((input.cvMap.resize ? tFrame.resizeToMax(input.cvMap.boxSize) : tFrame), input.cvMap.scaleFactor, new cv.Size(input.cvMap.boxSize, input.cvMap.boxSize), new cv.Vec3(input.cvMap.mean, input.cvMap.mean, input.cvMap.mean), true)
+                .then(inputBlob => input.cvNet.setInputAsync(inputBlob))
+                .then(() => input.cvNet.forwardAsync())
                 .then(outputBlob => {
                     outputBlob.flattenFloat(outputBlob.sizes[2], outputBlob.sizes[3]);
                     outputBlob = outputBlob.flattenFloat(outputBlob.sizes[2], outputBlob.sizes[3]);
@@ -365,11 +401,11 @@ class AiManager {
                         .filter((item) => {
                             const height = tFrame.sizes[0];
                             const width = tFrame.sizes[1];
-                            item.classLabelTranslated = this.translateManager.t("ai." + this.cvMap.mapper[item.classLabel]);
+                            item.classLabelTranslated = input.translateManager.translations["ai." + input.cvMap.mapper[item.classLabel]];
                             let valid = false;
 
                             if (item.confidence > 0) {
-                                if (((item.rect.height / height) >= this.cvMap.minHeightPerc) && ((item.rect.width / width) >= this.cvMap.minWidthPerc) && ((item.rect.height / height) <= this.cvMap.maxHeightPerc) && ((item.rect.width / width) <= this.cvMap.maxWidthPerc)) {
+                                if (((item.rect.height / height) >= input.cvMap.minHeightPerc) && ((item.rect.width / width) >= input.cvMap.minWidthPerc) && ((item.rect.height / height) <= input.cvMap.maxHeightPerc) && ((item.rect.width / width) <= input.cvMap.maxWidthPerc)) {
                                     valid = true;
                                 } else {
                                     Logger.verbose("Reject item : width " + item.rect.width + " / " + width + " width " + item.rect.height + " / " + height);
@@ -379,13 +415,13 @@ class AiManager {
                             return valid;
                         });
 
-                    resolve({results: results, frame: tFrame});
+                    message({success:{results: results, frame: tFrame}, error: null, timestamp:data.timestamp});
                 })
                 .catch((e) => {
                     Logger.err(e);
-                    reject(e);
+                    message({success:null, error: e, timestamp:data.timestamp});
                 });
-        });
+        };
     }
 
     /**
