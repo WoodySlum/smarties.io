@@ -1,5 +1,6 @@
 "use strict";
 
+const os = require("os");
 const cp = require("child_process");
 var Logger = require("./../logger/Logger");
 
@@ -159,6 +160,7 @@ class Service {
             });
             this.pid = r.pid;
             this.childProcess = r;
+            os.setPriority(this.pid, 0); // Normal priority
             Logger.info("PID : " + this.pid);
         } else {
             throw Error(ERROR_EXTERNAL_COMMAND_UNDEF);
