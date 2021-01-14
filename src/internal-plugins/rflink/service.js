@@ -226,7 +226,7 @@ function loaded(api) {
 
                         sclient.on("data", function(data) {
                             const line = data.toString("utf8");
-                            Logger.info("RFLink data received : " + line);
+                            Logger.verbose("RFLink data received : " + line);
                             const d = processData(line);
                             if (d) {
                                 if (d.type === TYPE_RADIO) {

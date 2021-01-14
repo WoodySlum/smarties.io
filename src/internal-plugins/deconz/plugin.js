@@ -819,8 +819,8 @@ function loaded(api) {
                             this.webSocket = new WebSocket("ws://" + this.ip + ":" + config.websocketport);
                             this.webSocket.onmessage = (msg) => {
                                 const d = JSON.parse(msg.data);
-                                this.api.exported.Logger.info("Message received");
-                                this.api.exported.Logger.info(d);
+                                this.api.exported.Logger.verbose("Message received");
+                                this.api.exported.Logger.verbose(d);
 
                                 this.processSensor(d);
 
