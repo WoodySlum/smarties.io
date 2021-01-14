@@ -72,6 +72,8 @@ class ThreadsManager {
             const Logger = require(input.dirname + "/../../logger/Logger", "may-exclude");
             try {
                 this.process.title = "smarties.io child [" + input.identifier + "]";
+                const os = require("os");
+                os.setPriority(process.pid, 0); // Normal priority
                 let f = eval(input.prototype);
                 let instance = f(input.data, progress);
 
