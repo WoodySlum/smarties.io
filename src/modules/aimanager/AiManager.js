@@ -442,10 +442,15 @@ class AiManager {
         const headerColor = new cv.Vec(parseInt(colors.darkenColor.substr(5, 2), 16), parseInt(colors.darkenColor.substr(3, 2), 16), parseInt(colors.darkenColor.substr(1, 2), 16));
 
         for (let i = 0 ; i < results.length ; i++) {
+            // const t = 1 + (this.cvMap.scaleFactor);
+            // results[i].rect.x = results[i].rect.x * t;
+            // results[i].rect.y = results[i].rect.y * t;
+            // results[i].rect.width = results[i].rect.width * t;
+            // results[i].rect.height = results[i].rect.height * t;
 
             // Overlay
             overlay.drawRectangle(
-                results[i].rect,
+                new cv.Rect(results[i].rect.x, results[i].rect.y, results[i].rect.width, results[i].rect.height),
                 clearColor,
                 -1,
                 cv.LINE_AA
