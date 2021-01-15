@@ -11,12 +11,17 @@ class ServicesManager {
     /**
      * Constructor
      *
-     * @param  {ThreadsManager} [threadsManager=null] A thread manager
+     * @param  {ThreadsManager} threadsManager A thread manager
+     * @param  {EventEmitter} eventBus    The global event bus
+     * @param  {object} smartiesRunnerConstants Runner constants
+     *
      * @returns {ServicesManager}                       The instance
      */
-    constructor(threadsManager = null) {
+    constructor(threadsManager, eventBus, smartiesRunnerConstants) {
         this.services = [];
         this.threadsManager = threadsManager;
+        this.eventBus = eventBus;
+        this.smartiesRunnerConstants = smartiesRunnerConstants;
     }
 
     /**
@@ -75,6 +80,11 @@ class ServicesManager {
         this.services.forEach((service) => {
             if (!service.disableAutoStart) {
                 service.start();
+            }
+            if (!process.env.TEST) {
+                if (service.pid != -1) {
+                    this.eventBus.emit(this.smartiesRunnerConstants.PID_SPAWN, service.pid);
+                }
             }
         });
     }

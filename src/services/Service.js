@@ -160,7 +160,9 @@ class Service {
             });
             this.pid = r.pid;
             this.childProcess = r;
-            os.setPriority(this.pid, 0); // Normal priority
+            if (!process.env.TEST) {
+                os.setPriority(this.pid, 0); // Normal priority
+            }
             Logger.info("PID : " + this.pid);
         } else {
             throw Error(ERROR_EXTERNAL_COMMAND_UNDEF);
@@ -174,7 +176,7 @@ class Service {
     stopExternal() {
         if (this.childProcess) {
             this.childProcess.kill("SIGKILL");
-            this.pid = null;
+            this.pid = -1;
             this.childProcess = null;
         } else {
             Logger.err("Empty process for service " + this.name);

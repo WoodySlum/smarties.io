@@ -137,7 +137,7 @@ class SmartiesCore {
         this.schedulerService = new SchedulerService.class(this.dbManager, this.timeEventService);
 
         // Services manager
-        this.servicesManager = new ServicesManager.class(this.threadsManager);
+        this.servicesManager = new ServicesManager.class(this.threadsManager, this.eventBus, smartiesRunnerConstants);
 
         this.pluginsManager = null;
 

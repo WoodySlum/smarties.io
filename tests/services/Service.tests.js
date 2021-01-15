@@ -155,7 +155,7 @@ describe("Service", function() {
         service.stop();
 
         expect(service.stopExternal.calledOnce).to.be.true;
-        expect(service.pid === null).to.be.true;
+        expect(service.pid === -1).to.be.true;
         expect(service.childProcess === null).to.be.true;
 
         service.stopExternal.restore();
