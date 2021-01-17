@@ -192,13 +192,14 @@ class ConfManager {
                 // }
 
                 if (async) {
-                    delete context.toBeSaved[key];
                     context.fs.writeFile(context.getFilePath(key), context.toBeSaved[key], (err) => {
                         i--;
                         if (err) {
                             Logger.err(err);
+                        } else {
+                            delete context.toBeSaved[key];
                         }
-                        Logger.info("Write file index " + i);
+                        Logger.info("Write file index " + i + " for key " + key);
                         if (i <= 0) {
                             context.isWriting = false;
                         }
