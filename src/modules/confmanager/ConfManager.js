@@ -53,6 +53,7 @@ class ConfManager {
 
         if (eventBus) {
             eventBus.on(stopEventName, () => {
+                self.isWriting = false;
                 self.writeDataToDisk(self, false);
             });
         }
@@ -171,7 +172,7 @@ class ConfManager {
         if (!context) {
             context = this;
         }
-
+        Logger.info("Time event save configuration");
         if (!context.isWriting) {
             context.isWriting = true;
             Logger.info("Saving configuration files");
@@ -211,9 +212,15 @@ class ConfManager {
                     }
                 }
             });
+
+            if (!async) {
+                context.isWriting = false;
+            }
         } else {
+            Logger.info("Re planification");
             if (context.writeFilePlanTimer) {
                 clearTimeout(context.writeFilePlanTimer);
+                context.writeFilePlanTimer = null;
             }
 
             context.writeFilePlanTimer = setTimeout(() => {
@@ -222,9 +229,7 @@ class ConfManager {
             }, 5000);
         }
 
-        if (!async) {
-            context.isWriting = false;
-        }
+
     }
 
     /**
