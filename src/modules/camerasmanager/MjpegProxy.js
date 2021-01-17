@@ -300,7 +300,12 @@ class MjpegProxy {
         }
 
         if (this.stream) {
-            this.stream.stop();
+            try {
+                this.stream.stop();
+            } catch (e) {
+                Logger.err(e);
+            }
+
             this.stream = null;
             this.childProcess = null;
         }
