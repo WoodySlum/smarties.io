@@ -71,8 +71,7 @@
     "bin": "SmartiesRunner.js",
     "pkg": {
         "scripts": [
-            "./src/**/*.js",
-            "./node_modules/npm/src/**/*.js"
+            "./src/**/*.js"
         ],
         "assets": [
             "./node_modules/ngrok/bin/ngrok",
@@ -89,9 +88,7 @@
             "./res/ai/*",
             "./res/tiles/*",
             "./res/pictures/*",
-            "./res/fonts/*",
-            "./node_modules/npm/bin/**/*",
-            "./node_modules/npm/node_modules/node-gyp/**/*"
+            "./res/fonts/*"
         ]
     },
     "opencv4nodejs": {
@@ -179,7 +176,6 @@
         "node-record-lpcm16": "^1.0",
         "node-wit": "^6.0",
         "node-witai-speech": "^1.0",
-        "npm": "^6.14",
         "nuki-bridge-api": "^1.7",
         "object-sizeof": "^1.6",
         "onvif": "github:agsh/onvif",
