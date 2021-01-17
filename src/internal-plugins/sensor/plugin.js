@@ -720,7 +720,7 @@ function loaded(api) {
                         } else {
                             if (res.battery > BATTERY_ALERT_THRESHOLD) {
                                 fs.unlinkSync(fileName);
-                                api.messageAPI.sendMessage("*", api.translateAPI.t("sensor.alert.on.battery.ok.batlevel", configuration.name));
+                                api.messageAPI.sendMessage("*", api.translateAPI.t("sensor.alert.on.battery.ok.batlevel", configuration.name, res.battery));
                             }
                         }
                     } else {
