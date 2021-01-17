@@ -31,6 +31,7 @@ class DbManager {
         } else {
             this.db = new sqlite3.Database(appConfiguration.db);
         }
+        this.processedInitSchema = {};
     }
 
     /**
@@ -99,9 +100,18 @@ class DbManager {
      * @param  {object} schema     A database schema
      * @param  {string} oldVersion A version like x.y.z
      * @param  {Function} [cb=null] Callback of type `(error) => {}`. Error is null if no errors
+     * @param  {object} [optimizations={}] A list of optimizations : `{tableFoobar:{idx_test:[field1,field2]},tableFoobar:{idx_text2:[field3]}}`
      */
-    initSchema(schema, oldVersion, cb = null) {
+    initSchema(schema, oldVersion, cb = null, optimizations = {}) {
+        let key = "";
         if (schema) {
+            Object.keys(schema).forEach((k) => {
+                key += k;
+            });
+        }
+
+        if (schema && !this.processedInitSchema[key]) {
+            this.processedInitSchema[key] = true;
             const tables = Object.keys(schema);
             let error = null;
             this.db.serialize(() => {
@@ -140,6 +150,15 @@ class DbManager {
                                 this.db.run(sql);
                             }
 
+                            // Generate optimizations
+                            if (optimizations[table]) {
+                                Object.keys(optimizations[table]).forEach((optimizationName) => {
+                                    this.db.run(this.RequestBuilder(table, schema).optimizeIndex(optimizationName, ...optimizations[table][optimizationName]).request(), () => {
+
+                                    });
+                                });
+                            }
+
                             if (cb) {
                                 cb(error);
                             }
@@ -174,6 +193,15 @@ class DbManager {
                                     }
                                 } else {
                                     error = Error(ERROR_NO_FIELD_DETECTED);
+                                }
+
+                                // Generate optimizations
+                                if (optimizations[table]) {
+                                    Object.keys(optimizations[table]).forEach((optimizationName) => {
+                                        this.db.run(this.RequestBuilder(table, schema).optimizeIndex(optimizationName, ...optimizations[table][optimizationName]).request(), () => {
+
+                                        });
+                                    });
                                 }
                             });
 

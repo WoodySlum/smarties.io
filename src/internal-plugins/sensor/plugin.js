@@ -232,8 +232,10 @@ function loaded(api) {
          */
         constructor(api, id = null, type = "UNKNOWN", configuration = null, icon = null, round = 0, unit = null, aggregationMode = AGGREGATION_MODE_AVG, dashboardGranularity = DEFAULT_DASHBOARD_AGGREGATION_GRANULARITY, chartType = CHART_TYPE_LINE, cb = null) {
             this.api = api;
+            this.api.databaseAPI.addOptimization(DbSensor, "idx_db_sensor", "sensorId");
+            this.api.databaseAPI.addOptimization(DbSensor, "idx_db_sensor_id", "id");
+            this.api.databaseAPI.addOptimization(DbSensor, "idx_db_sensor_sensor_id_ts", "sensorId", "timestamp");
             this.api.databaseAPI.register(DbSensor, cb);
-
             this.dbHelper = this.api.databaseAPI.dbHelper(DbSensor);
             this.icon = icon;
             this.id = id;
@@ -813,7 +815,7 @@ function loaded(api) {
 module.exports.attributes = {
     loadedCallback: loaded,
     name: "sensor",
-    version: "0.0.1",
+    version: "0.0.2",
     category: "sensor-base",
     description: "Sensor base plugin"
 };

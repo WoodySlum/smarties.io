@@ -52,6 +52,8 @@ class DbRequestBuilder {
         this.delete = false;
         this.limit = [];
         this.distinctEnabled = false;
+        this.optimizationName = null;
+        this.optimizeIndexList = [];
     }
 
     /**
@@ -219,11 +221,27 @@ class DbRequestBuilder {
     }
 
     /**
+     * Add index optimizations
+     *
+     * @param  {string} name    The optimization name
+     * @param  {...string} fields     A list of fields to optimize
+     * @returns {DbRequestBuilder}     The instance
+     */
+    optimizeIndex(name, ...fields) {
+        this.optimizationName = name;
+        fields.forEach((field) => {
+            this.optimizeIndexList.push(field);
+        });
+
+        return this;
+    }
+
+    /**
      * Add select closure
      * If no parameters passed, will provide all fields (`*`) request
      * Given example : `.select("id", "timestamp") or .select()`
      *
-     * @param  {...string} fields     Aa list of fields, or nothing if need all fields
+     * @param  {...string} fields     A list of fields, or nothing if need all fields
      * @returns {DbRequestBuilder}     The instance
      */
     select(...fields) {
@@ -488,6 +506,8 @@ class DbRequestBuilder {
         return this;
     }
 
+
+
     /**
      * Generate SQL request
      *
@@ -580,9 +600,17 @@ class DbRequestBuilder {
             });
             req = this.removeLastComma(req);
         }
-        // limit
+        // Limit
         if (this.limit.length == 2) {
             req += " LIMIT " + this.limit[0] + "," + this.limit[1];
+        }
+        // Index
+        if (this.optimizeIndexList.length > 0 && this.optimizationName) {
+            req = "CREATE INDEX " + this.optimizationName + " ON " + this.table + "(";
+            this.optimizeIndexList.forEach((optimizeIndex) => {
+                req += optimizeIndex + ",";
+            });
+            req = this.removeLastComma(req) + ")";
         }
         req += ";";
 

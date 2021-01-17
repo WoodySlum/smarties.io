@@ -22,8 +22,30 @@ class DatabaseAPI {
         PrivateProperties.oprivate(this).dbManager = dbManager;
         PrivateProperties.oprivate(this).previousVersion = previousVersion;
         this.registeredSchema = null;
+        PrivateProperties.oprivate(this).optimizations = {};
+
     }
     /* eslint-enable */
+
+    /**
+     * Add index optimizations. Should be called before register call.
+     *
+     * @param  {DbObject} dbObjectClass A class extending DbObject
+     * @param  {string} name    An index name
+     * @param  {...string} fields     A list of fields to optimize
+     */
+    addOptimization(dbObjectClass, name, ...fields) {
+        const table = DbSchemaConverter.class.tableName(dbObjectClass);
+        if (!PrivateProperties.oprivate(this).optimizations[table]) {
+            PrivateProperties.oprivate(this).optimizations[table] = {};
+        }
+
+        PrivateProperties.oprivate(this).optimizations[table][name] = [];
+
+        fields.forEach((field) => {
+            PrivateProperties.oprivate(this).optimizations[table][name].push(field);
+        });
+    }
 
     /**
      * Register database object and create associated schema (annotations)
@@ -33,7 +55,8 @@ class DatabaseAPI {
      */
     register(dbObjectClass, cb = null) {
         this.registeredSchema = DbSchemaConverter.class.toSchema(dbObjectClass);
-        PrivateProperties.oprivate(this).dbManager.initSchema(this.registeredSchema, PrivateProperties.oprivate(this).previousVersion, cb);
+        PrivateProperties.oprivate(this).dbManager.initSchema(this.registeredSchema, PrivateProperties.oprivate(this).previousVersion, cb, PrivateProperties.oprivate(this).optimizations);
+
     }
 
     /**

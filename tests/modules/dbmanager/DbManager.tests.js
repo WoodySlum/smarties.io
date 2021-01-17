@@ -44,6 +44,7 @@ describe("DbManager", function() {
     });
 
     it("should test functionally create table", function(done) {
+        dbManager.processedInitSchema = {};
         dbManager.initSchema(schema, "0.0.0", (err) => {
             setTimeout(() => {
                 sqlite3ob.all("PRAGMA table_info(`"+ table + "`);", (err, res) => {
@@ -64,6 +65,7 @@ describe("DbManager", function() {
     });
 
     it("should test functionally update table", function(done) {
+        dbManager.processedInitSchema = {};
         dbManager.initSchema(schemaUp, "0.0.0", (err) => {
             setTimeout(() => {
                 sqlite3ob.all("PRAGMA table_info(`" + table + "`);", (err, res) => {
@@ -88,6 +90,7 @@ describe("DbManager", function() {
     });
 
     it("should generate an error while creating table", function() {
+        dbManager.processedInitSchema = {};
         dbManager.initSchema({foobars:[{"foo":{}}]}, "0.0.0", (err) => {
             expect(err).to.be.not.null;
             expect(err.message).to.equal(DbManager.ERROR_UNKNOWN_FIELD_TYPE);

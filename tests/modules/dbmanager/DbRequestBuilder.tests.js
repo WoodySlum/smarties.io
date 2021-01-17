@@ -223,6 +223,20 @@ describe("DbRequestBuilder", function() {
         expect(sql).to.be.equal("INSERT INTO `foobar` (foo,bar,timestamp) VALUES ('foo''bar',200,datetime(1511216869, 'unixepoch'));");
     });
 
+    it("should generate a well formed index request with unique field", function() {
+        let sql = new DbRequestBuilder.class(table, schema)
+                    .optimizeIndex("fboaor", "foo")
+                    .request();
+        expect(sql).to.be.equal("CREATE INDEX fboaor ON " + table + "(foo);");
+    });
+
+    it("should generate a well formed index request with multiple fields", function() {
+        let sql = new DbRequestBuilder.class(table, schema)
+                    .optimizeIndex("fboaor", "foo", "bar")
+                    .request();
+        expect(sql).to.be.equal("CREATE INDEX fboaor ON " + table + "(foo,bar);");
+    });
+
     after(function () {
 
     });
