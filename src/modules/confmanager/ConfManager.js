@@ -174,10 +174,13 @@ class ConfManager {
         }
         Logger.info("Time event save configuration");
         if (!context.isWriting) {
-            context.isWriting = true;
             Logger.info("Saving configuration files");
             const keys = Object.keys(context.toBeSaved);
             let i = keys.length;
+
+            if (i > 0) {
+                context.isWriting = true;
+            }
 
             keys.forEach((key) => {
                 // Fix #55
@@ -225,7 +228,6 @@ class ConfManager {
 
             context.writeFilePlanTimer = setTimeout(() => {
                 context.writeDataToDisk(context, async);
-                context.writeFilePlanTimer = null;
             }, 5000);
         }
 
