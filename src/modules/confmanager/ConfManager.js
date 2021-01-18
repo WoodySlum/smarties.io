@@ -172,14 +172,13 @@ class ConfManager {
         if (!context) {
             context = this;
         }
-        Logger.info("Time event save configuration");
         if (!context.isWriting) {
-            Logger.info("Saving configuration files");
             const keys = Object.keys(context.toBeSaved);
             let i = keys.length;
 
             if (i > 0) {
                 context.isWriting = true;
+                Logger.info("Saving configuration files");
             }
 
             keys.forEach((key) => {
@@ -202,7 +201,7 @@ class ConfManager {
                         } else {
                             delete context.toBeSaved[key];
                         }
-                        Logger.info("Write file index " + i + " for key " + key);
+
                         if (i <= 0) {
                             context.isWriting = false;
                         }
@@ -220,7 +219,6 @@ class ConfManager {
                 context.isWriting = false;
             }
         } else {
-            Logger.info("Re planification");
             if (context.writeFilePlanTimer) {
                 clearTimeout(context.writeFilePlanTimer);
                 context.writeFilePlanTimer = null;
