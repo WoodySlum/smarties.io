@@ -7,10 +7,14 @@ var GlobalMocks = require("./../../GlobalMocks");
 const SmartiesCore = require("./../../../src/SmartiesCore").class;
 const EnvironmentManager = require("./../../../src/modules/environmentmanager/EnvironmentManager");
 
-const core = new SmartiesCore();
+let core;
 describe("EnvironmentManager", function() {
     before(() => {
+        core = new SmartiesCore();
+    });
 
+    after(() => {
+        core.stop();
     });
 
     it("constructor should init correctly stuff", function() {
@@ -22,6 +26,7 @@ describe("EnvironmentManager", function() {
         expect(core.formManager.register.calledThrice).to.be.true;
         expect(core.dashboardManager.registerTile.calledOnce).to.be.true;
         expect(environmentManager.formConfiguration.data).to.be.not.null;
+        console.log(environmentManager.formConfiguration.data);
         expect(Object.keys(environmentManager.formConfiguration.data).length).to.be.equal(0);
 
         core.confManager.readFile.restore();

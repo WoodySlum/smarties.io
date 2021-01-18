@@ -157,6 +157,20 @@ class ThreadsManager {
     }
 
     /**
+     * Kill all running threads
+     *
+     * @param  {string} identifier Thread identifier
+     */
+    killAll() {
+        Object.keys(this.threads).forEach((identifier) => {
+            if (this.isRunning(identifier)) {
+                this.threads[identifier].kill();
+                delete this.threads[identifier];
+            }
+        });
+    }
+
+    /**
      * Returns the pid of the thread
      *
      * @param  {string} identifier Thread identifier

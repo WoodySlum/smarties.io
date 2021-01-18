@@ -9,10 +9,14 @@ const GatewayManager = require("./../../../src/modules/gatewaymanager/GatewayMan
 const TimeEventService = require("./../../../src/services/timeeventservice/TimeEventService");
 const SmartiesRunnerConstants = require("./../../../SmartiesRunnerConstants");
 
-const core = new SmartiesCore();
+let core;
 describe("GatewayManager", function() {
     before(() => {
+        core = new SmartiesCore();
+    });
 
+    after(() => {
+        core.stop();
     });
 
     it("constructor should init correctly stuff", function() {

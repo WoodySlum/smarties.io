@@ -17,6 +17,10 @@ describe("Authentication", function() {
 
     });
 
+    after(() => {
+        core.stop();
+    });
+
     it("checkLocalPort should return true", function() {
         sinon.stub(environmentManager, "getLocalIp").callsFake(() => {
             return "192.168.0.54";
@@ -44,7 +48,7 @@ describe("Authentication", function() {
         environmentManager.getLocalIp.restore();
     });
 
-    
+
 
     after(function () {
 

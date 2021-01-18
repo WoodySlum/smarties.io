@@ -22,6 +22,10 @@ describe("DashboardManager", function() {
 
     });
 
+    after(() => {
+        core.stop();
+    });
+
     it("constructor should have correct parameters", function() {
         sinon.spy(webServices, "registerAPI");
         const dashboardManager = new DashboardManager.class(themeManager, webServices, translateManager, confManager, scenarioManager);

@@ -16,6 +16,7 @@ describe("SmartiesCore", function() {
     it("constructor should fill at least 1 service item", function() {
         let c = new SmartiesCore();
         expect(c.servicesManager.services.length).to.be.above(0);
+        c.stop();
     });
 
     it("should call start", function() {
@@ -24,6 +25,7 @@ describe("SmartiesCore", function() {
         c.start();
 
         expect(ws.start.calledOnce).to.be.true;
+        c.stop();
     });
 
     after(function () {

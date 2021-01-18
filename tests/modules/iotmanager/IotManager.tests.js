@@ -8,18 +8,18 @@ const IotManager = require("./../../../src/modules/iotmanager/IotManager");
 const FormObject = require("./../../../src/modules/formmanager/FormObject");
 const SmartiesCore = require("./../../../src/SmartiesCore").class;
 const DateUtils = require("./../../../src/utils/DateUtils");
-const core = new SmartiesCore();
+let core;
 
 
 
 const appConfiguration = {cachePath:"/foobar/"};
-const webServices = core.webServices;
-const installationManager = core.installationManager;
-const formManager = core.formManager;
-const environmentManager = core.environmentManager;
-const confManager = core.confManager;
-const translateManager = core.translateManager;
-const messageManager = core.messageManager;
+let webServices;
+let installationManager;
+let formManager;
+let environmentManager;
+let confManager;
+let translateManager;
+let messageManager;
 
 class IotLibForm extends FormObject.class {
     constructor(id = null, myLibProperty = null) {
@@ -55,7 +55,18 @@ class IotAppForm extends FormObject.class {
 
 describe("IotManager", function() {
     before(() => {
+        core = new SmartiesCore();
+        webServices = core.webServices;
+        installationManager = core.installationManager;
+        formManager = core.formManager;
+        environmentManager = core.environmentManager;
+        confManager = core.confManager;
+        translateManager = core.translateManager;
+        messageManager = core.messageManager;
+    });
 
+    after(() => {
+        core.stop();
     });
 
     it("constructor should initialize stuff correctly", function() {

@@ -88,6 +88,12 @@ class SmartiesCore {
         Logger.info("░                       Version : " + NpmPackage.version + "-" + commit);
         Logger.info(" ");
 
+        // Clean for test
+        if (process.env.TEST) {
+            fs.removeSync(AppConfiguration.configurationPath);
+            fs.removeSync(AppConfiguration.cachePath);
+        }
+
         // Create dirs if needed
         fs.ensureDirSync(AppConfiguration.configurationPath);
         fs.ensureDirSync(AppConfiguration.cachePath);
@@ -243,6 +249,7 @@ class SmartiesCore {
         try {
             this.servicesManager.stop();
             this.dbManager.close();
+            this.threadsManager.killAll();
         } catch(e) {
             Logger.err("Could not stop services : " + e.message);
         }

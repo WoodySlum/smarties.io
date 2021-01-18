@@ -17,31 +17,38 @@ let dashboardManager;
 let userManager;
 let sensorsManager;
 let translateManager;
-let alarmManager;
 let deviceManager;
 let messageManager;
 let schedulerService;
+let camerasManager;
+let botEngine;
 let scenarioManager;
+let alarmManager;
+
 
 describe("AlarmManager", function() {
-    beforeEach(() => {
+
+    before(() => {
         core = new SmartiesCore();
         confManager = core.confManager;
         formManager = core.formManager;
         webServices = core.webServices;
         dashboardManager = core.dashboardManager;
         userManager = core.userManager;
-        userManager = core.userManager;
         sensorsManager = core.sensorsManager;
         translateManager = core.translateManager;
         deviceManager = core.deviceManager;
-        sensorsManager.sensorsConfiguration = [{id:1501240500,plugin:"esp-temperature-sensor",name:"foobar",dashboard:true,statistics:true,dashboardColor:"#6b3583",unit:"cel"}];
         messageManager = core.messageManager;
         schedulerService = core.schedulerService;
         camerasManager = core.camerasManager;
         botEngine = core.botEngine;
         scenarioManager = core.scenarioManager;
     });
+
+    beforeEach(() => {
+        sensorsManager.sensorsConfiguration = [{id:1501240500,plugin:"esp-temperature-sensor",name:"foobar",dashboard:true,statistics:true,dashboardColor:"#6b3583",unit:"cel"}];
+    });
+
 
     it("constructor should call several methods for intialization", function() {
         sinon.spy(core.webServices, "registerAPI");
@@ -312,7 +319,8 @@ describe("AlarmManager", function() {
         alarmManager.sensorReadyForTriggering.restore();
     });
 
-    afterEach(() => {
+    after(() => {
+        core.stop();
         core = null;
         confManager = null;
         formManager = null;

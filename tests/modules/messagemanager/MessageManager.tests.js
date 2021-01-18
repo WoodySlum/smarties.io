@@ -6,15 +6,15 @@ var GlobalMocks = require("./../../GlobalMocks");
 
 const MessageManager = require("./../../../src/modules/messagemanager/MessageManager");
 const SmartiesCore = require("./../../../src/SmartiesCore").class;
-const core = new SmartiesCore();
+let core;
 const eventBus = {on:()=>{}};
 
-const userManager = core.userManager;
-const dbManager = core.dbManager;
-const translateManager = core.translateManager;
-const webServices = core.webServices;
-const dashboardManager = core.dashboardManager;
-const scenarioManager = core.scenarioManager;
+let userManager;
+let dbManager;
+let translateManager;
+let webServices;
+let dashboardManager;
+let scenarioManager;
 
 class FooBar {
     constructor() {
@@ -34,7 +34,17 @@ class BarFoo {
 
 describe("MessageManager", function() {
     before(() => {
+        core = new SmartiesCore();
+        userManager = core.userManager;
+        dbManager = core.dbManager;
+        translateManager = core.translateManager;
+        webServices = core.webServices;
+        dashboardManager = core.dashboardManager;
+        scenarioManager = core.scenarioManager;
+    });
 
+    after(() => {
+        core.stop();
     });
 
     it("constructor should initialize stuff correctly", function() {

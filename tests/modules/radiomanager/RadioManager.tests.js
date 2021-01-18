@@ -109,6 +109,6 @@ describe("RadioManager", function() {
 
 
     after(() => {
-
+        core.stop();
     });
 });

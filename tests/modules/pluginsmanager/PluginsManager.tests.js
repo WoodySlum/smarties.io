@@ -10,33 +10,33 @@ var PluginAPI = require("./../../../src/modules/pluginsmanager/PluginAPI");
 var WebServices = require("./../../../src/services/webservices/WebServices");
 const TEST_PLUGIN = "rflink";
 
-const core = new SmartiesCore();
+let core;
 const eventBus = {on:()=>{}};
 
-const userManager = core.userManager;
-const servicesManager = core.servicesManager;
-const dbManager = core.dbManager;
-const translateManager = core.translateManager;
-const formManager = core.formManager;
-const confManager = core.confManager;
-const timeEventService = core.timeEventService;
-const schedulerService = core.schedulerService;
-const dashboardManager = core.dashboardManager;
-const themeManager = core.themeManager;
-const sensorsManager = core.sensorsManager;
-const installationManager = core.installationManager;
-const messageManager = core.messageManager;
-const scenarioManager = core.scenarioManager;
-const alarmManager = core.alarmManager;
-const camerasManager = core.camerasManager;
-const radioManager = core.radioManager;
-const environmentManager = core.environmentManager;
-const pluginsManager = core.pluginsManager;
-const iotManager = core.iotManager;
-const botEngine = core.botEngine;
-const deviceManager = core.deviceManager;
-const backupManager = core.backupManager;
-const gatewayManager = core.gatewayManager;
+let userManager;
+let servicesManager;
+let dbManager;
+let translateManager;
+let formManager;
+let confManager;
+let timeEventService;
+let schedulerService;
+let dashboardManager;
+let themeManager;
+let sensorsManager;
+let installationManager;
+let messageManager;
+let scenarioManager;
+let alarmManager;
+let camerasManager;
+let radioManager;
+let environmentManager;
+let pluginsManager;
+let iotManager;
+let botEngine;
+let deviceManager;
+let backupManager;
+let gatewayManager;
 
 
 describe("PluginsManager", function() {
@@ -102,6 +102,31 @@ describe("PluginsManager", function() {
 
 
     before(() => {
+        core = new SmartiesCore();
+        userManager = core.userManager;
+        servicesManager = core.servicesManager;
+        dbManager = core.dbManager;
+        translateManager = core.translateManager;
+        formManager = core.formManager;
+        confManager = core.confManager;
+        timeEventService = core.timeEventService;
+        schedulerService = core.schedulerService;
+        dashboardManager = core.dashboardManager;
+        themeManager = core.themeManager;
+        sensorsManager = core.sensorsManager;
+        installationManager = core.installationManager;
+        messageManager = core.messageManager;
+        scenarioManager = core.scenarioManager;
+        alarmManager = core.alarmManager;
+        camerasManager = core.camerasManager;
+        radioManager = core.radioManager;
+        environmentManager = core.environmentManager;
+        pluginsManager = core.pluginsManager;
+        iotManager = core.iotManager;
+        botEngine = core.botEngine;
+        deviceManager = core.deviceManager;
+        backupManager = core.backupManager;
+        gatewayManager = core.gatewayManager;
         const appConfiguration = {cachePath:"foobar"};
         webServices = sinon.mock(WebServices.class);
         webServices.registerAPI = ()=>{};
@@ -115,6 +140,10 @@ describe("PluginsManager", function() {
         pluginD = new PluginAPI.class("0.0.0", pluginDRef, webServices, appConfiguration, servicesManager, dbManager, translateManager, formManager, confManager, timeEventService, schedulerService, dashboardManager, themeManager, sensorsManager, installationManager, userManager, messageManager, scenarioManager, alarmManager, camerasManager, radioManager, environmentManager, pluginsManager, iotManager, botEngine, eventBus, deviceManager, backupManager, gatewayManager);
         pluginInvalidDependencies = new PluginAPI.class("0.0.0", pluginInvalidDependenciesRef, webServices, appConfiguration, servicesManager, dbManager, translateManager, formManager, confManager, timeEventService, schedulerService, dashboardManager, themeManager, sensorsManager, installationManager, userManager, messageManager, scenarioManager, alarmManager, camerasManager, radioManager, environmentManager, pluginsManager, iotManager, botEngine, eventBus, deviceManager, backupManager, gatewayManager);
 
+    });
+
+    after(() => {
+        core.stop();
     });
 
     it("default constructor should call load in constructor", function() {

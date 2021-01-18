@@ -16,6 +16,10 @@ describe("Sensor", function() {
 
     });
 
+    after(() => {
+        core.stop();
+    });
+
     it("constructor should have good parameters", function(done) {
         sinon.spy(plugin.databaseAPI, "register");
         let sensor = new Sensor(plugin, 30, "FOOBAR",{foo:"bar"}, "foo", 2, "bar", Sensor.constants().AGGREGATION_MODE_SUM, 3000, Sensor.constants().CHART_TYPE_BAR, (err) => {

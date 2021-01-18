@@ -122,6 +122,10 @@ describe("DeviceManager", function() {
         deviceManager.formConfiguration.data = devices;
     });
 
+    after(() => {
+        core.stop();
+    });
+
     // Functional tests
     it("switchDevice should call twice send radio", function() {
         sinon.spy(radioManager, "switchDevice");

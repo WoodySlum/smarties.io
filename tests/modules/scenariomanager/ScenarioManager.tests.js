@@ -36,7 +36,7 @@ class ScenarioSampleForm extends FormObject.class {
 
 
 describe("ScenarioManager", function() {
-    beforeEach(() => {
+    before(() => {
         core = new SmartiesCore();
         confManager = core.confManager;
         formManager = core.formManager;
@@ -249,6 +249,9 @@ describe("ScenarioManager", function() {
     });
 
     it("sub actions should be correctly executed", function() {
+        // Reset
+        core.stop();
+        core = new SmartiesCore();
         const scenarioManager = core.scenarioManager;
         scenarioManager.formConfiguration.data = [{id:1503304879528,name:"Test multi radio",enabled:true,icon:{icon:"e806"},subActions:[{scenario:{scenario:1503304879529},delay:1}],RadioScenariosForm:{radioScenariosForm:[{radio:{module:"rflink",protocol:"foobar",deviceId:"foo",switchId:"bar"},status:RadioScenarioForm.STATUS_ALL}]}},{id:1503304879529,name:"Test sub action",enabled:true,icon:{icon:"e806"},RadioScenariosForm:{radioScenariosForm:[]},DevicesListScenarioForm:{devices:[{identifier:1981,status:"on"}]}}];
         const radioObjSim = {
@@ -380,7 +383,8 @@ describe("ScenarioManager", function() {
         expect(Object.keys(scenarioManager.scenarioLocks).length).to.be.equal(1);
     });
 
-    afterEach(() => {
+    after(() => {
+        core.stop();
         core = null;
         confManager = null;
         formManager = null;

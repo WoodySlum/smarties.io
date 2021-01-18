@@ -14,6 +14,10 @@ describe("Radio", function() {
 
     });
 
+    after(() => {
+        core.stop();
+    });
+
     it("constructor should have good parameters", function() {
         sinon.spy(plugin.databaseAPI, "register");
         sinon.spy(plugin.webAPI, "register");
