@@ -38,11 +38,17 @@ class SchedulerService extends Service.class {
         this.timeEventService = timeEventService;
         this.dbSchema = DbSchemaConverter.class.toSchema(SchedulerDbObject.class);
         this.dbHelper = new DbHelper.class(this.dbManager, this.dbSchema, DbSchemaConverter.class.tableName(SchedulerDbObject.class), SchedulerDbObject.class);
+        const optimizations = {};
+        optimizations[DbSchemaConverter.class.tableName(SchedulerDbObject.class)] = {};
+        optimizations[DbSchemaConverter.class.tableName(SchedulerDbObject.class)]["idx_scheduler_db_obj_tr"] = [];
+        optimizations[DbSchemaConverter.class.tableName(SchedulerDbObject.class)]["idx_scheduler_db_obj_tr_tr_date"] = [];
+        optimizations[DbSchemaConverter.class.tableName(SchedulerDbObject.class)]["idx_scheduler_db_obj_tr"].push("triggered");
+        optimizations[DbSchemaConverter.class.tableName(SchedulerDbObject.class)]["idx_scheduler_db_obj_tr_tr_date"].push("triggered","triggerDate");
         this.dbManager.initSchema(this.dbSchema, currentVersion, (err) => {
             if (err) {
                 Logger.err(err);
             }
-        });
+        }, optimizations);
         this.lastTriggered = DateUtils.class.timestamp();
 
     }

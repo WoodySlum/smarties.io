@@ -113,7 +113,16 @@ class DeviceManager {
         webServices.registerAPI(this, WebServices.POST, ":" + ROUTE_ALL_OFF, Authentication.AUTH_GUEST_LEVEL);
 
         this.dbSchema = DbSchemaConverter.class.toSchema(DbDevice.class);
-        this.dbManager.initSchema(this.dbSchema, DB_VERSION, null);
+
+        const optimizations = {};
+        optimizations[DbSchemaConverter.class.tableName(DbDevice.class)] = {};
+        optimizations[DbSchemaConverter.class.tableName(DbDevice.class)]["idx_db_device_ts"] = [];
+        optimizations[DbSchemaConverter.class.tableName(DbDevice.class)]["idx_db_device_ts_id"] = [];
+        optimizations[DbSchemaConverter.class.tableName(DbDevice.class)]["idx_db_device_ts_id_st"] = [];
+        optimizations[DbSchemaConverter.class.tableName(DbDevice.class)]["idx_db_device_ts"].push("timestamp");
+        optimizations[DbSchemaConverter.class.tableName(DbDevice.class)]["idx_db_device_ts_id"].push("timestamp", "identifier");
+        optimizations[DbSchemaConverter.class.tableName(DbDevice.class)]["idx_db_device_ts_id_st"].push("timestamp", "identifier", "status");
+        this.dbManager.initSchema(this.dbSchema, DB_VERSION, null, optimizations);
         this.dbHelper = new DbHelper.class(this.dbManager, this.dbSchema, DbSchemaConverter.class.tableName(DbDevice.class), DbDevice.class);
 
         this.registerDeviceTiles();

@@ -194,6 +194,7 @@ function loaded(api) {
             api.configurationAPI.register(OpenWeatherForm);
 
             // Register a schema
+            api.databaseAPI.addOptimization(OpenWeatherDb, "idx_db_ow_ts", "timestamp");
             api.databaseAPI.register(OpenWeatherDb);
             // Retrieve DbHelper
             this.dbHelper = api.databaseAPI.dbHelper(OpenWeatherDb);

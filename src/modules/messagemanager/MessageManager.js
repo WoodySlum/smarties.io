@@ -51,7 +51,11 @@ class MessageManager {
         this.dashboardManager = dashboardManager;
         this.scenarioManager = scenarioManager;
         this.dbSchema = DbSchemaConverter.class.toSchema(DbMessage.class);
-        this.dbManager.initSchema(this.dbSchema, DB_VERSION, null);
+        const optimizations = {};
+        optimizations[DbSchemaConverter.class.tableName(DbMessage.class)] = {};
+        optimizations[DbSchemaConverter.class.tableName(DbMessage.class)]["idx_db_message_rec_send_ts"] = [];
+        optimizations[DbSchemaConverter.class.tableName(DbMessage.class)]["idx_db_message_rec_send_ts"].push("recipient","sender","timestamp");
+        this.dbManager.initSchema(this.dbSchema, DB_VERSION, null, optimizations);
         this.dbHelper = new DbHelper.class(this.dbManager, this.dbSchema, DbSchemaConverter.class.tableName(DbMessage.class), DbMessage.class);
         this.cachePath = cachePath;
         this.registered = [];

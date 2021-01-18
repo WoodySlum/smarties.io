@@ -141,6 +141,8 @@ function loaded(api) {
          */
         constructor(api) {
             this.api = api;
+            this.api.databaseAPI.addOptimization(DbRadio, "idx_db_radio_module", "module");
+            this.api.databaseAPI.addOptimization(DbRadio, "idx_db_sensor_module_ts", "module", "ts");
             this.api.databaseAPI.register(DbRadio, null);
             this.dbHelper = this.api.databaseAPI.dbHelper(DbRadio);
             this.api.timeEventAPI.register((self) => {
