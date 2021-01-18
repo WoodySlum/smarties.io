@@ -130,11 +130,10 @@ function loaded(api) {
             this.tuyaDevices = [];
 
             api.timeEventAPI.register((self) => {
-                if ((new Date()).getSeconds() === 30) { // Shift to 30 seconds to avoid interfacing with time events
                     api.exported.Logger.verbose("Synchronizing tuya devices");
+                    self.retrieveDevicesAndStates();
                     self.updateLocalState(self);
-                }
-            }, this, api.timeEventAPI.constants().EVERY_SECONDS);
+            }, this, api.timeEventAPI.constants().EVERY_FIVE_MINUTES);
 
             this.tuyaApi = null;
             this.lastLogin = 0;
