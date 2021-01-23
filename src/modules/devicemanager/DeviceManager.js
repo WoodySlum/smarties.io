@@ -17,6 +17,8 @@ const EnvironmentManager = require("./../environmentmanager/EnvironmentManager")
 const DbSchemaConverter = require("./../dbmanager/DbSchemaConverter");
 const DbHelper = require("./../dbmanager/DbHelper");
 const DbDevice = require("./DbDevice");
+const TimeEventService = require("../../services/timeeventservice/TimeEventService");
+const DateUtils = require("../../utils/DateUtils");
 
 const DEVICE_TYPE_LIGHT = "light";
 const DEVICE_TYPE_LIGHT_DIMMABLE = "light-dimmable";
@@ -26,6 +28,8 @@ const DEVICE_TYPE_LIGHT_PRIORITY = 20;
 const DEVICE_TYPE_LIGHT_DIMMABLE_PRIORITY = 30;
 const DEVICE_TYPE_LIGHT_DIMMABLE_COLOR_PRIORITY = 40;
 const DEVICE_TYPE_SHUTTER_PRIORITY = 50;
+
+const DB_RETENTION = 1 * 30 * 60 * 60 * 24; // 1 month
 
 const DB_VERSION = "0.0.0";
 
@@ -89,9 +93,10 @@ class DeviceManager {
      * @param  {EventEmitter} eventBus    The global event bus
      * @param  {DbManager} dbManager    The database manager
      * @param  {AiManager} aiManager    The ai manager
+     * @param  {TimeEventService} timeEventService    The time event service
      * @returns {DeviceManager}              The instance
      */
-    constructor(confManager, formManager, webServices, radioManager, dashboardManager, scenarioManager, translateManager, environmentManager, botEngine, sensorsManager, eventBus, dbManager, aiManager) {
+    constructor(confManager, formManager, webServices, radioManager, dashboardManager, scenarioManager, translateManager, environmentManager, botEngine, sensorsManager, eventBus, dbManager, aiManager, timeEventService) {
         this.formConfiguration = new FormConfiguration.class(confManager, formManager, webServices, "devices", true, DeviceForm.class);
         this.radioManager = radioManager;
         this.dashboardManager = dashboardManager;
@@ -104,6 +109,7 @@ class DeviceManager {
         this.eventBus = eventBus;
         this.dbManager = dbManager;
         this.aiManager = aiManager;
+        this.timeEventService = timeEventService;
         this.switchDeviceModules = {};
 
         this.radioManager.deviceManager = this; // Set the device manager. used to associate devices to received radio objects
@@ -197,6 +203,19 @@ class DeviceManager {
                 }
             });
         });
+
+        // Clean database
+        this.timeEventService.register((self) => {
+            const cleanTimestamp = DateUtils.class.timestamp() - DB_RETENTION;
+            const requestBuilder = self.dbHelper.RequestBuilder().where(self.dbHelper.Operators().FIELD_TIMESTAMP, self.dbHelper.Operators().LT, cleanTimestamp);
+            self.dbHelper.delObjects(requestBuilder, (error) => {
+                if (error) {
+                    Logger.err(error);
+                } else {
+                    Logger.info("Device data successfully cleaned");
+                }
+            });
+        }, this, TimeEventService.EVERY_DAYS);
 
         // Machine learning
         this.aiManager.register(AI_KEY);

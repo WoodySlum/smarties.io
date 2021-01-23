@@ -180,7 +180,7 @@ function loaded(api) {
                 const requestBuilder = context.dbHelper.RequestBuilder().where(context.dbHelper.Operators().FIELD_TIMESTAMP, context.dbHelper.Operators().LT, cleanTimestamp);
                 context.dbHelper.delObjects(requestBuilder, (error) => {
                     if (error) {
-                        context.api.exported.Logger.err(error.message);
+                        context.api.exported.Logger.err(error);
                     } else {
                         context.api.exported.Logger.info("Radio data successfully cleaned");
                     }
