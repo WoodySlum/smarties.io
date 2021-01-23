@@ -130,9 +130,9 @@ function loaded(api) {
             this.tuyaDevices = [];
 
             api.timeEventAPI.register((self) => {
-                    api.exported.Logger.verbose("Synchronizing tuya devices");
-                    self.retrieveDevicesAndStates();
-                    self.updateLocalState(self);
+                api.exported.Logger.verbose("Synchronizing tuya devices");
+                self.retrieveDevicesAndStates();
+                self.updateLocalState(self);
             }, this, api.timeEventAPI.constants().EVERY_FIVE_MINUTES);
 
             this.tuyaApi = null;

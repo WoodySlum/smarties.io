@@ -158,8 +158,6 @@ class ThreadsManager {
 
     /**
      * Kill all running threads
-     *
-     * @param  {string} identifier Thread identifier
      */
     killAll() {
         Object.keys(this.threads).forEach((identifier) => {
