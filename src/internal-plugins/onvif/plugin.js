@@ -108,6 +108,14 @@ function loaded(api) {
                     this.updateConfiguration();
                 }
 
+                if (this.configuration.snapshotUrl) {
+                    this.snapshotUrl = this.configuration.snapshotUrl;
+                }
+
+                if (this.configuration.rtspUrl) {
+                    this.rtspUrl = this.configuration.rtspUrl;
+                }
+
                 this.cam = new onvif.Cam({
                     hostname: this.configuration.ip,
                     username: this.configuration.username,
@@ -122,15 +130,19 @@ function loaded(api) {
                                 api.exported.Logger.err(err);
                             } else {
                                 this.snapshotUrl = res.uri.replace(/\n/g, "").replace(/\r/g, "");
+                                this.configuration.snapshotUrl = this.snapshotUrl;
+                                api.configurationAPI.saveData(this.configuration);
                             }
-                        });
 
-                        this.cam.getStreamUri((err, res) => {
-                            if (err) {
-                                api.exported.Logger.err(err);
-                            } else {
-                                this.rtspUrl = res.uri.replace(/\n/g, "").replace(/\r/g, "");
-                            }
+                            this.cam.getStreamUri((err, res) => {
+                                if (err) {
+                                    api.exported.Logger.err(err);
+                                } else {
+                                    this.rtspUrl = res.uri.replace(/\n/g, "").replace(/\r/g, "");
+                                    this.configuration.rtspUrl = this.rtspUrl;
+                                    api.configurationAPI.saveData(this.configuration);
+                                }
+                            });
                         });
                     }
                 });
