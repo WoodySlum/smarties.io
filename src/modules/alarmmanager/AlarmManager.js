@@ -321,22 +321,26 @@ class AlarmManager {
     processAPI(apiRequest) {
         var self = this;
         if (apiRequest.route.startsWith(":" + SWITCH_ALARM_ROUTE_BASE)) {
-            return new Promise((resolve) => {
-                if (apiRequest.data && apiRequest.data.status) {
-                    if (parseInt(apiRequest.data.status)) {
-                        self.enableAlarm();
+            return new Promise((resolve, reject) => {
+                if (apiRequest.authLevel != Authentication.AUTH_TABLET_LEVEL) {
+                    if (apiRequest.data && apiRequest.data.status) {
+                        if (parseInt(apiRequest.data.status)) {
+                            self.enableAlarm();
+                        } else {
+                            self.disableAlarm();
+                        }
                     } else {
-                        self.disableAlarm();
+                        if (self.alarmStatus()) {
+                            self.disableAlarm();
+                        } else {
+                            self.enableAlarm();
+                        }
                     }
-                } else {
-                    if (self.alarmStatus()) {
-                        self.disableAlarm();
-                    } else {
-                        self.enableAlarm();
-                    }
-                }
 
-                resolve(new APIResponse.class(true, {success:true}));
+                    resolve(new APIResponse.class(true, {success:true}));
+                } else {
+                    reject(new APIResponse.class(false, {}, 93176, "Unauthorized"));
+                }
             });
         }
     }

@@ -56,6 +56,7 @@
     "user.form.level.disabled": "Utilisateur désactivé",
     "user.form.level.guest": "Invité",
     "user.form.level.standard": "Standard",
+    "user.form.level.tablet": "Tablette",
     "user.form.level.admin": "Administrateur",
     "user.form.level.dev": "Développeur",
     "user.form.fullname": "Nom complet",

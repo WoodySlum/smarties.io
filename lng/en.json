@@ -57,7 +57,7 @@
     "user.form.level.disabled": "User disabled",
     "user.form.level.guest": "Guest",
     "user.form.level.standard": "Standard",
-    "user.form.level.standard": "Standard",
+    "user.form.level.tablet": "Tablet",
     "user.form.level.admin": "Administrator",
     "user.form.level.dev": "Developer",
     "user.form.fullname": "Full name",

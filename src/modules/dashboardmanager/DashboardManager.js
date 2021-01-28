@@ -89,7 +89,15 @@ class DashboardManager {
                 tile.customize(username); // Customize tile colors depending on theme
                 tile.applyMode(username, light);
 
-                tiles.push(tile.get());
+                let shouldDisplay = true;
+                // In case of TABLET, alarm tile should not be displayed
+                if (tile.identifier == "alarm" && user.level == Authentication.AUTH_TABLET_LEVEL) {
+                    shouldDisplay = false;
+                }
+
+                if (shouldDisplay) {
+                    tiles.push(tile.get());
+                }
             }
         });
 

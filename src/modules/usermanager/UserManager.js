@@ -218,7 +218,7 @@ class UserManager {
     allUsersAtHome() {
         let allUsersAtHome = true;
         this.formConfiguration.getDataCopy().forEach((user) => {
-            if (!user.atHome && user.level >= Authentication.AUTH_USAGE_LEVEL) {
+            if (!user.atHome && user.level >= Authentication.AUTH_USAGE_LEVEL && user.level != Authentication.AUTH_TABLET_LEVEL) {
                 allUsersAtHome = false;
             }
         });
@@ -234,7 +234,7 @@ class UserManager {
     nobodyAtHome() {
         let nobodyAtHome = true;
         this.formConfiguration.getDataCopy().forEach((user) => {
-            if (user.atHome && user.level >= Authentication.AUTH_USAGE_LEVEL) {
+            if (user.atHome && user.level >= Authentication.AUTH_USAGE_LEVEL && user.level != Authentication.AUTH_TABLET_LEVEL) {
                 nobodyAtHome = false;
             }
         });
@@ -250,7 +250,7 @@ class UserManager {
     somebodyAtHome() {
         let somebodyAtHome = false;
         this.formConfiguration.getDataCopy().forEach((user) => {
-            if (user.atHome && user.level >= Authentication.AUTH_USAGE_LEVEL) {
+            if (user.atHome && user.level >= Authentication.AUTH_USAGE_LEVEL && user.level != Authentication.AUTH_TABLET_LEVEL) {
                 somebodyAtHome = true;
             }
         });
@@ -274,7 +274,7 @@ class UserManager {
         });
 
         if (u) {
-            if (u.level >= Authentication.AUTH_USAGE_LEVEL) {
+            if (u.level >= Authentication.AUTH_USAGE_LEVEL && u.level != Authentication.AUTH_TABLET_LEVEL) {
                 if (u.atHome !== inZone) {
                     u.atHome = inZone;
                     this.formConfiguration.saveConfig(u);
