@@ -65,6 +65,7 @@ function loaded(api) {
                     username: conf.alexaUsername,
                     password: conf.alexaPassword,
                     pin: pin
+                    // ,debug: true
                 });
             }
 
@@ -80,7 +81,7 @@ function loaded(api) {
                 } catch(e) {
                     api.exported.Logger.info(e);
                 }
-                
+
                 this.server = new Server({insecureAccess:insecureAccess, customPluginPath: __dirname + "/homebridge-plugins"});
                 this.server.config = {
                     bridge: {
@@ -200,6 +201,15 @@ function loaded(api) {
                     api.exported.Logger.err(msg, params);
                 } else {
                     api.exported.Logger.info(msg, params);
+                    // Fix DDOS issues : https://github.com/NorthernMan54/homebridge-alexa/issues/413
+                    if (msg.indexOf("please review the README") > 0) {
+                        api.exported.Logger.warn("DDOS protection detected, restart homebridge in 5 min");
+                        this.stop();
+                        setTimeout((self) => {
+                            self.start();
+                        }, 5 * 60 * 1000, this);
+                    }
+
                 }
             };
             Server.prototype._printPin = (pin) => {
