@@ -682,9 +682,12 @@ class CamerasManager {
                             if (!err && self.detectedObjects[camera.id.toString()] && self.detectedObjects[camera.id.toString()].length > 0) {
                                 img = self.aiManager.drawCvRectangles(self.detectedObjects[camera.id.toString()], img);
                             }
-                            if (!err) {
-                                return img;
+                            // Fix issue where mjpeg stream was not displayed
+                            if (img.indexOf(MjpegProxy.JPG_FOOTER, 0, "hex") < 0) {
+                                img = Buffer.concat([img, Buffer.from(MjpegProxy.JPG_FOOTER, "hex")]);
                             }
+
+                            return img;
                         });
                     } else {
                         mjpegProxy = new MjpegProxy.class(camera.mjpegUrl, camera.rtspUrl);

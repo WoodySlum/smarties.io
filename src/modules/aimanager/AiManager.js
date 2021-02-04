@@ -16,7 +16,7 @@ const CLASS_DAYNIGHT = ["day", "night"];
 const CLASS_TIME = "time";
 
 const CV_DEFAULT_MAPPER = ["background", "aeroplane", "bicycle", "bird", "boat", "bottle", "bus", "car", "cat", "chair", "cow", "diningtable", "dog", "horse", "motorbike", "person", "pottedplant", "sheep", "sofa", "train", "tvmonitor"];
-const CV_DEFAULT_AUTHORIZED = ["car", "cat", "dog", "bicycle", "motorbike", "person"];
+const CV_DEFAULT_AUTHORIZED = ["car", "cat", "dog", "bicycle", "motorbike", "person", "boat"];
 const CV_DEFAULT_CONFIDENCE = 0.35;
 const CV_DEFAULT_MAX_ELEMENTS = 10;
 const CV_DEFAULT_BOX_SIZE = 350;
