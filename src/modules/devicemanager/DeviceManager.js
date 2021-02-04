@@ -436,6 +436,7 @@ class DeviceManager {
             let i = (index === -1)?(9000 + data.indexOf(device)):index;
             const deviceTypes = this.getDeviceTypes(device);
             const deviceType = this.bestDeviceType(deviceTypes);
+
             const deviceStatus = new DeviceStatus.class(deviceTypes, device.status, device.brightness, device.color, device.colorTemperature);
 
             let deviceInfos = deviceStatus.tileFormat();
@@ -465,7 +466,7 @@ class DeviceManager {
         Object.keys(this.switchDeviceModules).forEach((switchDeviceModuleKey) => {
 
             const switchDeviceModule = this.switchDeviceModules[switchDeviceModuleKey];
-            if (device && device[switchDeviceModule.formName]) {
+            if (device && device[switchDeviceModule.formName] && device[switchDeviceModule.formName].length > 0) {
                 if (modes.indexOf(switchDeviceModule.type) === -1) {
                     modes.push(switchDeviceModule.type);
                 }
