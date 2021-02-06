@@ -2,7 +2,6 @@
 const request = require("request");
 const rtsp = require("rtsp-ffmpeg");
 const MjpegProxy = require("./MjpegProxy");
-// const cv = require("opencv4nodejs");
 const fs = require("fs-extra");
 const sha256 = require("sha256");
 const Logger = require("./../../logger/Logger");
@@ -64,7 +63,8 @@ const MODE_RTSP = "rtsp";
 const DAILY_DURATION = 24 * 60 * 60;
 const SEASON_DURATION = 100 * 12 * 30 * 24 * 60 * 60;
 const CAMERAS_RETENTION_TIME = 60 * 60 * 24 * 7; // In seconds
-const CAMERA_RECORD_HOTFILE_DURATION_S = 30;
+const CAMERA_RECORD_HOTFILE_DURATION_S = 60;
+const CAMERA_RECORD_HOTFILE_LOCK_NO_RECORD_S = 4 * 60;
 const CAMERA_FILE_EXTENSION = ".JPG";
 const CAMERA_SEASON_EXTENSION = "-season";
 const CAMERA_DAILY_EXTENSION = "-daily";
@@ -147,6 +147,7 @@ class CamerasManager {
         this.cameraCapture = {};
         this.detectedObjects = {};
         this.isRecording = {};
+        this.cameraHotFileLocks = {};
 
         try {
             this.camerasConfiguration = this.confManager.loadData(Object, CONF_MANAGER_KEY, true);
@@ -452,8 +453,12 @@ class CamerasManager {
                                                             }
                                                         });
 
-                                                        if (!this.isRecording[camera.id.toString()]) {
+                                                        if (!this.isRecording[camera.id.toString()] && !this.cameraHotFileLocks[camera.id.toString()]) {
                                                             this.isRecording[camera.id.toString()] = "recording";
+                                                            this.cameraHotFileLocks[camera.id.toString()] = "recording";
+                                                            setTimeout((self) => {
+                                                                delete self.cameraHotFileLocks[camera.id.toString()];
+                                                            }, CAMERA_RECORD_HOTFILE_LOCK_NO_RECORD_S * 1000, this);
 
                                                             this.record(camera.id, (err, generatedFilepath) => {
                                                                 if (!err) {
