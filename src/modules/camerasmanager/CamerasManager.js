@@ -458,7 +458,7 @@ class CamerasManager {
                                                             this.cameraHotFileLocks[camera.id.toString()] = "recording";
                                                             setTimeout((self) => {
                                                                 delete self.cameraHotFileLocks[camera.id.toString()];
-                                                            }, CAMERA_RECORD_HOTFILE_LOCK_NO_RECORD_S * 1000, this);
+                                                            }, (CAMERA_RECORD_HOTFILE_LOCK_NO_RECORD_S + CAMERA_RECORD_HOTFILE_DURATION_S) * 1000, this);
 
                                                             this.record(camera.id, (err, generatedFilepath) => {
                                                                 if (!err) {
