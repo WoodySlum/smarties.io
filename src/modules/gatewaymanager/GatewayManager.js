@@ -3,6 +3,7 @@ const Logger = require("./../../logger/Logger");
 const TimeEventService = require("./../../services/timeeventservice/TimeEventService");
 const DateUtils = require("./../../utils/DateUtils");
 const SmartiesRunnerConstants = require("./../../../SmartiesRunnerConstants");
+const child_process = require("child_process");
 
 const GATEWAY_MODE = 1;
 const GATEWAY_URL = "https://api.smarties.io/ping/";
@@ -11,6 +12,7 @@ const UI_URL = "https://me.smarties.io/";
 const BOOT_MODE_BOOTING = "BOOTING";
 const BOOT_MODE_INSTALL = "INSTALL";
 const BOOT_MODE_READY = "READY";
+const BOOT_MODE_STOP = "STOP";
 
 /**
  * This class manage gateway communications
@@ -78,7 +80,12 @@ class GatewayManager {
 
         this.eventBus.on(SmartiesRunnerConstants.RESTART, () => {
             self.bootMode = BOOT_MODE_BOOTING;
-            self.transmit();
+            self.transmit(false);
+        });
+
+        this.eventBus.on(SmartiesRunnerConstants.STOP, () => {
+            self.bootMode = BOOT_MODE_STOP;
+            self.transmit(false);
         });
 
         this.eventBus.on(installEvent, (installationState) => {
@@ -172,8 +179,10 @@ class GatewayManager {
 
     /**
      * Transmit informations to gateway
+     *
+     * @param  {boolean} [async=true]    Enable or disable async
      */
-    transmit() {
+    transmit(async = true) {
         if (!process.env.TEST) {
             Logger.info("Transmitting informations to gateway ...");
             const bootInfos = {
@@ -195,7 +204,13 @@ class GatewayManager {
             Logger.info("Informations : " + JSON.stringify(bootInfos));
 
             // Call on separate process
-            this.threadsManager.run(this.sandboxedRequest, "gateway-" + this.bootMode, {GATEWAY_URL:GATEWAY_URL, bootInfos:bootInfos}, this.sandboxedRequestresponse, this);
+            if (async) {
+                this.threadsManager.run(this.sandboxedRequest, "gateway-" + this.bootMode, {GATEWAY_URL:GATEWAY_URL, bootInfos:bootInfos}, this.sandboxedRequestresponse, this);
+            } else {
+                const cmd = "curl -s --header \"Content-Type: application/json\" --request POST --data '" + JSON.stringify(bootInfos) + "' " + GATEWAY_URL;
+                child_process.execSync(cmd);
+            }
+
         }
     }
 }

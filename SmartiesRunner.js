@@ -82,6 +82,7 @@ class SmartiesRunner {
     stop(self) {
         if (self.core) {
             Logger.log("Sopping runner");
+            this.runnerEventBus.emit(SmartiesRunnerConstants.STOP);
             self.core.stop();
             self.childPids.forEach((childPid) => {
                 try {
@@ -91,7 +92,7 @@ class SmartiesRunner {
                 }
             });
             self.runnerEventBus.eventNames().forEach((eventName) => {
-                if (eventName !== SmartiesRunnerConstants.RESTART) {
+                if (eventName !== SmartiesRunnerConstants.RESTART && eventName !== SmartiesRunnerConstants.STOP) {
                     self.runnerEventBus.removeAllListeners(eventName);
                 }
             });
