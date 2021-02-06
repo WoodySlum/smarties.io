@@ -508,7 +508,6 @@ function loaded(api) {
             if (config && config.weatherTile) {
                 this.dbHelper.getLastObject((error, object) => {
                     if (!error && object) {
-
                         const tile = api.dashboardAPI.Tile("openweather-current", api.dashboardAPI.TileType().TILE_INFO_ONE_TEXT, api.exported.Icons.class.list()[this.weatherIcon(object.weatherIcon)], null, object.weatherName);
                         api.dashboardAPI.registerTile(tile);
                     }
