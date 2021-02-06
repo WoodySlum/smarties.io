@@ -34,7 +34,12 @@ class SmartiesRunner {
 
         try {
             if (!process.env.TEST) {
-                os.setPriority(process.pid, -20); // Highest priority
+                try {
+                    os.setPriority(process.pid, -20); // Highest priority
+                } catch(e) {
+                    Logger.err(e);
+                }
+
                 process.title = "smarties.io";
             }
             this.start(this);

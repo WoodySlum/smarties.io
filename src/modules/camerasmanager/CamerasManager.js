@@ -435,10 +435,10 @@ class CamerasManager {
                                                 }
 
                                                 this.detectedObjects[camera.id.toString()] = validResults;
-
                                                 if (validResults.length > 0) {
-                                                    let drawedImg = this.aiManager.drawCvRectangles(validResults, r.frame);
+                                                    let drawedImg = this.aiManager.drawCvRectangles(validResults, img);
                                                     for (let i = 0 ; i < validResults.length ; i++) {
+
                                                         const confidence = parseInt(validResults[i].confidence * 100);
                                                         const detectedObject = this.getAvailableDetectedObjects()[validResults[i].classLabel];
                                                         // Dispatch value

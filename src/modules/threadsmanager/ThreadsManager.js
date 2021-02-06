@@ -73,7 +73,11 @@ class ThreadsManager {
             try {
                 this.process.title = "smarties.io child [" + input.identifier + "]";
                 const os = require("os");
-                os.setPriority(process.pid, 0); // Normal priority
+                try {
+                    os.setPriority(process.pid, O); // Normal priority
+                } catch(e) {
+                    Logger.err(e);
+                }
                 let f = eval(input.prototype);
                 let instance = f(input.data, progress);
 
