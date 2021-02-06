@@ -47,6 +47,14 @@ Using a Conbee II USB key will allow you to control Zigbee lights, sensors and s
 
 Control Philips Hue lights, state and colors, for example in combination with 433 Mhz switches.
 
+##### Aqara
+
+Supports most of Aqara devices
+
+##### Nuki
+
+Nuki lock compatibility
+
 ##### Tuya
 
 Control Tuya outlets and lights
@@ -97,9 +105,9 @@ Basic IFTTT usage with scenario triggering URL (both way).
 
 #### If you need to run / compile
 
-* Node.js 10.14.1 or upper version
+* Node.js 14.15.1 or upper version
 * Mac or Linux. *Windows is not yet supported.*
-    - On Mac, brew mlust be installed
+    - On Mac, brew must be installed
     - On Linux, only Debian system supported, tested on x86 and ARM architectures
 
 #### If you need to run on Raspberry PI
@@ -118,6 +126,21 @@ Once app is started, open your browser and type https://me.smarties.io/.
 Then, you have to login with default username `admin` and default password `admin`.
 
 *Note : If you can't log in, check logs - If dependencies installation is finished, you may retrieve your `Smarties ID` which is a 4 hexadecimal code. This information is logged just after starting. Then open browser and type https://me.smarties.io/XXXX/ where `XXXX` is your smarties ID.*
+
+The web site can also be added as a progressive web app (pwa) on your smartphone.
+
+For iOS :
+- Open the web site with Safari
+- Click on 'Share' button
+- Click on 'Add to Home Screen'
+- Click on 'Add'
+- The app is now on available on the springboard
+
+For Android :
+- Open the web site with Google Chrome
+- Click on the three dots on the top right to unfold menu
+- Click on 'Add to Home screen'
+- The app is now on available on the springboard
 
 ### Rest API access
 
