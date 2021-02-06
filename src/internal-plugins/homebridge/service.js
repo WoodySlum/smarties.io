@@ -38,6 +38,8 @@ function loaded(api) {
             this.ittt = 0;
             this.startTimer = null;
             this.disableAutoStart = true;
+            this.devices = null;
+            this.sensors = null;
         }
 
         /**
@@ -47,6 +49,9 @@ function loaded(api) {
          * @param {Array} sensors A list of hap sensors
          */
         init(devices, sensors) {
+            this.devices = devices;
+            this.sensors = sensors;
+
             const insecureAccess = true;
 
             const conf = api.configurationAPI.getConfiguration() ? api.configurationAPI.getConfiguration() : {};
@@ -206,6 +211,7 @@ function loaded(api) {
                         api.exported.Logger.warn("DDOS protection detected, restart homebridge in 5 min");
                         this.stop();
                         setTimeout((self) => {
+                            self.init(self.devices, self.sensors);
                             self.start();
                         }, 5 * 60 * 1000, this);
                     }
