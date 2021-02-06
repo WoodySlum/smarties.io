@@ -166,7 +166,7 @@ class GatewayManager {
         try {
             threadsManager.kill("gateway-" + data.bootMode);
         } catch(e) {
-            Logger.err(e.message + " gateway-" + data.bootMode);
+            e;
         }
     }
 
