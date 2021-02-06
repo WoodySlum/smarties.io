@@ -472,29 +472,29 @@ function loaded(api) {
          * @returns {string}             The smarties icon's string name
          */
         weatherIcon(weatherIcon) {
-            let icon = "question_sign";
+            let icon = "weather-na";
             if (weatherIcon === "01d") {
-                icon = "sun-1";
+                icon = "weather-sunny";
             } else if (weatherIcon === "01n") {
-                icon = "moon";
+                icon = "weather-moon";
             } else if (weatherIcon === "02d") {
-                icon = "cloud-sun";
+                icon = "weather-sunny-cloud";
             } else if (weatherIcon === "02n") {
-                icon = "cloud-moon";
+                icon = "weather-night-cloud";
             } else if (weatherIcon === "03d" || weatherIcon === "03n") {
-                icon = "cloud";
+                icon = "weather-cloud";
             } else if (weatherIcon === "04d" || weatherIcon === "04n") {
-                icon = "clouds";
+                icon = "weather-clouds";
             } else if (weatherIcon === "09d" || weatherIcon === "09n") {
-                icon = "rain";
+                icon = "weather-rain";
             } else if (weatherIcon === "10d" || weatherIcon === "10n") {
-                icon = "drizzle";
+                icon = "weather-drizzle";
             } else if (weatherIcon === "11d" || weatherIcon === "11n") {
-                icon = "cloud-flash";
+                icon = "weather-storm";
             } else if (weatherIcon === "13d" || weatherIcon === "13n") {
-                icon = "snow-heavy";
+                icon = "weather-snow";
             } else if (weatherIcon === "50d" || weatherIcon === "50n") {
-                icon = "fog";
+                icon = "weather-fog";
             }
 
             return icon;
@@ -508,6 +508,7 @@ function loaded(api) {
             if (config && config.weatherTile) {
                 this.dbHelper.getLastObject((error, object) => {
                     if (!error && object) {
+
                         const tile = api.dashboardAPI.Tile("openweather-current", api.dashboardAPI.TileType().TILE_INFO_ONE_TEXT, api.exported.Icons.class.list()[this.weatherIcon(object.weatherIcon)], null, object.weatherName);
                         api.dashboardAPI.registerTile(tile);
                     }
