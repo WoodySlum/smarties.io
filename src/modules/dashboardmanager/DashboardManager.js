@@ -249,12 +249,16 @@ class DashboardManager {
         });
 
         const realTiles = this.filterTiles(tiles, allTiles?null:username, timestamp);
+        let excludedTiles = this.unregistered.concat((this.dashboardPreferences[username] && this.dashboardPreferences[username].excludeTiles)?this.dashboardPreferences[username].excludeTiles:[]);
+        excludedTiles = excludedTiles.filter((elem, pos) => { // Remove duplicates
+            return excludedTiles.indexOf(elem) == pos;
+        });
 
         return {
             timestamp:this.lastGenerated,
             allTilesGenerated: allTilesGenerated,
             timestampFormatted: DateUtils.class.dateFormatted(this.translateManager.t("datetime.format"), this.lastGenerated),
-            excludeTiles: this.unregistered.concat((this.dashboardPreferences[username] && this.dashboardPreferences[username].excludeTiles)?this.dashboardPreferences[username].excludeTiles:[]),
+            excludeTiles: excludedTiles,
             tiles: realTiles
         };
     }
@@ -283,14 +287,13 @@ class DashboardManager {
         } else if (apiRequest.route === BASE_ROUTE_CUSTOMIZE) {
             return new Promise((resolve) => {
                 if (apiRequest.data.excludeTiles) {
-                    self.dashboardPreferences[apiRequest.authenticationData.username] = {excludeTiles: apiRequest.data.excludeTiles};
                     // Remove duplicates
-                    const excludeTiles = [];
-                    apiRequest.data.excludeTiles.forEach((excludeTile) => {
-                        if (excludeTiles.indexOf(excludeTile) === -1) {
-                            excludeTiles.push(excludeTile);
-                        }
+                    let excludedTiles = apiRequest.data.excludeTiles;
+                    excludedTiles = excludedTiles.filter((elem, pos) => { // Remove duplicates
+                        return excludedTiles.indexOf(elem) == pos;
                     });
+                    self.dashboardPreferences[apiRequest.authenticationData.username] = {excludeTiles: excludedTiles};
+
                     self.confManager.saveData(this.dashboardPreferences, CONF_KEY);
                     self.lastGenerated = DateUtils.class.timestamp();
                     resolve(new APIResponse.class(true, {success:true}));
