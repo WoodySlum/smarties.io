@@ -91,7 +91,7 @@ class DashboardManager {
 
                 let shouldDisplay = true;
                 // In case of TABLET, alarm tile should not be displayed
-                if (tile.identifier == "alarm" && user.level == Authentication.AUTH_TABLET_LEVEL) {
+                if (tile.identifier == "alarm" && user && user.level && user.level == Authentication.AUTH_TABLET_LEVEL) {
                     shouldDisplay = false;
                 }
 
