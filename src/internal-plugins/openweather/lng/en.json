@@ -9,5 +9,17 @@
     "openweather.rainForecastTileMode.none": "None",
     "openweather.rainForecastTileMode.hours": "Next hours forecast",
     "openweather.rainForecastTileMode.day": "Day forecast",
-    "openweather.rainForecastTileMode.days": "Next days forecast"
+    "openweather.rainForecastTileMode.days": "Next days forecast",
+    "openweather.weatherIcon.weather-na": "n/a",
+    "openweather.weatherIcon.weather-sunny": "Sunny",
+    "openweather.weatherIcon.weather-moon": "Clear",
+    "openweather.weatherIcon.weather-sunny-cloud": "Some clouds",
+    "openweather.weatherIcon.weather-night-cloud": "Cloudy",
+    "openweather.weatherIcon.weather-cloud": "Cloudy",
+    "openweather.weatherIcon.weather-clouds": "Heavy clouds",
+    "openweather.weatherIcon.weather-rain": "Rain",
+    "openweather.weatherIcon.weather-drizzle": "Drizzle",
+    "openweather.weatherIcon.weather-storm": "Storm",
+    "openweather.weatherIcon.weather-snow": "Snow",
+    "openweather.weatherIcon.weather-fog": "Fog"
 }

@@ -9,5 +9,17 @@
     "openweather.rainForecastTileMode.none": "Aucun",
     "openweather.rainForecastTileMode.hours": "Prochaines heures",
     "openweather.rainForecastTileMode.day": "Prochain jour",
-    "openweather.rainForecastTileMode.days": "Prochains jours"
+    "openweather.rainForecastTileMode.days": "Prochains jours",
+    "openweather.weatherIcon.weather-na": "n/a",
+    "openweather.weatherIcon.weather-sunny": "Ensoleillé",
+    "openweather.weatherIcon.weather-moon": "Clair",
+    "openweather.weatherIcon.weather-sunny-cloud": "Quelques nuages",
+    "openweather.weatherIcon.weather-night-cloud": "Nuageux",
+    "openweather.weatherIcon.weather-cloud": "Nuageux",
+    "openweather.weatherIcon.weather-clouds": "Très nuageux",
+    "openweather.weatherIcon.weather-rain": "Pluvieux",
+    "openweather.weatherIcon.weather-drizzle": "Bruine",
+    "openweather.weatherIcon.weather-storm": "Orageux",
+    "openweather.weatherIcon.weather-snow": "Neigeux",
+    "openweather.weatherIcon.weather-fog": "Brouillard"
 }

@@ -2,6 +2,7 @@
 
 const request = require("request");
 const sha256 = require("sha256");
+const fs = require("fs-extra");
 const WEATHER_WS = "http://api.openweathermap.org/data/2.5/weather?lat=%latitude%&lon=%longitude%&units=metric&APPID=%appid%&units=metric";
 const WEATHER_FORECAST_WS = "http://api.openweathermap.org/data/2.5/forecast?lat=%latitude%&lon=%longitude%&units=metric&APPID=%appid%&units=metric";
 const TIME_LIMIT_DAYNIGHT = 60 * 60;
@@ -508,7 +509,11 @@ function loaded(api) {
             if (config && config.weatherTile) {
                 this.dbHelper.getLastObject((error, object) => {
                     if (!error && object) {
-                        const tile = api.dashboardAPI.Tile("openweather-current", api.dashboardAPI.TileType().TILE_INFO_ONE_TEXT, api.exported.Icons.class.list()[this.weatherIcon(object.weatherIcon)], null, object.weatherName);
+                        const weatherIcon = this.weatherIcon(object.weatherIcon);
+                        const background = fs.readFileSync("./res/tiles/" + weatherIcon + ".jpg").toString("base64");
+                        const title = api.translateAPI.t("openweather.weatherIcon." + weatherIcon);
+
+                        const tile = api.dashboardAPI.Tile("openweather-current", api.dashboardAPI.TileType().TILE_GENERIC_ACTION_DARK, api.exported.Icons.class.list()[weatherIcon], null, title, null, background);
                         api.dashboardAPI.registerTile(tile);
                     }
                 });
@@ -554,11 +559,28 @@ function loaded(api) {
             const config = api.configurationAPI.getConfiguration();
 
             if (forecast && config && config.rainForecastTileMode && config.rainForecastTileMode > 0) {
-                let tile = api.dashboardAPI.Tile("openweather-rain-forecast", api.dashboardAPI.TileType().TILE_INFO_ONE_TEXT, api.exported.Icons.class.list()["sun"], null, this.api.translateAPI.t("openweather.rain.forecast.no.rain"));
+
+
+                let mode = "";
+                if (config.rainForecastTileMode === 1) {
+                    mode = " [12h]";
+                } else if (config.rainForecastTileMode === 2) {
+                    mode = " [24h]";
+                } else if (config.rainForecastTileMode === 3) {
+                    mode = " [72h]";
+                }
+
+                let background;
+                let tile;
                 if (forecast.snow) {
-                    tile = api.dashboardAPI.Tile("openweather-rain-forecast", api.dashboardAPI.TileType().TILE_INFO_ONE_TEXT, api.exported.Icons.class.list()["snowflake"], null, this.api.translateAPI.t("openweather.rain.forecast.snow", Math.round(forecast.snowForecastTime / (60 * 60))));
+                    background = fs.readFileSync("./res/tiles/snow.jpg").toString("base64");
+                    tile = api.dashboardAPI.Tile("openweather-rain-forecast", api.dashboardAPI.TileType().TILE_GENERIC_ACTION_DARK, api.exported.Icons.class.list()["snowflake"], null, this.api.translateAPI.t("openweather.rain.forecast.snow", Math.round(forecast.snowForecastTime / (60 * 60))) + mode, null, background);
                 } else if (forecast.rain) {
-                    tile = api.dashboardAPI.Tile("openweather-rain-forecast", api.dashboardAPI.TileType().TILE_INFO_ONE_TEXT, api.exported.Icons.class.list()["umbrellas"], null, this.api.translateAPI.t("openweather.rain.forecast.rain", Math.round(forecast.rainForecastTime / (60 * 60))));
+                    background = fs.readFileSync("./res/tiles/rain.jpg").toString("base64");
+                    tile = api.dashboardAPI.Tile("openweather-rain-forecast", api.dashboardAPI.TileType().TILE_GENERIC_ACTION_DARK, api.exported.Icons.class.list()["umbrellas"], null, this.api.translateAPI.t("openweather.rain.forecast.rain", Math.round(forecast.rainForecastTime / (60 * 60))) + mode, null, background);
+                } else {
+                    background = fs.readFileSync("./res/tiles/no-rain.jpg").toString("base64");
+                    tile = api.dashboardAPI.Tile("openweather-rain-forecast", api.dashboardAPI.TileType().TILE_GENERIC_ACTION_DARK, api.exported.Icons.class.list()["sun"], null, this.api.translateAPI.t("openweather.rain.forecast.no.rain") + mode, null, background);
                 }
 
                 api.dashboardAPI.registerTile(tile);
