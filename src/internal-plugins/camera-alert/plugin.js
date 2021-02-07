@@ -160,7 +160,7 @@ function loaded(api) {
          * Register tile
          */
         registerTile() {
-            const buttons = [{human: ""}, {car: ""}, {dog: ""}, {cat: ""}];
+            const buttons = [{person: ""}, {car: ""}, {dog: ""}, {cat: ""}];
             const tile = this.api.dashboardAPI.Tile(CAMERA_REGISTER_KEY, this.api.dashboardAPI.TileType().TILE_GENERIC_ACTION, api.exported.Icons.class.list()["german-shepered"], null, api.translateAPI.t("camera.alert.tile.title"), null, null, null, null, 101, CAMERA_REGISTER_KEY, {buttons: buttons}, null, api.webAPI.Authentication().AUTH_USAGE_LEVEL);
             this.api.dashboardAPI.registerTile(tile);
         }
