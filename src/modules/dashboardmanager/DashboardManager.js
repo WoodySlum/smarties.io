@@ -150,7 +150,9 @@ class DashboardManager {
                 return tile1.order - tile2.order;
             });
 
+            Logger.info("Register tile " + tile.identifier);
             if (this.unregistered.indexOf(tile.identifier) >= 0) {
+                Logger.info("Added tile " + tile.identifier);
                 this.unregistered.splice(this.unregistered.indexOf(tile.identifier), 1);
             }
 
@@ -184,6 +186,7 @@ class DashboardManager {
         });
 
         if (this.unregistered.indexOf(identifier) == -1) {
+            Logger.info("Removed tile " + tile.identifier);
             this.unregistered.push(identifier);
         }
 
