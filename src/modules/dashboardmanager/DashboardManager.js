@@ -186,7 +186,7 @@ class DashboardManager {
         });
 
         if (this.unregistered.indexOf(identifier) == -1) {
-            Logger.info("Removed tile " + tile.identifier);
+            Logger.info("Removed tile " + identifier);
             this.unregistered.push(identifier);
         }
 
