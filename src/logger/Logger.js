@@ -11,6 +11,7 @@ const enableFileName = true;
 const enableFunction = true;
 const enableLine = true;
 const MAX_LOG_HISTORY_SIZE = 500;
+const MAX_LINE_SIZE = 2048;
 const logHistory = [];
 
 
@@ -39,7 +40,7 @@ class Logger {
      * @param  {[string]} params    Some parameters
      */
     static log(message, level = 3, ...params) {
-        if (disableLog != 1) {
+        if (disableLog != 1 && message) {
             if (message instanceof Object) {
                 message = JSON.stringify(message);
             }
@@ -107,7 +108,7 @@ class Logger {
             }
 
             // Message
-            logLine.message = message;
+            logLine.message = message.length > MAX_LINE_SIZE ? (message.substr(0, MAX_LINE_SIZE) + "[...]") : message;
             logLineConfig.config.message = {preserveNewLines: true};
 
             if (level >= 5) {
