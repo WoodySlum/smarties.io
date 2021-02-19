@@ -119,8 +119,10 @@ function loaded(api) {
         constructor(api) {
             this.api = api;
             this.api.timeEventAPI.register((self) => {
+                api.exported.Logger.info("Trash trigger 1");
                 const configuration = self.api.configurationAPI.getConfiguration();
                 if (configuration && configuration.reminders && configuration.reminders.length > 0) {
+                    api.exported.Logger.info("Trash trigger 2");
                     const d = new Date();
                     const currentDayNumber = d.getDay();
                     const onejan = new Date(d.getFullYear(), 0, 1);
@@ -129,6 +131,8 @@ function loaded(api) {
                     const hour = d.getHours();
 
                     configuration.reminders.forEach((reminderConfiguration) => {
+                        api.exported.Logger.info("Trash trigger 3 / " + currentDayNumber + " / " + isPair);
+                        api.exported.Logger.info("Trash trigger 3.1 / " + reminderConfiguration.day + " / " + reminderConfiguration.weekMode);
                         if (hour === HOUR_TRIGGER
                             && reminderConfiguration.day === currentDayNumber
                             && (reminderConfiguration.weekMode === 0
