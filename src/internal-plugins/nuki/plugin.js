@@ -147,7 +147,6 @@ function loaded(api) {
          */
         addTile() {
             const tile = this.api.dashboardAPI.Tile("nuki", this.api.dashboardAPI.TileType().TILE_GENERIC_ACTION_STATUS, (this.locked ? api.exported.Icons.icons["door-locked"] : api.exported.Icons.icons["door-unlocked"]), null, (this.locked ? this.api.translateAPI.t("nuki.door.state.locked") : (this.doorOpened ? this.api.translateAPI.t("nuki.door.state.opened") : this.api.translateAPI.t("nuki.door.state.closed"))), null, null, null, this.locked, 8, "nuki/", null, this.api.webAPI.Authentication().AUTH_GUEST_LEVEL);
-            this.api.dashboardAPI.unregisterTile("nuki");
             this.api.dashboardAPI.registerTile(tile);
         }
 

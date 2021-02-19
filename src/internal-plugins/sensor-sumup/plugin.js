@@ -128,7 +128,6 @@ function loaded(api) {
                                 });
 
                                 const tile = context.api.dashboardAPI.Tile("sensor-sumup", context.api.dashboardAPI.TileType().TILE_SUB_TILES, null, null, null, null, null, null, 0, 720, "statistics", tiles, context.api.webAPI.Authentication().AUTH_USAGE_LEVEL);
-                                context.api.dashboardAPI.unregisterTile("sensor-sumup");
                                 context.api.dashboardAPI.registerTile(tile);
                             }
                         });
