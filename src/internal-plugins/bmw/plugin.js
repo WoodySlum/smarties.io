@@ -202,7 +202,6 @@ function loaded(api) {
                                                                 api.exported.ImageUtils.class.merge(tile, (err, data) => {
                                                                     if (!err && data) {
                                                                         const tileId = vehicles[i].originalData.vin + "-pic";
-                                                                        api.dashboardAPI.unregisterTile(tileId);
                                                                         const tile = api.dashboardAPI.Tile(tileId, api.dashboardAPI.TileType().TILE_GENERIC_ACTION_DARK, " ", null, (metaData && metaData.address && metaData.address.town) ? metaData.address.town : null, null, data, null, 0, 110, null, miniTiles, api.webAPI.Authentication().AUTH_USAGE_LEVEL);
                                                                         api.dashboardAPI.registerTile(tile);
                                                                     } else {
