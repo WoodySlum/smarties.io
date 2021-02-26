@@ -39,9 +39,10 @@ function loaded(api) {
          * @param  {string} port The port
          * @param  {number} retry Retry policy
          * @param  {boolean} flash Flash Rflink
+         * @param  {string} command RFlink command
          * @returns {RFlinkForm}        The instance
          */
-        constructor(id, port, retry, flash) {
+        constructor(id, port, retry, flash, command) {
             super(id);
             /**
              * @Property("port");
@@ -68,6 +69,13 @@ function loaded(api) {
              * @Default(false);
              */
             this.flash = flash;
+
+            /**
+             * @Property("command");
+             * @Type("string");
+             * @Title("rflink.command");
+             */
+            this.command = command;
         }
 
         /**
@@ -97,7 +105,7 @@ function loaded(api) {
          * @returns {RFlinkForm}      An instance
          */
         json(data) {
-            return new RFlinkForm(data.id, data.port, data.retry, data.flash);
+            return new RFlinkForm(data.id, data.port, data.retry, data.flash, data.command);
         }
     }
 
@@ -127,6 +135,7 @@ function loaded(api) {
             this.nextSendingSlotCounter = 0;
             this.isFlashing = false;
             this.connected = false;
+            this.usernameCommand = null;
 
             const RFLinkService = RFLinkServiceClass(api);
             this.service = new RFLinkService(this);
@@ -137,7 +146,8 @@ function loaded(api) {
                 this.service.port = port;
             }
 
-            api.configurationAPI.setUpdateCb((data) => {
+            const self = this;
+            api.configurationAPI.setUpdateCb((data, user) => {
                 if (data && data.port) {
                     const port = this.startRFLinkInLanMode(data.port);
                     this.service.port = port;
@@ -149,6 +159,16 @@ function loaded(api) {
                     if (data.flash) {
                         this.flashFirstInstallation(this);
                     }
+                }
+
+                if (data && data.command && data.command.length > 0) {
+                    self.usernameCommand = user;
+                    setTimeout(() => {
+                        self.usernameCommand = null;
+                    }, 5000);
+
+                    self.service.send("rflinkSend", data.command);
+                    data.command = "";
                 }
 
                 data.flash = false;
@@ -360,6 +380,17 @@ function loaded(api) {
         }
 
         /**
+         * Send message to user when debug command has been sent
+         *
+         * @param  {string} telegram    The telegram
+         */
+        sendCommandMessage(telegram) {
+            if (this.usernameCommand) {
+                this.api.messageAPI.sendMessage([this.usernameCommand], telegram);
+            }
+        }
+
+        /**
          * Format a DBObject to RFLink serial format
          *
          * @param  {DbRadio} radioObject A radio object
@@ -372,13 +403,21 @@ function loaded(api) {
         /**
          * Callback when an information is received from rf link service thread
          *
-         * @param  {object} data A data object containing radio informations
+         * @param  {object} data A data object containing telegram
          */
         onRflinkReceive(data) {
             // TODO: Support values and sensors
-            setImmediate(() => {
-                super.onRadioEvent(this.defaultFrequency(), data.protocol, data.code, data.subcode, this.rflinkStatusToRadioStatus(data.status), this.rflinkStatusToRadioStatus(data.status));
-            });
+            super.onRadioEvent(this.defaultFrequency(), data.protocol, data.code, data.subcode, this.rflinkStatusToRadioStatus(data.status), this.rflinkStatusToRadioStatus(data.status));
+            this.sendCommandMessage(data.raw);
+        }
+
+        /**
+         * Callback when an something unknown is coming
+         *
+         * @param  {object} data A data object containing rflink data
+         */
+        onRflinkOther(data) {
+            this.sendCommandMessage(data.raw);
         }
 
         /**
@@ -386,11 +425,12 @@ function loaded(api) {
          *
          * @param  {number} version  Version
          * @param  {string} revision Revision
+         * @param  {object} data A data object containing telegram
          */
-        onRflinkVersion(version, revision) {
+        onRflinkVersion(version, revision, data) {
             this.version = version;
             this.revision = revision;
-
+            this.sendCommandMessage(data.raw);
             api.exported.Logger.info("RFLink version " + version + revision);
         }
 
@@ -398,10 +438,11 @@ function loaded(api) {
          * RFLink acknowledge
          *
          * @param  {string} identifier  The acknowledge identifier
+         * @param  {object} data A data object containing telegram
          */
-        onRflinkAck(identifier) {
+        onRflinkAck(identifier, data) {
             this.ack = identifier;
-
+            this.sendCommandMessage(data.raw);
             api.exported.Logger.verbose("Received acknowledge " + identifier);
         }
 
@@ -619,7 +660,7 @@ function loaded(api) {
 module.exports.attributes = {
     loadedCallback: loaded,
     name: "rflink",
-    version: "0.0.0",
+    version: "0.0.1",
     category: "radio",
     description: "Manage RFLink devices",
     dependencies:["radio"],
