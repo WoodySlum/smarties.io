@@ -377,7 +377,7 @@ function loaded(api) {
         onRflinkReceive(data) {
             // TODO: Support values and sensors
             setImmediate(() => {
-                super.onRadioEvent(this.defaultFrequency(), data.protocol, data.code, data.subcode, null, this.rflinkStatusToRadioStatus(data.status));
+                super.onRadioEvent(this.defaultFrequency(), data.protocol, data.code, data.subcode, this.rflinkStatusToRadioStatus(data.status), this.rflinkStatusToRadioStatus(data.status));
             });
         }
 

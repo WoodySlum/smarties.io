@@ -350,7 +350,7 @@ class MessageManager {
                     }
                     if (canSend) {
                         context.sendMessage(recipient, scenario.MessageScenarioForm.message);
-                        fs.writeFileSync(messageCachePath, DateUtils.class.timestamp());
+                        fs.writeFileSync(messageCachePath, DateUtils.class.timestamp().toString());
                     }
                 } else {
                     Logger.info("Could not send '" + scenario.MessageScenarioForm.message + "'. Lock time " + DateUtils.class.timestamp() + " / " + (lastMessageSentTimestamp + lockTime));
