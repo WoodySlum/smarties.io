@@ -148,19 +148,6 @@ function loaded(api) {
 
             const self = this;
             api.configurationAPI.setUpdateCb((data, user) => {
-                if (data && data.port) {
-                    const port = this.startRFLinkInLanMode(data.port);
-                    this.service.port = port;
-                    if (this.socatService) {
-                        this.socatService.start();
-                    }
-                    this.service.restart();
-
-                    if (data.flash) {
-                        this.flashFirstInstallation(this);
-                    }
-                }
-
                 if (data && data.command && data.command.length > 0) {
                     self.usernameCommand = user;
                     setTimeout(() => {
@@ -169,6 +156,19 @@ function loaded(api) {
 
                     self.service.send("rflinkSend", data.command);
                     data.command = "";
+                } else {
+                    if (data && data.port) {
+                        const port = this.startRFLinkInLanMode(data.port);
+                        this.service.port = port;
+                        if (this.socatService) {
+                            this.socatService.start();
+                        }
+                        this.service.restart();
+
+                        if (data.flash) {
+                            this.flashFirstInstallation(this);
+                        }
+                    }
                 }
 
                 data.flash = false;
