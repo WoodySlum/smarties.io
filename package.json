@@ -160,7 +160,7 @@
         "linky": "1.1.0",
         "mac-scanner": "^1.1",
         "md5-file": "^5.0",
-        "moment": "^2.29",
+        "moment": "^2",
         "moment-timezone": "^0.5",
         "month-season": "^1.0",
         "net-ping": "^1.2",

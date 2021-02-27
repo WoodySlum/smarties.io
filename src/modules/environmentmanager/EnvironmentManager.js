@@ -4,6 +4,7 @@ const os = require("os");
 const fs = require("fs-extra");
 const https = require("https");
 const timezone = require("node-google-timezone");
+const moment = require("moment");
 const { MacScanner } = require("mac-scanner");
 const dns = require("dns");
 const childProcess = require("child_process");
@@ -73,6 +74,11 @@ class EnvironmentManager {
         this.scenarioManager = scenarioManager;
         this.eventBus = eventBus;
         this.formConfiguration.data = this.formConfiguration.data?this.formConfiguration.data:{};
+        if (this.appConfiguration && this.appConfiguration.lng) {
+            if (this.appConfiguration.lng.length === 2) {
+                moment.locale(this.appConfiguration.lng);
+            }
+        }
         this.registeredElements = {};
         this.registerTile();
         this.formManager.register(DayNightScenarioTriggerForm.class);
@@ -401,6 +407,7 @@ class EnvironmentManager {
         if (data.lng) {
             if (data.lng.length === 2) {
                 mainConfiguration.lng = data.lng;
+                moment.locale(data.lng);
             } else {
                 throw Error("Invalid language");
             }

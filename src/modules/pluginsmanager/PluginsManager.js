@@ -118,7 +118,8 @@ const INTERNAL_PLUGINS = [
     "nuki",
     "legrand",
     "reboot",
-    "onvif"
+    "onvif",
+    "uptime"
 ];
 
 const CORE_PLUGINS = [

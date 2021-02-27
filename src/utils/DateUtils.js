@@ -1,5 +1,6 @@
 "use strict";
-const moment = require("moment-timezone");
+const momentTz = require("moment-timezone");
+const moment = require("moment");
 const holidays = require("date-holidays");
 const ROUND_TIMESTAMP_MINUTE = 0;
 const ROUND_TIMESTAMP_HOUR = 1;
@@ -37,7 +38,7 @@ class DateUtils {
      * @returns {number}      The UTC timestamp
      */
     static dateToUTCTimestamp(date) {
-        return moment(moment(date).utc().format("YYYY-MM-DD HH:mm:ss")).unix();
+        return momentTz(momentTz(date).utc().format("YYYY-MM-DD HH:mm:ss")).unix();
     }
 
     /**
@@ -47,7 +48,7 @@ class DateUtils {
      * @returns {number}      The GMT timestamp
      */
     static dateToTimestamp(date) {
-        return moment(date+"Z").unix();
+        return momentTz(date+"Z").unix();
     }
 
     /**
@@ -58,24 +59,24 @@ class DateUtils {
      * @returns {number}          Rounded timestamp
      */
     static roundedTimestamp(timestamp, mode) {
-        let date = moment.unix(timestamp).utc();
+        let date = momentTz.unix(timestamp).utc();
 
         switch(mode) {
         case ROUND_TIMESTAMP_MINUTE:
-            date = moment(date.format("YYYY-MM-DD HH:mm:00Z"));
+            date = momentTz(date.format("YYYY-MM-DD HH:mm:00Z"));
             break;
         case ROUND_TIMESTAMP_HOUR:
-            date = moment(date.format("YYYY-MM-DD HH:00:00Z"));
+            date = momentTz(date.format("YYYY-MM-DD HH:00:00Z"));
             break;
         case ROUND_TIMESTAMP_DAY:
-            date = moment(date.format("YYYY-MM-DD 00:00:00Z"));
+            date = momentTz(date.format("YYYY-MM-DD 00:00:00Z"));
             break;
         case ROUND_TIMESTAMP_MONTH:
-            date = moment(date).format("YYYY-MM-01 00:00:00Z");
+            date = momentTz(date).format("YYYY-MM-01 00:00:00Z");
             break;
         }
 
-        return moment(date).unix();
+        return momentTz(date).unix();
     }
 
     /**
@@ -91,7 +92,7 @@ class DateUtils {
         }
         const date = new Date(timestamp * 1000);
 
-        return moment(date).format(format);
+        return momentTz(date).format(format);
     }
 
     /**
@@ -118,6 +119,16 @@ class DateUtils {
         } else {
             return null;
         }
+    }
+
+    /**
+     * Return the number of seconds elapsed since midnight in UTC format
+     *
+     * @param  {number} timestamp A timestamp in seconds
+     * @returns {string}           The relative date, e.g. "5 minutes ago"
+     */
+    static relativeTime(timestamp) {
+        return moment(this.dateFormatted("MMMM Do YYYY, h:mm:ss a" , timestamp), "MMMM Do YYYY, h:mm:ss a").fromNow();
     }
 }
 
