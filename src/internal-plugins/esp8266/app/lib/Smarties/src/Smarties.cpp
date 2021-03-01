@@ -20,6 +20,7 @@ DynamicJsonBuffer sensorBuffer;
 JsonObject& sensorValues = sensorBuffer.createObject();
 DynamicJsonBuffer configBuffer;
 JsonVariant config;
+WiFiClient client;
 
 int poweredMode = POWER_MODE_SLEEP;
 int sleepTime = 60;
@@ -266,7 +267,9 @@ void Smarties::updateFirmware() {
     Serial.println("Updating ...");
     resetFirmwareUpdate();
     updating = true;
-    t_httpUpdate_return ret = ESPhttpUpdate.update(baseUrl() + "esp/firmware/upgrade/" + String(id) + "/");
+    // t_httpUpdate_return ret = ESPhttpUpdate.update(baseUrl() + "esp/firmware/upgrade/" + String(id) + "/");
+    t_httpUpdate_return ret = ESPhttpUpdate.update(client, baseUrl() + "esp/firmware/upgrade/" + String(id) + "/");
+
     Serial.println("Firmware url :  " + baseUrl() + "esp/firmware/upgrade/" + String(id) + "/");
     switch(ret) {
         case HTTP_UPDATE_FAILED:
@@ -296,7 +299,7 @@ String Smarties::transmit(String url, JsonObject& jsonObject, int timeout) {
     if (WiFi.status() == WL_CONNECTED) {
         HTTPClient http;
         http.setTimeout(timeout);
-        http.begin(url);
+        http.begin(client, url);
         http.addHeader("Content-Type", "application/json");
         int httpCode = http.POST(data);
 

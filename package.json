@@ -37,7 +37,9 @@
             "**/internal-plugins/water-plant-alert",
             "**/internal-plugins/bmw/*",
             "**/internal-plugins/nuki/*",
-            "**/internal-plugins/legrand/*"
+            "**/internal-plugins/legrand/*",
+            "**/internal-plugins/esp8266*",
+            "**/internal-plugins/somfy-io-gate/*"
         ],
         "ignore-class-method": "stringify",
         "check-coverage": true,

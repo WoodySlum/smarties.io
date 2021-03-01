@@ -119,7 +119,8 @@ const INTERNAL_PLUGINS = [
     "legrand",
     "reboot",
     "onvif",
-    "uptime"
+    "uptime",
+    "somfy-io-gate"
 ];
 
 const CORE_PLUGINS = [

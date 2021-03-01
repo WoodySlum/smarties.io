@@ -145,7 +145,7 @@ class IotManager {
     constants() {
         return {
             PLATFORMS:{
-                ESP8266:"https://github.com/platformio/platform-espressif8266.git#feature/stage"
+                ESP8266:"espressif8266"
             },
             BOARDS:{
                 NODEMCU:"nodemcuv2"
@@ -341,9 +341,14 @@ class IotManager {
         iniContent += "board = " + this.iotApps[appId].board + "\n";
         iniContent += "framework = " + this.iotApps[appId].framework + "\n";
         iniContent += "monitor_speed = 115200\n";
+        iniContent += "platform_packages =\n";
+        iniContent += "        framework-arduinoespressif8266 @ https://github.com/esp8266/Arduino.git#2843a5a\n";
+        iniContent += "        toolchain-xtensa @ ~2.100100.200706\n";
         iniContent += "\n";
         iniContent += "[platformio]\n";
         iniContent += "lib_dir = ./" + GLOBAL_LIB_FOLDER + "\n";
+        iniContent += "\n";
+        iniContent += "[env]\n";
         iniContent += "lib_extra_dirs = ./" + LIB_FOLDER + "\n";
         fs.writeFileSync(folder + "platformio.ini", iniContent);
     }
