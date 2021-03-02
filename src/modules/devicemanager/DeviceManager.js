@@ -455,8 +455,8 @@ class DeviceManager {
             } else if (deviceType === DEVICE_TYPE_SHUTTER) {
                 tile = new Tile.class(this.dashboardManager.themeManager, device.id, Tile.TILE_SHUTTER, device.icon.icon, null, device.name, null, fs.readFileSync("./res/tiles/shutter.jpg").toString("base64"), null, device.status > 0?1:0, i, "/device/set/" + device.id + "/", deviceInfos, null, Authentication.AUTH_GUEST_LEVEL);
             } else  if (deviceType === DEVICE_TYPE_GATE) {
-                tile = new Tile.class(this.dashboardManager.themeManager, device.id, Tile.TILE_DEVICE, device.icon.icon, null, device.name, null, null, null, device.status > 0?1:0, i, "/device/set/" + device.id + "/", deviceInfos, null, Authentication.AUTH_GUEST_LEVEL);
-            } 
+                tile = new Tile.class(this.dashboardManager.themeManager, device.id, Tile.TILE_GENERIC_ACTION, device.icon.icon ? device.icon.icon : Icons.iconsSvg["gate"], null, device.name, null, null, null, device.status > 0?1:0, i, "/device/set/" + device.id + "/", deviceInfos, null, Authentication.AUTH_GUEST_LEVEL);
+            }
 
             this.dashboardManager.registerTile(tile);
         }
@@ -473,8 +473,13 @@ class DeviceManager {
         Object.keys(this.switchDeviceModules).forEach((switchDeviceModuleKey) => {
 
             const switchDeviceModule = this.switchDeviceModules[switchDeviceModuleKey];
-            if (device && device[switchDeviceModule.formName] && device[switchDeviceModule.formName].length > 0) {
+            if (device && device[switchDeviceModule.formName] && Array.isArray(device[switchDeviceModule.formName]) && device[switchDeviceModule.formName].length > 0) {
                 if (modes.indexOf(switchDeviceModule.type) === -1) {
+                    modes.push(switchDeviceModule.type);
+                }
+            } else if (device && device[switchDeviceModule.formName] && typeof device[switchDeviceModule.formName] === "object" && Object.keys(device[switchDeviceModule.formName]).length == 1) {
+                let objKey = Object.keys(device[switchDeviceModule.formName])[0];
+                if (modes.indexOf(switchDeviceModule.type) === -1 && device[switchDeviceModule.formName][objKey]) {
                     modes.push(switchDeviceModule.type);
                 }
             }
@@ -769,4 +774,4 @@ class DeviceManager {
     }
 }
 
-module.exports = {class:DeviceManager, STATUS_ON:STATUS_ON, STATUS_OPEN:STATUS_OPEN, STATUS_CLOSE:STATUS_CLOSE, STATUS_STOP:STATUS_STOP, INT_STATUS_ON:INT_STATUS_ON, INT_STATUS_OFF:INT_STATUS_OFF, INT_STATUS_STOP:INT_STATUS_STOP, STATUS_OFF:STATUS_OFF, STATUS_INVERT:STATUS_INVERT, EVENT_UPDATE_CONFIG_DEVICES:EVENT_UPDATE_CONFIG_DEVICES, DEVICE_TYPE_LIGHT:DEVICE_TYPE_LIGHT, DEVICE_TYPE_LIGHT_DIMMABLE: DEVICE_TYPE_LIGHT_DIMMABLE, DEVICE_TYPE_LIGHT_DIMMABLE_COLOR:DEVICE_TYPE_LIGHT_DIMMABLE_COLOR, DEVICE_TYPE_SHUTTER:DEVICE_TYPE_GATE, DEVICE_TYPE_SHUTTER:DEVICE_TYPE_GATE, ITEM_CHANGE_STATUS:ITEM_CHANGE_STATUS, ITEM_CHANGE_BRIGHTNESS:ITEM_CHANGE_BRIGHTNESS, ITEM_CHANGE_COLOR:ITEM_CHANGE_COLOR, ITEM_CHANGE_COLOR_TEMP: ITEM_CHANGE_COLOR_TEMP};
+module.exports = {class:DeviceManager, STATUS_ON:STATUS_ON, STATUS_OPEN:STATUS_OPEN, STATUS_CLOSE:STATUS_CLOSE, STATUS_STOP:STATUS_STOP, INT_STATUS_ON:INT_STATUS_ON, INT_STATUS_OFF:INT_STATUS_OFF, INT_STATUS_STOP:INT_STATUS_STOP, STATUS_OFF:STATUS_OFF, STATUS_INVERT:STATUS_INVERT, EVENT_UPDATE_CONFIG_DEVICES:EVENT_UPDATE_CONFIG_DEVICES, DEVICE_TYPE_LIGHT:DEVICE_TYPE_LIGHT, DEVICE_TYPE_LIGHT_DIMMABLE: DEVICE_TYPE_LIGHT_DIMMABLE, DEVICE_TYPE_LIGHT_DIMMABLE_COLOR:DEVICE_TYPE_LIGHT_DIMMABLE_COLOR, DEVICE_TYPE_SHUTTER:DEVICE_TYPE_SHUTTER, DEVICE_TYPE_GATE:DEVICE_TYPE_GATE, ITEM_CHANGE_STATUS:ITEM_CHANGE_STATUS, ITEM_CHANGE_BRIGHTNESS:ITEM_CHANGE_BRIGHTNESS, ITEM_CHANGE_COLOR:ITEM_CHANGE_COLOR, ITEM_CHANGE_COLOR_TEMP: ITEM_CHANGE_COLOR_TEMP};

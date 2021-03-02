@@ -263,9 +263,13 @@ describe("IotManager", function() {
                              "platform = fooPlatform\n" +
                             "board = barBoard\n" +
                             "framework = foobarFramework\n" +
-                            "monitor_speed = 115200\n\n" +
+                            "monitor_speed = 115200\n" +
+                            "platform_packages =\n" +
+                            "        framework-arduinoespressif8266 @ https://github.com/esp8266/Arduino.git#2843a5a\n" +
+                            "        toolchain-xtensa @ ~2.100100.200706\n\n" +
                             "[platformio]\n" +
-                            "lib_dir = ./global_lib\n" +
+                            "lib_dir = ./global_lib\n\n" +
+                            "[env]\n" +
                             "lib_extra_dirs = ./lib\n";
             expect(content).to.be.equal(expected);
             done();
