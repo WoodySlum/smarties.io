@@ -34,7 +34,7 @@ class IotAPI {
      * @param  {...Object} inject      Some form injection parameters
      */
     registerLib(path, appId, version = 0, wiringSchema = {}, form = null, ...inject) {
-        const callerPath = pathl.dirname(callsite()[1].getFileName()).replace("/snapshot/core-node/src/", "./src/");
+        const callerPath = pathl.dirname(callsite()[1].getFileName());
         PrivateProperties.oprivate(this).iotManager.registerLib(callerPath + "/" + path, appId, version, wiringSchema, form, ...inject);
     }
 
@@ -57,7 +57,7 @@ class IotAPI {
      * @param  {...Object} inject      Some form injection parameters
      */
     registerApp(path, appId, name, version, platform, board, framework, dependencies, options = null, wiringSchema = {}, form = null, ...inject) {
-        const callerPath = pathl.dirname(callsite()[1].getFileName()).replace("/snapshot/core-node/src/", "./src/");
+        const callerPath = pathl.dirname(callsite()[1].getFileName());
         PrivateProperties.oprivate(this).iotManager.registerApp(callerPath + "/" + path, appId, name, version, platform, board, framework, dependencies, options, wiringSchema, form, ...inject);
         this.iotApp = appId;
     }

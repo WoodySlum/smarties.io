@@ -96,3 +96,6 @@ typings/
 # OpenCV
 res/ai/opencv
 cam.url
+
+# Iot
+iot-packages

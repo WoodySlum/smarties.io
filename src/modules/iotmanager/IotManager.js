@@ -1,6 +1,7 @@
 "use strict";
 const fs = require("fs-extra");
 const md5File = require("md5-file");
+const childProcess = require("child_process");
 const Logger = require("./../../logger/Logger");
 const DateUtils = require("./../../utils/DateUtils");
 const WebServices = require("./../../services/webservices/WebServices");
@@ -246,6 +247,31 @@ class IotManager {
     }
 
     /**
+     * Copy a file synchronously with pkg support
+     *
+     * @param  {string}   src         The src file or folder
+     * @param  {string}   dest         The destination folder
+     */
+    copySync(src, dest) {
+        if (src.indexOf("snapshot") === -1) { // No pkg
+            fs.copySync(src, dest);
+        } else { // pkg
+            const id = src.replace("/snapshot/core-node/", "").replace("/" + LIB_FOLDER, "").replace("/" + SRC_FOLDER, "").replace("/" + GLOBAL_LIB_FOLDER, "").split("/").join("-");
+            const tmpDir = this.appConfiguration.cachePath + "iot-apps/";
+            const zipFile = id + ".zip";
+            fs.ensureDirSync(tmpDir);
+            if (!fs.existsSync(tmpDir + zipFile)) {
+                let data = fs.readFileSync(__dirname + "/../../../iot-packages/" + zipFile);
+                fs.writeFileSync(tmpDir + zipFile, data);
+                data = null;
+                childProcess.execSync("cd " + tmpDir + "; unzip " + zipFile);
+            }
+
+            fs.copySync(src.replace("/snapshot/core-node/", tmpDir), dest);
+        }
+    }
+
+    /**
      * Build a firmware for a specific appId
      *
      * @param  {string}   id         The iot identifier
@@ -264,13 +290,13 @@ class IotManager {
             // Copy dependencies
             this.iotApps[appId].dependencies.forEach((dependencyId) => {
                 const dependency = this.iotLibs[dependencyId];
-                fs.copySync(dependency.lib, tmpDir + LIB_FOLDER);
-                fs.copySync(dependency.globalLib, tmpDir + GLOBAL_LIB_FOLDER);
+                this.copySync(dependency.lib, tmpDir + LIB_FOLDER);
+                this.copySync(dependency.globalLib, tmpDir + GLOBAL_LIB_FOLDER);
             });
             // Copy sources
-            fs.copySync(this.iotApps[appId].src, tmpDir + SRC_FOLDER);
-            fs.copySync(this.iotApps[appId].lib, tmpDir + LIB_FOLDER);
-            fs.copySync(this.iotApps[appId].globalLib, tmpDir + GLOBAL_LIB_FOLDER);
+            this.copySync(this.iotApps[appId].src, tmpDir + SRC_FOLDER);
+            this.copySync(this.iotApps[appId].lib, tmpDir + LIB_FOLDER);
+            this.copySync(this.iotApps[appId].globalLib, tmpDir + GLOBAL_LIB_FOLDER);
 
             // Configuration injection
             const baseConfiguration = {
