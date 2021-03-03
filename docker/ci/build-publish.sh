@@ -10,7 +10,7 @@
 docker login
 DOCKER_ACC="woodyslum"
 DOCKER_REPO="smarties-ci"
-IMG_TAG="14.15-{dist}-1"
+IMG_TAG="14.15-{dist}-2"
 
 # Kill Containers
 docker kill $(docker ps -q)
