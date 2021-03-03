@@ -87,6 +87,7 @@
             "./src/**/global_lib/*",
             "./src/**/lib/**/*",
             "./src/**/global_lib/**/*",
+            "./src/internal-plugins/esp8266/app/**/*",
             "./**/*.py",
             "./src/modules/botengine/linux/asoundrc",
             "./res/ai/*",
