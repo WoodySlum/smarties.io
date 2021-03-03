@@ -5,7 +5,7 @@ APPS=$(find src/internal-plugins -name app)
 echo "Package iot apps"
 for APP in $APPS
 do
-    ID=${APP//\//-}
+    ID=$(echo $APP | sed -e "s/\\//-/g")
     zip -r ./iot-packages/$ID.zip $APP
 done
 
