@@ -1,9 +1,8 @@
 "use strict";
 
-const PERCENTAGE_THRESHOLD = 15;
-const RANDOM_MAX = 100;
-const RANDOM_THRESHOLD = 85;
-const HISTORY_NB_MONTH = 3;
+const RANDOM_EXECUTION_THRESHOLD_PERC = 30; // 30%
+const MAX_POWERED_ON_DEVICE_S = 2 * 60 * 60; // 2h
+const MAX_POWERED_ON_RANDOMIZE_INTERVAL_S = (1 * 60 * 60) + ((60 * 60) / 2); // 1h30
 
 /**
  * Loaded function
@@ -12,8 +11,6 @@ const HISTORY_NB_MONTH = 3;
  */
 function loaded(api) {
     api.init();
-    const Logger = api.exported.Logger;
-    const DateUtils = api.exported.DateUtils;
 
     /**
     * This class is used for presence simulator form
@@ -26,10 +23,10 @@ function loaded(api) {
          *
          * @param  {number} id           Identifier
          * @param  {string} enabled       Enable function
-         * @param  {Array} excludeDevices       The devices to exclude
+         * @param  {Array} includeDevices       The devices to include
          * @returns {PresenceSimulatorForm}              The instance
          */
-        constructor(id, enabled, excludeDevices) {
+        constructor(id, enabled, includeDevices) {
             super(id);
 
             /**
@@ -44,12 +41,12 @@ function loaded(api) {
             this.enabled = enabled;
 
             /**
-             * @Property("excludeDevices");
-             * @Title("presence.simulator.form.exclude.devices");
+             * @Property("includeDevices");
+             * @Title("presence.simulator.form.include.devices");
              * @Type("objects");
-             * @Cl("DevicesListForm");
+             * @Cl("DevicesListSimpleForm");
              */
-            this.excludeDevices = excludeDevices;
+            this.includeDevices = includeDevices;
         }
 
         /**
@@ -59,7 +56,7 @@ function loaded(api) {
          * @returns {PresenceSimulatorForm}      A form object
          */
         json(data) {
-            return new PresenceSimulatorForm(data.id, data.enabled, data.excludeDevices);
+            return new PresenceSimulatorForm(data.id, data.enabled, data.includeDevices);
         }
     }
 
@@ -79,91 +76,53 @@ function loaded(api) {
          */
         constructor(api) {
             this.api = api;
-            this.currentHourSchedule = [];
-            this.schedule();
+            this.turnOffScheduler = {};
+
             this.api.timeEventAPI.register((self) => {
-                const roundedCurrentTimestamp = DateUtils.class.roundedTimestamp(DateUtils.class.timestamp(), DateUtils.ROUND_TIMESTAMP_MINUTE);
-                const configuration = self.api.configurationAPI.getConfiguration();
-                self.currentHourSchedule.forEach((scheduledElement) => {
-                    if (configuration && configuration.enabled === "on" && roundedCurrentTimestamp === scheduledElement.scheduleTimestamp && self.api.alarmAPI.alarmStatus()) {
-                        self.api.deviceAPI.switchDevice(scheduledElement.device.identifier, scheduledElement.device.status, scheduledElement.device.brightness, scheduledElement.device.color, scheduledElement.device.colorTemperature);
+                const configuration = api.configurationAPI.getConfiguration();
+                api.deviceAPI.getDevices().forEach((device) => {
+                    let isIncluded = false;
+                    if (configuration && configuration.includeDevices && configuration.includeDevices.length > 0 && api.alarmAPI.alarmStatus()) {
+                        configuration.includeDevices.forEach((includeDevice) => {
+                            if (includeDevice.identifier === device.id) {
+                                isIncluded = true;
+                            }
+                        });
+                    }
+
+                    if (isIncluded) {
+                        api.deviceAPI.guessDeviceStatus(api.exported.DateUtils.class.roundedTimestamp(api.exported.DateUtils.class.timestamp(), api.exported.DateUtils.ROUND_TIMESTAMP_HOUR), device.id)
+                            .then((state) => {
+                                if (state >= api.deviceAPI.constants().INT_STATUS_ON) {
+                                    // Add random behavior
+                                    const randomExecution = Math.floor(Math.random() * Math.floor(100));
+                                    if (randomExecution >= RANDOM_EXECUTION_THRESHOLD_PERC) {
+                                        // Setup turnoff
+                                        const stopTimestamp = api.exported.DateUtils.class.timestamp() + MAX_POWERED_ON_DEVICE_S - Math.floor(Math.random() * Math.floor(MAX_POWERED_ON_RANDOMIZE_INTERVAL_S));
+                                        self.turnOffScheduler[device.id] = stopTimestamp;
+                                        api.exported.Logger.info("Presence simulator turned on " + device.name + " turn off planned at " + stopTimestamp);
+                                        api.deviceAPI.switchDevice(device.id, api.deviceAPI.constants().INT_STATUS_ON);
+                                    }
+                                }
+                            })
+                            .catch((e) => {
+                                api.exported.Logger.err(e);
+                            });
                     }
                 });
-
-            }, this, this.api.timeEventAPI.constants().EVERY_MINUTES);
+            }, this, this.api.timeEventAPI.constants().EVERY_HOURS_INACCURATE);
 
             this.api.timeEventAPI.register((self) => {
-                self.schedule(self);
-            }, this, this.api.timeEventAPI.constants().EVERY_HOURS);
-        }
-
-        /**
-         * Schedule the device order in the future in the `currentHourSchedule` property
-         *
-         * @param  {PresenceSimulator} [context=null] The context
-         */
-        schedule(context = null) {
-            if (!context) {
-                context = this;
-            }
-
-            context.currentHourSchedule = [];
-
-            const dbHelper = context.api.deviceAPI.getDbHelper();
-            const timestamp = DateUtils.class.timestamp();
-            const requestBuilder = dbHelper.RequestBuilder()
-                .select("identifier", "status", "brightness", "temperature", "color")
-                .selectOp(dbHelper.Operators().COUNT, dbHelper.Operators().FIELD_TIMESTAMP, "count")
-                .where("strftime('%w', " + dbHelper.Operators().FIELD_TIMESTAMP + ")", dbHelper.Operators().EQ, "strftime('%w', datetime(" + timestamp + ", 'unixepoch'))") // Day of the week
-                .where("strftime('%H', " + dbHelper.Operators().FIELD_TIMESTAMP + ")", dbHelper.Operators().EQ, "strftime('%H', datetime(" + timestamp + ", 'unixepoch'))") // Hour of the week
-                .where("timestamp", dbHelper.Operators().GTE, (timestamp - (HISTORY_NB_MONTH * 30 * 24 * 60 * 60)))
-                .group("identifier", "status")
-                .order(dbHelper.Operators().DESC, "status");
-
-            dbHelper.getObjects(requestBuilder, (error, devices) => {
-                if (!error) {
-                    // Compute percentage of call devices for this state
-                    let totalCount = 0;
-                    devices.forEach((device) => {
-                        totalCount += device.count;
-                    });
-                    devices.sort((a,b) => (a.status < b.status) ? 1 : ((b.status < a.status) ? -1 : 0));
-                    const planifiedOn = [];
-                    devices.forEach((device) => {
-                        const perc = Math.round((device.count / totalCount) * 100);
-                        const random = Math.floor(Math.random() * Math.floor(RANDOM_MAX + perc));
-                        let isExcluded = false;
-                        const configuration = api.configurationAPI.getConfiguration();
-                        if (configuration && configuration.excludeDevices && configuration.excludeDevices.length > 0) {
-                            configuration.excludeDevices.forEach((excludeDevice) => {
-                                if (excludeDevice.identifier === device.identifier) {
-                                    isExcluded = true;
-                                }
-                            });
-                        }
-
-                        Logger.info(device.identifier + " / " + device.status + " / " + perc + " / " + random);
-
-                        if ((perc >= PERCENTAGE_THRESHOLD || random >= RANDOM_THRESHOLD) && !isExcluded && device.status === api.deviceAPI.constants().INT_STATUS_ON) {
-                            const scheduleTimestamp = DateUtils.class.roundedTimestamp(timestamp, DateUtils.ROUND_TIMESTAMP_HOUR) + ((Math.floor(Math.random() * Math.floor(60)) + 1) * 60);
-                            Logger.info("Schedule " + device.identifier + " at " + scheduleTimestamp);
-                            context.currentHourSchedule.push({scheduleTimestamp: scheduleTimestamp, device:device});
-                            planifiedOn.push({scheduleTimestamp: scheduleTimestamp, device:device, tagged: false});
-                        } else if (device.status === api.deviceAPI.constants().INT_STATUS_OFF) {
-                            planifiedOn.forEach((planifiedElement) => {
-                                if (planifiedElement.device.identifier === device.identifier) {
-                                    const maxTs = DateUtils.class.roundedTimestamp(timestamp, DateUtils.ROUND_TIMESTAMP_HOUR) + (60 * 60) - 45;
-                                    context.currentHourSchedule.push({scheduleTimestamp: maxTs, device:device});
-                                    planifiedElement.tagged = true;
-                                    Logger.info("Schedule " + device.identifier + " OFF at " + maxTs);
-                                }
-                            });
+                if (api.alarmAPI.alarmStatus()) {
+                    const timestamp = api.exported.DateUtils.class.timestamp();
+                    api.deviceAPI.getDevices().forEach((device) => {
+                        if (self.turnOffScheduler[device.id] && self.turnOffScheduler[device.id] < timestamp) {
+                            api.deviceAPI.switchDevice(device.id, api.deviceAPI.constants().INT_STATUS_OFF);
+                            delete self.turnOffScheduler[device.id];
                         }
                     });
-                } else {
-                    Logger.err(error.message);
                 }
-            });
+            }, this, this.api.timeEventAPI.constants().EVERY_MINUTES);
         }
     }
 

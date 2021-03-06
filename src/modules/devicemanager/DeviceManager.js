@@ -688,7 +688,7 @@ class DeviceManager {
                 this.aiManager.guessWithTime(AI_KEY, aiClassifiers, timestamp).then((res) => {
                     if (res && res.indexOf("@") > 0) {
                         const resSplit = res.split("@");
-                        cb(null, parseInt(resSplit[0]), parseFloat(resSplit[1]));
+                        resolve(parseInt(resSplit[0]), parseFloat(resSplit[1]));
                     } else {
                         reject(Error("No value"));
                     }
