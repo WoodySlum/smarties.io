@@ -104,6 +104,14 @@ function loaded(api) {
                 }
             });
 
+            this.api.timeEventAPI.register((self) => {
+                // Reboot
+                if (self.keygo) {
+                    self.api.exported.Logger.info("Reboot");
+                    request("http://" + self.keygo.ip + "/reboot", { }, () => {});
+                }
+            }, this, this.api.timeEventAPI.constants().EVERY_DAYS);
+
             this.api.webAPI.register(this, this.api.webAPI.constants().POST, ":/keygo/[set]/[action]/", this.api.webAPI.Authentication().AUTH_GUEST_LEVEL);
         }
 
