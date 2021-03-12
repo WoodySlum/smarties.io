@@ -1,4 +1,4 @@
-ppvar SmartiesCore = require("./src/SmartiesCore");
+var SmartiesCore = require("./src/SmartiesCore");
 const events = require("events");
 
 var core = null;
