@@ -1,4 +1,4 @@
-var SmartiesCore = require("./src/SmartiesCore");
+ppvar SmartiesCore = require("./src/SmartiesCore");
 const events = require("events");
 
 var core = null;
@@ -68,7 +68,7 @@ class SmartiesRunner {
 
                 }
             });
-            Logger.log("Starting runner");
+            Logger.info("Starting runner");
             self.core = new SmartiesCore.class(self.runnerEventBus, SmartiesRunnerConstants);
             self.core.start();
         }
@@ -81,7 +81,7 @@ class SmartiesRunner {
      */
     stop(self) {
         if (self.core) {
-            Logger.log("Sopping runner");
+            Logger.info("Sopping runner");
             this.runnerEventBus.emit(SmartiesRunnerConstants.STOP);
             self.core.stop();
             self.childPids.forEach((childPid) => {
@@ -115,14 +115,14 @@ class SmartiesRunner {
 const runner = new SmartiesRunner();
 
 process.on("SIGINT", () => {
-    Logger.log("Received SIGINT");
+    Logger.info("Received SIGINT");
     runner.stop(runner);
     process.kill(process.pid, "SIGKILL");
     process.exit(0);
 });
 
 process.on("SIGTERM", () => {
-    Logger.log("Received SIGTERM");
+    Logger.info("Received SIGTERM");
     runner.stop(runner);
     process.kill(process.pid, "SIGKILL");
     process.exit(0);
