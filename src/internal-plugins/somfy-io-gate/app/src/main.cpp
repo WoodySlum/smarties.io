@@ -52,6 +52,8 @@ void setup() {
 }
 
 void loop() {
-	setup();
+	if (WiFi.status() != WL_CONNECTED) {
+		ESP.reset();
+	}
     smarties.getWebServer().handleClient();
 }
