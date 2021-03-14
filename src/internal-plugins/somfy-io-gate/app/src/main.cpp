@@ -52,5 +52,6 @@ void setup() {
 }
 
 void loop() {
+	setup();
     smarties.getWebServer().handleClient();
 }

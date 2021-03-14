@@ -88,7 +88,7 @@ function loaded(api) {
             wiringSchema.right["D3"].push("Keygo left button - top pin");
             wiringSchema.right["GND-2"].push("Keygo -");
             wiringSchema.right["3V3-2"].push("Keygo +");
-            this.api.iotAPI.registerApp("app", "somfy-io-gate", "Nodemcu somfy keygo", 1, api.iotAPI.constants().PLATFORMS.ESP8266, api.iotAPI.constants().BOARDS.NODEMCU, api.iotAPI.constants().FRAMEWORKS.ARDUINO, ["esp8266"], espPlugin.generateOptions(espPlugin.constants().MODE_ALWAYS_POWERED, 0), wiringSchema);
+            this.api.iotAPI.registerApp("app", "somfy-io-gate", "Nodemcu somfy keygo", 2, api.iotAPI.constants().PLATFORMS.ESP8266, api.iotAPI.constants().BOARDS.NODEMCU, api.iotAPI.constants().FRAMEWORKS.ARDUINO, ["esp8266"], espPlugin.generateOptions(espPlugin.constants().MODE_ALWAYS_POWERED, 0), wiringSchema);
             this.api.iotAPI.addIngredientForReceipe("somfy-io-gate", "Keygo io 1W", "Remote controller", 1, true);
             this.keygo = null;
             const self = this;
