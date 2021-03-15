@@ -276,7 +276,6 @@ class DeviceManager {
 
             if (scenario.DevicesListScenarioForm.devices && scenario.DevicesListScenarioForm.devices.length > 0) {
                 scenario.DevicesListScenarioForm.devices.forEach((scenarioDevice) => {
-
                     let adjustBrightness = 0;
                     if (typeof scenarioDevice.updateBrightness !== "undefined") {
                         adjustBrightness = parseFloat(scenarioDevice.updateBrightness);
@@ -556,7 +555,7 @@ class DeviceManager {
                     }
                     Object.keys(this.switchDeviceModules).forEach((switchDeviceModuleKey) => {
                         const switchDeviceModule = this.switchDeviceModules[switchDeviceModuleKey];
-                        if (deviceConfiguration[switchDeviceModule.formName]) {
+                        if (deviceConfiguration[switchDeviceModule.formName] && ((Array.isArray(deviceConfiguration[switchDeviceModule.formName]) && deviceConfiguration[switchDeviceModule.formName].length > 0) || (typeof deviceConfiguration[switchDeviceModule.formName] === "object" && Object.keys(deviceConfiguration[switchDeviceModule.formName]).length > 0))) {
                             // Detect what changed
                             const changes = [];
                             if (deviceConfiguration.status != status) {

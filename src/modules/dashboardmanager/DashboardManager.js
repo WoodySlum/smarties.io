@@ -149,7 +149,7 @@ class DashboardManager {
             this.tiles.sort((tile1, tile2) => {
                 return tile1.order - tile2.order;
             });
-            
+
             if (this.unregistered.indexOf(tile.identifier) >= 0) {
                 this.unregistered.splice(this.unregistered.indexOf(tile.identifier), 1);
             }
