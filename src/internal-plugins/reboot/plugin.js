@@ -55,12 +55,13 @@ function loaded(api) {
             this.api.webAPI.register(this, api.webAPI.constants().POST, ":" + SOFT_REBOOT_ACTION, api.webAPI.Authentication().AUTH_USAGE_LEVEL);
             this.registerTile();
             this.api.scenarioAPI.register(RebootTriggerForm, null, "reboot.scenario.trigger.title", 200, false);
-            this.api.scenarioAPI.getScenarios().forEach((scenario) => {
-                if (scenario && scenario.RebootTriggerForm && scenario.RebootTriggerForm.onBoot == true) {
-                    this.api.scenarioAPI.triggerScenario(scenario);
-                }
+            this.api.coreAPI.registerEvent(api.constants().CORE_EVENT_READY, () => {
+                this.api.scenarioAPI.getScenarios().forEach((scenario) => {
+                    if (scenario && scenario.RebootTriggerForm && scenario.RebootTriggerForm.onBoot == true) {
+                        this.api.scenarioAPI.triggerScenario(scenario);
+                    }
+                });
             });
-
         }
 
         /**
