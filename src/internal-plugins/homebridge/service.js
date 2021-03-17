@@ -40,6 +40,7 @@ function loaded(api) {
             this.disableAutoStart = true;
             this.devices = null;
             this.sensors = null;
+            this.restartTimer = null;
         }
 
         /**
@@ -130,43 +131,46 @@ function loaded(api) {
          * Start the service
          */
         start() {
-            super.start();
-            this.startTimer = setTimeout((self) => {
-                if (self.server) {
-                    try {
-                        self.server.start();
-                        // self.server.publishBridge();
-                        const conf = api.configurationAPI.getConfiguration();
-                        if (conf && (typeof conf.displayHomekitTile === "undefined" || conf.displayHomekitTile)) {
-                            QRCode.toDataURL(self.server.bridge.setupURI(), { errorCorrectionLevel: "L", color:{light:api.themeAPI.getColors().primaryColor + "FF", dark:api.themeAPI.getColors().darkenColor +"FF"}, margin:18}, (err, data) => {
-                                if (!err && data && self.server) {
-                                    const buf = Buffer.alloc(data.split(",")[1].length, data.split(",")[1], "base64");
-                                    gm(buf)
-                                        .stroke(api.themeAPI.getColors().darkenColor)
-                                        .font("./res/fonts/OpenSans-Light.ttf", 8)
-                                        .drawText(90, 165, self.server.bridge._accessoryInfo.pincode)
-                                        .setFormat("png")
-                                        .toBuffer((err, buffer) => {
-                                            if (err) {
-                                                api.exported.Logger.err(err);
-                                            } else {
-                                                const tile = api.dashboardAPI.Tile("homebridge-code", api.dashboardAPI.TileType().TILE_PICTURE_TEXT, null, null, "Homekit", null, buffer.toString("base64"), null, null, 99999999);
-                                                tile.colors.colorContent = api.themeAPI.getColors().darkColor;
+            if (this.status === api.exported.Service.STOPPED) {
+                super.start();
 
-                                                api.dashboardAPI.registerTile(tile);
-                                            }
-                                        });
-                                } else {
-                                    api.exported.Logger.err(err);
-                                }
-                            });
+                this.startTimer = setTimeout((self) => {
+                    if (self.server) {
+                        try {
+                            self.server.start();
+                            // self.server.publishBridge();
+                            const conf = api.configurationAPI.getConfiguration();
+                            if (conf && (typeof conf.displayHomekitTile === "undefined" || conf.displayHomekitTile)) {
+                                QRCode.toDataURL(self.server.bridge.setupURI(), { errorCorrectionLevel: "L", color:{light:api.themeAPI.getColors().primaryColor + "FF", dark:api.themeAPI.getColors().darkenColor +"FF"}, margin:18}, (err, data) => {
+                                    if (!err && data && self.server) {
+                                        const buf = Buffer.alloc(data.split(",")[1].length, data.split(",")[1], "base64");
+                                        gm(buf)
+                                            .stroke(api.themeAPI.getColors().darkenColor)
+                                            .font("./res/fonts/OpenSans-Light.ttf", 8)
+                                            .drawText(90, 165, self.server.bridge._accessoryInfo.pincode)
+                                            .setFormat("png")
+                                            .toBuffer((err, buffer) => {
+                                                if (err) {
+                                                    api.exported.Logger.err(err);
+                                                } else {
+                                                    const tile = api.dashboardAPI.Tile("homebridge-code", api.dashboardAPI.TileType().TILE_PICTURE_TEXT, null, null, "Homekit", null, buffer.toString("base64"), null, null, 99999999);
+                                                    tile.colors.colorContent = api.themeAPI.getColors().darkColor;
+
+                                                    api.dashboardAPI.registerTile(tile);
+                                                }
+                                            });
+                                    } else {
+                                        api.exported.Logger.err(err);
+                                    }
+                                });
+                            }
+                        } catch(e) {
+                            api.exported.Logger.err(e.message);
                         }
-                    } catch(e) {
-                        api.exported.Logger.err(e.message);
-                    }
 
-                }
-            }, WAIT_FOR_STARTING_SERVICE * 1000, this);
+                    }
+                }, WAIT_FOR_STARTING_SERVICE * 1000, this);
+            }
         }
 
         /**
@@ -210,9 +214,13 @@ function loaded(api) {
                     if (msg.indexOf("please review the README") > 0) {
                         api.exported.Logger.warn("DDOS protection detected, restart homebridge in 5 min");
                         this.stop();
-                        setTimeout((self) => {
+                        if (this.restartTimer) {
+                            clearTimeout(this.restartTimer);
+                        }
+                        this.restartTimer = setTimeout((self) => {
                             self.init(self.devices, self.sensors);
                             self.start();
+                            self.restartTimer = null;
                         }, 5 * 60 * 1000, this);
                     }
 
