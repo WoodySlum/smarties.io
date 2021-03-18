@@ -372,7 +372,7 @@ function loaded(api) {
                             self.api.exported.Logger.err(error.message);
                         } else {
                             router.login(token, conf.username, conf.password, () => {
-                                router.sendSms(token, number, message, (err) => {
+                                router.sendSms(token, number, message.split("'").join("’"), (err) => {
                                     if (err) {
                                         self.api.exported.Logger.err(err.message);
                                     }
