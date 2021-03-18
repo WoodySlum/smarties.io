@@ -305,12 +305,17 @@ function loaded(api) {
             const self = this;
             request(url, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
-                    const weatherInfos = JSON.parse(body);
-                    if (weatherInfos.weather.length > 0) {
-                        cb(null, new OpenWeatherDb(self.dbHelper, weatherInfos.weather[0].id, weatherInfos.weather[0].main, weatherInfos.weather[0].icon, weatherInfos.visibility, weatherInfos.main.temp, weatherInfos.main.pressure, weatherInfos.main.humidity, (weatherInfos.wind.speed * 3.6), weatherInfos.wind.deg, weatherInfos.sys.sunrise, weatherInfos.sys.sunset));
-                    } else {
-                        cb(Error("No weather infos"));
+                    try {
+                        const weatherInfos = JSON.parse(body);
+                        if (weatherInfos.weather.length > 0) {
+                            cb(null, new OpenWeatherDb(self.dbHelper, weatherInfos.weather[0].id, weatherInfos.weather[0].main, weatherInfos.weather[0].icon, weatherInfos.visibility, weatherInfos.main.temp, weatherInfos.main.pressure, weatherInfos.main.humidity, (weatherInfos.wind.speed * 3.6), weatherInfos.wind.deg, weatherInfos.sys.sunrise, weatherInfos.sys.sunset));
+                        } else {
+                            cb(Error("No weather infos"));
+                        }
+                    } catch(e) {
+                        cb(e);
                     }
+
                 } else {
                     cb(error);
                 }
@@ -330,132 +335,135 @@ function loaded(api) {
                 if (!error && response.statusCode == 200) {
                     self.dbHelper.getLastObject((error, lastWeather) => {
                         if (!error && lastWeather) {
-                            const weatherForecastInfos = JSON.parse(body);
-                            const lastWeatherSunriseSeconds = api.exported.DateUtils.class.secondsElapsedSinceMidnight(lastWeather.sunrise);
-                            const lastWeatherSunsetSeconds = api.exported.DateUtils.class.secondsElapsedSinceMidnight(lastWeather.sunset);
+                            try {
+                                const weatherForecastInfos = JSON.parse(body);
+                                const lastWeatherSunriseSeconds = api.exported.DateUtils.class.secondsElapsedSinceMidnight(lastWeather.sunrise);
+                                const lastWeatherSunsetSeconds = api.exported.DateUtils.class.secondsElapsedSinceMidnight(lastWeather.sunset);
 
-                            let rainForecastTime = 0;
-                            let snowForecastTime = 0;
-                            let rainForecastMm = 0;
-                            let snowForecastMm = 0;
-                            let dayTemperature = [];
-                            let nightTemperature = [];
-                            let windSpeed = [];
-                            let avgDayTemperature = 0;
-                            let avgNightTemperature = 0;
-                            let avgWindSpeed = 0;
-                            let storm = false;
-                            let hot = false;
-                            let cold = false;
-                            let rain = false;
-                            let snow = false;
+                                let rainForecastTime = 0;
+                                let snowForecastTime = 0;
+                                let rainForecastMm = 0;
+                                let snowForecastMm = 0;
+                                let dayTemperature = [];
+                                let nightTemperature = [];
+                                let windSpeed = [];
+                                let avgDayTemperature = 0;
+                                let avgNightTemperature = 0;
+                                let avgWindSpeed = 0;
+                                let storm = false;
+                                let hot = false;
+                                let cold = false;
+                                let rain = false;
+                                let snow = false;
 
-                            const currentTimestamp = api.exported.DateUtils.class.timestamp();
-                            weatherForecastInfos.list.forEach((weatherForecastInfo) => {
-                                if (weatherForecastInfo.dt <= (currentTimestamp + duration)) {
-                                    // Rain
-                                    if (weatherForecastInfo.rain && weatherForecastInfo.rain["3h"] > 0) {
-                                        rainForecastTime += FORECAST_TIME_SLOT;
-                                        rainForecastMm += parseFloat(weatherForecastInfo.rain["3h"]);
+                                const currentTimestamp = api.exported.DateUtils.class.timestamp();
+                                weatherForecastInfos.list.forEach((weatherForecastInfo) => {
+                                    if (weatherForecastInfo.dt <= (currentTimestamp + duration)) {
+                                        // Rain
+                                        if (weatherForecastInfo.rain && weatherForecastInfo.rain["3h"] > 0) {
+                                            rainForecastTime += FORECAST_TIME_SLOT;
+                                            rainForecastMm += parseFloat(weatherForecastInfo.rain["3h"]);
+                                        }
+
+                                        // Snow
+                                        if (weatherForecastInfo.snow && weatherForecastInfo.snow["3h"] > 0) {
+                                            snowForecastTime += FORECAST_TIME_SLOT;
+                                            snowForecastMm += parseFloat(weatherForecastInfo.snow["3h"]);
+                                        }
+
+                                        const elapsedTime = api.exported.DateUtils.class.secondsElapsedSinceMidnight(weatherForecastInfo.dt);
+
+                                        if (elapsedTime <= lastWeatherSunriseSeconds || elapsedTime >= lastWeatherSunsetSeconds) {
+                                            // Night mode
+                                            nightTemperature.push(weatherForecastInfo.main.temp);
+                                        } else {
+                                            // Day mode
+                                            dayTemperature.push(weatherForecastInfo.main.temp);
+                                        }
+
+                                        // Wind
+                                        windSpeed.push((weatherForecastInfo.wind.speed * 3.6));
+
+                                        // Rain
+                                        if (weatherForecastInfo.weather[0].id >= 500 && weatherForecastInfo.weather[0].id < 600) {
+                                            rain = true;
+                                        }
+
+                                        // Storm
+                                        if ((weatherForecastInfo.weather[0].id >= 200 && weatherForecastInfo.weather[0].id < 300) || weatherForecastInfo.weather[0].id === 960 || weatherForecastInfo.weather[0].id === 961 ) {
+                                            storm = true;
+                                        }
+
+                                        // Snow
+                                        if (weatherForecastInfo.weather[0].id >= 600 && weatherForecastInfo.weather[0].id < 700) {
+                                            snow = true;
+                                        }
+
+                                        // Cold
+                                        if (weatherForecastInfo.weather[0].id === 903) {
+                                            cold = true;
+                                        }
+
+                                        // Hot
+                                        if (weatherForecastInfo.weather[0].id === 904) {
+                                            hot = true;
+                                        }
                                     }
+                                });
 
-                                    // Snow
-                                    if (weatherForecastInfo.snow && weatherForecastInfo.snow["3h"] > 0) {
-                                        snowForecastTime += FORECAST_TIME_SLOT;
-                                        snowForecastMm += parseFloat(weatherForecastInfo.snow["3h"]);
-                                    }
+                                // Calculate averages
 
-                                    const elapsedTime = api.exported.DateUtils.class.secondsElapsedSinceMidnight(weatherForecastInfo.dt);
-
-                                    if (elapsedTime <= lastWeatherSunriseSeconds || elapsedTime >= lastWeatherSunsetSeconds) {
-                                        // Night mode
-                                        nightTemperature.push(weatherForecastInfo.main.temp);
-                                    } else {
-                                        // Day mode
-                                        dayTemperature.push(weatherForecastInfo.main.temp);
-                                    }
-
-                                    // Wind
-                                    windSpeed.push((weatherForecastInfo.wind.speed * 3.6));
-
-                                    // Rain
-                                    if (weatherForecastInfo.weather[0].id >= 500 && weatherForecastInfo.weather[0].id < 600) {
-                                        rain = true;
-                                    }
-
-                                    // Storm
-                                    if ((weatherForecastInfo.weather[0].id >= 200 && weatherForecastInfo.weather[0].id < 300) || weatherForecastInfo.weather[0].id === 960 || weatherForecastInfo.weather[0].id === 961 ) {
-                                        storm = true;
-                                    }
-
-                                    // Snow
-                                    if (weatherForecastInfo.weather[0].id >= 600 && weatherForecastInfo.weather[0].id < 700) {
-                                        snow = true;
-                                    }
-
-                                    // Cold
-                                    if (weatherForecastInfo.weather[0].id === 903) {
-                                        cold = true;
-                                    }
-
-                                    // Hot
-                                    if (weatherForecastInfo.weather[0].id === 904) {
-                                        hot = true;
-                                    }
+                                // Day temperature
+                                if (dayTemperature.length > 0) {
+                                    dayTemperature.forEach((dt) => {
+                                        avgDayTemperature += dt;
+                                    });
+                                    avgDayTemperature = (avgDayTemperature / dayTemperature.length);
                                 }
-                            });
 
-                            // Calculate averages
+                                // Night temperature
+                                if (nightTemperature.length > 0) {
+                                    nightTemperature.forEach((nt) => {
+                                        avgNightTemperature += nt;
+                                    });
+                                    avgNightTemperature = (avgNightTemperature / nightTemperature.length);
+                                }
 
-                            // Day temperature
-                            if (dayTemperature.length > 0) {
-                                dayTemperature.forEach((dt) => {
-                                    avgDayTemperature += dt;
+                                // Wind speed
+                                if (windSpeed.length > 0) {
+                                    windSpeed.forEach((nt) => {
+                                        avgWindSpeed += nt;
+                                    });
+                                    avgWindSpeed = (avgWindSpeed / windSpeed.length);
+                                }
+
+                                // Straighten cold
+                                if (((avgDayTemperature + avgNightTemperature) / 2) < 0) {
+                                    cold = true;
+                                }
+
+                                // Straighten hot
+                                if (((avgDayTemperature + avgNightTemperature) / 2) > 32) {
+                                    hot = true;
+                                }
+
+                                cb(null, {
+                                    rainForecastTime:rainForecastTime,
+                                    snowForecastTime:snowForecastTime,
+                                    rainForecastMm:rainForecastMm,
+                                    snowForecastMm:snowForecastMm,
+                                    avgDayTemperature:avgDayTemperature,
+                                    avgNightTemperature:avgNightTemperature,
+                                    avgWindSpeed:avgWindSpeed,
+                                    storm:storm,
+                                    hot:hot,
+                                    cold:cold,
+                                    rain:rain,
+                                    snow:snow
                                 });
-                                avgDayTemperature = (avgDayTemperature / dayTemperature.length);
+                            } catch(e) {
+                                cb(e);
                             }
-
-                            // Night temperature
-                            if (nightTemperature.length > 0) {
-                                nightTemperature.forEach((nt) => {
-                                    avgNightTemperature += nt;
-                                });
-                                avgNightTemperature = (avgNightTemperature / nightTemperature.length);
-                            }
-
-                            // Wind speed
-                            if (windSpeed.length > 0) {
-                                windSpeed.forEach((nt) => {
-                                    avgWindSpeed += nt;
-                                });
-                                avgWindSpeed = (avgWindSpeed / windSpeed.length);
-                            }
-
-                            // Straighten cold
-                            if (((avgDayTemperature + avgNightTemperature) / 2) < 0) {
-                                cold = true;
-                            }
-
-                            // Straighten hot
-                            if (((avgDayTemperature + avgNightTemperature) / 2) > 32) {
-                                hot = true;
-                            }
-
-                            cb(null, {
-                                rainForecastTime:rainForecastTime,
-                                snowForecastTime:snowForecastTime,
-                                rainForecastMm:rainForecastMm,
-                                snowForecastMm:snowForecastMm,
-                                avgDayTemperature:avgDayTemperature,
-                                avgNightTemperature:avgNightTemperature,
-                                avgWindSpeed:avgWindSpeed,
-                                storm:storm,
-                                hot:hot,
-                                cold:cold,
-                                rain:rain,
-                                snow:snow
-                            });
-
                         } else {
                             cb(Error("No weather data set"));
                         }
