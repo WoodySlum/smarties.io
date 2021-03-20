@@ -111,6 +111,30 @@ describe("ScenarioManager", function() {
         scenarioManager.unregister(ScenarioSampleForm, cb);
     });
 
+    it("radio event should trigger scenario with regex", function() {
+        const scenarioManager = core.scenarioManager;
+        scenarioManager.formConfiguration.data = [{id:1503304879528,name:"Test multi radio",enabled:true,icon:{icon:"e806"},RadioScenariosForm:{radioScenariosForm:[{radio:{module:"rflink",protocol:"foobar",deviceId:"/ebe[0-9]+/",switchId:"/efe[0-9]+do/"},status:1},{radio:{module:"rflink",protocol:"barfoo",deviceId:"bar",switchId:"foo"},status:RadioScenarioForm.STATUS_ALL}]},DevicesListScenarioForm:{devices:[{identifier:1981,status:"on"}]}}];
+        const radioObjSim = {
+            module:"rflink",
+            protocol:"foobar",
+            deviceId:"ebe877",
+            switchId:"efe8do",
+            status:1
+        };
+        cbCalled = false;
+        const cb = (scenario) => {
+            cbCalled = true;
+        };
+        scenarioManager.register(ScenarioSampleForm, cb, "test.title");
+
+        sinon.spy(scenarioManager, "triggerScenario");
+        core.radioManager.onRadioEvent(radioObjSim);
+        expect(scenarioManager.triggerScenario.calledOnce).to.be.true;
+        expect(cbCalled).to.be.true;
+        scenarioManager.triggerScenario.restore();
+        scenarioManager.unregister(ScenarioSampleForm, cb);
+    });
+
     it("radio event should NOT trigger scenario (unknown radio event)", function() {
         const scenarioManager = core.scenarioManager;
         scenarioManager.formConfiguration.data = [{id:1503304879528,name:"Test multi radio",enabled:false,icon:{icon:"e806"},RadioScenariosForm:{radioScenariosForm:[{radio:{module:"rflink",protocol:"foobar",deviceId:"foo",switchId:"bar"},status:1},{radio:{module:"rflink",protocol:"barfoo",deviceId:"bar",switchId:"foo"},status:RadioScenarioForm.STATUS_ALL}]},DevicesListScenarioForm:{devices:[{identifier:1981,status:"on"}]}}];

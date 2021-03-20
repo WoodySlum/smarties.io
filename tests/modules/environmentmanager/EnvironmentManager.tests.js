@@ -26,7 +26,6 @@ describe("EnvironmentManager", function() {
         expect(core.formManager.register.calledThrice).to.be.true;
         expect(core.dashboardManager.registerTile.calledOnce).to.be.true;
         expect(environmentManager.formConfiguration.data).to.be.not.null;
-        console.log(environmentManager.formConfiguration.data);
         expect(Object.keys(environmentManager.formConfiguration.data).length).to.be.equal(0);
 
         core.confManager.readFile.restore();

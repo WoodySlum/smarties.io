@@ -154,10 +154,22 @@ class RadioManager {
      * @returns {boolean}                 `true` if objects matches, `false` otherwise
      */
     compareFormObject(radioFormObject, radioObject) {
+        let regexDeviceId = null;
+        if (radioFormObject.radio.deviceId.toString().slice(0, 1) == "/" && radioFormObject.radio.deviceId.toString().slice(-1) == "/") {
+            regexDeviceId = new RegExp(radioFormObject.radio.deviceId.toString().substring(1).slice(0, -1));
+        }
+
+        let regexSwitchId = null;
+        if (radioFormObject.radio.switchId.toString().slice(0, 1) == "/" && radioFormObject.radio.switchId.toString().slice(-1) == "/") {
+            regexSwitchId = new RegExp(radioFormObject.radio.switchId.toString().substring(1).slice(0, -1));
+        }
+
         if (radioFormObject.radio.module === radioObject.module
             && radioFormObject.radio.protocol === radioObject.protocol
-            && radioFormObject.radio.deviceId.toString() === radioObject.deviceId.toString()
-            && radioFormObject.radio.switchId.toString() === radioObject.switchId.toString()
+            && (regexDeviceId ? regexDeviceId.test(radioObject.deviceId.toString()) : true)
+            && (regexSwitchId ? regexSwitchId.test(radioObject.switchId.toString()) : true)
+            && (!regexDeviceId ? (radioFormObject.radio.deviceId.toString() === radioObject.deviceId.toString()) : true)
+            && (!regexSwitchId ? (radioFormObject.radio.switchId.toString() === radioObject.switchId.toString()) : true)
             && ((parseFloat(radioFormObject.status) === parseFloat(RadioScenarioForm.STATUS_ALL)) || (parseFloat(radioFormObject.status) === parseFloat(radioObject.status)))
         ) {
             return true;
@@ -333,8 +345,8 @@ class RadioManager {
                     scenario.RadioScenariosForm.radioScenariosForm.forEach((scenarioRadio) => {
                         if (scenarioRadio.radio.module === module
                             && scenarioRadio.radio.protocol === protocol
-                            && (scenarioRadio.radio.deviceId === deviceId || scenarioRadio.radio.deviceId = "*")
-                            && scenarioRadio.radio.switchId === switchId || scenarioRadio.radio.switchId = "*")
+                            && scenarioRadio.radio.deviceId === deviceId
+                            && scenarioRadio.radio.switchId === switchId
                             && scenario.enabled
                             && ((parseFloat(scenarioRadio.status) === parseFloat(scenarioRadio.STATUS_ALL)) || (parseFloat(scenarioRadio.status) === parseFloat(status)))) {
                                 associatedItems.push({
