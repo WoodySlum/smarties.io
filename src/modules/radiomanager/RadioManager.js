@@ -333,8 +333,8 @@ class RadioManager {
                     scenario.RadioScenariosForm.radioScenariosForm.forEach((scenarioRadio) => {
                         if (scenarioRadio.radio.module === module
                             && scenarioRadio.radio.protocol === protocol
-                            && scenarioRadio.radio.deviceId === deviceId
-                            && scenarioRadio.radio.switchId === switchId
+                            && (scenarioRadio.radio.deviceId === deviceId || scenarioRadio.radio.deviceId = "*")
+                            && scenarioRadio.radio.switchId === switchId || scenarioRadio.radio.switchId = "*")
                             && scenario.enabled
                             && ((parseFloat(scenarioRadio.status) === parseFloat(scenarioRadio.STATUS_ALL)) || (parseFloat(scenarioRadio.status) === parseFloat(status)))) {
                                 associatedItems.push({
