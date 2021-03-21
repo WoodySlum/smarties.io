@@ -72,7 +72,9 @@ function loaded(api) {
             const self = this;
             api.exported.Radio.registerSensor(api, this, (radioObject) => {
                 self.setValue(parseFloat(radioObject.value));
-                if (radioObject.value === 1) {
+                if (radioObject.value === 1 && !api.exported.FileLock.isLocked(id)) {
+                    api.exported.FileLock.lock(id);
+                    api.exported.FileLock.unlockAfterDelay(id, api.exported.schedulerAPI.constants().IN_A_DAY);
                     api.messageAPI.sendMessage("*", api.translateAPI.t("radio.waterLeak.sensor.message", configuration.name), null, null, null, true);
                 }
             });

@@ -73,7 +73,7 @@ class SchedulerService extends Service.class {
      * Register a scheduler callback
      *
      * @param  {string}   id       An identifier (must be unique)
-     * @param  {Function} callback A callback with an object in parameter : `(data) => {}``
+     * @param  {Function} callback A callback with an object in parameter : `(data) => {}`
      */
     register(id, callback) {
         this.registeredElements[sha256(id)] = callback;

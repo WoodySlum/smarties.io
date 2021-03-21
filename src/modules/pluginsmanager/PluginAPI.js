@@ -37,6 +37,7 @@ const Icons = require("./../../utils/Icons");
 const ImageUtils = require("./../../utils/ImageUtils");
 const Cleaner = require("./../../utils/Cleaner");
 const SmartiesRunnerConstants = require("./../../../SmartiesRunnerConstants");
+const FileLock = require("./../../utils/FileLock");
 
 /**
  * This class is an interface for plugins
@@ -112,7 +113,8 @@ class PluginsAPI {
             {cachePath:appConfiguration.cachePath},
             {IotForm:IotForm.class},
             {SmartiesRunnerConstants:SmartiesRunnerConstants},
-            {EventBus:eventBus}
+            {EventBus:eventBus},
+            {FileLock:new FileLock.class(appConfiguration.cachePath, timeEventService)}
         );
 
         // API part
