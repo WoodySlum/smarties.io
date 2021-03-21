@@ -13,7 +13,7 @@ class FileLock {
      * @param  {string} cachePath Temporary file
      * @param  {SchedulerService} schedulerService The scheduler service
      */
-    constuctor(cachePath, schedulerService) {
+    constructor(cachePath, schedulerService) {
         this.path = cachePath;
         this.schedulerService = schedulerService;
     }
