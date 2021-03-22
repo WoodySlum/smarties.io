@@ -114,7 +114,7 @@ class PluginsAPI {
             {IotForm:IotForm.class},
             {SmartiesRunnerConstants:SmartiesRunnerConstants},
             {EventBus:eventBus},
-            {FileLock:new FileLock.class(appConfiguration.cachePath, timeEventService)}
+            {FileLock:new FileLock.class(appConfiguration.cachePath, schedulerService)}
         );
 
         // API part

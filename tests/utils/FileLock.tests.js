@@ -21,6 +21,7 @@ describe("FileLock", function() {
         expect(fileLock.isLocked("foobar")).to.be.false;
         fileLock.unlock("foobar");
         expect(fileLock.isLocked("foobar")).to.be.false;
+        fileLock.unlockAfterDelay("foobar", 5);
     });
 
     after(() => {

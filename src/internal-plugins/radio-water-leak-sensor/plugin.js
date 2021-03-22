@@ -70,6 +70,7 @@ function loaded(api) {
         constructor(api, id, configuration) {
             super(api, id, configuration);
             const self = this;
+            
             api.exported.Radio.registerSensor(api, this, (radioObject) => {
                 self.setValue(parseFloat(radioObject.value));
                 if (radioObject.value === 1 && !api.exported.FileLock.isLocked(id)) {
