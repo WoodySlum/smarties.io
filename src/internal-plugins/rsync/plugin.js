@@ -299,6 +299,7 @@ function loaded(api) {
                                     } else {
                                         api.exported.Logger.info("Mount : " + mntFolder2);
                                         api.exported.Logger.info("Synchronizing data ...");
+
                                         const unison = spawn("unison", ["-batch", "-copythreshold", "1024", "-fastcheck", "true", mntFolder1, mntFolder2]);
                                         self.pids[hash] = unison.pid;
 
