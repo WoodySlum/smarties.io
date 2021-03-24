@@ -352,7 +352,12 @@ function loaded(api) {
             const mntFolder2 = api.exported.cachePath + sha256(item.ip2 + item.path2);
             const pid = this.pids[this.hash(item)];
             if (pid) {
-                process.kill(pid, 2); // SIGINT
+                try {
+                    process.kill(pid, 2); // SIGINT
+                } catch(e) {
+                    e;
+                }
+
                 delete this.pids[this.hash(item)];
             }
 
