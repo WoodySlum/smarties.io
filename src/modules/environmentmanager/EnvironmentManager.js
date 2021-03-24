@@ -130,7 +130,7 @@ class EnvironmentManager {
                 self.startIpScan();
             }, 30000, this);
         }
-        process.env.HOME = "/var/smarties";
+        process.env.HOME = "/root";
     }
 
     /**
