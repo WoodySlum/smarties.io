@@ -295,7 +295,12 @@ class CamerasManager {
                         // Save camera
                         context.getImage(camera.id, (err, data) => {
                             if (!err) {
-                                context.threadsManager.send(THREAD_ARCHIVE_CAMERA, "saveCameraPicture", {file: cameraArchiveFolder + timestamp + CAMERA_FILE_EXTENSION, data: data});
+                                try {
+                                    context.threadsManager.send(THREAD_ARCHIVE_CAMERA, "saveCameraPicture", {file: cameraArchiveFolder + timestamp + CAMERA_FILE_EXTENSION, data: data});
+                                } catch(e) {
+                                    Logger.err(e);
+                                }
+
                             }
                         });
                     }
