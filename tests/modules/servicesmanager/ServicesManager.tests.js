@@ -10,7 +10,11 @@ var Service = require("./../../../src/services/Service");
 describe("ServicesManager", function() {
     const serviceFoo = new Service.class("foo");
     const serviceBar = new Service.class("bar");
-    const servicesManager = new ServicesManager.class();
+    const timeEventService = {
+        register: () => {}
+    }
+    const servicesManager = new ServicesManager.class(null, null, null, timeEventService);
+
     servicesManager.add(serviceFoo);
     servicesManager.add(serviceBar);
 

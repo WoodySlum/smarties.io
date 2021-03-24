@@ -1,6 +1,8 @@
 "use strict";
-var Logger = require("./../../logger/Logger");
-var Service = require("./../../services/Service");
+const Logger = require("./../../logger/Logger");
+const Service = require("./../../services/Service");
+const TimeEventService = require("./../../services//timeeventservice/TimeEventService");
+const isPidRunning = require("is-running");
 
 /**
  * This class allows to manage services
@@ -14,14 +16,28 @@ class ServicesManager {
      * @param  {ThreadsManager} threadsManager A thread manager
      * @param  {EventEmitter} eventBus    The global event bus
      * @param  {object} smartiesRunnerConstants Runner constants
+     * @param  {TimeEventService} timeEventService    The time event service
      *
      * @returns {ServicesManager}                       The instance
      */
-    constructor(threadsManager, eventBus, smartiesRunnerConstants) {
+    constructor(threadsManager, eventBus, smartiesRunnerConstants, timeEventService) {
         this.services = [];
         this.threadsManager = threadsManager;
         this.eventBus = eventBus;
         this.smartiesRunnerConstants = smartiesRunnerConstants;
+        this.timeEventService = timeEventService;
+
+        // Watchdog
+        timeEventService.register((self) => {
+            self.services.forEach((service) => {
+                if (service.mode === Service.SERVICE_MODE_EXTERNAL && service.status == Service.RUNNING) {
+                    if (!isPidRunning(service.pid)) {
+                        Logger.warn("[Watchdog] Pid " + service.pid + " is not running, restarting service");
+                        service.restart();
+                    }
+                }
+            });
+        }, this, TimeEventService.EVERY_TEN_SECONDS);
     }
 
     /**

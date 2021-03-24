@@ -13,6 +13,7 @@ const EVERY_HOURS_INACCURATE = 4;
 const EVERY_FIVE_MINUTES = 5;
 const EVERY_FIFTEEN_MINUTES = 6;
 const EVERY_THIRTY_MINUTES = 7;
+const EVERY_TEN_SECONDS = 8;
 const CUSTOM = 99;
 
 /**
@@ -210,6 +211,11 @@ class TimeEventService extends Service.class {
             obj.minute = "*/30";
             obj.hour = "*";
             break;
+        case EVERY_TEN_SECONDS:
+            obj.second = "*/10";
+            obj.minute = "*";
+            obj.hour = "*";
+            break;
         }
 
         return obj;
@@ -261,5 +267,6 @@ module.exports = {class:TimeEventService,
     EVERY_THIRTY_MINUTES:EVERY_THIRTY_MINUTES,
     EVERY_HOURS_INACCURATE:EVERY_HOURS_INACCURATE,
     EVERY_DAYS:EVERY_DAYS,
+    EVERY_TEN_SECONDS:EVERY_TEN_SECONDS,
     CUSTOM:CUSTOM
 };
