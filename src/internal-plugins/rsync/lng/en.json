@@ -1,0 +1,19 @@
+{
+    "rsync.tile.name": "Name",
+    "rsync.ip": "IP address 1",
+    "rsync.path": "Path 1",
+    "rsync.username": "Username 1",
+    "rsync.password": "Password 1",
+    "rsync.ip2": "IP address 2",
+    "rsync.path2": "Path 2",
+    "rsync.username2": "Username 2",
+    "rsync.password2": "Password 2",
+    "rsync.triggers": "Triggers",
+    "rsync.connection": "When part of device connects",
+    "rsync.tile": "With a dashboard tile",
+    "rsync.items": "Tasks",
+    "rsync.starting": "Starting...",
+    "rsync.analyzing": "Analyzing...",
+    "rsync.sync": "Synchronizing...",
+    "rsync.start": "Start"
+}

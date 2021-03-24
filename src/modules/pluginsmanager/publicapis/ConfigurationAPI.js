@@ -56,6 +56,16 @@ class ConfigurationAPI {
     }
 
     /**
+     * Register a sub form
+     *
+     * @param  {Class} formClass A form annotation's implemented class
+     * @param  {...object} inject    The injected objects
+     */
+    registerSubform(formClass, ...inject) {
+        PrivateProperties.oprivate(this).formConfiguration.formManager.register(formClass, ...inject);
+    }
+
+    /**
      * Returns the configuration
      *
      * @returns {object} Configuration object

@@ -120,7 +120,8 @@ const INTERNAL_PLUGINS = [
     "reboot",
     "onvif",
     "uptime",
-    "somfy-io-gate"
+    "somfy-io-gate",
+    "rsync"
 ];
 
 const CORE_PLUGINS = [

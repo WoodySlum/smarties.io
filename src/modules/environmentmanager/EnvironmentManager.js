@@ -702,7 +702,7 @@ class EnvironmentManager {
 
                     this.registerIpScanForm();
                     this.eventBus.emit(EVENT_SCAN_IP_UPDATE, {scannedIp:this.scannedIps});
-                    this.eventBus.emit(EVENT_SCAN_IP_CHANGES, {scannedIp:this.scannedIps, target:target});
+                    this.eventBus.emit(EVENT_SCAN_IP_CHANGES, {scannedIp:this.scannedIps, target:target, left: false});
                 });
 
                 this.scanner.on("left", (target) => {
@@ -718,7 +718,7 @@ class EnvironmentManager {
                         this.scannedIps.splice(found, 1);
                     }
 
-                    this.eventBus.emit(EVENT_SCAN_IP_CHANGES, {scannedIp:this.scannedIps, target:target});
+                    this.eventBus.emit(EVENT_SCAN_IP_CHANGES, {scannedIp:this.scannedIps, target:target, left: true});
                 });
 
                 this.eventBus.on(this.eventStop, () => {
