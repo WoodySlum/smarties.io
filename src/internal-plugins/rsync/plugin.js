@@ -387,13 +387,13 @@ function loaded(api) {
                 if (os.platform() == "darwin") {
                     return "mount -t smbfs //" + ((item.username && item.username.length > 0) ? "" + item.username + ":" + encodeURIComponent(item.password).replace(/!/g, "%21").replace(/@/g, "%40").replace(/\$/g, "%24") + "@" : "")  + item.ip + item.path + " " + folder;
                 } else if (os.platform() == "linux") {
-                    return "mount -t cifs " + ((item.username && item.username.length > 0) ? "-o username=" + item.username + ",password=" + encodeURIComponent(item.password).replace(/!/g, "%21").replace(/@/g, "%40").replace(/\$/g, "%24") + " " : " ")  + "//" + item.ip + item.path + " " + folder;
+                    return "mount -t cifs " + ((item.username && item.username.length > 0) ? "-o username=" + item.username + ",password=" + item.password + " " : " ")  + "//" + item.ip + item.path + " " + folder;
                 }
             } else {
                 if (os.platform() == "darwin") {
                     return "mount -t smbfs //" + ((item.username2 && item.username2.length > 0) ? "" + item.username2 + ":" + encodeURIComponent(item.password2).replace(/!/g, "%21").replace(/@/g, "%40").replace(/\$/g, "%24") + "@" : "")  + item.ip2 + item.path2 + " " + folder;
                 } else if (os.platform() == "linux") {
-                    return "mount -t cifs " + ((item.username2 && item.username2.length > 0) ? "-o username=" + item.username2 + ",password=" + encodeURIComponent(item.password2).replace(/!/g, "%21").replace(/@/g, "%40").replace(/\$/g, "%24") + " " : " ")  + "//" + item.ip2 + item.path2 + " " + folder;
+                    return "mount -t cifs " + ((item.username2 && item.username2.length > 0) ? "-o username=" + item.username2 + ",password=" + item.password2 + " " : " ")  + "//" + item.ip2 + item.path2 + " " + folder;
                 }
             }
 
