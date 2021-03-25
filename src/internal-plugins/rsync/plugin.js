@@ -310,9 +310,8 @@ function loaded(api) {
                                                     self.states[hash] = "analyzing";
                                                     self.registerTiles();
                                                 } else if (codeStr.indexOf("%") > 0) {
-                                                    self.states[hash] = "synch";
+                                                    self.states[hash] = codeStr;
                                                     self.registerTiles();
-
                                                 }
                                                 api.exported.Logger.info(codeStr);
                                             }
