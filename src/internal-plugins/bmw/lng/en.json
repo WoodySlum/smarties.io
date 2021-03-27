@@ -6,5 +6,7 @@
     "bmw.unlocked": "Opened",
     "bmw.charged.message": "Your BMW %@ vehicle is fully charged",
     "bmw.health.ok": "Ok",
-    "bmw.health.ko": "Maint."
+    "bmw.health.ko": "Maint.",
+    "bmw.options": "Options",
+    "bmw.alertOnCharge": "Send notification when car is fully charged"
 }

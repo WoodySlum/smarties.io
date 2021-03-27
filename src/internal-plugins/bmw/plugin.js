@@ -26,9 +26,10 @@ function loaded(api) {
          * @param  {string} zone       The zone
          * @param  {string} username       The username
          * @param  {string} password       The password
+         * @param  {Array} options       The options
          * @returns {BmwForm}              The instance
          */
-        constructor(id, zone, username, password) {
+        constructor(id, zone, username, password, options) {
             super(id);
 
             /**
@@ -55,6 +56,16 @@ function loaded(api) {
              * @Title("bmw.password");
              */
             this.password = password;
+
+            /**
+             * @Property("trigger");
+             * @Type("string");
+             * @Title("bmw.options");
+             * @Display("checkbox");
+             * @Enum(["alertOnCharge", "tile"]);
+             * @EnumNames(["bmw.alertOnCharge"]);
+             */
+            this.options = options;
         }
 
         /**
@@ -64,7 +75,7 @@ function loaded(api) {
          * @returns {BmwForm}      A form object
          */
         json(data) {
-            return new BmwForm(data.id, data.zone, data.username, data.password);
+            return new BmwForm(data.id, data.zone, data.username, data.password, data.options);
         }
     }
 
@@ -252,7 +263,7 @@ function loaded(api) {
                                             miniTiles.push({icon: icon, text: status.chargingLevelHv + "%" + (status.remainingRangeElectric ? " [" + status.remainingRangeElectric + "]" : ""), colorDefault: api.themeAPI.constants().DARK_COLOR_KEY});
 
                                             // Send notifications
-                                            if (this.previousChargingStatus[vehicles[i].originalData.vin] == "CHARGING" && status.chargingStatus != "CHARGING") {
+                                            if (this.previousChargingStatus[vehicles[i].originalData.vin] == "CHARGING" && status.chargingStatus != "CHARGING" && configuration && configuration.options && configuration.options.trigger.indexOf("alertOnCharge") != -1) {
                                                 api.messageAPI.sendMessage("*", api.translateAPI.t("bmw.charged.message", vehicles[i].model));
                                             }
 
