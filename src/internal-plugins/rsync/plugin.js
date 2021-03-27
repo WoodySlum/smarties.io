@@ -76,7 +76,7 @@ function loaded(api) {
             /**
              * @Property("password");
              * @Type("string");
-             * @Title("rsync.passsword");
+             * @Title("rsync.password");
              * @Display("password");
              */
             this.password = password;
