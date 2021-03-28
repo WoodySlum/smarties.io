@@ -62,7 +62,7 @@ function loaded(api) {
              * @Type("string");
              * @Title("bmw.options");
              * @Display("checkbox");
-             * @Enum(["alertOnCharge", "tile"]);
+             * @Enum(["alertOnCharge"]);
              * @EnumNames(["bmw.alertOnCharge"]);
              */
             this.options = options;
