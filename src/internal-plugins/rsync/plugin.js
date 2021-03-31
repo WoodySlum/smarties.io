@@ -319,8 +319,17 @@ function loaded(api) {
 
                                         unison.stderr.on("data", (data) => {
                                             if (data) {
-                                                api.exported.Logger.err(data.toString());
-                                                delete this.states[hash];
+                                                const regex = /Failed.+Copying\s+(.+)\s+from\s+(.+)\s+to\s+(.+)/gm;
+                                                const regexExec = regex.exec(data.toString());
+                                                if (regexExec !== null && regexExec.length > 0) {
+                                                    const file = regexExec[1];
+                                                    const file1 = regexExec[2] + "/" + file;
+                                                    const file2 = regexExec[3] + "/" + file;
+                                                    
+                                                    api.exported.Logger.info("Failed to sync " + file);
+                                                } else {
+                                                    api.exported.Logger.err(data.toString());
+                                                }
                                             }
                                         });
 
