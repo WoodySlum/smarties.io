@@ -1,6 +1,6 @@
 "use strict";
 
-const { exec, spawn } = require("child_process");
+const { exec, spawn, execSync } = require("child_process");
 const sha256 = require("sha256");
 const fs = require("fs-extra");
 const os = require("os");
@@ -300,7 +300,7 @@ function loaded(api) {
                                         api.exported.Logger.info("Mount : " + mntFolder2);
                                         api.exported.Logger.info("Synchronizing data ...");
 
-                                        const unison = spawn("unison", ["-batch", "-prefer", "newer", "-copythreshold", "1024", "-fastcheck", "false", "-times", "-force", "newer", mntFolder1, mntFolder2]);
+                                        const unison = spawn("unison", ["-batch", "-prefer", "newer", "-copythreshold", "1024", "-fastcheck", "true", "-times", "-force", "newer", mntFolder1, mntFolder2]);
                                         self.pids[hash] = unison.pid;
 
                                         unison.stdout.on("data", (code) => {
@@ -325,8 +325,15 @@ function loaded(api) {
                                                     const file = regexExec[1];
                                                     const file1 = regexExec[2] + "/" + file;
                                                     const file2 = regexExec[3] + "/" + file;
-                                                    
+
+                                                    if (fs.statSync(file1).mtimeMs > fs.statSync(file2).mtimeMs) {
+                                                        execSync("touch \"" + file1 + "\"");
+                                                    } else {
+                                                        execSync("touch \"" + file2 + "\"");
+                                                    }
+
                                                     api.exported.Logger.info("Failed to sync " + file);
+
                                                 } else {
                                                     api.exported.Logger.err(data.toString());
                                                 }

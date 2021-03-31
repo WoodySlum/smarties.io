@@ -130,7 +130,10 @@ class EnvironmentManager {
                 self.startIpScan();
             }, 30000, this);
         }
-        process.env.HOME = "/root";
+
+        if (!process.env.HOME) {
+            process.env.HOME = "/root";
+        }
     }
 
     /**
