@@ -339,24 +339,29 @@ function loaded(api) {
                                                 Object.keys(lFilesMnt1).forEach((filePath) => {
                                                     let perc = parseInt((i / length) * 25) + 1;
                                                     // Check if file exist
-                                                    if (!lFilesMnt2[filePath]) {
-                                                        message({action: "log", message:"File does not exists, copying " + filePath});
-                                                        const baseDir = path.dirname(filePath);
-                                                        fs2.ensureDirSync(lMntFolder2 + baseDir);
-                                                        fs2.copyFileSync(lMntFolder1 + filePath, lMntFolder2 + filePath);
-                                                        execSync2("touch -r \"" + lMntFolder1 + filePath + "\" \"" + lMntFolder2 + filePath + "\"");
-                                                    } else {
-                                                        // Check for more recent files
-                                                        if (lFilesMnt1[filePath] > lFilesMnt2[filePath]) {
-                                                            const md5file1 = md5File.sync(lMntFolder1 + filePath);
-                                                            const md5file2 = md5File.sync(lMntFolder2 + filePath);
-                                                            if (md5file1 != md5file2) { // Check if files are differents
-                                                                message({action: "log", message:"Synching more recent file : " + filePath + " [" + lFilesMnt1[filePath] + " /" + lFilesMnt2[filePath] + "]"});
-                                                                fs2.copyFileSync(lMntFolder1 + filePath, lMntFolder2 + filePath);
-                                                                execSync2("touch -r \"" + lMntFolder1 + filePath + "\" \"" + lMntFolder2 + filePath + "\"");
+                                                    try {
+                                                        if (!lFilesMnt2[filePath]) {
+                                                            message({action: "log", message:"File does not exists, copying " + filePath});
+                                                            const baseDir = path.dirname(filePath);
+                                                            fs2.ensureDirSync(lMntFolder2 + baseDir);
+                                                            fs2.copyFileSync(lMntFolder1 + filePath, lMntFolder2 + filePath);
+                                                            execSync2("touch -r \"" + lMntFolder1 + filePath + "\" \"" + lMntFolder2 + filePath + "\"");
+                                                        } else {
+                                                            // Check for more recent files
+                                                            if (lFilesMnt1[filePath] > lFilesMnt2[filePath]) {
+                                                                const md5file1 = md5File.sync(lMntFolder1 + filePath);
+                                                                const md5file2 = md5File.sync(lMntFolder2 + filePath);
+                                                                if (md5file1 != md5file2) { // Check if files are differents
+                                                                    message({action: "log", message:"Synching more recent file : " + filePath + " [" + lFilesMnt1[filePath] + " /" + lFilesMnt2[filePath] + "]"});
+                                                                    fs2.copyFileSync(lMntFolder1 + filePath, lMntFolder2 + filePath);
+                                                                    execSync2("touch -r \"" + lMntFolder1 + filePath + "\" \"" + lMntFolder2 + filePath + "\"");
+                                                                }
                                                             }
                                                         }
+                                                    } catch(e) {
+                                                        message({action: "log", message: "Error : " + e.message});
                                                     }
+
                                                     i++;
                                                     message({action: "copying", perc: (processingPerc + perc)});
                                                 });
