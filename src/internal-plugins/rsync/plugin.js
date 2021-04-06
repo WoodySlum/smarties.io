@@ -307,7 +307,7 @@ function loaded(api) {
                                             const mntFolder2 = data.mntFolder2;
                                             const filesMnt1 = {};
                                             const filesMnt2 = {};
-                                            const fs2 = require("fs-extra"), path = require("path"), execSync2 = require("child_process").execSync;
+                                            const fs2 = require("fs-extra"), path = require("path"), execSync2 = require("child_process").execSync, md5File = require("md5-file");
                                             let processingPerc = 0;
                                             const walkDir = (dir, cb) => {
                                                 fs2.readdirSync(dir).forEach( f => {
@@ -348,9 +348,13 @@ function loaded(api) {
                                                     } else {
                                                         // Check for more recent files
                                                         if (lFilesMnt1[filePath] > lFilesMnt2[filePath]) {
-                                                            message({action: "log", message:"Synching more recent file : " + filePath + " [" + lFilesMnt1[filePath] + " /" + lFilesMnt2[filePath] + "]"});
-                                                            fs2.copyFileSync(lMntFolder1 + filePath, lMntFolder2 + filePath);
-                                                            execSync2("touch -r \"" + lMntFolder1 + filePath + "\" \"" + lMntFolder2 + filePath + "\"");
+                                                            const md5file1 = md5File.sync(lMntFolder1 + filePath);
+                                                            const md5file2 = md5File.sync(lMntFolder2 + filePath);
+                                                            if (md5file1 != md5file2) { // Check if files are differents
+                                                                message({action: "log", message:"Synching more recent file : " + filePath + " [" + lFilesMnt1[filePath] + " /" + lFilesMnt2[filePath] + "]"});
+                                                                fs2.copyFileSync(lMntFolder1 + filePath, lMntFolder2 + filePath);
+                                                                execSync2("touch -r \"" + lMntFolder1 + filePath + "\" \"" + lMntFolder2 + filePath + "\"");
+                                                            }
                                                         }
                                                     }
                                                     i++;
