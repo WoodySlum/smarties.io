@@ -13,7 +13,8 @@
     "rsync.tile": "With a dashboard tile",
     "rsync.items": "Tasks",
     "rsync.starting": "Starting...",
-    "rsync.analyzing": "Analyzing...",
+    "rsync.analyzing": "Analyzing... [%@%]",
+    "rsync.copying": "Copying... [%@%]",
     "rsync.sync": "Synchronizing...",
     "rsync.start": "Start"
 }

@@ -13,7 +13,8 @@
     "rsync.tile": "Avec un bouton sur l'écran d'acceuil",
     "rsync.items": "Tâches",
     "rsync.starting": "Démarré...",
-    "rsync.analyzing": "Analyse...",
+    "rsync.analyzing": "Analyse... [%@%]",
+    "rsync.copying": "Copie... [%@%]",
     "rsync.sync": "Synchronisation...",
     "rsync.start": "Démarrer"
 }

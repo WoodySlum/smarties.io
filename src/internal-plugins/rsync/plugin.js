@@ -1,6 +1,6 @@
 "use strict";
 
-const { exec, spawn, execSync } = require("child_process");
+const { exec } = require("child_process");
 const sha256 = require("sha256");
 const fs = require("fs-extra");
 const os = require("os");
@@ -195,6 +195,7 @@ function loaded(api) {
             api.installerAPI.register(["linux-arm", "linux-arm64", "linux-x32", "linux-x64", "docker"], "apt-get install -y --allow-unauthenticated unison", true, true);
             this.pids = {};
             this.states = {};
+            this.statesPerc = {};
 
             const self = this;
             this.registerTiles();
@@ -245,7 +246,7 @@ function loaded(api) {
                         if (this.states[hash]) {
                             title = "rsync." + this.states[hash];
                         }
-                        const tile = api.dashboardAPI.Tile("rsync-" + hash, api.dashboardAPI.TileType().TILE_INFO_TWO_TEXT, icon, null, item.tileName,  api.translateAPI.t(title), null, null, 0, 997000, RSYNC_ACTION_BASE + hash + "/");
+                        const tile = api.dashboardAPI.Tile("rsync-" + hash, api.dashboardAPI.TileType().TILE_INFO_TWO_TEXT, icon, null, item.tileName,  api.translateAPI.t(title, this.statesPerc[hash]), null, null, 0, 997000, RSYNC_ACTION_BASE + hash + "/");
                         api.dashboardAPI.registerTile(tile);
                     } else {
                         api.dashboardAPI.unregisterTile("rsync-" + hash);
@@ -270,9 +271,10 @@ function loaded(api) {
          * @param  {object} item The configuration item
          */
         sync(item) {
+            const Logger = api.exported.Logger;
             const hash = this.hash(item);
             if (this.pids[hash] || this.states[hash]) {
-                api.exported.Logger.info("Could not sync, already running : " + hash);
+                Logger.info("Could not sync, already running : " + hash);
             } else {
                 api.exported.Logger.info("Start sync item : " + hash);
                 const self = this;
@@ -285,68 +287,95 @@ function loaded(api) {
                     fs.ensureDirSync(mntFolder1);
                     exec(self.getMountCmd(item, mntFolder1, 0), (error) => {
                         if (error) {
-                            api.exported.Logger.err(error);
+                            Logger.err(error);
                             self.stop(item);
                         } else {
-                            api.exported.Logger.info("Mount : " + mntFolder1);
+                            Logger.info("Mount : " + mntFolder1);
                             // Mount folder 2
                             exec("umount " + mntFolder2, () => {
                                 fs.ensureDirSync(mntFolder2);
                                 exec(self.getMountCmd(item, mntFolder2, 1), (error) => {
                                     if (error) {
-                                        api.exported.Logger.err(error);
+                                        Logger.err(error);
                                         self.stop(item);
                                     } else {
-                                        api.exported.Logger.info("Mount : " + mntFolder2);
-                                        api.exported.Logger.info("Synchronizing data ...");
+                                        Logger.info("Mount : " + mntFolder2);
+                                        Logger.info("Synchronizing data ...");
+                                        this.statesPerc[hash] = 0;
+                                        api.servicesManagerAPI.getThreadsManager().run((data, message) => {
+                                            const mntFolder1 = data.mntFolder1;
+                                            const mntFolder2 = data.mntFolder2;
+                                            const filesMnt1 = {};
+                                            const filesMnt2 = {};
+                                            const fs2 = require("fs-extra"), path = require("path"), execSync2 = require("child_process").execSync;
+                                            let processingPerc = 0;
+                                            const walkDir = (dir, cb) => {
+                                                fs2.readdirSync(dir).forEach( f => {
+                                                    let dirPath = path.join(dir, f);
+                                                    let isDirectory = fs2.statSync(dirPath).isDirectory();
+                                                    isDirectory ? walkDir(dirPath, cb) : cb(path.join(dir, f));
+                                                });
+                                            };
 
-                                        const unison = spawn("unison", ["-batch", "-prefer", "newer", "-copythreshold", "1024", "-fastcheck", "true", "-times", "-force", "newer", mntFolder1, mntFolder2]);
-                                        self.pids[hash] = unison.pid;
+                                            message({action: "analyzing", perc: processingPerc});
+                                            Logger.info("Analyzing dir 1 : " + mntFolder1);
+                                            walkDir(mntFolder1, (filePath) => {
+                                                filesMnt1[filePath.replace(mntFolder1, "")] = fs2.statSync(filePath).mtimeMs;
+                                            });
+                                            processingPerc = 25;
+                                            message({action: "analyzing", perc: processingPerc});
+                                            Logger.info("Analyzing dir 2 : " + mntFolder2);
+                                            walkDir(mntFolder2, (filePath) => {
+                                                filesMnt2[filePath.replace(mntFolder2, "")] = fs2.statSync(filePath).mtimeMs;
+                                            });
+                                            Logger.info("Dir 1 : " + Object.keys(filesMnt1).length + " files");
+                                            Logger.info("Dir 2 : " + Object.keys(filesMnt2).length + " files");
+                                            processingPerc = 50;
+                                            message({action: "analyzing", perc: processingPerc});
 
-                                        unison.stdout.on("data", (code) => {
-                                            if (code) {
-                                                const codeStr = code.toString();
-                                                if (codeStr.substr(0,1) == "/" || codeStr.substr(0,1) == "-" || codeStr.substr(0,1) == "\\" || codeStr.substr(0,1) == "|") {
-                                                    self.states[hash] = "analyzing";
-                                                    self.registerTiles();
-                                                } else if (codeStr.indexOf("%") > 0) {
-                                                    self.states[hash] = codeStr;
-                                                    self.registerTiles();
-                                                }
-                                                api.exported.Logger.info(codeStr);
-                                            }
-                                        });
-
-                                        unison.stderr.on("data", (data) => {
-                                            if (data) {
-                                                const regex = /Failed.+Copying\s+(.+)\s+from\s+(.+)\s+to\s+(.+)/gm;
-                                                const regexExec = regex.exec(data.toString());
-                                                if (regexExec !== null && regexExec.length > 0) {
-                                                    const file = regexExec[1];
-                                                    const file1 = regexExec[2] + "/" + file;
-                                                    const file2 = regexExec[3] + "/" + file;
-
-                                                    if (fs.statSync(file1).mtimeMs > fs.statSync(file2).mtimeMs) {
-                                                        execSync("touch \"" + file1 + "\"");
+                                            const fsync = (lFilesMnt1, lMntFolder1, lFilesMnt2, lMntFolder2) => {
+                                                let i = 0;
+                                                const length = Object.keys(lFilesMnt1).length;
+                                                Object.keys(lFilesMnt1).forEach((filePath) => {
+                                                    let perc = parseInt((i / length) * 25) + 1;
+                                                    // Check if file exist
+                                                    if (!lFilesMnt2[filePath]) {
+                                                        Logger.info("File does not exists, copying " + filePath);
+                                                        const baseDir = path.dirname(filePath);
+                                                        fs2.ensureDirSync(lMntFolder2 + baseDir);
+                                                        fs2.copyFileSync(lMntFolder1 + filePath, lMntFolder2 + filePath);
+                                                        execSync2("touch -r \"" + lMntFolder1 + filePath + "\" \"" + lMntFolder2 + filePath + "\"");
                                                     } else {
-                                                        execSync("touch \"" + file2 + "\"");
+                                                        // Check for more recent files
+                                                        if (lFilesMnt1[filePath] > lFilesMnt2[filePath]) {
+                                                            Logger.info("Synching more recent file : " + filePath + " [" + lFilesMnt1[filePath] + " /" + lFilesMnt2[filePath] + "]");
+                                                            fs2.copyFileSync(lMntFolder1 + filePath, lMntFolder2 + filePath);
+                                                            execSync2("touch -r \"" + lMntFolder1 + filePath + "\" \"" + lMntFolder2 + filePath + "\"");
+                                                        }
                                                     }
+                                                    i++;
+                                                    message({action: "copying", perc: (processingPerc + perc)});
+                                                });
+                                            };
 
-                                                    api.exported.Logger.info("Failed to sync " + file);
-
-                                                } else {
-                                                    api.exported.Logger.err(data.toString());
-                                                }
-                                            }
-                                        });
-
-                                        unison.on("exit", (code) => {
-                                            if (code) {
-                                                const codeStr = code.toString();
-                                                api.exported.Logger.info(codeStr);
+                                            Logger.info("Synching dir 1 to 2");
+                                            fsync(filesMnt1, mntFolder1, filesMnt2, mntFolder2);
+                                            Logger.info("Synching dir 2 to 1");
+                                            fsync(filesMnt2, mntFolder2, filesMnt1, mntFolder1);
+                                            message({action: "end", perc: 100});
+                                        }, hash, {mntFolder1: mntFolder1, mntFolder2: mntFolder2, hash: hash}, (tData) => {
+                                            if (tData.action == "analyzing") {
+                                                this.states[hash] = "analyzing";
+                                                this.statesPerc[hash] = tData.perc;
+                                                this.registerTiles();
+                                            } else if (tData.action == "copying") {
+                                                this.states[hash] = "copying";
+                                                this.statesPerc[hash] = tData.perc;
+                                                this.registerTiles();
+                                            } else if (tData.action == "end") {
                                                 delete this.states[hash];
+                                                this.stop(item);
                                             }
-                                            self.stop(item);
                                         });
                                     }
                                 });
@@ -457,7 +486,7 @@ module.exports.attributes = {
     name: "rsync",
     version: "0.0.0",
     category: "misc",
-    description: "Synchronize samba folders with Unison",
+    description: "Synchronize Samba folders",
     defaultDisabled: true,
     dependencies:[]
 };
