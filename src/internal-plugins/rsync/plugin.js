@@ -318,18 +318,18 @@ function loaded(api) {
                                             };
 
                                             message({action: "analyzing", perc: processingPerc});
-                                            Logger.info("Analyzing dir 1 : " + mntFolder1);
+                                            message({action: "log", message:"Analyzing dir 1 : " + mntFolder1});
                                             walkDir(mntFolder1, (filePath) => {
                                                 filesMnt1[filePath.replace(mntFolder1, "")] = fs2.statSync(filePath).mtimeMs;
                                             });
                                             processingPerc = 25;
                                             message({action: "analyzing", perc: processingPerc});
-                                            Logger.info("Analyzing dir 2 : " + mntFolder2);
+                                            message({action: "log", message:"Analyzing dir 2 : " + mntFolder2});
                                             walkDir(mntFolder2, (filePath) => {
                                                 filesMnt2[filePath.replace(mntFolder2, "")] = fs2.statSync(filePath).mtimeMs;
                                             });
-                                            Logger.info("Dir 1 : " + Object.keys(filesMnt1).length + " files");
-                                            Logger.info("Dir 2 : " + Object.keys(filesMnt2).length + " files");
+                                            message({action: "log", message:"Dir 1 : " + Object.keys(filesMnt1).length + " files"});
+                                            message({action: "log", message:"Dir 2 : " + Object.keys(filesMnt2).length + " files"});
                                             processingPerc = 50;
                                             message({action: "analyzing", perc: processingPerc});
 
@@ -340,7 +340,7 @@ function loaded(api) {
                                                     let perc = parseInt((i / length) * 25) + 1;
                                                     // Check if file exist
                                                     if (!lFilesMnt2[filePath]) {
-                                                        Logger.info("File does not exists, copying " + filePath);
+                                                        message({action: "log", message:"File does not exists, copying " + filePath});
                                                         const baseDir = path.dirname(filePath);
                                                         fs2.ensureDirSync(lMntFolder2 + baseDir);
                                                         fs2.copyFileSync(lMntFolder1 + filePath, lMntFolder2 + filePath);
@@ -348,7 +348,7 @@ function loaded(api) {
                                                     } else {
                                                         // Check for more recent files
                                                         if (lFilesMnt1[filePath] > lFilesMnt2[filePath]) {
-                                                            Logger.info("Synching more recent file : " + filePath + " [" + lFilesMnt1[filePath] + " /" + lFilesMnt2[filePath] + "]");
+                                                            message({action: "log", message:"Synching more recent file : " + filePath + " [" + lFilesMnt1[filePath] + " /" + lFilesMnt2[filePath] + "]"});
                                                             fs2.copyFileSync(lMntFolder1 + filePath, lMntFolder2 + filePath);
                                                             execSync2("touch -r \"" + lMntFolder1 + filePath + "\" \"" + lMntFolder2 + filePath + "\"");
                                                         }
@@ -358,9 +358,9 @@ function loaded(api) {
                                                 });
                                             };
 
-                                            Logger.info("Synching dir 1 to 2");
+                                            message({action: "log", message:"Synching dir 1 to 2"});
                                             fsync(filesMnt1, mntFolder1, filesMnt2, mntFolder2);
-                                            Logger.info("Synching dir 2 to 1");
+                                            message({action: "log", message:"Synching dir 2 to 1"});
                                             fsync(filesMnt2, mntFolder2, filesMnt1, mntFolder1);
                                             message({action: "end", perc: 100});
                                         }, hash, {mntFolder1: mntFolder1, mntFolder2: mntFolder2, hash: hash}, (tData) => {
@@ -375,6 +375,8 @@ function loaded(api) {
                                             } else if (tData.action == "end") {
                                                 delete this.states[hash];
                                                 this.stop(item);
+                                            } else if (tData.action == "log") {
+                                                Logger.info(tData.message);
                                             }
                                         });
                                     }
