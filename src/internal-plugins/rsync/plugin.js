@@ -318,7 +318,7 @@ function loaded(api) {
 
                                             const md5File = (fileName) => {
                                                 return execSync2("imosum \"" + fileName + "\"").toString().split(" ")[0];
-                                            }
+                                            };
 
                                             message({action: "analyzing", perc: processingPerc});
                                             message({action: "log", message:"Analyzing dir 1 : " + mntFolder1});
