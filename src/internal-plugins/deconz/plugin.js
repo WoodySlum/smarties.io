@@ -846,13 +846,13 @@ function loaded(api) {
                             };
 
                             this.webSocket.onclose = (e) => {
-                                Logger.err(e);
+                                this.api.exported.Logger.err(e);
                                 // this.service.restart();
-                                // const restartTimerS = 5;
-                                // this.api.exported.Logger.warn("Connection web socket closed. Reconnect in " + restartTimerS + " seconds");
-                                // setTimeout((self) => {
-                                //     self.connectWebSocket();
-                                // }, restartTimerS * 1000, this);
+                                const restartTimerS = 5;
+                                this.api.exported.Logger.warn("Connection web socket closed. Reconnect in " + restartTimerS + " seconds");
+                                setTimeout((self) => {
+                                    self.connectWebSocket();
+                                }, restartTimerS * 1000, this);
                             };
                         } else if (err) {
                             this.api.exported.Logger.err("Error : " + err.message);
