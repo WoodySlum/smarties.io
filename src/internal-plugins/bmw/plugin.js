@@ -292,7 +292,6 @@ function loaded(api) {
 
                                         // Mini tiles
                                         const tileId = status.vin;
-                                        api.dashboardAPI.unregisterTile(tileId);
                                         const tile = api.dashboardAPI.Tile(tileId, api.dashboardAPI.TileType().TILE_SUB_TILES, null, null, null, null, null, null, 0, 109, null, miniTiles, api.webAPI.Authentication().AUTH_USAGE_LEVEL);
                                         api.dashboardAPI.registerTile(tile);
                                     }).catch((e) => {

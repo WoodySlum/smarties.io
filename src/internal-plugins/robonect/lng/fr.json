@@ -1,0 +1,18 @@
+{
+    "mower.detecting.status": "Chargement",
+    "mower.parking": "Parking",
+    "mower.mowing": "Tonte",
+    "mower.search.charging.station": "Rech. sta.",
+    "mower.charging": "Charge",
+    "mower.searching": "Recherche",
+    "mower.error.status": "Erreur",
+    "mower.lost.signal": "Perte signal",
+    "mower.off": "Off",
+    "mower.sleeping": "Repos",
+    "mower.unknown": "Inconnu",
+    "mower.na": "N/a",
+    "mower.auto": "Auto",
+    "mower.man": "Man",
+    "mower.home": "Maison",
+    "mower.eod": "Eod"
+}

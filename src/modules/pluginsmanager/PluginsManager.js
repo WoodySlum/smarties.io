@@ -121,7 +121,8 @@ const INTERNAL_PLUGINS = [
     "onvif",
     "uptime",
     "somfy-io-gate",
-    "rsync"
+    "rsync",
+    "robonect"
 ];
 
 const CORE_PLUGINS = [

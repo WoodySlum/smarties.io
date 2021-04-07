@@ -40,7 +40,8 @@
             "**/internal-plugins/legrand/*",
             "**/internal-plugins/esp8266*",
             "**/internal-plugins/somfy-io-gate/*",
-            "**/internal-plugins/rsync/*"
+            "**/internal-plugins/rsync/*",
+            "**/internal-plugins/robonect/*"
         ],
         "ignore-class-method": "stringify",
         "check-coverage": true,
