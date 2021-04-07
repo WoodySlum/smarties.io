@@ -212,7 +212,7 @@ function loaded(api) {
                     api.exported.Logger.info(msg, params);
                     // Fix DDOS issues : https://github.com/NorthernMan54/homebridge-alexa/issues/413
                     if (msg.indexOf("please review the README") > 0) {
-                        api.exported.Logger.warn("DDOS protection detected, restart homebridge in 5 min");
+                        /*api.exported.Logger.warn("DDOS protection detected, restart homebridge in 5 min");
                         this.stop();
                         if (!this.restartTimer) {
                             this.restartTimer = setTimeout((self) => {
@@ -220,7 +220,7 @@ function loaded(api) {
                                 self.start();
                                 self.restartTimer = null;
                             }, 5 * 60 * 1000, this);
-                        }
+                        }*/
                     }
                 }
             };
