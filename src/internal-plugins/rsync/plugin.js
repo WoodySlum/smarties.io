@@ -191,7 +191,7 @@ function loaded(api) {
          */
         constructor(api) {
             this.api = api;
-            api.installerAPI.register(["darwin-x32", "darwin-x64", "linux-x32", "linux-x64", "docker"], "pip install imohash", false, true, true);
+            api.installerAPI.register(["darwin-x32", "darwin-x64", "linux-x32", "linux-x64", "docker"], "pip install imohash", true, true, true);
             this.pids = {};
             this.states = {};
             this.statesPerc = {};
@@ -502,7 +502,7 @@ function loaded(api) {
 module.exports.attributes = {
     loadedCallback: loaded,
     name: "rsync",
-    version: "0.0.0",
+    version: "0.0.1",
     category: "misc",
     description: "Synchronize Samba folders",
     defaultDisabled: true,
