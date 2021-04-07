@@ -174,7 +174,7 @@ class Service {
      * Stop an external command
      */
     stopExternal() {
-        if (this.childProcess) {
+        if (this.childProcess && this.pid != -1) {
             try {
                 process.kill(this.pid, "SIGTERM");
                 process.kill(this.pid, "SIGKILL");
