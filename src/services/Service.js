@@ -175,7 +175,13 @@ class Service {
      */
     stopExternal() {
         if (this.childProcess) {
-            this.childProcess.kill("SIGKILL");
+            try {
+                process.kill(this.pid, "SIGTERM");
+                process.kill(this.pid, "SIGKILL");
+            } catch(e) {
+                Logger.err(e);
+            }
+
             this.pid = -1;
             this.childProcess = null;
         } else {
