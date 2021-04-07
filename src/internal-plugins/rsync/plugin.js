@@ -191,7 +191,7 @@ function loaded(api) {
          */
         constructor(api) {
             this.api = api;
-            api.installerAPI.register(["darwin-x32", "darwin-x64", "linux-x32", "linux-x64", "docker"], "pip install imohash", true, true, true);
+            api.installerAPI.register(["darwin-x32", "darwin-x64", "linux-x32", "linux-x64", "linux-arm", "linux-arm64", "docker"], "pip install imohash", true, true, true);
             this.pids = {};
             this.states = {};
             this.statesPerc = {};
