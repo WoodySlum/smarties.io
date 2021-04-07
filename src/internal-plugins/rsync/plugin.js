@@ -502,7 +502,7 @@ function loaded(api) {
 module.exports.attributes = {
     loadedCallback: loaded,
     name: "rsync",
-    version: "0.0.1",
+    version: "0.0.2",
     category: "misc",
     description: "Synchronize Samba folders",
     defaultDisabled: true,
