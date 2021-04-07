@@ -847,7 +847,11 @@ function loaded(api) {
 
                             this.webSocket.onclose = () => {
                                 this.service.restart();
-                                this.api.exported.Logger.warn("Connection web socket closed");
+                                const restartTimerS = 5;
+                                this.api.exported.Logger.warn("Connection web socket closed. Reconnect in " + restartTimerS + " seconds");
+                                setTimeout((self) => {
+                                    self.connectWebSocket();
+                                }, restartTimerS * 1000, this);
                             };
                         } else if (err) {
                             this.api.exported.Logger.err("Error : " + err.message);
