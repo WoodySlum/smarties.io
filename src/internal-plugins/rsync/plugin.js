@@ -191,8 +191,7 @@ function loaded(api) {
          */
         constructor(api) {
             this.api = api;
-            api.installerAPI.register(["darwin-x32", "darwin-x64"], "brew install unison", false, true, true);
-            api.installerAPI.register(["linux-arm", "linux-arm64", "linux-x32", "linux-x64", "docker"], "apt-get install -y --allow-unauthenticated unison", true, true);
+            api.installerAPI.register(["darwin-x32", "darwin-x64", "linux-x32", "linux-x64", "docker"], "pip install imohash", false, true, true);
             this.pids = {};
             this.states = {};
             this.statesPerc = {};
@@ -307,7 +306,7 @@ function loaded(api) {
                                             const mntFolder2 = data.mntFolder2;
                                             const filesMnt1 = {};
                                             const filesMnt2 = {};
-                                            const fs2 = require("fs-extra"), path = require("path"), execSync2 = require("child_process").execSync, md5File = require("md5-file");
+                                            const fs2 = require("fs-extra"), path = require("path"), execSync2 = require("child_process").execSync;
                                             let processingPerc = 0;
                                             const walkDir = (dir, cb) => {
                                                 fs2.readdirSync(dir).forEach( f => {
@@ -316,6 +315,10 @@ function loaded(api) {
                                                     isDirectory ? walkDir(dirPath, cb) : cb(path.join(dir, f));
                                                 });
                                             };
+
+                                            const md5File = (fileName) => {
+                                                return execSync2("imosum \"" + fileName + "\"").toString().split(" ")[0];
+                                            }
 
                                             message({action: "analyzing", perc: processingPerc});
                                             message({action: "log", message:"Analyzing dir 1 : " + mntFolder1});
@@ -335,6 +338,7 @@ function loaded(api) {
 
                                             const fsync = (lFilesMnt1, lMntFolder1, lFilesMnt2, lMntFolder2) => {
                                                 let i = 0;
+                                                let max = 0;
                                                 const length = Object.keys(lFilesMnt1).length;
                                                 Object.keys(lFilesMnt1).forEach((filePath) => {
                                                     let perc = parseInt((i / length) * 25) + 1;
@@ -349,21 +353,24 @@ function loaded(api) {
                                                         } else {
                                                             // Check for more recent files
                                                             if (lFilesMnt1[filePath] > lFilesMnt2[filePath]) {
-                                                                const md5file1 = md5File.sync(lMntFolder1 + filePath);
-                                                                const md5file2 = md5File.sync(lMntFolder2 + filePath);
+                                                                const md5file1 = md5File(lMntFolder1 + filePath);
+                                                                const md5file2 = md5File(lMntFolder2 + filePath);
                                                                 if (md5file1 != md5file2) { // Check if files are differents
                                                                     message({action: "log", message:"Synching more recent file : " + filePath + " [" + lFilesMnt1[filePath] + " /" + lFilesMnt2[filePath] + "]"});
                                                                     fs2.copyFileSync(lMntFolder1 + filePath, lMntFolder2 + filePath);
-                                                                    execSync2("touch -r \"" + lMntFolder1 + filePath + "\" \"" + lMntFolder2 + filePath + "\"");
                                                                 }
+                                                                execSync2("touch -r \"" + lMntFolder1 + filePath + "\" \"" + lMntFolder2 + filePath + "\"");
                                                             }
                                                         }
                                                     } catch(e) {
                                                         message({action: "log", message: "Error : " + e.message});
                                                     }
 
+                                                    if ((processingPerc + perc) > max) {
+                                                        max = (processingPerc + perc);
+                                                        message({action: "copying", perc: (processingPerc + perc)});
+                                                    }
                                                     i++;
-                                                    message({action: "copying", perc: (processingPerc + perc)});
                                                 });
                                             };
 
@@ -372,7 +379,7 @@ function loaded(api) {
                                             message({action: "log", message:"Synching dir 2 to 1"});
                                             fsync(filesMnt2, mntFolder2, filesMnt1, mntFolder1);
                                             message({action: "end", perc: 100});
-                                        }, hash, {mntFolder1: mntFolder1, mntFolder2: mntFolder2, hash: hash}, (tData) => {
+                                        }, "rsync-" + hash, {mntFolder1: mntFolder1, mntFolder2: mntFolder2, hash: hash}, (tData) => {
                                             if (tData.action == "analyzing") {
                                                 this.states[hash] = "analyzing";
                                                 this.statesPerc[hash] = tData.perc;
