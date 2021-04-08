@@ -210,32 +210,36 @@ class MjpegProxy {
             this.mjpegRequest.end();
 
         } else {
-            this.stream = new rtsp.FFMpeg({input: rtspUrl, rate: 5, quality: 3});
+            try {
+                this.stream = new rtsp.FFMpeg({input: rtspUrl, rate: 5, quality: 3});
 
-            setTimeout(() => {
-                this.audienceResponses.forEach((res) => {
-                    res.writeHead(200, {
-                        "Expires": "Mon, 01 Jul 1980 00:00:00 GMT",
-                        "Cache-Control": "no-cache, no-store, must-revalidate",
-                        "Pragma": "no-cache",
-                        "Content-Type": "multipart/x-mixed-replace;boundary=" + this.boundary
-                    });
-                });
-
-                let childProcess = null;
-                this.stream.on("data", (data) => {
-                    let buffer = Buffer.from(data, "binary");
-                    if (this.cb) {
-                        buffer = this.cb(null, buffer);
-                    }
+                setTimeout(() => {
                     this.audienceResponses.forEach((res) => {
-                        res.write(this.generateHeader(buffer));
-                        res.write(buffer);
-                        this.stream.child = childProcess;
+                        res.writeHead(200, {
+                            "Expires": "Mon, 01 Jul 1980 00:00:00 GMT",
+                            "Cache-Control": "no-cache, no-store, must-revalidate",
+                            "Pragma": "no-cache",
+                            "Content-Type": "multipart/x-mixed-replace;boundary=" + this.boundary
+                        });
                     });
-                });
-                childProcess = this.stream.child;
-            }, 500);
+
+                    let childProcess = null;
+                    this.stream.on("data", (data) => {
+                        let buffer = Buffer.from(data, "binary");
+                        if (this.cb) {
+                            buffer = this.cb(null, buffer);
+                        }
+                        this.audienceResponses.forEach((res) => {
+                            res.write(this.generateHeader(buffer));
+                            res.write(buffer);
+                            this.stream.child = childProcess;
+                        });
+                    });
+                    childProcess = this.stream.child;
+                }, 500);
+            } catch(e) {
+                Logger.err(e);
+            }
         }
 
     }

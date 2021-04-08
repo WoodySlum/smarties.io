@@ -1118,16 +1118,20 @@ class CamerasManager {
                                 }
                             });
                         } else if (camera.rtspUrl && camera.rtspUrl.length > 0) {
-                            const stream = new rtsp.FFMpeg({input: camera.rtspUrl, rate: 1, resolution: "640x480"});
+                            try {
+                                const stream = new rtsp.FFMpeg({input: camera.rtspUrl, rate: 1, resolution: "640x480"});
 
-                            let childProcess = null;
-                            stream.on("data", (data) => {
-                                stream.child = childProcess;
-                                stream.stop();
-                                cb(null, data, "image/jpeg");
-                            });
-                            childProcess = stream.child;
-
+                                let childProcess = null;
+                                stream.on("data", (data) => {
+                                    stream.child = childProcess;
+                                    stream.stop();
+                                    cb(null, data, "image/jpeg");
+                                });
+                                childProcess = stream.child;
+                            } catch(e) {
+                                Logerr.err(e);
+                                cb(e);
+                            }
                         } else {
                             cb(Error(ERROR_NO_URL_DEFINED));
                         }

@@ -233,6 +233,8 @@ function loaded(api) {
                 }
                 if (rtsp) {
                     pUrl = "rtsp://";
+                } else if (this.configuration.username && this.configuration.password){
+                    pUrl += encodeURIComponent(this.configuration.username) + ":" + encodeURIComponent(this.configuration.password) + "@";
                 }
 
                 pUrl += ((this.configuration.ip.ip === "freetext") ? this.configuration.ip.freetext : this.configuration.ip.ip) + (rtsp ? "" : ":" + this.configuration.port);
