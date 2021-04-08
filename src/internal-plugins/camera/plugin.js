@@ -30,9 +30,10 @@ function loaded(api) {
          * @param  {boolean} cv          Computer vision
          * @param  {boolean} cvfps          Computer vision FPS
          * @param  {boolean} cvlive          Computer vision live view
+         * @param  {string} rotation          Rotation
          * @returns {CameraForm}                 The instance
          */
-        constructor(id, plugin, name, def = false, ip, port, username, password, archive = true, cv = false, cvfps = 3, cvlive = false) {
+        constructor(id, plugin, name, def = false, ip, port, username, password, archive = true, cv = false, cvfps = 3, cvlive = false, rotation = "0") {
             super(id);
 
             this.plugin = plugin;
@@ -98,6 +99,16 @@ function loaded(api) {
             this.archive = archive;
 
             /**
+             * @Property("rotation");
+             * @Title("camera.form.rotation");
+             * @Type("string");
+             * @Default("0");
+             * @Enum(["0", "90", "180", "270"]);
+             * @EnumNames(["0°", "90°", "180°", "270°"]);
+             */
+            this.rotation = rotation;
+
+            /**
              * @Property("cv");
              * @Title("camera.form.cv");
              * @Type("boolean");
@@ -130,7 +141,7 @@ function loaded(api) {
          * @returns {CameraForm}      An instance
          */
         json(data) {
-            return new CameraForm(data.id, data.plugin, data.name, data.def, data.ip, data.port, data.username, data.password, data.archive, data.cv, data.cvfps, data.cvlive);
+            return new CameraForm(data.id, data.plugin, data.name, data.def, data.ip, data.port, data.username, data.password, data.archive, data.cv, data.cvfps, data.cvlive, data.rotation);
         }
     }
 

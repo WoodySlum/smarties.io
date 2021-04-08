@@ -6,6 +6,7 @@ const http = require("http");
 const https = require("https");
 const rtsp = require("rtsp-ffmpeg");
 const Logger = require("./../../logger/Logger");
+const ImageUtils = require("./../../utils/ImageUtils");
 
 const JPG_HEADER = "FFD8";
 const JPG_FOOTER = "FFD9";
@@ -26,11 +27,12 @@ class MjpegProxy {
      *
      * @param  {string} mjpegUrl A mjpeg URL
      * @param  {string} rtspUrl A rtsp URL
+     * @param  {string} rotation The rotation param
      * @param  {boolean} [transform=false]    Transform image. `true` will stream thr result of `cb`
      * @param  {Function} [cb=null]    A callback `(err, jpg) => {}`
      * @returns {MjpegProxy}                       The instance
      */
-    constructor(mjpegUrl, rtspUrl, transform = false, cb = null) {
+    constructor(mjpegUrl, rtspUrl, rotation, transform = false, cb = null) {
 
         this.buffer = null;
         this.cb = cb;
@@ -91,22 +93,38 @@ class MjpegProxy {
 
                                 setTimeout(() => { // Async processing
                                     let image = tmpBuffer;
-                                    if (self.cb) {
-                                        let rImage = self.cb(null, tmpBuffer);
-                                        if (rImage && rImage.indexOf(JPG_HEADER, 0, "hex") != -1 && rImage.indexOf(JPG_FOOTER, 0, "hex") != -1) {
-                                            image = rImage;
+                                    const processf = (data) => {
+                                        image = data;
+                                        if (self.cb) {
+                                            let rImage = self.cb(null, image);
+                                            if (rImage && rImage.indexOf(JPG_HEADER, 0, "hex") != -1 && rImage.indexOf(JPG_FOOTER, 0, "hex") != -1) {
+                                                image = rImage;
+                                                // Let
+                                            }
                                         }
-                                    }
-                                    // Got a buffer
-                                    if (self.transform) {// && self.rBuffer && self.rBuffer.length > 0) {
-                                        if (self.rBuffer.indexOf(self.boundary) == -1) {
-                                            self.rBuffer = Buffer.concat([self.rBuffer, self.generateHeader(image), image]);
-                                        } else {
-                                            // If there is already a boundary inside, the buffer is already full.
-                                            self.rBuffer = Buffer.concat([self.rBuffer.slice(0, self.rBuffer.indexOf(self.boundary)) ,self.generateHeader(image), image]);
+                                        // Got a buffer
+                                        if (self.transform) {// && self.rBuffer && self.rBuffer.length > 0) {
+                                            if (self.rBuffer.indexOf(self.boundary) == -1) {
+                                                self.rBuffer = Buffer.concat([self.rBuffer, self.generateHeader(image), image]);
+                                            } else {
+                                                // If there is already a boundary inside, the buffer is already full.
+                                                self.rBuffer = Buffer.concat([self.rBuffer.slice(0, self.rBuffer.indexOf(self.boundary)) ,self.generateHeader(image), image]);
+                                            }
                                         }
+                                        tmpBuffer = null;
+                                    };
+
+                                    // Image rotation
+                                    if (rotation && rotation != "0") {
+                                        ImageUtils.class.rotateb(image, (err, data) => {
+                                            if (err) {
+                                                Logger.err(err);
+                                            }
+                                            processf(data);
+                                        }, parseInt(rotation));
+                                    } else {
+                                        processf(image);
                                     }
-                                    tmpBuffer = null;
                                 }, 0);
                             }
                         }
@@ -226,14 +244,31 @@ class MjpegProxy {
                     let childProcess = null;
                     this.stream.on("data", (data) => {
                         let buffer = Buffer.from(data, "binary");
-                        if (this.cb) {
-                            buffer = this.cb(null, buffer);
+                        // Image rotation
+                        if (rotation && rotation != "0") {
+                            ImageUtils.class.rotateb(buffer, (err, data) => {
+                                if (err) {
+                                    Logger.err(err);
+                                }
+                                if (this.cb) {
+                                    buffer = this.cb(err, data);
+                                }
+                                this.audienceResponses.forEach((res) => {
+                                    res.write(this.generateHeader(data));
+                                    res.write(data);
+                                    this.stream.child = childProcess;
+                                });
+                            }, parseInt(rotation));
+                        } else {
+                            if (this.cb) {
+                                buffer = this.cb(null, buffer);
+                            }
+                            this.audienceResponses.forEach((res) => {
+                                res.write(this.generateHeader(buffer));
+                                res.write(buffer);
+                                this.stream.child = childProcess;
+                            });
                         }
-                        this.audienceResponses.forEach((res) => {
-                            res.write(this.generateHeader(buffer));
-                            res.write(buffer);
-                            this.stream.child = childProcess;
-                        });
                     });
                     childProcess = this.stream.child;
                 }, 500);

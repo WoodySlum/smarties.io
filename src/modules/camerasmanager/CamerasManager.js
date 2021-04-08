@@ -688,7 +688,7 @@ class CamerasManager {
                     const camera = self.getCamera(id);
                     let mjpegProxy;
                     if (camera && camera.configuration && camera.configuration.cvlive) {
-                        mjpegProxy = new MjpegProxy.class(camera.mjpegUrl, camera.rtspUrl, true, (err, img) => {
+                        mjpegProxy = new MjpegProxy.class(camera.mjpegUrl, camera.rtspUrl, camera.configuration.rotation, true, (err, img) => {
                             if (!err && self.detectedObjects[camera.id.toString()] && self.detectedObjects[camera.id.toString()].length > 0) {
                                 img = self.aiManager.drawCvRectangles(self.detectedObjects[camera.id.toString()], img);
                             }
@@ -705,7 +705,7 @@ class CamerasManager {
                             return img;
                         });
                     } else {
-                        mjpegProxy = new MjpegProxy.class(camera.mjpegUrl, camera.rtspUrl);
+                        mjpegProxy = new MjpegProxy.class(camera.mjpegUrl, camera.rtspUrl, camera.configuration.rotation);
                     }
 
                     apiRequest.req.on("close", () => {
@@ -1095,7 +1095,14 @@ class CamerasManager {
                             if (err) {
                                 cb(err);
                             } else {
-                                cb(null, Buffer.from(data, "binary"), "image/jpeg");
+                                if (camera.configuration && camera.configuration.rotation && camera.configuration.rotation != "0") {
+                                    ImageUtils.class.rotateb(Buffer.from(data, "binary"), (err, data) => {
+                                        cb(err, data, "image/jpeg");
+                                    }, parseInt(camera.configuration.rotation));
+                                } else {
+                                    cb(null, Buffer.from(data, "binary"), "image/jpeg");
+                                }
+
                             }
                         });
                     } else {
@@ -1114,7 +1121,13 @@ class CamerasManager {
                                     cb(error);
                                 } else {
                                     Logger.verbose("Camera picture " + id + " done !");
-                                    cb(null, Buffer.from(body, "binary"), response.headers["content-type"]);
+                                    if (camera.configuration && camera.configuration.rotation && camera.configuration.rotation != "0") {
+                                        ImageUtils.class.rotateb(Buffer.from(body, "binary"), (err, data) => {
+                                            cb(err, data, response.headers["content-type"]);
+                                        }, parseInt(camera.configuration.rotation));
+                                    } else {
+                                        cb(null, Buffer.from(body, "binary"), response.headers["content-type"]);
+                                    }
                                 }
                             });
                         } else if (camera.rtspUrl && camera.rtspUrl.length > 0) {
@@ -1125,7 +1138,13 @@ class CamerasManager {
                                 stream.on("data", (data) => {
                                     stream.child = childProcess;
                                     stream.stop();
-                                    cb(null, data, "image/jpeg");
+                                    if (camera.configuration && camera.configuration.rotation && camera.configuration.rotation != "0") {
+                                        ImageUtils.class.rotateb(data, (err, data) => {
+                                            cb(err, data, "image/jpeg");
+                                        }, parseInt(camera.configuration.rotation));
+                                    } else {
+                                        cb(null, data, "image/jpeg");
+                                    }
                                 });
                                 childProcess = stream.child;
                             } catch(e) {

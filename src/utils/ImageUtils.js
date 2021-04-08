@@ -97,6 +97,27 @@ class ImageUtils {
     }
 
     /**
+    * Rotate buffer with out jpeg
+    *
+    * @param  {Buffer}   buf  The image buffer
+    * @param  {Function} cb         A callback when image process is done `(err, data) => {}`
+    * @param  {number}   angle       The rotation in degrees
+    * @returns {string}              The base64 output image string
+    */
+    static rotateb(buf, cb, angle) {
+        gm(buf)
+            .rotate("#FFFFFFFF", angle)
+            .setFormat("jpg")
+            .toBuffer((err, buffer) => {
+                if (err) {
+                    cb(err);
+                } else {
+                    cb(null, buffer);
+                }
+            });
+    }
+
+    /**
     * Paste image in another one
     *
     * @param  {string}   b64string  The base64 image string
