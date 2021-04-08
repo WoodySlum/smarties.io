@@ -298,7 +298,7 @@ class CamerasManager {
                                 try {
                                     context.threadsManager.send(THREAD_ARCHIVE_CAMERA, "saveCameraPicture", {file: cameraArchiveFolder + timestamp + CAMERA_FILE_EXTENSION, data: data});
                                 } catch(e) {
-                                    Logger.err(e);
+                                    e;
                                 }
 
                             }
