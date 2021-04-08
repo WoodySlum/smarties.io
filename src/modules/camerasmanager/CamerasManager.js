@@ -1129,7 +1129,7 @@ class CamerasManager {
                                 });
                                 childProcess = stream.child;
                             } catch(e) {
-                                Logerr.err(e);
+                                Logger.err(e);
                                 cb(e);
                             }
                         } else {
