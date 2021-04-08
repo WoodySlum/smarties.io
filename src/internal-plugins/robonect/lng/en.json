@@ -1,10 +1,10 @@
 {
-    "mower.detecting.status": "Loading",
+    "mower.detecting.status": "Load..",
     "mower.parking": "Parking",
     "mower.mowing": "Mowing",
-    "mower.search.charging.station": "Searching sta.",
+    "mower.search.charging.station": "Search sta.",
     "mower.charging": "Charging",
-    "mower.searching": "Searching",
+    "mower.searching": "Search.",
     "mower.error.status": "Error",
     "mower.lost.signal": "Lost signal",
     "mower.off": "Off",
@@ -14,5 +14,8 @@
     "mower.auto": "Auto",
     "mower.man": "Man",
     "mower.home": "Home",
-    "mower.eod": "Eod"
+    "mower.eod": "Eod",
+    "robonect.ip": "IP Address",
+    "robonect.username": "Username",
+    "robonect.password": "Password"
 }
