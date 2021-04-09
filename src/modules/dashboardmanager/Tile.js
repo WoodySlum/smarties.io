@@ -100,22 +100,24 @@ class Tile {
             this.colors.colorOn = this.themeManager.getColors(username).onColor;
             this.colors.colorOff = this.themeManager.getColors(username).offColor;
         } else if (this.type === TILE_SUB_TILES) {
-            if (Array.isArray(this.object)) {
-                for (let i = 0 ; i < this.object.length ; i++) {
-                    if (!this.object[i].colorDefault) {
-                        this.object[i].colorDefault = this.themeManager.getColors(username).primaryColor;
-                    } else if (this.themeManager.getColors(username)[this.object[i].colorDefault]){
-                        this.object[i].colorDefault = this.themeManager.getColors(username)[this.object[i].colorDefault];
+            if (Array.isArray(this.object) || (this.object && this.object.miniTiles && Array.isArray(this.object.miniTiles))) {
+                let subTiles = this.object;
+                if (this.object.miniTiles) subTiles = this.object.miniTiles;
+                for (let i = 0 ; i < subTiles.length ; i++) {
+                    if (!subTiles[i].colorDefault) {
+                        subTiles[i].colorDefault = this.themeManager.getColors(username).primaryColor;
+                    } else if (this.themeManager.getColors(username)[subTiles[i].colorDefault]){
+                        subTiles[i].colorDefault = this.themeManager.getColors(username)[subTiles[i].colorDefault];
                     }
 
-                    if (!this.object[i].colorContent) {
-                        this.object[i].colorContent = this.themeManager.getColors(username).clearColor;
-                    } else if (this.themeManager.getColors(username)[this.object[i].colorContent]) {
-                        this.object[i].colorContent = this.themeManager.getColors(username)[this.object[i].colorContent];
+                    if (!subTiles[i].colorContent) {
+                        subTiles[i].colorContent = this.themeManager.getColors(username).clearColor;
+                    } else if (this.themeManager.getColors(username)[subTiles[i].colorContent]) {
+                        subTiles[i].colorContent = this.themeManager.getColors(username)[subTiles[i].colorContent];
                     }
 
-                    if (i === (this.object.length - 1)) { // Give last color
-                        this.colors.colorDefault = this.object[i].colorDefault;
+                    if (i === (subTiles.length - 1)) { // Give last color
+                        this.colors.colorDefault = subTiles[i].colorDefault;
                     }
                 }
             }
