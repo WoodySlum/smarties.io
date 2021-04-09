@@ -95,11 +95,12 @@ function loaded(api) {
          */
         refresh() {
             this.getVersion((err, res) => {
-                this.getStatus((err, res2) => {
-                    if (!err) {
+                this.getStatus((err2, res2) => {
+                    if (!err && !err2) {
                         this.registerTile(Object.assign(res, res2));
-                    } else {
+                    } else if (err || err2) {
                         api.exported.Logger.err(err);
+                        api.exported.Logger.err(err2);
                     }
 
                 });

@@ -296,6 +296,7 @@ class CamerasManager {
                         context.getImage(camera.id, (err, data) => {
                             if (!err) {
                                 try {
+                                    this.cameraCapture[camera.id.toString()] = data;
                                     context.threadsManager.send(THREAD_ARCHIVE_CAMERA, "saveCameraPicture", {file: cameraArchiveFolder + timestamp + CAMERA_FILE_EXTENSION, data: data});
                                 } catch(e) {
                                     e;
@@ -673,6 +674,7 @@ class CamerasManager {
             const id = parseInt(apiRequest.data.id);
             const mode = apiRequest.data.mode;
             const base64 = apiRequest.data.base64?(parseInt(apiRequest.data.base64)>0?true:false):false;
+            const timestamp = apiRequest.data.timestamp?parseInt(apiRequest.data.cache):null;
             return new Promise((resolve, reject) => {
                 if (mode === MODE_STATIC) {
                     self.getImage(id, (err, data, contentType) => {
@@ -683,7 +685,7 @@ class CamerasManager {
                         } else {
                             resolve(new APIResponse.class(true, data, null, null, false, contentType));
                         }
-                    }, apiRequest.data.timestamp?apiRequest.data.timestamp:null);
+                    }, timestamp);
                 } else if (mode === MODE_MJPEG || mode === MODE_RTSP) {
                     const camera = self.getCamera(id);
                     let mjpegProxy;
@@ -1095,14 +1097,7 @@ class CamerasManager {
                             if (err) {
                                 cb(err);
                             } else {
-                                if (camera.configuration && camera.configuration.rotation && camera.configuration.rotation != "0") {
-                                    ImageUtils.class.rotateb(Buffer.from(data, "binary"), (err, data) => {
-                                        cb(err, data, "image/jpeg");
-                                    }, parseInt(camera.configuration.rotation));
-                                } else {
-                                    cb(null, Buffer.from(data, "binary"), "image/jpeg");
-                                }
-
+                                cb(null, Buffer.from(data, "binary"), "image/jpeg");
                             }
                         });
                     } else {
