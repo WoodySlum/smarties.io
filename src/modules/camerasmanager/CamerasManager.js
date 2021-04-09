@@ -674,7 +674,7 @@ class CamerasManager {
             const id = parseInt(apiRequest.data.id);
             const mode = apiRequest.data.mode;
             const base64 = apiRequest.data.base64?(parseInt(apiRequest.data.base64)>0?true:false):false;
-            const timestamp = apiRequest.data.timestamp?parseInt(apiRequest.data.cache):null;
+            const timestamp = apiRequest.data.timestamp? ((parseInt(apiRequest.data.timestamp) > 1) ? parseInt(apiRequest.data.timestamp):null) : null;
             const useCache = apiRequest.data.useCache ? (parseInt(apiRequest.data.useCache) == 1 ? true : false) : false;
             return new Promise((resolve, reject) => {
                 if (mode === MODE_STATIC) {
