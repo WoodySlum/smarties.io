@@ -52,7 +52,7 @@ const CAMERAS_MANAGER_RECORD_GET_TOKEN_DURATION = 7 * 24 * 60 * 60;
 
 const CAMERAS_MANAGER_LIST = ":/cameras/list/";
 const CAMERAS_RETRIEVE_BASE = ":/camera/get/";
-const CAMERAS_RETRIEVE_GET = CAMERAS_RETRIEVE_BASE + "[mode]/[id]/[base64*]/[timestamp*]/";
+const CAMERAS_RETRIEVE_GET = CAMERAS_RETRIEVE_BASE + "[mode]/[id]/[base64*]/[timestamp*]/[useCache*]/";
 const CAMERAS_MOVE_BASE = ":/camera/move/";
 const CAMERAS_MOVE_SET = CAMERAS_MOVE_BASE + "[id]/[direction]/";
 
@@ -296,14 +296,14 @@ class CamerasManager {
                         context.getImage(camera.id, (err, data) => {
                             if (!err) {
                                 try {
-                                    this.cameraCapture[camera.id.toString()] = data;
+                                    context.cameraCapture[camera.id.toString()] = data;
                                     context.threadsManager.send(THREAD_ARCHIVE_CAMERA, "saveCameraPicture", {file: cameraArchiveFolder + timestamp + CAMERA_FILE_EXTENSION, data: data});
                                 } catch(e) {
                                     e;
                                 }
-
                             }
-                        });
+                        }, null, true);
+
                     }
                 }
 
@@ -675,6 +675,7 @@ class CamerasManager {
             const mode = apiRequest.data.mode;
             const base64 = apiRequest.data.base64?(parseInt(apiRequest.data.base64)>0?true:false):false;
             const timestamp = apiRequest.data.timestamp?parseInt(apiRequest.data.cache):null;
+            const useCache = apiRequest.data.useCache ? (parseInt(apiRequest.data.useCache) == 1 ? true : false) : false;
             return new Promise((resolve, reject) => {
                 if (mode === MODE_STATIC) {
                     self.getImage(id, (err, data, contentType) => {
@@ -685,7 +686,7 @@ class CamerasManager {
                         } else {
                             resolve(new APIResponse.class(true, data, null, null, false, contentType));
                         }
-                    }, timestamp);
+                    }, timestamp, !useCache);
                 } else if (mode === MODE_MJPEG || mode === MODE_RTSP) {
                     const camera = self.getCamera(id);
                     let mjpegProxy;
