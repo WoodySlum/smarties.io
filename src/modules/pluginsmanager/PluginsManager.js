@@ -122,7 +122,9 @@ const INTERNAL_PLUGINS = [
     "uptime",
     "somfy-io-gate",
     "rsync",
-    "robonect"
+    "robonect",
+    "time-sensor",
+    "robonect-time-sensor"
 ];
 
 const CORE_PLUGINS = [
@@ -156,7 +158,8 @@ const CORE_PLUGINS = [
     "switch-sensor",
     "distance-sensor",
     "reboot",
-    "onvif"
+    "onvif",
+    "time-sensor"
 ];
 
 /**

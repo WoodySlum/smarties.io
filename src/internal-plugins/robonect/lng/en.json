@@ -19,5 +19,6 @@
     "robonect.username": "Username",
     "robonect.password": "Password",
     "mower.weather.pause": "Weath. pause",
-    "mower.active": "Active"
+    "mower.active": "Active",
+    "mower.error.message": "Robonect error [%@] : %@"
 }
