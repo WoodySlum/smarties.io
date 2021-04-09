@@ -13,9 +13,11 @@
     "mower.na": "N/a",
     "mower.auto": "Auto",
     "mower.man": "Man",
-    "mower.home": "Maison",
+    "mower.home": "Pause",
     "mower.eod": "Eod",
     "robonect.ip": "Adresse IP",
     "robonect.username": "Nom d'utilisateur",
-    "robonect.password": "Mot de passe"
+    "robonect.password": "Mot de passe",
+    "mower.weather.pause": "Pause Météo",
+    "mower.active": "Actif"
 }
