@@ -98,7 +98,7 @@ function loaded(api) {
                 this.getStatus((err2, res2) => {
                     if (!err && !err2) {
                         this.registerTile(Object.assign(res, res2));
-                    } else if (err || err2) {
+                    } else if (err || err2) {
                         api.exported.Logger.err(err);
                         api.exported.Logger.err(err2);
                     }
