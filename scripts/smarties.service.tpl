@@ -3,7 +3,7 @@ Description=Smarties
 
 [Service]
 Restart=always
-RestartSec=90
+RestartSec=10
 StartLimitInterval=400
 StartLimitBurst=10
 Environment=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:Var/smarties

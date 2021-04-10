@@ -242,35 +242,37 @@ class MjpegProxy {
                     });
 
                     let childProcess = null;
-                    this.stream.on("data", (data) => {
-                        let buffer = Buffer.from(data, "binary");
-                        // Image rotation
-                        if (rotation && rotation != "0") {
-                            ImageUtils.class.rotateb(buffer, (err, data) => {
-                                if (err) {
-                                    Logger.err(err);
-                                }
+                    if (this.stream && this.stream.on) {
+                        this.stream.on("data", (data) => {
+                            let buffer = Buffer.from(data, "binary");
+                            // Image rotation
+                            if (rotation && rotation != "0") {
+                                ImageUtils.class.rotateb(buffer, (err, data) => {
+                                    if (err) {
+                                        Logger.err(err);
+                                    }
+                                    if (this.cb) {
+                                        buffer = this.cb(err, data);
+                                    }
+                                    this.audienceResponses.forEach((res) => {
+                                        res.write(this.generateHeader(data));
+                                        res.write(data);
+                                        this.stream.child = childProcess;
+                                    });
+                                }, parseInt(rotation));
+                            } else {
                                 if (this.cb) {
-                                    buffer = this.cb(err, data);
+                                    buffer = this.cb(null, buffer);
                                 }
                                 this.audienceResponses.forEach((res) => {
-                                    res.write(this.generateHeader(data));
-                                    res.write(data);
+                                    res.write(this.generateHeader(buffer));
+                                    res.write(buffer);
                                     this.stream.child = childProcess;
                                 });
-                            }, parseInt(rotation));
-                        } else {
-                            if (this.cb) {
-                                buffer = this.cb(null, buffer);
                             }
-                            this.audienceResponses.forEach((res) => {
-                                res.write(this.generateHeader(buffer));
-                                res.write(buffer);
-                                this.stream.child = childProcess;
-                            });
-                        }
-                    });
-                    childProcess = this.stream.child;
+                        });
+                        childProcess = this.stream.child;
+                    }
                 }, 500);
             } catch(e) {
                 Logger.err(e);
