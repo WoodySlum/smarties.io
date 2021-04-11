@@ -164,9 +164,9 @@ function loaded(api) {
                                     });
                                 }
                             })
-                            .catch((e) => {
-                                Logger.err(e);
-                            });
+                                .catch((e) => {
+                                    api.exported.Logger.err(e);
+                                });
 
                         } catch(e) {
                             api.exported.Logger.err(e.message);
