@@ -81,5 +81,6 @@ module.exports.attributes = {
     version: "0.0.0",
     category: "sensor",
     description: "Robonect time usage sensor",
+    defaultDisabled: true,
     dependencies:["time-sensor", "robonect"]
 };

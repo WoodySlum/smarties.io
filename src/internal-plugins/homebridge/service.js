@@ -138,6 +138,7 @@ function loaded(api) {
                     if (self.server) {
                         try {
                             self.server.start();
+
                             // self.server.publishBridge();
                             const conf = api.configurationAPI.getConfiguration();
                             if (conf && (typeof conf.displayHomekitTile === "undefined" || conf.displayHomekitTile)) {
@@ -212,15 +213,20 @@ function loaded(api) {
                     api.exported.Logger.info(msg, params);
                     // Fix DDOS issues : https://github.com/NorthernMan54/homebridge-alexa/issues/413
                     if (msg.indexOf("please review the README") > 0) {
-                        /*api.exported.Logger.warn("DDOS protection detected, restart homebridge in 5 min");
-                        this.stop();
-                        if (!this.restartTimer) {
-                            this.restartTimer = setTimeout((self) => {
-                                self.init(self.devices, self.sensors);
-                                self.start();
-                                self.restartTimer = null;
-                            }, 5 * 60 * 1000, this);
-                        }*/
+                        const lockKey = "homebridge-service";
+                        if (!api.exported.FileLock.isLocked(lockKey)) {
+                            api.exported.FileLock.lock(lockKey);
+                            api.exported.Logger.warn("DDOS protection detected, restart homebridge in 5 min");
+                            this.stop();
+                            if (!this.restartTimer) {
+                                this.restartTimer = setTimeout((self) => {
+                                    self.init(self.devices, self.sensors);
+                                    api.exported.FileLock.unlock(lockKey);
+                                    self.start();
+                                    self.restartTimer = null;
+                                }, 5 * 60 * 1000, this);
+                            }
+                        }
                     }
                 }
             };
