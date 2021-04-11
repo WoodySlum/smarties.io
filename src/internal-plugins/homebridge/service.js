@@ -142,13 +142,13 @@ function loaded(api) {
                             // self.server.publishBridge();
                             const conf = api.configurationAPI.getConfiguration();
                             if (conf && (typeof conf.displayHomekitTile === "undefined" || conf.displayHomekitTile)) {
-                                QRCode.toDataURL(self.server.bridge.setupURI(), { errorCorrectionLevel: "L", color:{light:api.themeAPI.getColors().primaryColor + "FF", dark:api.themeAPI.getColors().darkenColor +"FF"}, margin:18}, (err, data) => {
+                                QRCode.toDataURL(self.server.bridgeService.bridge.setupURI(), { errorCorrectionLevel: "L", color:{light:api.themeAPI.getColors().primaryColor + "FF", dark:api.themeAPI.getColors().darkenColor +"FF"}, margin:18}, (err, data) => {
                                     if (!err && data && self.server) {
                                         const buf = Buffer.alloc(data.split(",")[1].length, data.split(",")[1], "base64");
                                         gm(buf)
                                             .stroke(api.themeAPI.getColors().darkenColor)
                                             .font("./res/fonts/OpenSans-Light.ttf", 8)
-                                            .drawText(90, 165, self.server.bridge._accessoryInfo.pincode)
+                                            .drawText(90, 165, self.server.bridgeService.bridge._accessoryInfo.pincode)
                                             .setFormat("png")
                                             .toBuffer((err, buffer) => {
                                                 if (err) {
