@@ -137,34 +137,37 @@ function loaded(api) {
                 this.startTimer = setTimeout((self) => {
                     if (self.server) {
                         try {
-                            self.server.start();
+                            self.server.start().then(() => {
+                                const conf = api.configurationAPI.getConfiguration();
+                                if (conf && (typeof conf.displayHomekitTile === "undefined" || conf.displayHomekitTile)) {
+                                    QRCode.toDataURL(self.server.bridgeService.bridge.setupURI(), { errorCorrectionLevel: "L", color:{light:api.themeAPI.getColors().primaryColor + "FF", dark:api.themeAPI.getColors().darkenColor +"FF"}, margin:18}, (err, data) => {
+                                        if (!err && data && self.server) {
+                                            const buf = Buffer.alloc(data.split(",")[1].length, data.split(",")[1], "base64");
+                                            gm(buf)
+                                                .stroke(api.themeAPI.getColors().darkenColor)
+                                                .font("./res/fonts/OpenSans-Light.ttf", 8)
+                                                .drawText(90, 165, self.server.config.bridge.pin)
+                                                .setFormat("png")
+                                                .toBuffer((err, buffer) => {
+                                                    if (err) {
+                                                        api.exported.Logger.err(err);
+                                                    } else {
+                                                        const tile = api.dashboardAPI.Tile("homebridge-code", api.dashboardAPI.TileType().TILE_PICTURE_TEXT, null, null, "Homekit", null, buffer.toString("base64"), null, null, 99999999);
+                                                        tile.colors.colorContent = api.themeAPI.getColors().darkColor;
 
-                            // self.server.publishBridge();
-                            const conf = api.configurationAPI.getConfiguration();
-                            if (conf && (typeof conf.displayHomekitTile === "undefined" || conf.displayHomekitTile)) {
-                                QRCode.toDataURL(self.server.bridgeService.bridge.setupURI(), { errorCorrectionLevel: "L", color:{light:api.themeAPI.getColors().primaryColor + "FF", dark:api.themeAPI.getColors().darkenColor +"FF"}, margin:18}, (err, data) => {
-                                    if (!err && data && self.server) {
-                                        const buf = Buffer.alloc(data.split(",")[1].length, data.split(",")[1], "base64");
-                                        gm(buf)
-                                            .stroke(api.themeAPI.getColors().darkenColor)
-                                            .font("./res/fonts/OpenSans-Light.ttf", 8)
-                                            .drawText(90, 165, self.server.bridgeService.bridgeConfig.pin)
-                                            .setFormat("png")
-                                            .toBuffer((err, buffer) => {
-                                                if (err) {
-                                                    api.exported.Logger.err(err);
-                                                } else {
-                                                    const tile = api.dashboardAPI.Tile("homebridge-code", api.dashboardAPI.TileType().TILE_PICTURE_TEXT, null, null, "Homekit", null, buffer.toString("base64"), null, null, 99999999);
-                                                    tile.colors.colorContent = api.themeAPI.getColors().darkColor;
+                                                        api.dashboardAPI.registerTile(tile);
+                                                    }
+                                                });
+                                        } else {
+                                            api.exported.Logger.err(err);
+                                        }
+                                    });
+                                }
+                            })
+                            .catch((e) => {
+                                Logger.err(e);
+                            });
 
-                                                    api.dashboardAPI.registerTile(tile);
-                                                }
-                                            });
-                                    } else {
-                                        api.exported.Logger.err(err);
-                                    }
-                                });
-                            }
                         } catch(e) {
                             api.exported.Logger.err(e.message);
                         }
