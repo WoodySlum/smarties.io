@@ -148,7 +148,7 @@ function loaded(api) {
                                         gm(buf)
                                             .stroke(api.themeAPI.getColors().darkenColor)
                                             .font("./res/fonts/OpenSans-Light.ttf", 8)
-                                            .drawText(90, 165, self.server.bridgeService.bridge._accessoryInfo.pincode)
+                                            .drawText(90, 165, self.server.bridgeService.bridgeConfig.pin)
                                             .setFormat("png")
                                             .toBuffer((err, buffer) => {
                                                 if (err) {
