@@ -72,7 +72,7 @@ class Service {
      * Run function prototype threaded
      * Should be overloaded by service
      *
-     * @param  {Object} data    A data passed as initial value
+     * @param  {object} data    A data passed as initial value
      * @param  {Function} send Send a message to parent process
      */
     run(data, send) {
@@ -83,9 +83,11 @@ class Service {
      * Retrieve data from process
      * Should be overloaded by service
      *
-     * @param  {Object} data    A data passed as initial value
+     * @param  {object} data    A data passed as initial value
+     * @param  {ThreadsManager} threadManager    The thread manager
+     * @param  {object} context    A data passed as initial value
      */
-    threadCallback(data) {
+    threadCallback(data, threadManager, context) {
 
     }
 
@@ -111,7 +113,7 @@ class Service {
      */
     startThreaded() {
         if (this.threadsManager) {
-            this.threadsManager.run(this.run, this.name, {}, this.threadCallback);
+            this.threadsManager.run(this.run, this.name, {}, this.threadCallback, this);
             this.pid = this.threadsManager.getPid(this.name);
         } else {
             throw Error(ERROR_UNDEFINED_THREADS_MANAGER);

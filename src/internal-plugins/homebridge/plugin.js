@@ -155,9 +155,11 @@ function loaded(api) {
                             accessory: "Smarties lights",
                             identifier: device.id,
                             name: name,
-                            coreApi:api,
+                            coreApi: null,
                             status: device.status,
-                            device: device
+                            device: device,
+                            deviceTypes: api.deviceAPI.getDeviceTypes(device),
+                            deviceConstants: api.deviceAPI.constants()
                         });
                     }
                 }
@@ -171,8 +173,7 @@ function loaded(api) {
             this.alarm = [];
             this.alarm.push({
                 accessory: "Smarties alarm",
-                name: api.translateAPI.t("alarm.tile.title"),
-                coreApi:api
+                name: api.translateAPI.t("alarm.tile.title")
             });
         }
 
@@ -197,8 +198,7 @@ function loaded(api) {
                 this.sensors.push({
                     accessory: "Smarties temperature sensor",
                     identifier: sensorKey,
-                    name: sensor,
-                    coreApi:api
+                    name: sensor
                 });
             });
 
@@ -216,8 +216,7 @@ function loaded(api) {
                 this.sensors.push({
                     accessory: "Smarties humidity sensor",
                     identifier: sensorKey,
-                    name: humiditySensors[sensorKey],
-                    coreApi:api
+                    name: humiditySensors[sensorKey]
                 });
             });
         }

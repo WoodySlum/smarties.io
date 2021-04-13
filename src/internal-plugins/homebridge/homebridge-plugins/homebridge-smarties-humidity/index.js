@@ -1,9 +1,10 @@
 /* eslint-disable */
-var Service, Characteristic;
+var Service, Characteristic, Api;
 
 module.exports = function(homebridge) {
   Service = homebridge.hap.Service;
   Characteristic = homebridge.hap.Characteristic;
+  Api = homebridge;
 
   homebridge.registerAccessory("homebridge-smarties-humidity", "Smarties humidity sensor", SmartiesHumidityAccessory);
 }
@@ -13,7 +14,6 @@ function SmartiesHumidityAccessory(log, config) {
 
   this.service = new Service.HumiditySensor(this.name);
 
-  this.coreApi = config.coreApi;
   this.identifier = config.identifier;
   this.name = config.name;
 
@@ -24,13 +24,18 @@ function SmartiesHumidityAccessory(log, config) {
 }
 
 SmartiesHumidityAccessory.prototype.getHumidity = function(callback) {
-    this.coreApi.sensorAPI.getValue(this.identifier, (err, res) => {
-        if (!err && res) {
-            callback(null, parseFloat(res.value));
-        } else {
-            callback(Error("Invalid value"));
+    let cb = (data) => {
+        if (data.sensor == this.identifier) {
+            Api.removeListener("getValueRes", cb);
+            if (!data.err && data.res) {
+                callback(null, parseFloat(data.res.value));
+            } else {
+                callback(Error("Invalid value"));
+            }
         }
-    });
+    };
+    Api.on("getValueRes", cb);
+    Api.emit("getValue", this.identifier);
 }
 
 

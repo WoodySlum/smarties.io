@@ -1,14 +1,10 @@
 "use strict";
 /* eslint no-underscore-dangle: 0 */
-const hap = require("hap-nodejs");
 const QRCode = require("qrcode");
 const fs = require("fs-extra");
-const Server = require("./../../../node_modules/homebridge/lib/server").Server;
 const User = require("./../../../node_modules/homebridge/lib/user").User;
-const log = require("./../../../node_modules/homebridge/lib/logger");
 const gm = require("gm");
 const port = 51826;
-const WAIT_FOR_STARTING_SERVICE = 10; // Wait before starting the service (in seconds)
 
 /**
  * Loaded plugin function
@@ -26,22 +22,215 @@ function loaded(api) {
          * The homebridge service
          *
          * @param {Homebridge} plugin  An homebridge plugin
-         * @param {Array} devices A list of hap devices
-         * @param {Array} sensors A list of hap sensors
          * @returns {HomebridgeService} The instance
          */
-        constructor(plugin, devices, sensors) {
-            super("homebridge");
+        constructor(plugin) {
+            super("homebridge", api.servicesManagerAPI.getThreadsManager(), api.exported.Service.SERVICE_MODE_THREADED);
             this.plugin = plugin;
-            this.removeLogs();
-            this.init(devices, sensors);
-            this.ittt = 0;
-            this.startTimer = null;
-            this.disableAutoStart = true;
-            this.devices = null;
-            this.sensors = null;
-            this.restartTimer = null;
+            this.api = api;
+            this.devices = [];
+            this.sensors = [];
         }
+
+        /**
+         * Run function prototype threaded
+         * Should be overloaded by service
+         *
+         * @param  {object} data    A data passed as initial value
+         * @param  {Function} send Send a message to parent process
+         */
+        run(data, send) {
+            this.home = () => {
+
+            };
+            this.server = null;
+            this.init = (data) => {
+                const fs = require("fs-extra");
+                const Server = require(data.dirname + "./../../../node_modules/homebridge/lib/server").Server;
+                const User = require(data.dirname + "./../../../node_modules/homebridge/lib/user").User;
+                const log = require(data.dirname + "./../../../node_modules/homebridge/lib/logger");
+                const hap = require("hap-nodejs");
+                const pin = "021-92-283";
+                const accessories = data.devices.concat(data.sensors);
+
+                log.Logger.prototype.log = (level, msg, ...params) => {
+                    msg = "Homebridge - " + msg;
+                    if (level === "debug") {
+                        send({action: "log", level: 5, msg: msg, params: params});
+                    } else if (level === "warn") {
+                        send({action: "log", level: 2, msg: msg, params: params});
+                    } else if (level === "error") {
+                        send({action: "log", level: 1, msg: msg, params: params});
+                    } else {
+                        send({action: "log", level: 3, msg: msg, params: params});
+                    }
+                };
+                Server.prototype._printPin = (pin) => {
+                    send({action: "log", level: 3, msg: "Homebridge pin : " + pin, params: null});
+                };
+                Server.prototype._printSetupInfo = () => {};
+
+                const insecureAccess = true;
+                const conf = data.configuration;
+                if (!conf.homebridgeIdentifier) {
+                    const hid = data.smartiesId;
+                    conf.homebridgeIdentifier = hid.substr(0,2) + ":" + hid.substr(2,2)  + ":" + hid.substr(4,2)  + ":" + hid.substr(6,2) + ":" + hid.substr(10,2) + ":" + hid.substr(8,2);
+                    send({action: "saveConf", configuration:conf});
+                }
+
+                const platforms = [];
+                if (conf.alexaUsername && conf.alexaPassword) {
+                    platforms.push({
+                        platform: "Alexa",
+                        name: "Alexa",
+                        username: conf.alexaUsername,
+                        password: conf.alexaPassword,
+                        pin: pin
+                        // ,debug: true
+                    });
+                }
+
+                try {
+                    try {
+                        fs.mkdirSync(User.persistPath());
+                    } catch(e) {
+                        send({action: "log", level: 2, msg: e, params:null});
+                    }
+
+                    try {
+                        hap.init(User.persistPath());
+                    } catch(e) {
+                        send({action: "log", level: 1, msg: e, params:null});
+                    }
+
+                    let config = {
+                        bridge: {
+                            name: "Smarties",
+                            username: conf.homebridgeIdentifier.toUpperCase(),
+                            port: data.port,
+                            pin: pin
+                        },
+                        accessories: accessories,
+                        platforms:platforms
+                    };
+                    fs.writeFileSync(User.configPath(), JSON.stringify(config));
+                    this.server = new Server({insecureAccess:insecureAccess, customPluginPath: data.dirname + "/homebridge-plugins"});
+                } catch(e) {
+                    send({action: "log", level: 1, msg: e, params:null});
+                }
+
+                if (this.server) {
+                    try {
+                        this.server.start().then(() => {
+                            this.server.api.setMaxListeners(100);
+                            this.server.api.on("getDeviceById", (d) => {
+                                send({action: "getDeviceById", device:d});
+                            });
+
+                            this.server.api.on("switchDeviceWithDevice", (d) => {
+                                send({action: "switchDeviceWithDevice", device:d});
+                            });
+
+                            this.server.api.on("getDeviceStatus", (d) => {
+                                send({action: "getDeviceStatus", device:d});
+                            });
+
+                            this.server.api.on("getDeviceTypes", (d) => {
+                                send({action: "getDeviceTypes", device: d});
+                            });
+
+                            this.server.api.on("getValue", (d) => {
+                                send({action: "getValue", sensor: d});
+                            });
+
+                            if (conf && (typeof conf.displayHomekitTile === "undefined" || conf.displayHomekitTile)) {
+                                send({action: "showQr", setupUri:this.server.bridgeService.bridge.setupURI(), pin:this.server.config.bridge.pin});
+                            }
+                        })
+                            .catch((e) => {
+                                send({action: "log", level: 1, msg: e, params:null});
+                            });
+
+                    } catch(e) {
+                        send({action: "log", level: 1, msg: e, params:null});
+                    }
+
+                }
+            };
+            this.getDeviceById = (data) => {
+                this.server.api.emit("getDeviceByIdRes", data);
+            };
+            this.getDeviceStatus = (data) => {
+                this.server.api.emit("getDeviceStatusRes", data);
+            };
+            this.getDeviceTypes = (data) => {
+                this.server.api.emit("getDeviceTypesRes", data);
+            };
+            this.getValue = (data) => {
+                this.server.api.emit("getValueRes", data);
+            };
+        }
+
+        /**
+         * Retrieve data from process
+         * Should be overloaded by service
+         *
+         * @param  {object} data    A data passed as initial value
+         * @param  {ThreadsManager} threadManager    The thread manager
+         * @param  {bject} context    A data passed as initial value
+         */
+        threadCallback(data, threadManager, context) {
+            if (data.action === "saveConf") {
+                api.configurationAPI.saveData(data.configuration);
+            } else if (data.action == "log") {
+                if (data.params) {
+                    api.exported.Logger.log(data.msg, data.level, ...data.params);
+                } else {
+                    api.exported.Logger.log(data.msg, data.level);
+                }
+
+            } else if (data.action === "showQr") {
+                QRCode.toDataURL(data.setupUri, { errorCorrectionLevel: "L", color:{light:api.themeAPI.getColors().primaryColor + "FF", dark:api.themeAPI.getColors().darkenColor +"FF"}, margin:18}, (err, idata) => {
+                    if (!err && idata) {
+                        const buf = Buffer.alloc(idata.split(",")[1].length, idata.split(",")[1], "base64");
+                        gm(buf)
+                            .stroke(api.themeAPI.getColors().darkenColor)
+                            .font("./res/fonts/OpenSans-Light.ttf", 8)
+                            .drawText(90, 165, data.pin)
+                            .setFormat("png")
+                            .toBuffer((err, buffer) => {
+                                if (err) {
+                                    api.exported.Logger.err(err);
+                                } else {
+                                    const tile = api.dashboardAPI.Tile("homebridge-code", api.dashboardAPI.TileType().TILE_PICTURE_TEXT, null, null, "Homekit", null, buffer.toString("base64"), null, null, 99999999);
+                                    tile.colors.colorContent = api.themeAPI.getColors().darkColor;
+
+                                    api.dashboardAPI.registerTile(tile);
+                                }
+                            });
+                    } else {
+                        api.exported.Logger.err(err);
+                    }
+                });
+            } else if (data.action === "getDeviceById") {
+                const device = context.api.deviceAPI.getDeviceById(data.device.id);
+                context.send("getDeviceById", {device: device, constants: context.api.deviceAPI.constants()});
+            } else if (data.action === "switchDeviceWithDevice") {
+                context.api.deviceAPI.switchDeviceWithDevice(data.device);
+            } else if (data.action === "getDeviceStatus") {
+                context.send("getDeviceStatus", {device: data.device, status: context.api.deviceAPI.getDeviceStatus(data.device.id)});
+            } else if (data.action === "getDeviceTypes") {
+                context.send("getDeviceTypes", {device: data.device, deviceTypes: context.api.deviceAPI.getDeviceTypes(data.device), constants: context.api.deviceAPI.constants()});
+            } else if (data.action === "getValue") {
+                context.api.sensorAPI.getValue(data.sensor, (err, res) => {
+                    context.send("getValue", {sensor: data.sensor, err:err, res: res});
+                });
+            } else {
+                api.exported.Logger.err(data);
+            }
+        }
+
+
 
         /**
          * Init homebridge context
@@ -52,57 +241,6 @@ function loaded(api) {
         init(devices, sensors) {
             this.devices = devices;
             this.sensors = sensors;
-
-            const insecureAccess = true;
-
-            const conf = api.configurationAPI.getConfiguration() ? api.configurationAPI.getConfiguration() : {};
-            if (!conf.homebridgeIdentifier) {
-                const hid = api.environmentAPI.getFullSmartiesId();
-                conf.homebridgeIdentifier = hid.substr(0,2) + ":" + hid.substr(2,2)  + ":" + hid.substr(4,2)  + ":" + hid.substr(6,2) + ":" + hid.substr(8,2) + ":" + hid.substr(10,2);
-                api.configurationAPI.saveData(conf);
-            }
-
-            const platforms = [];
-            const pin = "021-92-280";
-            if (conf.alexaUsername && conf.alexaPassword) {
-                platforms.push({
-                    platform: "Alexa",
-                    name: "Alexa",
-                    username: conf.alexaUsername,
-                    password: conf.alexaPassword,
-                    pin: pin
-                    // ,debug: true
-                });
-            }
-
-            try {
-                try {
-                    fs.mkdirSync(User.persistPath());
-                } catch(e) {
-                    api.exported.Logger.info(e);
-                }
-
-                try {
-                    hap.init(User.persistPath());
-                } catch(e) {
-                    api.exported.Logger.info(e);
-                }
-
-                this.server = new Server({insecureAccess:insecureAccess, customPluginPath: __dirname + "/homebridge-plugins"});
-                this.server.config = {
-                    bridge: {
-                        name: "Smarties",
-                        username: conf.homebridgeIdentifier.toUpperCase(),
-                        port: port,
-                        pin: pin
-                    },
-                    accessories: devices.concat(sensors),
-                    platforms:platforms
-                };
-            } catch(e) {
-                api.exported.Logger.err(e.message);
-                api.exported.Logger.err(e.stack);
-            }
         }
 
         /**
@@ -131,114 +269,16 @@ function loaded(api) {
          * Start the service
          */
         start() {
-            if (this.status === api.exported.Service.STOPPED) {
-                super.start();
-
-                this.startTimer = setTimeout((self) => {
-                    if (self.server) {
-                        try {
-                            self.server.start().then(() => {
-                                const conf = api.configurationAPI.getConfiguration();
-                                if (conf && (typeof conf.displayHomekitTile === "undefined" || conf.displayHomekitTile)) {
-                                    QRCode.toDataURL(self.server.bridgeService.bridge.setupURI(), { errorCorrectionLevel: "L", color:{light:api.themeAPI.getColors().primaryColor + "FF", dark:api.themeAPI.getColors().darkenColor +"FF"}, margin:18}, (err, data) => {
-                                        if (!err && data && self.server) {
-                                            const buf = Buffer.alloc(data.split(",")[1].length, data.split(",")[1], "base64");
-                                            gm(buf)
-                                                .stroke(api.themeAPI.getColors().darkenColor)
-                                                .font("./res/fonts/OpenSans-Light.ttf", 8)
-                                                .drawText(90, 165, self.server.config.bridge.pin)
-                                                .setFormat("png")
-                                                .toBuffer((err, buffer) => {
-                                                    if (err) {
-                                                        api.exported.Logger.err(err);
-                                                    } else {
-                                                        const tile = api.dashboardAPI.Tile("homebridge-code", api.dashboardAPI.TileType().TILE_PICTURE_TEXT, null, null, "Homekit", null, buffer.toString("base64"), null, null, 99999999);
-                                                        tile.colors.colorContent = api.themeAPI.getColors().darkColor;
-
-                                                        api.dashboardAPI.registerTile(tile);
-                                                    }
-                                                });
-                                        } else {
-                                            api.exported.Logger.err(err);
-                                        }
-                                    });
-                                }
-                            })
-                                .catch((e) => {
-                                    api.exported.Logger.err(e);
-                                });
-
-                        } catch(e) {
-                            api.exported.Logger.err(e.message);
-                        }
-
-                    }
-                }, WAIT_FOR_STARTING_SERVICE * 1000, this);
-            }
+            super.start();
+            this.send("init", {configuration: (api.configurationAPI.getConfiguration() ? api.configurationAPI.getConfiguration() : {}), smartiesId: api.environmentAPI.getFullSmartiesId(), dirname: __dirname, port: port, devices: this.devices, sensors: this.sensors});
         }
 
         /**
          * Stop the service
          */
         stop() {
-            if (this.startTimer) {
-                clearTimeout(this.startTimer);
-            }
-            api.dashboardAPI.unregisterTile("homebridge-code");
-            api.exported.Logger.info("Stopping homebridge server");
-            if (this.server) {
-                this.server.teardown();
-            }
-            this.server = null;
             super.stop();
         }
-
-        /**
-         * Get the pin code
-         */
-        getPin() {
-            return (this.server ? this.server._config.bridge.pin : null);
-        }
-
-        /**
-         * Remove logs
-         */
-        removeLogs() {
-            log.Logger.prototype.log = (level, msg, ...params) => {
-                msg = "Homebridge - " + msg;
-                if (level === "debug") {
-                    api.exported.Logger.debug(msg, params);
-                } else if (level === "warn") {
-                    api.exported.Logger.warn(msg, params);
-                } else if (level === "error") {
-                    api.exported.Logger.err(msg, params);
-                } else {
-                    api.exported.Logger.info(msg, params);
-                    // Fix DDOS issues : https://github.com/NorthernMan54/homebridge-alexa/issues/413
-                    if (msg.indexOf("please review the README") > 0) {
-                        const lockKey = "homebridge-service";
-                        if (!api.exported.FileLock.isLocked(lockKey)) {
-                            api.exported.FileLock.lock(lockKey);
-                            api.exported.Logger.warn("DDOS protection detected, restart homebridge in 5 min");
-                            this.stop();
-                            if (!this.restartTimer) {
-                                this.restartTimer = setTimeout((self) => {
-                                    self.init(self.devices, self.sensors);
-                                    api.exported.FileLock.unlock(lockKey);
-                                    self.start();
-                                    self.restartTimer = null;
-                                }, 5 * 60 * 1000, this);
-                            }
-                        }
-                    }
-                }
-            };
-            Server.prototype._printPin = (pin) => {
-                api.exported.Logger.info("Homebridge pin : " + pin);
-            };
-            Server.prototype._printSetupInfo = () => {};
-        }
-
     }
 
     return HomebridgeService;
