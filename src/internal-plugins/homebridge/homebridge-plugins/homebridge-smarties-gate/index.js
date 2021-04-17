@@ -90,7 +90,6 @@ function SmartiesGateAccessory(log, config) {
    */
   SmartiesGateAccessory.prototype.handleObstructionDetectedGet = function() {
     const currentValue = 0;
-
     return currentValue;
   }
 
