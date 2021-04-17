@@ -111,6 +111,7 @@ function loaded(api) {
          *
          */
         registerDeviceForm() {
+            this.keygo = 1;
             if (this.keygo) {
                 const somfyIotIds = [this.keygo.id, this.keygo.id + "-pedestrian", this.keygo.id + "-stop"];
                 const somfyIotLabels = [this.keygo.name + " (" + api.translateAPI.t("somfy.io.all")+ ")", this.keygo.name + " (" + api.translateAPI.t("somfy.io.pedestrian")+ ")", this.keygo.name + " (" + api.translateAPI.t("somfy.io.stop")+ ")"];

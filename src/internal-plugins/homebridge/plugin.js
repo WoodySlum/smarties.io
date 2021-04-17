@@ -140,6 +140,7 @@ function loaded(api) {
         generateHapDevices() {
             this.devices = [];
             this.devicesName = [];
+
             this.api.deviceAPI.getDevices().forEach((device) => {
                 if (device.visible) {
                     let i = 2;
@@ -153,6 +154,26 @@ function loaded(api) {
                         }
                         this.devices.push({
                             accessory: "Smarties lights",
+                            identifier: device.id,
+                            name: name,
+                            coreApi: null,
+                            status: device.status,
+                            device: device,
+                            deviceTypes: api.deviceAPI.getDeviceTypes(device),
+                            deviceConstants: api.deviceAPI.constants()
+                        });
+                    }
+
+                    if (device.bestDeviceType == this.api.deviceAPI.constants().DEVICE_TYPE_GATE) {
+                        let name = device.name;
+                        if (this.devicesName.indexOf(name) >= 0) {
+                            name = name + " " + i;
+                            i++;
+                        } else {
+                            this.devicesName.push(name);
+                        }
+                        this.devices.push({
+                            accessory: "Smarties gate",
                             identifier: device.id,
                             name: name,
                             coreApi: null,

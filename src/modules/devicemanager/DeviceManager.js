@@ -405,6 +405,7 @@ class DeviceManager {
     bestDeviceType(deviceTypes) {
         let bestDeviceTypePriority = 0;
         let bestDeviceType = DEVICE_TYPE_LIGHT;
+
         deviceTypes.forEach((deviceType) => {
             if (deviceType == DEVICE_TYPE_LIGHT && DEVICE_TYPE_LIGHT_PRIORITY > bestDeviceTypePriority) {
                 bestDeviceTypePriority = DEVICE_TYPE_LIGHT_PRIORITY;
