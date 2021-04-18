@@ -12,7 +12,9 @@
     "nuki.door.state.opened": "Ouverte",
     "nuki.door.state.closed": "Déverrouilée",
     "nuki.door.state.locked": "Verrouillée",
-    "nuki.battery.low": "La batterie du Nuki est faible, changez les sans attendre"
-
-
+    "nuki.battery.low": "La batterie du Nuki est faible, changez les sans attendre",
+    "nuki.device.form.list": "Serrure",
+    "nuki.device.form.list.none": "Aucun",
+    "nuki.device.form.list.lock": "Nuki lock (classic)",
+    "nuki.device.form.title": "Nuki"
 }

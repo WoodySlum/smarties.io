@@ -248,5 +248,7 @@
     "ai.sheep": "Mouton",
     "ai.sofa": "Canapé",
     "ai.train": "Train",
-    "ai.tvmonitor": "Écran"
+    "ai.tvmonitor": "Écran",
+    "device.lock.locked": "%@ [Verrouillé]",
+    "device.lock.opened": "%@ [Déverrouillé]"
 }

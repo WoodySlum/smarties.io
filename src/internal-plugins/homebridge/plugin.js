@@ -198,6 +198,17 @@ function loaded(api) {
                             deviceTypes: api.deviceAPI.getDeviceTypes(device),
                             deviceConstants: api.deviceAPI.constants()
                         });
+                    } else if (device.bestDeviceType == this.api.deviceAPI.constants().DEVICE_TYPE_LOCK) {
+                        this.devices.push({
+                            accessory: "Smarties lock",
+                            identifier: device.id,
+                            name: name,
+                            coreApi: null,
+                            status: device.status,
+                            device: device,
+                            deviceTypes: api.deviceAPI.getDeviceTypes(device),
+                            deviceConstants: api.deviceAPI.constants()
+                        });
                     }
                 }
             });

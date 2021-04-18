@@ -11,6 +11,43 @@ function loaded(api) {
     api.init();
 
     /**
+     * This class manage Nuki device form configuration
+     *
+     * @class
+     */
+    class NukiDeviceForm extends api.exported.FormObject.class {
+        /**
+         * Constructor
+         *
+         * @param  {number} id The identifier
+         * @param {string} nuki  The nuki
+         * @returns {NukiDeviceForm}        The instance
+         */
+        constructor(id, nuki) {
+            super(id);
+
+            /**
+             * @Property("nuki");
+             * @Type("string");
+             * @Title("nuki.device.form.list");
+             * @Enum(["none", "lock"]);
+             * @EnumNames(["nuki.device.form.list.none", "nuki.device.form.list.lock"]);
+             */
+            this.nuki = nuki;
+        }
+
+        /**
+         * Convert a json object to NukiDeviceForm object
+         *
+         * @param  {object} data Some data
+         * @returns {NukiDeviceForm}      An instance
+         */
+        json(data) {
+            return new NukiDeviceForm(data.id, data.nuki);
+        }
+    }
+
+    /**
      * This class manage Nuki form configuration
      *
      * @class
@@ -135,19 +172,24 @@ function loaded(api) {
                 }
             }, this.api.translateAPI.t("nuki.scenario"));
 
+            api.deviceAPI.addForm("nukiDevice", NukiDeviceForm, "nuki.device.form.title", false);
+            api.deviceAPI.registerSwitchDevice("nukiDevice", (device, formData, deviceStatus) => {
+                if (formData && formData.nuki && formData.nuki == "lock") {
+                    if (deviceStatus.status == api.deviceAPI.constants().INT_STATUS_ON) {
+                        this.setNuckiState(true);
+                    } else {
+                        this.setNuckiState(false);
+                    }
+                }
+
+                return deviceStatus;
+            }, api.deviceAPI.constants().DEVICE_TYPE_LOCK);
+
             this.refreshNukiState();
 
             this.api.timeEventAPI.register(() => {
                 self.refreshNukiState(self);
             }, this, this.api.timeEventAPI.constants().EVERY_MINUTES);
-        }
-
-        /**
-         * Add tile on dashboard
-         */
-        addTile() {
-            const tile = this.api.dashboardAPI.Tile("nuki", this.api.dashboardAPI.TileType().TILE_GENERIC_ACTION_STATUS, (this.locked ? api.exported.Icons.icons["door-locked"] : api.exported.Icons.icons["door-unlocked"]), null, (this.locked ? this.api.translateAPI.t("nuki.door.state.locked") : (this.doorOpened ? this.api.translateAPI.t("nuki.door.state.opened") : this.api.translateAPI.t("nuki.door.state.closed"))), null, null, null, this.locked, 8, "nuki/", null, this.api.webAPI.Authentication().AUTH_GUEST_LEVEL);
-            this.api.dashboardAPI.registerTile(tile);
         }
 
         /**
@@ -158,7 +200,6 @@ function loaded(api) {
         processAPI() {
             this.locked = !this.locked;
             this.setNuckiState(this.locked);
-            this.addTile();
         }
 
         /**
@@ -176,6 +217,17 @@ function loaded(api) {
                 const self = context;
                 bridge.list().then((nukis) => {
                     nukis.forEach((nukiElt) => {
+                        self.api.deviceAPI.getDevices().forEach((device) => {
+                            if (device && device.NukiDeviceForm && device.NukiDeviceForm.nuki && device.NukiDeviceForm.nuki == "lock") {
+                                if (nukiElt.lastKnownState.state == 2 || nukiElt.lastKnownState.state == 3) {
+                                    device.status = api.deviceAPI.constants().INT_STATUS_OFF;
+                                    api.deviceAPI.saveDevice(device);
+                                } else if (nukiElt.lastKnownState.state == 1) {
+                                    device.status = api.deviceAPI.constants().INT_STATUS_ON;
+                                    api.deviceAPI.saveDevice(device);
+                                }
+                            }
+                        });
                         if (nukiElt.lastKnownState.state == 2 || nukiElt.lastKnownState.state == 3) {
                             self.locked = false;
                         } else if (nukiElt.lastKnownState.state == 1) {
@@ -187,8 +239,6 @@ function loaded(api) {
                         } else {
                             self.doorOpened = true;
                         }
-
-                        self.addTile();
 
                         if (!self.notificationSent && nukiElt.lastKnownState.batteryCritical) {
                             self.notificationSent = true;

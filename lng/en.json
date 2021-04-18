@@ -250,5 +250,7 @@
     "ai.sheep": "Sheep",
     "ai.sofa": "Sofa",
     "ai.train": "Train",
-    "ai.tvmonitor": "TV monitor"
+    "ai.tvmonitor": "TV monitor",
+    "device.lock.locked": "%@ [Locked]",
+    "device.lock.opened": "%@ [Opened]"
 }

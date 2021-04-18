@@ -12,7 +12,9 @@
     "nuki.door.state.opened": "Opened",
     "nuki.door.state.closed": "Unlocked",
     "nuki.door.state.locked": "Locked",
-    "nuki.battery.low": "Nuki battery is critical. Please replace quickly"
-
-
+    "nuki.battery.low": "Nuki battery is critical. Please replace quickly",
+    "nuki.device.form.list": "Lock",
+    "nuki.device.form.list.none": "None",
+    "nuki.device.form.list.lock": "Nuki lock (classic)",
+    "nuki.device.form.title": "Nuki"
 }
