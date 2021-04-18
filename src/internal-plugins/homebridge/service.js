@@ -5,6 +5,7 @@ const fs = require("fs-extra");
 const User = require("./../../../node_modules/homebridge/lib/user").User;
 const gm = require("gm");
 const port = 51826;
+const START_DELAY_S = 30;
 
 /**
  * Loaded plugin function
@@ -270,8 +271,10 @@ function loaded(api) {
          * Start the service
          */
         start() {
-            super.start();
-            this.send("init", {configuration: (api.configurationAPI.getConfiguration() ? api.configurationAPI.getConfiguration() : {}), smartiesId: api.environmentAPI.getFullSmartiesId(), dirname: __dirname, port: port, devices: this.devices, sensors: this.sensors});
+            setTimeout(() => {
+                super.start();
+                this.send("init", {configuration: (api.configurationAPI.getConfiguration() ? api.configurationAPI.getConfiguration() : {}), smartiesId: api.environmentAPI.getFullSmartiesId(), dirname: __dirname, port: port, devices: this.devices, sensors: this.sensors});
+            }, START_DELAY_S * 1000);
         }
 
         /**
