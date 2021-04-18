@@ -267,6 +267,96 @@ function loaded(api) {
                     name: humiditySensors[sensorKey]
                 });
             });
+
+            const contactSensors = this.api.sensorAPI.getSensors("CONTACT");
+            Object.keys(contactSensors).forEach((sensorKey) => {
+
+                let sensor = contactSensors[sensorKey];
+                if (this.sensorsName.indexOf(sensor) >= 0) {
+                    sensor = sensor + " " + i;
+                    i++;
+                } else {
+                    this.sensorsName.push(sensor);
+                }
+
+                this.sensors.push({
+                    accessory: "Smarties contact sensor",
+                    identifier: sensorKey,
+                    name: contactSensors[sensorKey]
+                });
+            });
+
+            const presenceSensors = this.api.sensorAPI.getSensors("PRESENCE");
+            Object.keys(presenceSensors).forEach((sensorKey) => {
+
+                let sensor = presenceSensors[sensorKey];
+                if (this.sensorsName.indexOf(sensor) >= 0) {
+                    sensor = sensor + " " + i;
+                    i++;
+                } else {
+                    this.sensorsName.push(sensor);
+                }
+
+                this.sensors.push({
+                    accessory: "Smarties motion sensor",
+                    identifier: sensorKey,
+                    name: presenceSensors[sensorKey]
+                });
+            });
+
+            const lightSensors = this.api.sensorAPI.getSensors("LIGHT");
+            Object.keys(lightSensors).forEach((sensorKey) => {
+
+                let sensor = lightSensors[sensorKey];
+                if (this.sensorsName.indexOf(sensor) >= 0) {
+                    sensor = sensor + " " + i;
+                    i++;
+                } else {
+                    this.sensorsName.push(sensor);
+                }
+
+                this.sensors.push({
+                    accessory: "Smarties light sensor",
+                    identifier: sensorKey,
+                    name: lightSensors[sensorKey]
+                });
+            });
+
+            const waterLeakSensors = this.api.sensorAPI.getSensors("WATER-LEAK");
+            Object.keys(waterLeakSensors).forEach((sensorKey) => {
+
+                let sensor = waterLeakSensors[sensorKey];
+                if (this.sensorsName.indexOf(sensor) >= 0) {
+                    sensor = sensor + " " + i;
+                    i++;
+                } else {
+                    this.sensorsName.push(sensor);
+                }
+
+                this.sensors.push({
+                    accessory: "Smarties leak sensor",
+                    identifier: sensorKey,
+                    name: waterLeakSensors[sensorKey]
+                });
+            });
+
+            const smokeSensors = this.api.sensorAPI.getSensors("SMOKE");
+            Object.keys(smokeSensors).forEach((sensorKey) => {
+
+                let sensor = smokeSensors[sensorKey];
+                if (this.sensorsName.indexOf(sensor) >= 0) {
+                    sensor = sensor + " " + i;
+                    i++;
+                } else {
+                    this.sensorsName.push(sensor);
+                }
+
+                this.sensors.push({
+                    accessory: "Smarties smoke sensor",
+                    identifier: sensorKey,
+                    name: smokeSensors[sensorKey]
+                });
+            });
         }
     }
 
