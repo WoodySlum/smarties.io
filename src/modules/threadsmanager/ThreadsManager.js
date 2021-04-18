@@ -101,15 +101,14 @@ class ThreadsManager {
             done(input.identifier);
         })
             .send({dirname: __dirname, identifier:identifier, prototype:prototype, data:data})
-            .on("progress", function message(tData) {
+            .on("progress", (tData) => {
                 if (callback) {
                     callback(tData, self, context);
                 }
             })
-            .on("error", function(error) {
+            .on("error", (error) => {
                 Logger.err("Error in thread " + identifier);
-                Logger.err(error.message);
-                Logger.err(error.stack);
+                Logger.err(error);
             })
             .on("done", () => {
 

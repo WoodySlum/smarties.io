@@ -109,15 +109,23 @@ function loaded(api) {
                     this.service.stop();
                     this.generateHapDevices();
                     this.service.init(this.devices, this.sensors);
-                    this.service.start();
+                    this.service.start(() => {
+                        this.generateHapDevices();
+                        this.generateHapSensors();
+                        this.generateHapAlarm();
+                        this.service.init(this.devices, this.sensors, this.alarm);
+                    });
                 });
 
                 api.coreAPI.registerEvent(api.constants().CORE_EVENT_READY, () => {
                     this.service.stop();
-                    this.generateHapSensors();
-                    this.generateHapAlarm();
-                    this.service.init(this.devices, this.sensors, this.alarm);
-                    this.service.start();
+
+                    this.service.start(() => {
+                        this.generateHapDevices();
+                        this.generateHapSensors();
+                        this.generateHapAlarm();
+                        this.service.init(this.devices, this.sensors, this.alarm);
+                    });
                 });
 
                 api.configurationAPI.setUpdateCb((conf) => {
@@ -129,7 +137,12 @@ function loaded(api) {
                         api.configurationAPI.saveData(conf);
                     }
                     this.service.init(this.devices, this.sensors);
-                    this.service.start();
+                    this.service.start(() => {
+                        this.generateHapDevices();
+                        this.generateHapSensors();
+                        this.generateHapAlarm();
+                        this.service.init(this.devices, this.sensors, this.alarm);
+                    });
                 });
             }
         }
@@ -144,14 +157,15 @@ function loaded(api) {
             this.api.deviceAPI.getDevices().forEach((device) => {
                 if (device.visible) {
                     let i = 2;
+                    let name = device.name;
+                    if (this.devicesName.indexOf(name) >= 0) {
+                        name = name + " " + i;
+                        i++;
+                    } else {
+                        this.devicesName.push(name);
+                    }
+
                     if (device.bestDeviceType == this.api.deviceAPI.constants().DEVICE_TYPE_LIGHT_DIMMABLE_COLOR || device.bestDeviceType == this.api.deviceAPI.constants().DEVICE_TYPE_LIGHT_DIMMABLE || device.bestDeviceType == this.api.deviceAPI.constants().DEVICE_TYPE_LIGHT) {
-                        let name = device.name;
-                        if (this.devicesName.indexOf(name) >= 0) {
-                            name = name + " " + i;
-                            i++;
-                        } else {
-                            this.devicesName.push(name);
-                        }
                         this.devices.push({
                             accessory: "Smarties lights",
                             identifier: device.id,
@@ -162,18 +176,20 @@ function loaded(api) {
                             deviceTypes: api.deviceAPI.getDeviceTypes(device),
                             deviceConstants: api.deviceAPI.constants()
                         });
-                    }
-
-                    if (device.bestDeviceType == this.api.deviceAPI.constants().DEVICE_TYPE_GATE) {
-                        let name = device.name;
-                        if (this.devicesName.indexOf(name) >= 0) {
-                            name = name + " " + i;
-                            i++;
-                        } else {
-                            this.devicesName.push(name);
-                        }
+                    } else if (device.bestDeviceType == this.api.deviceAPI.constants().DEVICE_TYPE_GATE) {
                         this.devices.push({
                             accessory: "Smarties gate",
+                            identifier: device.id,
+                            name: name,
+                            coreApi: null,
+                            status: device.status,
+                            device: device,
+                            deviceTypes: api.deviceAPI.getDeviceTypes(device),
+                            deviceConstants: api.deviceAPI.constants()
+                        });
+                    } else if (device.bestDeviceType == this.api.deviceAPI.constants().DEVICE_TYPE_SHUTTER) {
+                        this.devices.push({
+                            accessory: "Smarties shutter",
                             identifier: device.id,
                             name: name,
                             coreApi: null,

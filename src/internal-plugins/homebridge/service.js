@@ -31,6 +31,7 @@ function loaded(api) {
             this.api = api;
             this.devices = [];
             this.sensors = [];
+            this.startDelay = null;
         }
 
         /**
@@ -75,7 +76,7 @@ function loaded(api) {
                 const conf = data.configuration;
                 if (!conf.homebridgeIdentifier) {
                     const hid = data.smartiesId;
-                    //conf.homebridgeIdentifier = hid.substr(2,2) + ":" + hid.substr(2,2)  + ":" + hid.substr(4,2)  + ":" + hid.substr(6,2) + ":" + hid.substr(10,2) + ":" + hid.substr(8,2);
+                    // conf.homebridgeIdentifier = hid.substr(3,2) + ":" + hid.substr(2,2)  + ":" + hid.substr(4,2)  + ":" + hid.substr(6,2) + ":" + hid.substr(10,2) + ":" + hid.substr(8,2);
                     conf.homebridgeIdentifier = hid.substr(0,2) + ":" + hid.substr(2,2)  + ":" + hid.substr(4,2)  + ":" + hid.substr(6,2) + ":" + hid.substr(10,2) + ":" + hid.substr(8,2);
                     send({action: "saveConf", configuration:conf});
                 }
@@ -269,9 +270,18 @@ function loaded(api) {
 
         /**
          * Start the service
+         *
+         * @param  {Function} update Update devices and sensors function
          */
-        start() {
-            setTimeout(() => {
+        start(update) {
+            if (this.startDelay) {
+                clearTimeout(this.startDelay);
+            }
+            this.startDelay = setTimeout(() => {
+                if (update) {
+                    update();
+                }
+                this.startDelay = null;
                 super.start();
                 this.send("init", {configuration: (api.configurationAPI.getConfiguration() ? api.configurationAPI.getConfiguration() : {}), smartiesId: api.environmentAPI.getFullSmartiesId(), dirname: __dirname, port: port, devices: this.devices, sensors: this.sensors});
             }, START_DELAY_S * 1000);
