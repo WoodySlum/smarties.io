@@ -344,7 +344,7 @@ function loaded(api) {
                 this.getInfo("/json?cmd=mode&mode=man", (err, res) => {
                     if (!err && res.successful)  {
                         setTimeout(() => {
-                            self.getInfo("/json?cmd=mode&mode=auto", (err, res) => {
+                            this.getInfo("/json?cmd=mode&mode=auto", (err, res) => {
                                 if (!err && res.successful)  {
                                     setTimeout((self) => {
                                         self.refresh();
