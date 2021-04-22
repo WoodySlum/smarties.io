@@ -22,13 +22,14 @@ function SmartiesSmokeAccessory(log, config) {
 
   SmartiesSmokeAccessory.prototype.handleSmokeDetectedGet = function(callback) {
       let cb = (data) => {
+          console.log(Characteristic.SmokeDetected);
           if (data.sensor == this.identifier) {
               Api.removeListener("getValueRes", cb);
               if (!data.err) {
                   if (data.res.value == 0) {
-                      callback(null, Characteristic.LeakDetected.SMOKE_NOT_DETECTED);
+                      callback(null, Characteristic.SmokeDetected.SMOKE_NOT_DETECTED);
                   } else {
-                      callback(null, Characteristic.LeakDetected.SMOKE_DETECTED);
+                      callback(null, Characteristic.SmokeDetected.SMOKE_DETECTED);
                   }
 
               } else {

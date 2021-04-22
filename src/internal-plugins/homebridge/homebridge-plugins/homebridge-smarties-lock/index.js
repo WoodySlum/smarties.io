@@ -52,11 +52,12 @@ function SmartiesLockAccessory(log, config) {
   SmartiesLockAccessory.prototype.handleLockTargetStateGet = function(callback) {
       let cb = (data) => {
           if (data.device.id == this.device.id) {
+              // console.log("=>");
+              // console.log(data.device);
+              Api.removeListener("getDeviceStatusRes", cb);
               if (data.device.status == this.deviceConstants.INT_STATUS_ON) {
-                  Api.removeListener("getDeviceStatusRes", cb);
                   callback(null, Characteristic.LockCurrentState.SECURED);
               } else {
-                  Api.removeListener("getDeviceStatusRes", cb);
                   callback(null, Characteristic.LockCurrentState.UNSECURED);
               }
           }
@@ -73,7 +74,6 @@ function SmartiesLockAccessory(log, config) {
           if (data.device.id == this.device.id) {
               const device = data.device;
               device.status = data.constants.STATUS_OFF;
-              console.log(state);
               if (state) {
                   device.status = data.constants.STATUS_ON;
               }

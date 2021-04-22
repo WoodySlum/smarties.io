@@ -221,9 +221,9 @@ function loaded(api) {
             } else if (data.action === "switchDeviceWithDevice") {
                 context.api.deviceAPI.switchDeviceWithDevice(data.device);
             } else if (data.action === "getDeviceStatus") {
-                context.send("getDeviceStatus", {device: data.device, status: context.api.deviceAPI.getDeviceStatus(data.device.id)});
+                context.send("getDeviceStatus", {device: context.api.deviceAPI.getDeviceById(data.device.id), status: context.api.deviceAPI.getDeviceStatus(data.device.id)});
             } else if (data.action === "getDeviceTypes") {
-                context.send("getDeviceTypes", {device: data.device, deviceTypes: context.api.deviceAPI.getDeviceTypes(data.device), constants: context.api.deviceAPI.constants()});
+                context.send("getDeviceTypes", {device: context.api.deviceAPI.getDeviceById(data.device.id), deviceTypes: context.api.deviceAPI.getDeviceTypes(data.device), constants: context.api.deviceAPI.constants()});
             } else if (data.action === "getValue") {
                 context.api.sensorAPI.getValue(data.sensor, (err, res) => {
                     context.send("getValue", {sensor: data.sensor, err:err, res: res});
