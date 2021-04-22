@@ -22,7 +22,6 @@ function SmartiesSmokeAccessory(log, config) {
 
   SmartiesSmokeAccessory.prototype.handleSmokeDetectedGet = function(callback) {
       let cb = (data) => {
-          console.log(Characteristic.SmokeDetected);
           if (data.sensor == this.identifier) {
               Api.removeListener("getValueRes", cb);
               if (!data.err) {

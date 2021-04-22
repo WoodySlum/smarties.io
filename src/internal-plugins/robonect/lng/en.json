@@ -20,5 +20,14 @@
     "robonect.password": "Password",
     "mower.weather.pause": "Weath. pause",
     "mower.active": "Active",
-    "mower.error.message": "Robonect error [%@] : %@"
+    "mower.error.message": "Robonect error [%@] : %@",
+    "robonect.mode.none": "None",
+    "robonect.mode.auto": "Auto",
+    "robonect.mode.man": "Manual",
+    "robonect.mode.home": "Home",
+    "robonect.mode.start": "Start",
+    "robonect.mode.eod": "Stop (end of the day)",
+    "robonect.mode": "Mode",
+    "robonect.scenario": "Robonect"
+
 }

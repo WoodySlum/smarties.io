@@ -12,6 +12,44 @@ function loaded(api) {
     api.init();
 
     /**
+     * This class scenario manage robonect form
+     *
+     * @class
+     */
+    class RobonectScenarioForm extends api.exported.FormObject.class {
+        /**
+         * Constructor
+         *
+         * @param  {number} id The identifier
+         * @param  {string} mode Mode
+         * @returns {RobonectScenarioForm}        The instance
+         */
+        constructor(id, mode) {
+            super(id);
+
+            /**
+             * @Property("mode");
+             * @Type("string");
+             * @Title("robonect.mode");
+             * @Enum(["none", "auto", "man", "home", "eod", "start"]);
+             * @EnumNames(["robonect.mode.none", "robonect.mode.auto", "robonect.mode.man", "robonect.mode.home", "robonect.mode.eod", "robonect.mode.start"]);
+             */
+            this.mode = mode;
+        }
+
+
+        /**
+         * Rsync form
+         *
+         * @param  {object} data Some data
+         * @returns {RobonectScenarioForm}      An instance
+         */
+        json(data) {
+            return new RobonectScenarioForm(data.id, data.mode);
+        }
+    }
+
+    /**
      * This class manage robonect form
      *
      * @class
@@ -92,6 +130,12 @@ function loaded(api) {
                 this.refresh();
             }, this, this.api.timeEventAPI.constants().EVERY_FIVE_MINUTES);
             this.refresh();
+
+            this.api.scenarioAPI.register(RobonectScenarioForm, (scenario) => {
+                if (scenario && scenario.RobonectScenarioForm && scenario.RobonectScenarioForm.mode != null && scenario.RobonectScenarioForm.mode != "none") {
+                    this.actions(scenario.RobonectScenarioForm.mode);
+                }
+            }, this.api.translateAPI.t("robonect.scenario"));
         }
 
         /**
@@ -274,6 +318,53 @@ function loaded(api) {
         }
 
         /**
+         * Get mower status
+         *
+         * @param  {string} mode            The mode
+         * @param  {Function} cb            A callback e.g. : `(err) => {}`
+         */
+        actions(mode = "auto", cb) {
+            api.exported.Logger.info("Set robonect mode " + mode);
+            if (mode != "start") {
+                this.getInfo("/json?cmd=mode&mode=" + mode, (err, res) => {
+                    if (!err && res.successful)  {
+                        setTimeout((self) => {
+                            self.refresh();
+                        }, 1000, this);
+                        if (cb) {
+                            cb(null);
+                        }
+                    } else {
+                        if (cb) {
+                            cb(err);
+                        }
+                    }
+                });
+            } else {
+                this.getInfo("/json?cmd=mode&mode=man", (err, res) => {
+                    if (!err && res.successful)  {
+                        setTimeout(() => {
+                            self.getInfo("/json?cmd=mode&mode=auto", (err, res) => {
+                                if (!err && res.successful)  {
+                                    setTimeout((self) => {
+                                        self.refresh();
+                                    }, 1000, this);
+                                }
+                            });
+                        }, 30000);
+                        if (cb) {
+                            cb(null);
+                        }
+                    } else {
+                        if (cb) {
+                            cb(err);
+                        }
+                    }
+                });
+            }
+        }
+
+        /**
          * Process API callback
          *
          * @param  {APIRequest} apiRequest An APIRequest
@@ -281,9 +372,7 @@ function loaded(api) {
          */
         processAPI(apiRequest) {
             const self = this;
-            console.log(apiRequest.data);
             if (apiRequest.route.startsWith(":/" + ROBONECT_REGISTER_KEY + "/")) {
-
                 return new Promise((resolve, reject) => {
                     if (apiRequest.data && apiRequest.data.action) {
                         let mode = null;
@@ -299,39 +388,13 @@ function loaded(api) {
                             mode = "start";
                         }
 
-                        if (mode != "start") {
-                            self.getInfo("/json?cmd=mode&mode=" + mode, (err, res) => {
-                                if (!err && res.successful)  {
-                                    setTimeout((self) => {
-                                        self.refresh();
-                                    }, 1000, this);
-                                    resolve(self.api.webAPI.APIResponse(true, {success:true}));
-                                } else {
-                                    reject(this.api.webAPI.APIResponse(false, {}, 8913, "Fail mode robonect " + mode));
-                                }
-                            });
-                        } else {
-                            self.getInfo("/json?cmd=mode&mode=man", (err, res) => {
-                                if (!err && res.successful)  {
-                                    setTimeout(() => {
-                                        self.getInfo("/json?cmd=mode&mode=auto", (err, res) => {
-                                            if (!err && res.successful)  {
-                                                setTimeout(() => {
-                                                    self.refresh();
-                                                }, 1000);
-                                                resolve(self.api.webAPI.APIResponse(true, {success:true}));
-                                            } else {
-                                                reject(this.api.webAPI.APIResponse(false, {}, 8913, "Fail mode robonect " + mode));
-                                            }
-                                        });
-                                    }, 30000);
-                                    resolve(self.api.webAPI.APIResponse(true, {success:true}));
-                                } else {
-                                    reject(this.api.webAPI.APIResponse(false, {}, 8913, "Fail mode robonect " + mode));
-                                }
-                            });
-                        }
-
+                        self.actions(mode, (err) => {
+                            if (err) {
+                                reject(this.api.webAPI.APIResponse(false, {}, 8913, "Fail mode robonect " + mode));
+                            } else {
+                                resolve(self.api.webAPI.APIResponse(true, {success:true}));
+                            }
+                        });
                     }
                 });
             }
