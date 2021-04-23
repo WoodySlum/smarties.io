@@ -25,10 +25,10 @@ function SmartiesLeakAccessory(log, config) {
           if (data.sensor == this.identifier) {
               Api.removeListener("getValueRes", cb);
               if (!data.err) {
-                  if (data.res.value == 0) {
-                      callback(null, Characteristic.LeakDetected.LEAK_NOT_DETECTED);
-                  } else {
+                  if (data.tValue != null && data.tValue > 0) {
                       callback(null, Characteristic.LeakDetected.LEAK_DETECTED);
+                  } else {
+                      callback(null, Characteristic.LeakDetected.LEAK_NOT_DETECTED);
                   }
 
               } else {

@@ -30,7 +30,6 @@ function SmartiesLightAccessory(log, config) {
                   } else {
                       callback(null, data.res.value);
                   }
-
               } else {
                   callback(Error("Invalid value"));
               }

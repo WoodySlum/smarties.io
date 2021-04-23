@@ -226,7 +226,14 @@ function loaded(api) {
                 context.send("getDeviceTypes", {device: context.api.deviceAPI.getDeviceById(data.device.id), deviceTypes: context.api.deviceAPI.getDeviceTypes(data.device), constants: context.api.deviceAPI.constants()});
             } else if (data.action === "getValue") {
                 context.api.sensorAPI.getValue(data.sensor, (err, res) => {
-                    context.send("getValue", {sensor: data.sensor, err:err, res: res});
+                    let tValue = null;
+                    if (res) {
+                        if (context.api.exported.DateUtils.class.timestamp() - context.api.exported.DateUtils.class.dateToTimestamp(res.timestamp) < (2 * 60 * 60)) { // 2 hour
+                            tValue = res.value;
+                        }
+                    }
+
+                    context.send("getValue", {sensor: data.sensor, err:err, res: res, tValue: tValue});
                 });
             } else {
                 api.exported.Logger.err(data);

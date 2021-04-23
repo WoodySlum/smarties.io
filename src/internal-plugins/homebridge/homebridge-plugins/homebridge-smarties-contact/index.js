@@ -25,7 +25,7 @@ function SmartiesContactAccessory(log, config) {
           if (data.sensor == this.identifier) {
               Api.removeListener("getValueRes", cb);
               if (!data.err) {
-                  if (data.res == 0) {
+                  if (data.tValue != null && data.tValue > 0) {
                       callback(null, Characteristic.ContactSensorState.CONTACT_NOT_DETECTED);
                   } else {
                       callback(null, Characteristic.ContactSensorState.CONTACT_DETECTED);

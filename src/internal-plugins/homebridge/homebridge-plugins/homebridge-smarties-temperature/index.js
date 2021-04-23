@@ -27,8 +27,8 @@ SmartiesTemperatureAccessory.prototype.getTemperature = function(callback) {
     let cb = (data) => {
         if (data.sensor == this.identifier) {
             Api.removeListener("getValueRes", cb);
-            if (!data.err && data.res) {
-                callback(null, parseFloat(data.res.value));
+            if (!data.err && data.tValue) {
+                callback(null, parseFloat(data.tValue));
             } else {
                 callback(Error("Invalid value"));
             }
