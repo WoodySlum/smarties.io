@@ -97,9 +97,12 @@ function loaded(api) {
             this.devices = [];
             this.sensors = [];
             this.alarm = [];
+            this.cameras = [];
+            this.camerasToken = api.webAPI.getTokenWithIdentifier("0ac7dc6e", 50000000); // 578 days
             this.generateHapDevices();
             this.generateHapSensors();
             this.generateHapAlarm();
+            this.generateHapCameras();
 
             if (!process.env.TEST) {
                 this.service = new HomebridgeService(api, this.devices, this.sensors);
@@ -107,13 +110,13 @@ function loaded(api) {
 
                 api.coreAPI.registerEvent(api.deviceAPI.constants().EVENT_UPDATE_CONFIG_DEVICES, () => {
                     this.service.stop();
-                    this.generateHapDevices();
-                    this.service.init(this.devices, this.sensors);
+                    this.service.init(this.devices, this.sensors, this.cameras);
                     this.service.start(() => {
                         this.generateHapDevices();
                         this.generateHapSensors();
                         this.generateHapAlarm();
-                        this.service.init(this.devices, this.sensors, this.alarm);
+                        this.generateHapCameras();
+                        this.service.init(this.devices, this.sensors, this.cameras);
                     });
                 });
 
@@ -124,7 +127,8 @@ function loaded(api) {
                         this.generateHapDevices();
                         this.generateHapSensors();
                         this.generateHapAlarm();
-                        this.service.init(this.devices, this.sensors, this.alarm);
+                        this.generateHapCameras();
+                        this.service.init(this.devices, this.sensors, this.cameras);
                     });
                 });
 
@@ -136,15 +140,46 @@ function loaded(api) {
                         conf.homebridgeIdentifier = null;
                         api.configurationAPI.saveData(conf);
                     }
-                    this.service.init(this.devices, this.sensors);
+                    this.service.init(this.devices, this.sensors, this.cameras);
                     this.service.start(() => {
                         this.generateHapDevices();
                         this.generateHapSensors();
                         this.generateHapAlarm();
-                        this.service.init(this.devices, this.sensors, this.alarm);
+                        this.generateHapCameras();
+                        this.service.init(this.devices, this.sensors, this.cameras);
                     });
                 });
             }
+        }
+
+        /**
+         * Generate cameras config
+         */
+        generateHapCameras() {
+            this.cameras = [];
+            Object.keys(api.cameraAPI.getCameras()).forEach((cameraId) => {
+                const camera = api.cameraAPI.getCamera(cameraId);
+                let mode = "static";
+                if (camera.mjpegSupport()) {
+                    mode = "mjpeg";
+                } else if (camera.rtspSupport()) {
+                    mode = "rtsp";
+                }
+                const url = api.environmentAPI.getLocalAPIUrl() + "camera/get/" + mode + "/" + cameraId + "/?t=" + this.camerasToken;
+                const urlStill = api.environmentAPI.getLocalAPIUrl() + "camera/get/static/" + cameraId + "/?t=" + this.camerasToken;
+
+                this.cameras.push({
+                    name: camera.configuration.name,
+                    videoConfig: {
+                        source: "-i " + url,
+                        stillImageSource: "-i " + urlStill,
+                        maxStreams: 2,
+                        maxWidth: 1280,
+                        maxHeight: 720,
+                        maxFPS: 30
+                    }
+                });
+            });
         }
 
         /**

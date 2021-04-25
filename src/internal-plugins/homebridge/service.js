@@ -31,6 +31,7 @@ function loaded(api) {
             this.api = api;
             this.devices = [];
             this.sensors = [];
+            this.cameras = [];
             this.startDelay = null;
         }
 
@@ -76,12 +77,12 @@ function loaded(api) {
                 const conf = data.configuration;
                 if (!conf.homebridgeIdentifier) {
                     const hid = data.smartiesId;
-                    // conf.homebridgeIdentifier = hid.substr(3,2) + ":" + hid.substr(2,2)  + ":" + hid.substr(4,2)  + ":" + hid.substr(6,2) + ":" + hid.substr(10,2) + ":" + hid.substr(8,2);
-                    conf.homebridgeIdentifier = hid.substr(0,2) + ":" + hid.substr(2,2)  + ":" + hid.substr(4,2)  + ":" + hid.substr(6,2) + ":" + hid.substr(10,2) + ":" + hid.substr(8,2);
+                    conf.homebridgeIdentifier = hid.substr(3,2) + ":" + hid.substr(2,2)  + ":" + hid.substr(4,2)  + ":" + hid.substr(6,2) + ":" + hid.substr(10,2) + ":" + hid.substr(8,2);
+                    // conf.homebridgeIdentifier = hid.substr(0,2) + ":" + hid.substr(2,2)  + ":" + hid.substr(4,2)  + ":" + hid.substr(6,2) + ":" + hid.substr(10,2) + ":" + hid.substr(8,2);
                     send({action: "saveConf", configuration:conf});
                 }
 
-                const platforms = [];
+                const platforms = [{platform:"Camera-ffmpeg", cameras: data.cameras}];
                 if (conf.alexaUsername && conf.alexaPassword) {
                     platforms.push({
                         platform: "Alexa",
@@ -114,7 +115,7 @@ function loaded(api) {
                             pin: pin
                         },
                         accessories: accessories,
-                        platforms:platforms
+                        platforms: platforms
                     };
                     fs.writeFileSync(User.configPath(), JSON.stringify(config));
                     this.server = new Server({insecureAccess:insecureAccess, customPluginPath: data.dirname + "/homebridge-plugins"});
@@ -247,10 +248,12 @@ function loaded(api) {
          *
          * @param {Array} devices A list of hap devices
          * @param {Array} sensors A list of hap sensors
+         * @param {Array} cameras A list of cameras
          */
-        init(devices, sensors) {
+        init(devices, sensors, cameras) {
             this.devices = devices;
             this.sensors = sensors;
+            this.cameras = cameras;
         }
 
         /**
@@ -290,7 +293,7 @@ function loaded(api) {
                 }
                 this.startDelay = null;
                 super.start();
-                this.send("init", {configuration: (api.configurationAPI.getConfiguration() ? api.configurationAPI.getConfiguration() : {}), smartiesId: api.environmentAPI.getFullSmartiesId(), dirname: __dirname, port: port, devices: this.devices, sensors: this.sensors});
+                this.send("init", {configuration: (api.configurationAPI.getConfiguration() ? api.configurationAPI.getConfiguration() : {}), smartiesId: api.environmentAPI.getFullSmartiesId(), dirname: __dirname, port: port, devices: this.devices, sensors: this.sensors, cameras: this.cameras});
             }, START_DELAY_S * 1000);
         }
 

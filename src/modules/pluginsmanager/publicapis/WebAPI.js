@@ -91,6 +91,17 @@ class WebAPI {
         return PrivateProperties.oprivate(this).webServices.getToken(route, expirationTime);
     }
 
+    /**
+     * Generates a token
+     *
+     * @param  {string} identifier           The identifier
+     * @param  {int} [expirationTime=0] Expiration time in sec - 0 for one time usage
+     * @returns {string}                   The token
+     */
+    getTokenWithIdentifier(identifier, expirationTime = 0) {
+        return PrivateProperties.oprivate(this).webServices.getTokenWithIdentifier(identifier, expirationTime);
+    }
+
 }
 
 module.exports = {class:WebAPI};

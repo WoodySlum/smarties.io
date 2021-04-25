@@ -118,6 +118,16 @@ class CameraAPI {
     saveConfiguration(cameraConfiguration) {
         PrivateProperties.oprivate(this).camerasManager.saveCamera(cameraConfiguration);
     }
+
+    /**
+     * Get the camera Object
+     *
+     * @param  {number} id Camera identifier
+     * @returns {Camera}    A camera extended object. Returns null if nothing found.
+     */
+    getCamera(id) {
+        return PrivateProperties.oprivate(this).camerasManager.getCamera(id);
+    }
 }
 
 module.exports = {class:CameraAPI};

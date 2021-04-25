@@ -673,6 +673,21 @@ class WebServices extends Service.class {
 
         return null;
     }
+
+    /**
+     * Generates a token
+     *
+     * @param  {string} identifier           The identifier
+     * @param  {int} [expirationTime=0] Expiration time in sec - 0 for one time usage
+     * @returns {string}                   The token
+     */
+    getTokenWithIdentifier(identifier, expirationTime = 0) {
+        if (this.authentication) {
+            return this.authentication.generateToken(null, identifier, expirationTime);
+        }
+
+        return null;
+    }
 }
 
 module.exports = {class:WebServices, CONTENT_TYPE:CONTENT_TYPE,
