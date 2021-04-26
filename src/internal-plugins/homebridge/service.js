@@ -77,8 +77,8 @@ function loaded(api) {
                 const conf = data.configuration;
                 if (!conf.homebridgeIdentifier) {
                     const hid = data.smartiesId;
-                    conf.homebridgeIdentifier = hid.substr(3,2) + ":" + hid.substr(2,2)  + ":" + hid.substr(4,2)  + ":" + hid.substr(6,2) + ":" + hid.substr(10,2) + ":" + hid.substr(8,2);
-                    // conf.homebridgeIdentifier = hid.substr(0,2) + ":" + hid.substr(2,2)  + ":" + hid.substr(4,2)  + ":" + hid.substr(6,2) + ":" + hid.substr(10,2) + ":" + hid.substr(8,2);
+                    // conf.homebridgeIdentifier = hid.substr(3,2) + ":" + hid.substr(2,2)  + ":" + hid.substr(4,2)  + ":" + hid.substr(6,2) + ":" + hid.substr(10,2) + ":" + hid.substr(8,2);
+                    conf.homebridgeIdentifier = hid.substr(0,2) + ":" + hid.substr(2,2)  + ":" + hid.substr(4,2)  + ":" + hid.substr(6,2) + ":" + hid.substr(10,2) + ":" + hid.substr(8,2);
                     send({action: "saveConf", configuration:conf});
                 }
 

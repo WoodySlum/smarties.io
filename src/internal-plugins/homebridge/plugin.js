@@ -160,12 +160,14 @@ function loaded(api) {
             Object.keys(api.cameraAPI.getCameras()).forEach((cameraId) => {
                 const camera = api.cameraAPI.getCamera(cameraId);
                 let mode = "static";
-                if (camera.mjpegSupport()) {
-                    mode = "mjpeg";
-                } else if (camera.rtspSupport()) {
-                    mode = "rtsp";
+                let url = api.environmentAPI.getLocalAPIUrl() + "camera/get/" + mode + "/" + cameraId + "/?t=" + this.camerasToken;
+                if (camera.rtspSupport()) {
+                    url = camera.rtspUrl;
+                } else if (camera.mjpegSupport()) {
+                    url = camera.mjpegUrl;
                 }
-                const url = api.environmentAPI.getLocalAPIUrl() + "camera/get/" + mode + "/" + cameraId + "/?t=" + this.camerasToken;
+
+
                 const urlStill = api.environmentAPI.getLocalAPIUrl() + "camera/get/static/" + cameraId + "/?t=" + this.camerasToken;
 
                 this.cameras.push({
