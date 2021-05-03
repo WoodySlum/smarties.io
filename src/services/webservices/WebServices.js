@@ -1,7 +1,9 @@
 "use strict";
 const express = require("express");
 const compression = require("compression");
-const ngrok = require("ngrok");
+const TunnelNgrok = require("./tunnel/TunnelNgrok");
+const TunnelLocalTunnel = require("./tunnel/TunnelLocalTunnel");
+
 const BreakException = require("./../../utils/BreakException").BreakException;
 const sha256 = require("sha256");
 
@@ -13,7 +15,6 @@ const APIRequest = require("./APIRequest");
 const APIResponse = require("./APIResponse");
 const APIRegistration = require("./APIRegistration");
 const Authentication = require("./../../modules/authentication/Authentication");
-const GatewayManager = require("./../../modules/gatewaymanager/GatewayManager");
 
 // External
 const BodyParser = require("body-parser");
@@ -57,10 +58,10 @@ class WebServices extends Service.class {
      * @param  {string} [sslCert=null]  The path for sslCert key
      * @param  {string} [enableCompression=true]  Enable gzip data compression
      * @param  {string} [cachePath=null]  The cache path
-     * @param  {string} [ngrokAuthToken=null]  The ngrok auth token
+     * @param  {object}   AppConfiguration     The app configuration
      * @returns {WebServices}            The instance
      */
-    constructor(translateManager, port = 8080, sslPort = 8043, sslKey = null, sslCert = null, enableCompression = true, cachePath = null, ngrokAuthToken = null) {
+    constructor(translateManager, port = 8080, sslPort = 8043, sslKey = null, sslCert = null, enableCompression = true, cachePath = null, AppConfiguration) {
         super("webservices");
         this.translateManager = translateManager;
         this.port = port;
@@ -71,11 +72,13 @@ class WebServices extends Service.class {
         this.sslCert = sslCert;
         this.fs = fs;
         this.cachePath = cachePath;
-        this.ngrokAuthToken = ngrokAuthToken;
+        this.AppConfiguration = AppConfiguration;
         this.enableCompression = enableCompression;
         this.gatewayManager = null;
+        this.environmentManager = null;
         this.tokenAuthParameters = {};
         this.authentication = null;
+        this.tunnel = null;
     }
 
     /**
@@ -98,7 +101,7 @@ class WebServices extends Service.class {
             const allowCrossDomain = function(req, res, next) {
                 res.header("Access-Control-Allow-Origin", "*");
                 res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
-                res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, " + [Authentication.HEADER_USERNAME, Authentication.HEADER_PASSWORD, Authentication.HEADER_TOKEN, Authentication.HEADER_OLD_USERNAME, Authentication.HEADER_OLD_PASSWORD, Authentication.HEADER_OLD_TOKEN].join(", "));
+                res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization,Bypass-Tunnel-Reminder," + [Authentication.HEADER_USERNAME, Authentication.HEADER_PASSWORD, Authentication.HEADER_TOKEN, Authentication.HEADER_OLD_USERNAME, Authentication.HEADER_OLD_PASSWORD, Authentication.HEADER_OLD_TOKEN].join(", "));
                 // intercept OPTIONS method
                 if ("OPTIONS" == req.method) {
                     res.sendStatus(200);
@@ -181,7 +184,17 @@ class WebServices extends Service.class {
                 Logger.err("HTTP Server can not started");
             }
 
-            this.startTunnel();
+            if (this.gatewayManager && !process.env.TEST) {
+                if (this.AppConfiguration.tunnel && this.AppConfiguration.tunnel == "localtunnel") {
+                    this.tunnel = new TunnelLocalTunnel.class(this.sslPort, this.gatewayManager, this.environmentManager, this.AppConfiguration);
+                } else if (this.AppConfiguration.tunnel && this.AppConfiguration.tunnel == "ngrok") {
+                    this.tunnel = new TunnelNgrok.class(this.port, this.gatewayManager, this.environmentManager, this.AppConfiguration);
+                } else {
+                    this.tunnel = new TunnelNgrok.class(this.port, this.gatewayManager, this.environmentManager, this.AppConfiguration);
+                }
+
+                this.tunnel.start();
+            }
 
             super.start();
 
@@ -190,71 +203,6 @@ class WebServices extends Service.class {
 
         } else {
             Logger.warn("Web services are already running");
-        }
-    }
-
-    /**
-     * Start HTTP Tunnel
-     */
-    startTunnel() {
-        // Start HTTP tunnel
-        if (this.gatewayManager && !process.env.TEST) {
-            setTimeout(async (self) => {
-                // For pkg, copy binary outside container
-                const platform = require("os").platform();
-                const binExtension = "ngrok" + (platform === "win32" ? ".exe" : "");
-                const ngrokBin = self.cachePath + binExtension;
-
-                if (!fs.existsSync(ngrokBin)) {
-                    Logger.info("Copy ngrok bin");
-                    var binContent = fs.readFileSync(__dirname + "/../../../node_modules/ngrok/bin/" + binExtension);
-                    fs.writeFileSync(ngrokBin, binContent);
-                    fs.chmodSync(self.cachePath + binExtension, "0777");
-                    binContent = null; // Clear variable
-                }
-
-                const ngrokOptions = {addr: self.port, protocol:"http", region: "eu", inspect:false, binPath: () => self.cachePath};
-                if (this.ngrokAuthToken) {
-                    ngrokOptions.authtoken = this.ngrokAuthToken;
-                }
-
-                ngrok.connect(ngrokOptions).then((url) => {
-                    Logger.info("HTTP tunnel URL : " + url);
-
-                    // Auto restart tunnel every 6 hours (expiration)
-                    // New ngrok free account policy
-                    setTimeout((t) => {
-                        Logger.info("Restart HTTP tunnel due to expiration policy");
-                        ngrok.disconnect();
-                        ngrok.kill();
-                        t.startTunnel();
-                    }, 6 * 60 * 60 * 1000, this);
-
-                    self.gatewayManager.bootMode = GatewayManager.BOOT_MODE_READY;
-                    self.gatewayManager.tunnelUrl = url;
-                    self.gatewayManager.transmit();
-
-                    setTimeout((me, tunnelUrl) => { // Fix an issue where tunnel sent is null
-                        me.gatewayManager.bootMode = GatewayManager.BOOT_MODE_READY;
-                        me.gatewayManager.tunnelUrl = tunnelUrl;
-                        me.gatewayManager.transmit();
-                    }, 5 * 1000, self, url);
-
-                }).catch((err) => {
-                    Logger.err("Could not start HTTP tunnel : " + err.msg + " - " + err.error_code + " / " + err.status_code);
-                    Logger.err(err.message);
-
-                    setTimeout((me) => {
-                        me.startTunnel();
-                    }, 30 * 1000, self);
-                    setTimeout((me) => { // Fix an issue where tunnel sent is null
-                        me.gatewayManager.bootMode = GatewayManager.BOOT_MODE_BOOTING;
-                        me.gatewayManager.tunnelUrl = null;
-                        me.gatewayManager.transmit();
-                    }, 5 * 1000, self);
-                });
-            }, 0, this);
-
         }
     }
 
@@ -268,9 +216,8 @@ class WebServices extends Service.class {
             });
 
             // Kill tunnel
-            if (!process.env.TEST) {
-                ngrok.disconnect();
-                ngrok.kill();
+            if (this.tunnel) {
+                this.tunnel.stop();
             }
 
             this.servers = [];

@@ -167,6 +167,7 @@
         "is-running": "^2.1",
         "isomorphic-fetch": "^3.0",
         "linky": "1.1.0",
+        "localtunnel": "^2.0",
         "mac-scanner": "^1.1",
         "md5-file": "^5.0",
         "moment": "^2",

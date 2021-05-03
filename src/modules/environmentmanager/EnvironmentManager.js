@@ -102,6 +102,7 @@ class EnvironmentManager {
         this.eventReady = eventReady;
         this.userManager = userManager;
         this.userManager.environmentManager = this;
+        webServices.environmentManager = this;
         this.dist = null;
         this.arch = null;
         this.scanner = null;

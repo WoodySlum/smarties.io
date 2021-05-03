@@ -124,7 +124,7 @@ class SmartiesCore {
 
         // Services
         // Web services and API
-        this.webServices = new WebServices.class(this.translateManager, AppConfiguration.port, AppConfiguration.ssl.port, AppConfiguration.ssl.key, AppConfiguration.ssl.cert, AppConfiguration.compression, AppConfiguration.cachePath, AppConfiguration.ngrokAuthToken);
+        this.webServices = new WebServices.class(this.translateManager, AppConfiguration.port, AppConfiguration.ssl.port, AppConfiguration.ssl.key, AppConfiguration.ssl.cert, AppConfiguration.compression, AppConfiguration.cachePath, AppConfiguration);
 
         //  Time event service
         this.timeEventService = new TimeEventService.class();
