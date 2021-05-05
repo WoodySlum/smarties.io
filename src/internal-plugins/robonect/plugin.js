@@ -325,43 +325,20 @@ function loaded(api) {
          */
         actions(mode = "auto", cb) {
             api.exported.Logger.info("Set robonect mode " + mode);
-            if (mode != "start") {
-                this.getInfo("/json?cmd=mode&mode=" + mode, (err, res) => {
-                    if (!err && res.successful)  {
-                        setTimeout((self) => {
-                            self.refresh();
-                        }, 1000, this);
-                        if (cb) {
-                            cb(null);
-                        }
-                    } else {
-                        if (cb) {
-                            cb(err);
-                        }
+            this.getInfo("/json?cmd=mode&mode=" + mode, (err, res) => {
+                if (!err && res.successful)  {
+                    setTimeout((self) => {
+                        self.refresh();
+                    }, 1000, this);
+                    if (cb) {
+                        cb(null);
                     }
-                });
-            } else {
-                this.getInfo("/json?cmd=mode&mode=man", (err, res) => {
-                    if (!err && res.successful)  {
-                        setTimeout(() => {
-                            this.getInfo("/json?cmd=mode&mode=auto", (err, res) => {
-                                if (!err && res.successful)  {
-                                    setTimeout((self) => {
-                                        self.refresh();
-                                    }, 1000, this);
-                                }
-                            });
-                        }, 30000);
-                        if (cb) {
-                            cb(null);
-                        }
-                    } else {
-                        if (cb) {
-                            cb(err);
-                        }
+                } else {
+                    if (cb) {
+                        cb(err);
                     }
-                });
-            }
+                }
+            });
         }
 
         /**
