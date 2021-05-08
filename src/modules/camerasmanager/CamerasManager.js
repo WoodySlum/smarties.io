@@ -52,7 +52,7 @@ const CAMERAS_MANAGER_RECORD_GET_TOKEN_DURATION = 7 * 24 * 60 * 60;
 
 const CAMERAS_MANAGER_LIST = ":/cameras/list/";
 const CAMERAS_RETRIEVE_BASE = ":/camera/get/";
-const CAMERAS_RETRIEVE_GET = CAMERAS_RETRIEVE_BASE + "[mode]/[id]/[base64*]/[timestamp*]/[useCache*]/";
+const CAMERAS_RETRIEVE_GET = CAMERAS_RETRIEVE_BASE + "[mode]/[id]/[base64*]/[timestamp*]/[useCache*]/[setContentTypeStatic*]/";
 const CAMERAS_MOVE_BASE = ":/camera/move/";
 const CAMERAS_MOVE_SET = CAMERAS_MOVE_BASE + "[id]/[direction]/";
 
@@ -676,6 +676,7 @@ class CamerasManager {
             const base64 = apiRequest.data.base64?(parseInt(apiRequest.data.base64)>0?true:false):false;
             const timestamp = apiRequest.data.timestamp? ((parseInt(apiRequest.data.timestamp) > 1) ? parseInt(apiRequest.data.timestamp):null) : null;
             const useCache = apiRequest.data.useCache ? (parseInt(apiRequest.data.useCache) == 1 ? true : false) : false;
+            const setContentTypeStatic = apiRequest.data.setContentTypeStatic ? (parseInt(apiRequest.data.setContentTypeStatic) == 1 ? true : false) : false;
             return new Promise((resolve, reject) => {
                 if (mode === MODE_STATIC) {
                     self.getImage(id, (err, data, contentType) => {
@@ -706,9 +707,9 @@ class CamerasManager {
                             }
 
                             return img;
-                        });
+                        }, setContentTypeStatic);
                     } else {
-                        mjpegProxy = new MjpegProxy.class(camera.mjpegUrl, camera.rtspUrl, camera.configuration.rotation);
+                        mjpegProxy = new MjpegProxy.class(camera.mjpegUrl, camera.rtspUrl, camera.configuration.rotation, false, null, setContentTypeStatic);
                     }
 
                     apiRequest.req.on("close", () => {

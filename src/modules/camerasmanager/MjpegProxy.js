@@ -28,15 +28,17 @@ class MjpegProxy {
      * @param  {string} mjpegUrl A mjpeg URL
      * @param  {string} rtspUrl A rtsp URL
      * @param  {string} rotation The rotation param
-     * @param  {boolean} [transform=false]    Transform image. `true` will stream thr result of `cb`
+     * @param  {boolean} [transform=false]    Transform image. `true` will stream the result of `cb`
      * @param  {Function} [cb=null]    A callback `(err, jpg) => {}`
+     * @param  {boolean} [setContentTypeStatic=false]    Set Content-Type as image/jpeg instead of mjpeg boundary
      * @returns {MjpegProxy}                       The instance
      */
-    constructor(mjpegUrl, rtspUrl, rotation, transform = false, cb = null) {
+    constructor(mjpegUrl, rtspUrl, rotation, transform = false, cb = null, setContentTypeStatic = false) {
 
         this.buffer = null;
         this.cb = cb;
         this.running = true;
+        this.setContentTypeStatic = setContentTypeStatic;
 
         this.audienceResponses = [];
         this.newAudienceResponses = [];
@@ -147,10 +149,10 @@ class MjpegProxy {
                             if (p >= 0) {
                                 Logger.verbose("Write first buf 2");
                                 res.writeHead(200, {
-                                    "Expires": "Mon, 01 Jul 1980 00:00:00 GMT",
+                                    "Expires": "Mon, 01 Jul 2050 00:00:00 GMT",
                                     "Cache-Control": "no-cache, no-store, must-revalidate",
                                     "Pragma": "no-cache",
-                                    "Content-Type": "multipart/x-mixed-replace;boundary=" + self.boundary
+                                    "Content-Type": (self.setContentTypeStatic ? "image/jpeg" : "multipart/x-mixed-replace;boundary=" + self.boundary)
                                 });
                                 if (!self.transform) {
                                     Logger.verbose("Write first buf 3");
@@ -234,10 +236,10 @@ class MjpegProxy {
                 setTimeout(() => {
                     this.audienceResponses.forEach((res) => {
                         res.writeHead(200, {
-                            "Expires": "Mon, 01 Jul 1980 00:00:00 GMT",
+                            "Expires": "Mon, 01 Jul 2050 00:00:00 GMT",
                             "Cache-Control": "no-cache, no-store, must-revalidate",
                             "Pragma": "no-cache",
-                            "Content-Type": "multipart/x-mixed-replace;boundary=" + this.boundary
+                            "Content-Type": (this.setContentTypeStatic ? "image/jpeg" : "multipart/x-mixed-replace;boundary=" + this.boundary)
                         });
                     });
 
