@@ -517,11 +517,11 @@ class DeviceManager {
      *
      * @param  {number} id            A device identifier
      * @param  {string} [status=null] A status  (`on`, `off` or int status)
-     * @param  {int} [brightness=0] Brightness (between 0 and 1)
+     * @param  {int} [brightness=0.9] Brightness (between 0 and 1)
      * @param  {string} [color=FFFFFF] Color (hex color)
      * @param  {int} [colorTemperature=0] Color temperature (between 0 and 1)
      */
-    switchDevice(id, status = null, brightness = 0, color = "FFFFFF", colorTemperature = 0) {
+    switchDevice(id, status = null, brightness = 0.9, color = "FFFFFF", colorTemperature = 0) {
         const device = this.getDeviceById(id);
         if (device && device.subDevices && device.subDevices.length > 0) {
             device.subDevices.forEach((subDevice) => {
