@@ -132,7 +132,7 @@ class Logger {
                     logHistory.splice(-1, 1);
                 }
 
-                console.log(log, ...params);
+                process.stdout.write(log + "\n", ...params);
             }
         }
     }
