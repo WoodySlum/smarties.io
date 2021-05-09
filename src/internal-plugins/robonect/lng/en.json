@@ -28,6 +28,6 @@
     "robonect.mode.start": "Start",
     "robonect.mode.eod": "Stop (end of the day)",
     "robonect.mode": "Mode",
-    "robonect.scenario": "Robonect"
-
+    "robonect.scenario": "Robonect",
+    "robonect.mode.go": "Force start"
 }

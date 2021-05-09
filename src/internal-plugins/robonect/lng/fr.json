@@ -28,5 +28,6 @@
     "robonect.mode.start": "Démarrer",
     "robonect.mode.eod": "Arrêter (fin de journée)",
     "robonect.mode": "Mode",
-    "robonect.scenario": "Robonect"
+    "robonect.scenario": "Robonect",
+    "robonect.mode.go": "Forcer démarrage"
 }

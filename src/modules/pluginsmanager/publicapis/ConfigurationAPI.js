@@ -103,7 +103,7 @@ class ConfigurationAPI {
      *
      * @param  {class} classType The object class. This class MUST implement a json() method to process JSON to Object mapping
      * @param  {boolean} [disableClassMapping=false] Disable class mapping
-     * @returns {Array}      An array of objects (instance of classType), or an object
+     * @returns {Array|object}      An array of objects (instance of classType), or an object
      */
     loadData(classType, disableClassMapping = false) {
         if (PrivateProperties.oprivate(this).confManager.formConfiguration) {
