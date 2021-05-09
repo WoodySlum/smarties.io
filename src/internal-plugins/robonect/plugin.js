@@ -156,7 +156,14 @@ function loaded(api) {
                         if (!err && !err2) {
                             if (res2.blades != null && res2.blades != "undefined") {
                                 self.blades = res2.blades.quality;
+                                if (self.blades < 5 && !api.exported.FileLock.isLocked("robonect-blades")) {
+                                    api.exported.FileLock.lock("robonect-blades");
+                                    api.messageAPI.sendMessage("*", api.translateAPI.t("mower.blades.change"), null, null, null, true);
+                                } else {
+                                    api.exported.FileLock.unlock("robonect-blades");
+                                }
                             }
+
                             if (res2.status != null && res2.status != "undefined") {
                                 self.hours = res2.status.hours;
                             }
