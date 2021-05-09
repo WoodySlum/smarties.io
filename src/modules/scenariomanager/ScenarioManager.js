@@ -354,14 +354,38 @@ class ScenarioManager {
                 let shouldExecute = false;
 
                 scenario.timeTrigger.forEach((timeTrigger) => {
-                    const expectedDay = parseInt(timeTrigger.day);
-                    const expectedHour = parseInt(timeTrigger.time.split(":")[0]);
-                    const expectedMinute = parseInt(timeTrigger.time.split(":")[1]);
+                    if (!timeTrigger.mode || (timeTrigger.mode && timeTrigger.mode.length == 0) || timeTrigger.mode == "modeManual") { // Retro compatibility
+                        const expectedDay = parseInt(timeTrigger.day);
+                        const expectedHour = parseInt(timeTrigger.time.split(":")[0]);
+                        const expectedMinute = parseInt(timeTrigger.time.split(":")[1]);
 
-                    if (day === expectedDay
-                        && hour === expectedHour
-                        && minute === expectedMinute) {
-                        shouldExecute = true;
+                        if (day === expectedDay
+                            && hour === expectedHour
+                            && minute === expectedMinute) {
+                            shouldExecute = true;
+                        }
+                    } else if (timeTrigger.mode == "modeRepeat" && timeTrigger.repeat && timeTrigger.repeat.length > 0) {
+                        if (timeTrigger.repeat == "everyMin") {
+                            shouldExecute = true;
+                        } else if (timeTrigger.repeat == "every5Min" && (minute % 5) == 0) {
+                            shouldExecute = true;
+                        } else if (timeTrigger.repeat == "every15Min" && (minute % 15) == 0) {
+                            shouldExecute = true;
+                        } else if (timeTrigger.repeat == "every30Min" && (minute % 30) == 0) {
+                            shouldExecute = true;
+                        } else if (timeTrigger.repeat == "everyHours" && minute == 0) {
+                            shouldExecute = true;
+                        } else if (timeTrigger.repeat == "every3Hours" && minute == 0 && (hour % 3) == 0) {
+                            shouldExecute = true;
+                        } else if (timeTrigger.repeat == "every6Hours" && minute == 0 && (hour % 6) == 0) {
+                            shouldExecute = true;
+                        } else if (timeTrigger.repeat == "every8Hours" && minute == 0 && (hour % 8) == 0) {
+                            shouldExecute = true;
+                        } else if (timeTrigger.repeat == "everyDays" && hour == 1 && minute == 0) {
+                            shouldExecute = true;
+                        } else if (timeTrigger.repeat == "everyMonth" && day == 1 && hour == 0 && minute == 0) {
+                            shouldExecute = true;
+                        }
                     }
                 });
 
