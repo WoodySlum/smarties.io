@@ -62,10 +62,9 @@ function loaded(api) {
          * @param  {string} ip Ip
          * @param  {string} username Username
          * @param  {string} password Password
-         * @param  {number} lastErrorCheckTs Last check errors
          * @returns {RobonectForm}        The instance
          */
-        constructor(id, ip, username, password, lastErrorCheckTs) {
+        constructor(id, ip, username, password) {
             super(id);
 
             /**
@@ -89,13 +88,6 @@ function loaded(api) {
              * @Display("password");
              */
             this.password = password;
-
-            /**
-             * @Property("lastErrorCheckTs");
-             * @Type("number");
-             * @Hidden(true);
-             */
-            this.lastErrorCheckTs = lastErrorCheckTs;
         }
 
 
@@ -106,7 +98,7 @@ function loaded(api) {
          * @returns {RobonectForm}      An instance
          */
         json(data) {
-            return new RobonectForm(data.id, data.ip, data.username, data.password, data.lastErrorCheckTs);
+            return new RobonectForm(data.id, data.ip, data.username, data.password);
         }
     }
 
@@ -178,7 +170,13 @@ function loaded(api) {
 
                             this.getErrors((err, res3) => {
                                 if (!err && res3) {
-                                    const configuration = api.configurationAPI.loadData(RobonectForm, true);
+                                    let configuration = {};
+                                    try {
+                                        configuration = api.configurationAPI.loadData(null, true);
+                                    } catch(e) {
+                                        e; // For lint
+                                    }
+
                                     if (res3.errors && res3.errors.length > 0 && (!configuration.lastErrorCheckTs || res3.errors[0].unix > configuration.lastErrorCheckTs)) {
                                         configuration.lastErrorCheckTs = res3.errors[0].unix;
                                         api.configurationAPI.saveData(configuration);
