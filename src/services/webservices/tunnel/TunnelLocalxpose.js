@@ -27,7 +27,7 @@ class TunnelLocalxpose extends Tunnel.class {
         if (!this.AppConfiguration.localxposeAccessToken) {
             throw Error("Add 'localxposeAccessToken' to config.json file to use LocalXpose tunnel. Go to https://localxpose.io/");
         }
-        this.client = new LocalXpose(AppConfiguration.localxposeAccessToken);
+        this.client = null;
         this.tunnel = null;
     }
 
@@ -36,6 +36,7 @@ class TunnelLocalxpose extends Tunnel.class {
      */
     start() {
         super.start();
+        this.client = new LocalXpose(AppConfiguration.localxposeAccessToken);
         this.client.http({
             region: this.AppConfiguration.localxposeRegion ? this.AppConfiguration.localxposeRegion : "eu", // us, ap or eu (default: us)
             to: "127.0.0.1:" + this.port, // address to forward to (default: 127.0.0.1:8080)
@@ -72,6 +73,7 @@ class TunnelLocalxpose extends Tunnel.class {
         if (this.tunnel) {
             this.client.kill();
             this.tunnel = null;
+            this.client = null;
         }
         super.stop();
     }
