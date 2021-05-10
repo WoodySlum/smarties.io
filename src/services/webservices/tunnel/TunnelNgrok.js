@@ -39,7 +39,7 @@ class TunnelNgrok extends Tunnel.class {
 
             if (!fs.existsSync(ngrokBin)) {
                 Logger.info("Copy ngrok bin");
-                var binContent = fs.readFileSync(__dirname + "/../../../node_modules/ngrok/bin/" + binExtension);
+                var binContent = fs.readFileSync(__dirname + "/../../../../node_modules/ngrok/bin/" + binExtension);
                 fs.writeFileSync(ngrokBin, binContent);
                 fs.chmodSync(self.AppConfiguration.cachePath + binExtension, "0777");
                 binContent = null; // Clear variable
