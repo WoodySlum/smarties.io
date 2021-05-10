@@ -186,7 +186,7 @@ class WebServices extends Service.class {
 
             if (this.gatewayManager && !process.env.TEST) {
                 if (this.AppConfiguration.tunnel && this.AppConfiguration.tunnel == "localtunnel") {
-                    this.tunnel = new TunnelLocalTunnel.class(this.sslPort, this.gatewayManager, this.environmentManager, this.AppConfiguration);
+                    this.tunnel = new TunnelLocalTunnel.class(this.port, this.gatewayManager, this.environmentManager, this.AppConfiguration);
                 } else if (this.AppConfiguration.tunnel && this.AppConfiguration.tunnel == "ngrok") {
                     this.tunnel = new TunnelNgrok.class(this.port, this.gatewayManager, this.environmentManager, this.AppConfiguration);
                 } else {

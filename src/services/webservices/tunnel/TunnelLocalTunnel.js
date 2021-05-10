@@ -3,6 +3,7 @@
 const Logger = require("./../../../logger/Logger");
 const Tunnel = require("./Tunnel");
 const localtunnel = require("localtunnel");
+const RESTART_TIMER_MIN = 60;
 
 /**
  * This class wraps local tunnel apis
@@ -32,7 +33,7 @@ class TunnelLocalTunnel extends Tunnel.class {
      */
     start() {
         super.start();
-        localtunnel({port: this.port, allow_invalid_cert: true, local_https:true, subdomain: "smartiesio-" + this.environmentManager.getSmartiesId() }).then((tunnel) => {
+        localtunnel({port: this.port, allow_invalid_cert: true, local_https:false, subdomain: "smartiesio-" + this.environmentManager.getSmartiesId() }).then((tunnel) => {
             this.tunnel = tunnel;
             this.isRunning = true;
             this.ready(this.tunnel.url);
@@ -46,15 +47,21 @@ class TunnelLocalTunnel extends Tunnel.class {
                 }
             });
 
-            this.tunnel.on("error", () => {
+            this.tunnel.on("error", (err) => {
+                Logger.err(err);
                 if (this.isRunning) {
-                    Logger.warn("Closed tunnel, restart...");
+                    Logger.warn("Error tunnel, restart...");
                     this.stop();
                     setTimeout((self) => {
                         self.start();
                     }, 30 * 1000, this);
                 }
             });
+
+            setTimeout((self) => {
+                self.stop();
+                self.start();
+            }, RESTART_TIMER_MIN * 60 * 1000, this);
         })
             .catch((e) => {
                 Logger.err(e);
