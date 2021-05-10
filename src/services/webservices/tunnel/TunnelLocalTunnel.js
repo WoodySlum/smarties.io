@@ -33,7 +33,7 @@ class TunnelLocalTunnel extends Tunnel.class {
      */
     start() {
         super.start();
-        localtunnel({port: this.port, allow_invalid_cert: true, local_https:false, subdomain: "smartiesio-" + this.environmentManager.getSmartiesId() }).then((tunnel) => {
+        localtunnel({port: this.port, allow_invalid_cert: true, local_https:true, subdomain: this.subdomain }).then((tunnel) => {
             this.tunnel = tunnel;
             this.isRunning = true;
             this.ready(this.tunnel.url);

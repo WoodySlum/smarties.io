@@ -25,6 +25,7 @@ class Tunnel {
         this.gatewayManager = gatewayManager;
         this.environmentManager = environmentManager;
         this.AppConfiguration = AppConfiguration;
+        this.subdomain = "smartiesio-" + this.environmentManager.getSmartiesId();
     }
 
     /**

@@ -3,6 +3,7 @@ const express = require("express");
 const compression = require("compression");
 const TunnelNgrok = require("./tunnel/TunnelNgrok");
 const TunnelLocalTunnel = require("./tunnel/TunnelLocalTunnel");
+const TunnelLocalxpose = require("./tunnel/TunnelLocalxpose");
 
 const BreakException = require("./../../utils/BreakException").BreakException;
 const sha256 = require("sha256");
@@ -186,11 +187,13 @@ class WebServices extends Service.class {
 
             if (this.gatewayManager && !process.env.TEST) {
                 if (this.AppConfiguration.tunnel && this.AppConfiguration.tunnel == "localtunnel") {
-                    this.tunnel = new TunnelLocalTunnel.class(this.port, this.gatewayManager, this.environmentManager, this.AppConfiguration);
+                    this.tunnel = new TunnelLocalTunnel.class(this.sslPort, this.gatewayManager, this.environmentManager, this.AppConfiguration);
                 } else if (this.AppConfiguration.tunnel && this.AppConfiguration.tunnel == "ngrok") {
                     this.tunnel = new TunnelNgrok.class(this.port, this.gatewayManager, this.environmentManager, this.AppConfiguration);
+                } else if (this.AppConfiguration.tunnel && this.AppConfiguration.tunnel == "localxpose") {
+                    this.tunnel = new TunnelLocalxpose.class(this.port, this.gatewayManager, this.environmentManager, this.AppConfiguration);
                 } else {
-                    this.tunnel = new TunnelLocalTunnel.class(this.sslPort, this.gatewayManager, this.environmentManager, this.AppConfiguration);
+                    this.tunnel = new TunnelNgrok.class(this.sslPort, this.gatewayManager, this.environmentManager, this.AppConfiguration);
                 }
 
                 this.tunnel.start();
