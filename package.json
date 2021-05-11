@@ -80,7 +80,7 @@
         ],
         "assets": [
             "./node_modules/ngrok/bin/ngrok",
-            "./node_modules/localxpose/bin/lxrpc",
+            "./node_modules/localxpose/**/*",
             "./node_modules/threads/lib/worker.node/slave.js",
             "./**/*.json",
             "./src/**/*.c",
