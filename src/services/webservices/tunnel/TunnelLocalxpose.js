@@ -59,7 +59,7 @@ class TunnelLocalxpose extends Tunnel.class {
             .then((tunnel) => {
                 this.tunnel = tunnel;
                 if (tunnel.addr) {
-                    this.ready(tunnel.addr);
+                    this.ready("https://" + tunnel.addr);
                 }
                 if (!this.AppConfiguration.localxposePaid) {
                     // If not paid, restart every 15 min
