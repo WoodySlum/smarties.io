@@ -269,7 +269,9 @@ class MjpegProxy {
                                 this.audienceResponses.forEach((res) => {
                                     res.write(this.generateHeader(buffer));
                                     res.write(buffer);
-                                    this.stream.child = childProcess;
+                                    if (this.stream) {
+                                        this.stream.child = childProcess;
+                                    }
                                 });
                             }
                         });
