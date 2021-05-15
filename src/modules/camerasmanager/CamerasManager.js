@@ -1091,6 +1091,7 @@ class CamerasManager {
     getImage(id, cb, timestamp = null, force = false) {
         if (id) {
             const camera = this.getCamera(id);
+            const self = this;
             if (camera) {
                 if (timestamp) {
                     const filePath = this.camerasArchiveFolder + camera.id + "/" + timestamp + CAMERA_FILE_EXTENSION;
@@ -1120,6 +1121,7 @@ class CamerasManager {
                                     Logger.verbose("Camera picture " + id + " done !");
                                     if (camera.configuration && camera.configuration.rotation && camera.configuration.rotation != "0") {
                                         ImageUtils.class.rotateb(Buffer.from(body, "binary"), (err, data) => {
+                                            self.cameraCapture[id.toString()] = data;
                                             cb(err, data, response.headers["content-type"]);
                                         }, parseInt(camera.configuration.rotation));
                                     } else {
