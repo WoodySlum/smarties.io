@@ -1139,6 +1139,7 @@ class CamerasManager {
                                     stream.stop();
                                     if (camera.configuration && camera.configuration.rotation && camera.configuration.rotation != "0") {
                                         ImageUtils.class.rotateb(data, (err, data) => {
+                                            self.cameraCapture[id.toString()] = data;
                                             cb(err, data, "image/jpeg");
                                         }, parseInt(camera.configuration.rotation));
                                     } else {
