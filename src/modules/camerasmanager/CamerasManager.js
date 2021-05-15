@@ -1130,26 +1130,30 @@ class CamerasManager {
                                 }
                             });
                         } else if (camera.rtspUrl && camera.rtspUrl.length > 0) {
-                            try {
-                                const stream = new rtsp.FFMpeg({input: camera.rtspUrl, rate: 1, resolution: "640x480"});
+                            if (this.cameraCapture[camera.id.toString()] && !force) {
+                                cb(null, this.cameraCapture[camera.id.toString()], "image/jpeg");
+                            } else {
+                                try {
+                                    const stream = new rtsp.FFMpeg({input: camera.rtspUrl, rate: 1, resolution: "640x480"});
 
-                                let childProcess = null;
-                                stream.on("data", (data) => {
-                                    stream.child = childProcess;
-                                    stream.stop();
-                                    if (camera.configuration && camera.configuration.rotation && camera.configuration.rotation != "0") {
-                                        ImageUtils.class.rotateb(data, (err, data) => {
-                                            self.cameraCapture[id.toString()] = data;
-                                            cb(err, data, "image/jpeg");
-                                        }, parseInt(camera.configuration.rotation));
-                                    } else {
-                                        cb(null, data, "image/jpeg");
-                                    }
-                                });
-                                childProcess = stream.child;
-                            } catch(e) {
-                                Logger.err(e);
-                                cb(e);
+                                    let childProcess = null;
+                                    stream.on("data", (data) => {
+                                        stream.child = childProcess;
+                                        stream.stop();
+                                        if (camera.configuration && camera.configuration.rotation && camera.configuration.rotation != "0") {
+                                            ImageUtils.class.rotateb(data, (err, data) => {
+                                                self.cameraCapture[id.toString()] = data;
+                                                cb(err, data, "image/jpeg");
+                                            }, parseInt(camera.configuration.rotation));
+                                        } else {
+                                            cb(null, data, "image/jpeg");
+                                        }
+                                    });
+                                    childProcess = stream.child;
+                                } catch(e) {
+                                    Logger.err(e);
+                                    cb(e);
+                                }
                             }
                         } else {
                             cb(Error(ERROR_NO_URL_DEFINED));
