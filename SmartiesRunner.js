@@ -9,6 +9,7 @@ const fs = require("fs-extra");
 const childProcess = require("child_process");
 const CHILD_PROCESS_STOP_SIGNAL = "SIGTERM";
 const RESTART_DELAY = 5; // In seconds
+const STOP_DELAY_S = 3; // In seconds
 
 /**
  * The runner class.
@@ -118,12 +119,16 @@ process.on("SIGINT", () => {
     Logger.info("Received SIGINT");
     runner.stop(runner);
     process.kill(process.pid, "SIGKILL");
-    process.exit(0);
+    setTimeout(() => {
+        process.exit(0);
+    }, STOP_DELAY_S * 1000);
 });
 
 process.on("SIGTERM", () => {
     Logger.info("Received SIGTERM");
     runner.stop(runner);
     process.kill(process.pid, "SIGKILL");
-    process.exit(0);
+    setTimeout(() => {
+        process.exit(0);
+    }, STOP_DELAY_S * 1000);
 });

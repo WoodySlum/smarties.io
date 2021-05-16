@@ -4,6 +4,9 @@
 # Python build
 *.pyc
 
+# Plugins
+plugins
+
 # Vim
 *.swp
 

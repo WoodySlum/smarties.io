@@ -1,5 +1,11 @@
 # Plugins tutorial
 
+## Quick plugin creation
+
+```
+npm run create-plugin
+```
+
 ## Creating a new plugin
 
 **Note : The plugin can be written in ES6** as the core supports it.
