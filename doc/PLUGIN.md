@@ -6,6 +6,12 @@
 npm run create-plugin
 ```
 
+or
+
+```
+./smarties create-plugin
+```
+
 ## Creating a new plugin
 
 **Note : The plugin can be written in ES6** as the core supports it.
@@ -28,7 +34,23 @@ Tree structure :
 				|-fr.json
 				|-...
 
+## Distribute your plugin to community
 
+*You need first to request username and token on smarties.io Github account.*
+
+```
+export SMARTIES_USERNAME=xxxx
+export SMARTIES_TOKEN=yyyyy
+npm run push-plugin
+```
+
+or
+
+```
+export SMARTIES_USERNAME=xxxx
+export SMARTIES_TOKEN=yyyyy
+./smarties push-plugin
+```
 
 ## plugin.js base
 
