@@ -38,7 +38,8 @@ readline.question(header("Number : "), num => {
     const i = parseInt(num);
     if (i >= 0 && i < plugins.length) {
         console.log(header("Read metadata..."));
-        const meta = require("." + PLUGIN_DIR + plugins[i] + "/plugin.js");
+        console.log(__dirname + PLUGIN_DIR + plugins[i] + "/plugin.js");
+        const meta = require(__dirname + "/." + PLUGIN_DIR + plugins[i] + "/plugin.js");
         console.log(header("Create archive..."));
         const archiveFile = TMP_DIR + meta.attributes.name + "-" + meta.attributes.version + ".zip";
         try {
