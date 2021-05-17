@@ -103,764 +103,764 @@
     -   [getForm][99]
     -   [setSortFunction][100]
         -   [Parameters][101]
--   [CoreAPI][102]
-    -   [Parameters][103]
-    -   [dispatchEvent][104]
-        -   [Parameters][105]
-    -   [registerEvent][106]
-        -   [Parameters][107]
-    -   [cachePath][108]
--   [DashboardAPI][109]
-    -   [Parameters][110]
-    -   [registerTile][111]
+-   [Logger][102]
+    -   [setLogLevel][103]
+        -   [Parameters][104]
+    -   [log][105]
+        -   [Parameters][106]
+    -   [removeColors][107]
+        -   [Parameters][108]
+    -   [flog][109]
+        -   [Parameters][110]
+    -   [warn][111]
         -   [Parameters][112]
-    -   [unregisterTile][113]
+    -   [err][113]
         -   [Parameters][114]
-    -   [Tile][115]
+    -   [verbose][115]
         -   [Parameters][116]
-    -   [TileType][117]
--   [Tile][118]
-    -   [Parameters][119]
-    -   [get][120]
-    -   [customize][121]
-        -   [Parameters][122]
-    -   [hash][123]
-    -   [applyMode][124]
+    -   [info][117]
+        -   [Parameters][118]
+    -   [debug][119]
+        -   [Parameters][120]
+    -   [getHistory][121]
+-   [CoreAPI][122]
+    -   [Parameters][123]
+    -   [dispatchEvent][124]
         -   [Parameters][125]
--   [DatabaseAPI][126]
-    -   [Parameters][127]
-    -   [addOptimization][128]
-        -   [Parameters][129]
-    -   [register][130]
-        -   [Parameters][131]
-    -   [dbHelper][132]
-        -   [Parameters][133]
--   [DbHelper][134]
-    -   [Parameters][135]
-    -   [RequestBuilder][136]
-    -   [Operators][137]
-    -   [getFieldsForTable][138]
-    -   [saveObject][139]
-        -   [Parameters][140]
-    -   [getObject][141]
+    -   [registerEvent][126]
+        -   [Parameters][127]
+    -   [cachePath][128]
+-   [DashboardAPI][129]
+    -   [Parameters][130]
+    -   [registerTile][131]
+        -   [Parameters][132]
+    -   [unregisterTile][133]
+        -   [Parameters][134]
+    -   [Tile][135]
+        -   [Parameters][136]
+    -   [TileType][137]
+-   [Tile][138]
+    -   [Parameters][139]
+    -   [get][140]
+    -   [customize][141]
         -   [Parameters][142]
-    -   [getObjects][143]
-        -   [Parameters][144]
-    -   [getLastObject][145]
-        -   [Parameters][146]
-    -   [delObject][147]
-        -   [Parameters][148]
-    -   [delObjects][149]
-        -   [Parameters][150]
--   [DbObject][151]
-    -   [Parameters][152]
-    -   [base][153]
-    -   [save][154]
-        -   [Parameters][155]
-    -   [del][156]
-        -   [Parameters][157]
--   [DbRequestBuilder][158]
-    -   [Parameters][159]
-    -   [removeLastComma][160]
-        -   [Parameters][161]
-    -   [escapeString][162]
-        -   [Parameters][163]
-    -   [getValueEncapsulated][164]
-        -   [Parameters][165]
-    -   [getMetaForField][166]
-        -   [Parameters][167]
-    -   [save][168]
-        -   [Parameters][169]
-    -   [get][170]
-        -   [Parameters][171]
-    -   [del][172]
-        -   [Parameters][173]
-    -   [selectOp][174]
+    -   [hash][143]
+    -   [applyMode][144]
+        -   [Parameters][145]
+-   [DatabaseAPI][146]
+    -   [Parameters][147]
+    -   [addOptimization][148]
+        -   [Parameters][149]
+    -   [register][150]
+        -   [Parameters][151]
+    -   [dbHelper][152]
+        -   [Parameters][153]
+-   [DbHelper][154]
+    -   [Parameters][155]
+    -   [RequestBuilder][156]
+    -   [Operators][157]
+    -   [getFieldsForTable][158]
+    -   [saveObject][159]
+        -   [Parameters][160]
+    -   [getObject][161]
+        -   [Parameters][162]
+    -   [getObjects][163]
+        -   [Parameters][164]
+    -   [getLastObject][165]
+        -   [Parameters][166]
+    -   [delObject][167]
+        -   [Parameters][168]
+    -   [delObjects][169]
+        -   [Parameters][170]
+-   [DbObject][171]
+    -   [Parameters][172]
+    -   [base][173]
+    -   [save][174]
         -   [Parameters][175]
-    -   [optimizeIndex][176]
+    -   [del][176]
         -   [Parameters][177]
-    -   [select][178]
-        -   [Parameters][179]
-    -   [insert][180]
+-   [DbRequestBuilder][178]
+    -   [Parameters][179]
+    -   [removeLastComma][180]
         -   [Parameters][181]
-    -   [update][182]
+    -   [escapeString][182]
         -   [Parameters][183]
-    -   [upsert][184]
+    -   [getValueEncapsulated][184]
         -   [Parameters][185]
-    -   [remove][186]
-    -   [values][187]
-        -   [Parameters][188]
-    -   [where][189]
-        -   [Parameters][190]
-    -   [complexWhere][191]
-        -   [Parameters][192]
-    -   [groupOp][193]
-        -   [Parameters][194]
-    -   [group][195]
-        -   [Parameters][196]
-    -   [order][197]
-        -   [Parameters][198]
-    -   [lim][199]
-        -   [Parameters][200]
-    -   [first][201]
-        -   [Parameters][202]
-    -   [cleanForSelect][203]
-    -   [distinct][204]
-    -   [cleanForDelete][205]
-    -   [request][206]
--   [DbSchemaConverter][207]
-    -   [tableName][208]
-        -   [Parameters][209]
-    -   [toSchema][210]
-        -   [Parameters][211]
--   [Convert][212]
-    -   [convertProperties][213]
+    -   [getMetaForField][186]
+        -   [Parameters][187]
+    -   [save][188]
+        -   [Parameters][189]
+    -   [get][190]
+        -   [Parameters][191]
+    -   [del][192]
+        -   [Parameters][193]
+    -   [selectOp][194]
+        -   [Parameters][195]
+    -   [optimizeIndex][196]
+        -   [Parameters][197]
+    -   [select][198]
+        -   [Parameters][199]
+    -   [insert][200]
+        -   [Parameters][201]
+    -   [update][202]
+        -   [Parameters][203]
+    -   [upsert][204]
+        -   [Parameters][205]
+    -   [remove][206]
+    -   [values][207]
+        -   [Parameters][208]
+    -   [where][209]
+        -   [Parameters][210]
+    -   [complexWhere][211]
+        -   [Parameters][212]
+    -   [groupOp][213]
         -   [Parameters][214]
--   [DeviceAPI][215]
-    -   [Parameters][216]
-    -   [getDevices][217]
-    -   [switchDevice][218]
-        -   [Parameters][219]
-    -   [constants][220]
-    -   [getDeviceStatus][221]
+    -   [group][215]
+        -   [Parameters][216]
+    -   [order][217]
+        -   [Parameters][218]
+    -   [lim][219]
+        -   [Parameters][220]
+    -   [first][221]
         -   [Parameters][222]
-    -   [addForm][223]
-        -   [Parameters][224]
-    -   [registerSwitchDevice][225]
-        -   [Parameters][226]
-    -   [saveDevice][227]
-        -   [Parameters][228]
-    -   [getDeviceTypes][229]
-        -   [Parameters][230]
-    -   [getDeviceById][231]
-        -   [Parameters][232]
-    -   [switchDeviceWithDevice][233]
+    -   [cleanForSelect][223]
+    -   [distinct][224]
+    -   [cleanForDelete][225]
+    -   [request][226]
+-   [DbSchemaConverter][227]
+    -   [tableName][228]
+        -   [Parameters][229]
+    -   [toSchema][230]
+        -   [Parameters][231]
+-   [Convert][232]
+    -   [convertProperties][233]
         -   [Parameters][234]
-    -   [getDbHelper][235]
-    -   [guessDeviceStatus][236]
-        -   [Parameters][237]
--   [DeviceManager][238]
-    -   [Parameters][239]
-    -   [addForm][240]
-        -   [Parameters][241]
-    -   [registerSwitchDevice][242]
-        -   [Parameters][243]
-    -   [triggerScenario][244]
-        -   [Parameters][245]
-    -   [registerDeviceListForm][246]
-    -   [registerDeviceTiles][247]
-    -   [getDevices][248]
-    -   [getDeviceStatus][249]
+-   [DeviceAPI][235]
+    -   [Parameters][236]
+    -   [getDevices][237]
+    -   [switchDevice][238]
+        -   [Parameters][239]
+    -   [constants][240]
+    -   [getDeviceStatus][241]
+        -   [Parameters][242]
+    -   [addForm][243]
+        -   [Parameters][244]
+    -   [registerSwitchDevice][245]
+        -   [Parameters][246]
+    -   [saveDevice][247]
+        -   [Parameters][248]
+    -   [getDeviceTypes][249]
         -   [Parameters][250]
-    -   [bestDeviceType][251]
+    -   [getDeviceById][251]
         -   [Parameters][252]
-    -   [registerDeviceTile][253]
+    -   [switchDeviceWithDevice][253]
         -   [Parameters][254]
-    -   [getDeviceTypes][255]
-        -   [Parameters][256]
-    -   [getDeviceById][257]
-        -   [Parameters][258]
-    -   [switchDevice][259]
-        -   [Parameters][260]
-    -   [guessDeviceStatus][261]
-        -   [Parameters][262]
-    -   [switchDeviceWithDevice][263]
-        -   [Parameters][264]
-    -   [saveDevice][265]
-        -   [Parameters][266]
-    -   [switchAll][267]
-        -   [Parameters][268]
-    -   [getDbHelper][269]
-    -   [processAPI][270]
-        -   [Parameters][271]
--   [DeviceForm][272]
-    -   [Parameters][273]
-    -   [name][274]
-    -   [excludeFromAll][275]
-    -   [visible][276]
-    -   [powerOutageRestore][277]
-    -   [worksOnlyOnDayNight][278]
-    -   [icon][279]
-    -   [room][280]
-    -   [status][281]
-    -   [brightness][282]
-    -   [color][283]
-    -   [colorTemperature][284]
-    -   [subDevices][285]
-    -   [json][286]
-        -   [Parameters][287]
--   [DevicesListForm][288]
-    -   [Parameters][289]
-    -   [identifier][290]
-    -   [status][291]
-    -   [keepParams][292]
-    -   [brightness][293]
-    -   [color][294]
-    -   [colorTemperature][295]
-    -   [updateBrightness][296]
-    -   [updateTemperature][297]
-    -   [updateColor][298]
-    -   [json][299]
-        -   [Parameters][300]
-    -   [getDevicesName][301]
-        -   [Parameters][302]
-    -   [getDevicesId][303]
-        -   [Parameters][304]
--   [DevicesListSimpleForm][305]
-    -   [Parameters][306]
-    -   [identifier][307]
-    -   [json][308]
-        -   [Parameters][309]
-    -   [getDevicesName][310]
-        -   [Parameters][311]
-    -   [getDevicesId][312]
-        -   [Parameters][313]
--   [DevicesListScenarioTriggerForm][314]
-    -   [Parameters][315]
-    -   [identifier][316]
-    -   [status][317]
-    -   [json][318]
-        -   [Parameters][319]
-    -   [getDevicesName][320]
-        -   [Parameters][321]
-    -   [getDevicesId][322]
-        -   [Parameters][323]
--   [DevicesListScenarioForm][324]
-    -   [Parameters][325]
-    -   [turnOnAll][326]
-    -   [turnOffAll][327]
-    -   [devices][328]
-    -   [triggerOnDevice][329]
-    -   [json][330]
+    -   [getDbHelper][255]
+    -   [guessDeviceStatus][256]
+        -   [Parameters][257]
+-   [DeviceManager][258]
+    -   [Parameters][259]
+    -   [addForm][260]
+        -   [Parameters][261]
+    -   [registerSwitchDevice][262]
+        -   [Parameters][263]
+    -   [triggerScenario][264]
+        -   [Parameters][265]
+    -   [registerDeviceListForm][266]
+    -   [registerDeviceTiles][267]
+    -   [getDevices][268]
+    -   [getDeviceStatus][269]
+        -   [Parameters][270]
+    -   [bestDeviceType][271]
+        -   [Parameters][272]
+    -   [registerDeviceTile][273]
+        -   [Parameters][274]
+    -   [getDeviceTypes][275]
+        -   [Parameters][276]
+    -   [getDeviceById][277]
+        -   [Parameters][278]
+    -   [switchDevice][279]
+        -   [Parameters][280]
+    -   [guessDeviceStatus][281]
+        -   [Parameters][282]
+    -   [switchDeviceWithDevice][283]
+        -   [Parameters][284]
+    -   [saveDevice][285]
+        -   [Parameters][286]
+    -   [switchAll][287]
+        -   [Parameters][288]
+    -   [getDbHelper][289]
+    -   [processAPI][290]
+        -   [Parameters][291]
+-   [DeviceForm][292]
+    -   [Parameters][293]
+    -   [name][294]
+    -   [excludeFromAll][295]
+    -   [visible][296]
+    -   [powerOutageRestore][297]
+    -   [worksOnlyOnDayNight][298]
+    -   [icon][299]
+    -   [room][300]
+    -   [status][301]
+    -   [brightness][302]
+    -   [color][303]
+    -   [colorTemperature][304]
+    -   [subDevices][305]
+    -   [json][306]
+        -   [Parameters][307]
+-   [DevicesListForm][308]
+    -   [Parameters][309]
+    -   [identifier][310]
+    -   [status][311]
+    -   [keepParams][312]
+    -   [brightness][313]
+    -   [color][314]
+    -   [colorTemperature][315]
+    -   [updateBrightness][316]
+    -   [updateTemperature][317]
+    -   [updateColor][318]
+    -   [json][319]
+        -   [Parameters][320]
+    -   [getDevicesName][321]
+        -   [Parameters][322]
+    -   [getDevicesId][323]
+        -   [Parameters][324]
+-   [DevicesListSimpleForm][325]
+    -   [Parameters][326]
+    -   [identifier][327]
+    -   [json][328]
+        -   [Parameters][329]
+    -   [getDevicesName][330]
         -   [Parameters][331]
--   [Icons][332]
-    -   [iconsSvg][333]
-    -   [icons][334]
-    -   [list][335]
--   [DeviceStatus][336]
-    -   [Parameters][337]
-    -   [getStatus][338]
-    -   [getBrightness][339]
-    -   [getColor][340]
-    -   [getColorTemperature][341]
-    -   [setStatus][342]
+    -   [getDevicesId][332]
+        -   [Parameters][333]
+-   [DevicesListScenarioTriggerForm][334]
+    -   [Parameters][335]
+    -   [identifier][336]
+    -   [status][337]
+    -   [json][338]
+        -   [Parameters][339]
+    -   [getDevicesName][340]
+        -   [Parameters][341]
+    -   [getDevicesId][342]
         -   [Parameters][343]
-    -   [setBrightness][344]
-        -   [Parameters][345]
-    -   [setColor][346]
-        -   [Parameters][347]
-    -   [setColorTemperature][348]
-        -   [Parameters][349]
-    -   [tileFormat][350]
--   [DbDevice][351]
-    -   [Parameters][352]
--   [identifier][353]
--   [identifier][354]
--   [status][355]
--   [brightness][356]
--   [color][357]
--   [temperature][358]
--   [EnvironmentAPI][359]
-    -   [Parameters][360]
-    -   [getCoordinates][361]
-    -   [setDay][362]
-    -   [setNight][363]
-    -   [isNight][364]
-    -   [registerDayNightNotifications][365]
-        -   [Parameters][366]
-    -   [unregisterDayNightNotifications][367]
-        -   [Parameters][368]
-    -   [getLocalAPIUrl][369]
-    -   [getSmartiesId][370]
-    -   [getFullSmartiesId][371]
-    -   [getScannedIp][372]
-    -   [getLocalIp][373]
-    -   [constants][374]
--   [EnvironmentManager][375]
+-   [DevicesListScenarioForm][344]
+    -   [Parameters][345]
+    -   [turnOnAll][346]
+    -   [turnOffAll][347]
+    -   [devices][348]
+    -   [triggerOnDevice][349]
+    -   [json][350]
+        -   [Parameters][351]
+-   [DeviceStatus][352]
+    -   [Parameters][353]
+    -   [getStatus][354]
+    -   [getBrightness][355]
+    -   [getColor][356]
+    -   [getColorTemperature][357]
+    -   [setStatus][358]
+        -   [Parameters][359]
+    -   [setBrightness][360]
+        -   [Parameters][361]
+    -   [setColor][362]
+        -   [Parameters][363]
+    -   [setColorTemperature][364]
+        -   [Parameters][365]
+    -   [tileFormat][366]
+-   [DbDevice][367]
+    -   [Parameters][368]
+-   [identifier][369]
+-   [identifier][370]
+-   [status][371]
+-   [brightness][372]
+-   [color][373]
+-   [temperature][374]
+-   [EnvironmentAPI][375]
     -   [Parameters][376]
-    -   [setTimezone][377]
-        -   [Parameters][378]
-    -   [registerDayNightNotifications][379]
-        -   [Parameters][380]
-    -   [unregisterDayNightNotifications][381]
+    -   [getCoordinates][377]
+    -   [setDay][378]
+    -   [setNight][379]
+    -   [isNight][380]
+    -   [registerDayNightNotifications][381]
         -   [Parameters][382]
-    -   [registerTile][383]
-    -   [getCoordinates][384]
-    -   [getCountry][385]
-    -   [getSeason][386]
-        -   [Parameters][387]
-    -   [dispatchDayNightChange][388]
-    -   [setDay][389]
-    -   [setNight][390]
-    -   [isNight][391]
-    -   [getLocalPort][392]
-    -   [getLocalIp][393]
-    -   [getMacAddress][394]
-    -   [getLocalAPIUrl][395]
-    -   [saveMainConfiguration][396]
-        -   [Parameters][397]
-    -   [processAPI][398]
-        -   [Parameters][399]
-    -   [updateCore][400]
-    -   [isDefaultConfig][401]
-    -   [getSmartiesId][402]
-    -   [getFullSmartiesId][403]
-    -   [registerIpScanForm][404]
-    -   [startIpScan][405]
-    -   [manageUptimeFile][406]
--   [EnvironmentForm][407]
-    -   [Parameters][408]
-    -   [day][409]
-    -   [json][410]
-        -   [Parameters][411]
--   [DayNightScenarioForm][412]
-    -   [Parameters][413]
-    -   [mode][414]
-    -   [json][415]
-        -   [Parameters][416]
--   [DayNightScenarioTriggerForm][417]
-    -   [Parameters][418]
-    -   [day][419]
-    -   [night][420]
-    -   [json][421]
-        -   [Parameters][422]
--   [IpScanForm][423]
+    -   [unregisterDayNightNotifications][383]
+        -   [Parameters][384]
+    -   [getLocalAPIUrl][385]
+    -   [getSmartiesId][386]
+    -   [getFullSmartiesId][387]
+    -   [getScannedIp][388]
+    -   [getLocalIp][389]
+    -   [constants][390]
+-   [EnvironmentManager][391]
+    -   [Parameters][392]
+    -   [setTimezone][393]
+        -   [Parameters][394]
+    -   [registerDayNightNotifications][395]
+        -   [Parameters][396]
+    -   [unregisterDayNightNotifications][397]
+        -   [Parameters][398]
+    -   [registerTile][399]
+    -   [getCoordinates][400]
+    -   [getCountry][401]
+    -   [getSeason][402]
+        -   [Parameters][403]
+    -   [dispatchDayNightChange][404]
+    -   [setDay][405]
+    -   [setNight][406]
+    -   [isNight][407]
+    -   [getLocalPort][408]
+    -   [getLocalIp][409]
+    -   [getMacAddress][410]
+    -   [getLocalAPIUrl][411]
+    -   [saveMainConfiguration][412]
+        -   [Parameters][413]
+    -   [processAPI][414]
+        -   [Parameters][415]
+    -   [updateCore][416]
+    -   [isDefaultConfig][417]
+    -   [getSmartiesId][418]
+    -   [getFullSmartiesId][419]
+    -   [registerIpScanForm][420]
+    -   [startIpScan][421]
+    -   [manageUptimeFile][422]
+-   [EnvironmentForm][423]
     -   [Parameters][424]
-    -   [ip][425]
-    -   [freetext][426]
-    -   [freetextHidden][427]
-    -   [json][428]
-        -   [Parameters][429]
-    -   [getValues][430]
-        -   [Parameters][431]
-    -   [getValuesWithoutFreetext][432]
-        -   [Parameters][433]
-    -   [getTitles][434]
-        -   [Parameters][435]
--   [GatewayAPI][436]
-    -   [Parameters][437]
-    -   [getDistantUrl][438]
-    -   [getDistantApiUrl][439]
--   [InstallerAPI][440]
-    -   [Parameters][441]
-    -   [register][442]
-        -   [Parameters][443]
-    -   [executeCommand][444]
+    -   [day][425]
+    -   [json][426]
+        -   [Parameters][427]
+-   [DayNightScenarioForm][428]
+    -   [Parameters][429]
+    -   [mode][430]
+    -   [json][431]
+        -   [Parameters][432]
+-   [DayNightScenarioTriggerForm][433]
+    -   [Parameters][434]
+    -   [day][435]
+    -   [night][436]
+    -   [json][437]
+        -   [Parameters][438]
+-   [IpScanForm][439]
+    -   [Parameters][440]
+    -   [ip][441]
+    -   [freetext][442]
+    -   [freetextHidden][443]
+    -   [json][444]
         -   [Parameters][445]
--   [IotAPI][446]
-    -   [Parameters][447]
-    -   [registerLib][448]
+    -   [getValues][446]
+        -   [Parameters][447]
+    -   [getValuesWithoutFreetext][448]
         -   [Parameters][449]
-    -   [registerApp][450]
+    -   [getTitles][450]
         -   [Parameters][451]
-    -   [iotAppExists][452]
-        -   [Parameters][453]
-    -   [getVersion][454]
-        -   [Parameters][455]
-    -   [getIot][456]
-        -   [Parameters][457]
-    -   [build][458]
-        -   [Parameters][459]
-    -   [constants][460]
-    -   [getIots][461]
-        -   [Parameters][462]
-    -   [isBuilding][463]
-    -   [getWiringSchemaForLib][464]
+-   [Icons][452]
+    -   [iconsSvg][453]
+    -   [icons][454]
+    -   [list][455]
+-   [GatewayAPI][456]
+    -   [Parameters][457]
+    -   [getDistantUrl][458]
+    -   [getDistantApiUrl][459]
+-   [InstallerAPI][460]
+    -   [Parameters][461]
+    -   [register][462]
+        -   [Parameters][463]
+    -   [executeCommand][464]
         -   [Parameters][465]
-    -   [addIngredientForReceipe][466]
-        -   [Parameters][467]
-    -   [setUpgradeUrl][468]
+-   [IotAPI][466]
+    -   [Parameters][467]
+    -   [registerLib][468]
         -   [Parameters][469]
-    -   [setVersion][470]
+    -   [registerApp][470]
         -   [Parameters][471]
--   [MessageAPI][472]
-    -   [Parameters][473]
-    -   [sendMessage][474]
+    -   [iotAppExists][472]
+        -   [Parameters][473]
+    -   [getVersion][474]
         -   [Parameters][475]
-    -   [register][476]
+    -   [getIot][476]
         -   [Parameters][477]
-    -   [unregister][478]
+    -   [build][478]
         -   [Parameters][479]
-    -   [onMessageReceived][480]
-        -   [Parameters][481]
-    -   [getMessages][482]
-        -   [Parameters][483]
--   [RadioAPI][484]
-    -   [Parameters][485]
-    -   [register][486]
+    -   [constants][480]
+    -   [getIots][481]
+        -   [Parameters][482]
+    -   [isBuilding][483]
+    -   [getWiringSchemaForLib][484]
+        -   [Parameters][485]
+    -   [addIngredientForReceipe][486]
         -   [Parameters][487]
-    -   [unregister][488]
+    -   [setUpgradeUrl][488]
         -   [Parameters][489]
-    -   [compareFormObject][490]
+    -   [setVersion][490]
         -   [Parameters][491]
-    -   [getLastReceivedRadioInformations][492]
-        -   [Parameters][493]
-    -   [refreshProtocols][494]
--   [ScenarioAPI][495]
-    -   [Parameters][496]
-    -   [registerSubform][497]
-        -   [Parameters][498]
-    -   [register][499]
-        -   [Parameters][500]
-    -   [registerWithInjection][501]
-        -   [Parameters][502]
-    -   [unregister][503]
-        -   [Parameters][504]
-    -   [triggerScenario][505]
-        -   [Parameters][506]
-    -   [getScenarios][507]
-    -   [registerForScenarioChanges][508]
+-   [MessageAPI][492]
+    -   [Parameters][493]
+    -   [sendMessage][494]
+        -   [Parameters][495]
+    -   [register][496]
+        -   [Parameters][497]
+    -   [unregister][498]
+        -   [Parameters][499]
+    -   [onMessageReceived][500]
+        -   [Parameters][501]
+    -   [getMessages][502]
+        -   [Parameters][503]
+-   [RadioAPI][504]
+    -   [Parameters][505]
+    -   [register][506]
+        -   [Parameters][507]
+    -   [unregister][508]
         -   [Parameters][509]
--   [SchedulerAPI][510]
-    -   [Parameters][511]
-    -   [register][512]
+    -   [compareFormObject][510]
+        -   [Parameters][511]
+    -   [getLastReceivedRadioInformations][512]
         -   [Parameters][513]
-    -   [unregister][514]
-        -   [Parameters][515]
-    -   [schedule][516]
-        -   [Parameters][517]
-    -   [cancel][518]
-        -   [Parameters][519]
-    -   [constants][520]
--   [SchedulerService][521]
-    -   [Parameters][522]
-    -   [start][523]
-    -   [stop][524]
-    -   [register][525]
+    -   [refreshProtocols][514]
+-   [ScenarioAPI][515]
+    -   [Parameters][516]
+    -   [registerSubform][517]
+        -   [Parameters][518]
+    -   [register][519]
+        -   [Parameters][520]
+    -   [registerWithInjection][521]
+        -   [Parameters][522]
+    -   [unregister][523]
+        -   [Parameters][524]
+    -   [triggerScenario][525]
         -   [Parameters][526]
-    -   [unregister][527]
-        -   [Parameters][528]
-    -   [schedule][529]
-        -   [Parameters][530]
-    -   [cancel][531]
-        -   [Parameters][532]
-    -   [timeEvent][533]
-        -   [Parameters][534]
--   [SchedulerDbObject][535]
-    -   [Parameters][536]
--   [data][537]
--   [triggerDate][538]
--   [triggered][539]
--   [SensorAPI][540]
-    -   [Parameters][541]
-    -   [registerForm][542]
-        -   [Parameters][543]
-    -   [registerClass][544]
-        -   [Parameters][545]
-    -   [registerSensorEvent][546]
-        -   [Parameters][547]
-    -   [unregisterSensorEvent][548]
-        -   [Parameters][549]
-    -   [getSensors][550]
-        -   [Parameters][551]
-    -   [getValue][552]
-        -   [Parameters][553]
-    -   [getSensor][554]
-        -   [Parameters][555]
-    -   [iotAppPowered][556]
-    -   [constants][557]
-    -   [guessSensorValue][558]
-        -   [Parameters][559]
--   [IotsListForm][560]
+    -   [getScenarios][527]
+    -   [registerForScenarioChanges][528]
+        -   [Parameters][529]
+-   [SchedulerAPI][530]
+    -   [Parameters][531]
+    -   [register][532]
+        -   [Parameters][533]
+    -   [unregister][534]
+        -   [Parameters][535]
+    -   [schedule][536]
+        -   [Parameters][537]
+    -   [cancel][538]
+        -   [Parameters][539]
+    -   [constants][540]
+-   [SchedulerService][541]
+    -   [Parameters][542]
+    -   [start][543]
+    -   [stop][544]
+    -   [register][545]
+        -   [Parameters][546]
+    -   [unregister][547]
+        -   [Parameters][548]
+    -   [schedule][549]
+        -   [Parameters][550]
+    -   [cancel][551]
+        -   [Parameters][552]
+    -   [timeEvent][553]
+        -   [Parameters][554]
+-   [SchedulerDbObject][555]
+    -   [Parameters][556]
+-   [data][557]
+-   [triggerDate][558]
+-   [triggered][559]
+-   [SensorAPI][560]
     -   [Parameters][561]
-    -   [identifier][562]
-    -   [json][563]
-        -   [Parameters][564]
-    -   [getIotsName][565]
-        -   [Parameters][566]
-    -   [getIotsId][567]
-        -   [Parameters][568]
--   [FormObject][569]
-    -   [Parameters][570]
-    -   [json][571]
-        -   [Parameters][572]
--   [id][573]
--   [SensorsManager][574]
-    -   [Parameters][575]
-    -   [pluginsLoaded][576]
-        -   [Parameters][577]
-    -   [initSensors][578]
-    -   [scenarioTrigger][579]
-    -   [initSensor][580]
-        -   [Parameters][581]
-    -   [registerSensorEvent][582]
-        -   [Parameters][583]
-    -   [getSensor][584]
-        -   [Parameters][585]
-    -   [unregisterSensorEvent][586]
-        -   [Parameters][587]
-    -   [getAllSensors][588]
-        -   [Parameters][589]
-    -   [onNewSensorValue][590]
-        -   [Parameters][591]
-    -   [guessSensorValue][592]
-        -   [Parameters][593]
-    -   [getValue][594]
-        -   [Parameters][595]
-    -   [processAPI][596]
+    -   [registerForm][562]
+        -   [Parameters][563]
+    -   [registerClass][564]
+        -   [Parameters][565]
+    -   [registerSensorEvent][566]
+        -   [Parameters][567]
+    -   [unregisterSensorEvent][568]
+        -   [Parameters][569]
+    -   [getSensors][570]
+        -   [Parameters][571]
+    -   [getValue][572]
+        -   [Parameters][573]
+    -   [getSensor][574]
+        -   [Parameters][575]
+    -   [iotAppPowered][576]
+    -   [constants][577]
+    -   [guessSensorValue][578]
+        -   [Parameters][579]
+-   [IotsListForm][580]
+    -   [Parameters][581]
+    -   [identifier][582]
+    -   [json][583]
+        -   [Parameters][584]
+    -   [getIotsName][585]
+        -   [Parameters][586]
+    -   [getIotsId][587]
+        -   [Parameters][588]
+-   [FormObject][589]
+    -   [Parameters][590]
+    -   [json][591]
+        -   [Parameters][592]
+-   [id][593]
+-   [SensorsManager][594]
+    -   [Parameters][595]
+    -   [pluginsLoaded][596]
         -   [Parameters][597]
-    -   [statisticsWsResponse][598]
-        -   [Parameters][599]
-    -   [comparator][600]
+    -   [initSensors][598]
+    -   [scenarioTrigger][599]
+    -   [initSensor][600]
         -   [Parameters][601]
-    -   [getSensorConfiguration][602]
+    -   [registerSensorEvent][602]
         -   [Parameters][603]
-    -   [registerSensorsListForm][604]
--   [SensorsForm][605]
-    -   [Parameters][606]
-    -   [sensorId][607]
-    -   [json][608]
+    -   [getSensor][604]
+        -   [Parameters][605]
+    -   [unregisterSensorEvent][606]
+        -   [Parameters][607]
+    -   [getAllSensors][608]
         -   [Parameters][609]
-    -   [getSensorIds][610]
+    -   [onNewSensorValue][610]
         -   [Parameters][611]
-    -   [getSensorNames][612]
+    -   [guessSensorValue][612]
         -   [Parameters][613]
--   [SensorsListForm][614]
-    -   [Parameters][615]
-    -   [identifier][616]
-    -   [json][617]
-        -   [Parameters][618]
-    -   [getSensorsName][619]
-        -   [Parameters][620]
-    -   [getSensorsId][621]
-        -   [Parameters][622]
--   [SensorsListScenarioForm][623]
-    -   [Parameters][624]
-    -   [sensors][625]
-    -   [json][626]
-        -   [Parameters][627]
--   [SensorScenarioForm][628]
-    -   [Parameters][629]
-    -   [sensor][630]
-    -   [operator][631]
-    -   [threshold][632]
-    -   [json][633]
-        -   [Parameters][634]
--   [PluginsManager][635]
-    -   [Parameters][636]
-    -   [getPluginsFromDirectory][637]
+    -   [getValue][614]
+        -   [Parameters][615]
+    -   [processAPI][616]
+        -   [Parameters][617]
+    -   [statisticsWsResponse][618]
+        -   [Parameters][619]
+    -   [comparator][620]
+        -   [Parameters][621]
+    -   [getSensorConfiguration][622]
+        -   [Parameters][623]
+    -   [registerSensorsListForm][624]
+-   [SensorsForm][625]
+    -   [Parameters][626]
+    -   [sensorId][627]
+    -   [json][628]
+        -   [Parameters][629]
+    -   [getSensorIds][630]
+        -   [Parameters][631]
+    -   [getSensorNames][632]
+        -   [Parameters][633]
+-   [SensorsListForm][634]
+    -   [Parameters][635]
+    -   [identifier][636]
+    -   [json][637]
         -   [Parameters][638]
-    -   [checkPluginSanity][639]
+    -   [getSensorsName][639]
         -   [Parameters][640]
-    -   [initPlugin][641]
+    -   [getSensorsId][641]
         -   [Parameters][642]
-    -   [initPlugins][643]
-        -   [Parameters][644]
-    -   [registerPlugins][645]
-        -   [Parameters][646]
-    -   [load][647]
-    -   [getPluginsByCategory][648]
-        -   [Parameters][649]
-    -   [getPluginByIdentifier][650]
-        -   [Parameters][651]
-    -   [isEnabled][652]
-        -   [Parameters][653]
-    -   [prepareToposortArray][654]
-        -   [Parameters][655]
-    -   [toposort][656]
-        -   [Parameters][657]
-    -   [topsortedArrayConverter][658]
-        -   [Parameters][659]
-    -   [getPluginConf][660]
-        -   [Parameters][661]
-    -   [changePluginStatus][662]
-        -   [Parameters][663]
-    -   [processAPI][664]
-        -   [Parameters][665]
--   [PluginsAPI][666]
-    -   [Parameters][667]
-    -   [exportClass][668]
+-   [SensorsListScenarioForm][643]
+    -   [Parameters][644]
+    -   [sensors][645]
+    -   [json][646]
+        -   [Parameters][647]
+-   [SensorScenarioForm][648]
+    -   [Parameters][649]
+    -   [sensor][650]
+    -   [operator][651]
+    -   [threshold][652]
+    -   [json][653]
+        -   [Parameters][654]
+-   [PluginsManager][655]
+    -   [Parameters][656]
+    -   [getPluginsFromDirectory][657]
+        -   [Parameters][658]
+    -   [checkPluginSanity][659]
+        -   [Parameters][660]
+    -   [initPlugin][661]
+        -   [Parameters][662]
+    -   [initPlugins][663]
+        -   [Parameters][664]
+    -   [registerPlugins][665]
+        -   [Parameters][666]
+    -   [load][667]
+    -   [getPluginsByCategory][668]
         -   [Parameters][669]
-    -   [init][670]
-    -   [registerInstance][671]
-        -   [Parameters][672]
-    -   [getPluginInstance][673]
-        -   [Parameters][674]
-    -   [constants][675]
-    -   [getPluginsIdentifiersByCategory][676]
+    -   [getPluginByIdentifier][670]
+        -   [Parameters][671]
+    -   [isEnabled][672]
+        -   [Parameters][673]
+    -   [prepareToposortArray][674]
+        -   [Parameters][675]
+    -   [toposort][676]
         -   [Parameters][677]
-    -   [getIdentifier][678]
-    -   [renewOAuthToken][679]
-        -   [Parameters][680]
--   [IotForm][681]
-    -   [Parameters][682]
-    -   [iotApp][683]
-    -   [name][684]
-    -   [json][685]
-        -   [Parameters][686]
--   [ImageUtils][687]
-    -   [sanitizeFormConfiguration][688]
+    -   [topsortedArrayConverter][678]
+        -   [Parameters][679]
+    -   [getPluginConf][680]
+        -   [Parameters][681]
+    -   [changePluginStatus][682]
+        -   [Parameters][683]
+    -   [processAPI][684]
+        -   [Parameters][685]
+-   [PluginsAPI][686]
+    -   [Parameters][687]
+    -   [exportClass][688]
         -   [Parameters][689]
-    -   [resize][690]
-        -   [Parameters][691]
-    -   [blur][692]
-        -   [Parameters][693]
-    -   [rotate][694]
-        -   [Parameters][695]
-    -   [rotateb][696]
+    -   [init][690]
+    -   [registerInstance][691]
+        -   [Parameters][692]
+    -   [getPluginInstance][693]
+        -   [Parameters][694]
+    -   [constants][695]
+    -   [getPluginsIdentifiersByCategory][696]
         -   [Parameters][697]
-    -   [merge][698]
-        -   [Parameters][699]
-    -   [crop][700]
-        -   [Parameters][701]
--   [FileLock][702]
-    -   [Parameters][703]
-    -   [lock][704]
-        -   [Parameters][705]
-    -   [isLocked][706]
-        -   [Parameters][707]
-    -   [unlock][708]
+    -   [getIdentifier][698]
+    -   [renewOAuthToken][699]
+        -   [Parameters][700]
+-   [IotForm][701]
+    -   [Parameters][702]
+    -   [iotApp][703]
+    -   [name][704]
+    -   [json][705]
+        -   [Parameters][706]
+-   [ImageUtils][707]
+    -   [sanitizeFormConfiguration][708]
         -   [Parameters][709]
-    -   [unlockAfterDelay][710]
+    -   [resize][710]
         -   [Parameters][711]
--   [PluginConf][712]
-    -   [Parameters][713]
-    -   [json][714]
+    -   [blur][712]
+        -   [Parameters][713]
+    -   [rotate][714]
         -   [Parameters][715]
--   [ServicesManagerAPI][716]
-    -   [Parameters][717]
-    -   [add][718]
+    -   [rotateb][716]
+        -   [Parameters][717]
+    -   [merge][718]
         -   [Parameters][719]
-    -   [remove][720]
+    -   [crop][720]
         -   [Parameters][721]
-    -   [stop][722]
-    -   [start][723]
-    -   [getThreadsManager][724]
-    -   [constants][725]
--   [ServicesManager][726]
-    -   [Parameters][727]
-    -   [isServiceRegistered][728]
+-   [FileLock][722]
+    -   [Parameters][723]
+    -   [lock][724]
+        -   [Parameters][725]
+    -   [isLocked][726]
+        -   [Parameters][727]
+    -   [unlock][728]
         -   [Parameters][729]
-    -   [add][730]
+    -   [unlockAfterDelay][730]
         -   [Parameters][731]
-    -   [remove][732]
-        -   [Parameters][733]
-    -   [start][734]
-    -   [stop][735]
-    -   [restart][736]
-    -   [getService][737]
-        -   [Parameters][738]
--   [ThemeAPI][739]
-    -   [Parameters][740]
-    -   [getColors][741]
-        -   [Parameters][742]
-    -   [constants][743]
--   [ThemeManager][744]
-    -   [Parameters][745]
-    -   [checkColorFormat][746]
-        -   [Parameters][747]
-    -   [setThemeForUser][748]
+-   [PluginConf][732]
+    -   [Parameters][733]
+    -   [json][734]
+        -   [Parameters][735]
+-   [ServicesManagerAPI][736]
+    -   [Parameters][737]
+    -   [add][738]
+        -   [Parameters][739]
+    -   [remove][740]
+        -   [Parameters][741]
+    -   [stop][742]
+    -   [start][743]
+    -   [getThreadsManager][744]
+    -   [constants][745]
+-   [ServicesManager][746]
+    -   [Parameters][747]
+    -   [isServiceRegistered][748]
         -   [Parameters][749]
-    -   [getColors][750]
+    -   [add][750]
         -   [Parameters][751]
-    -   [processAPI][752]
+    -   [remove][752]
         -   [Parameters][753]
--   [TimeEventAPI][754]
-    -   [Parameters][755]
-    -   [register][756]
-        -   [Parameters][757]
-    -   [unregister][758]
-        -   [Parameters][759]
-    -   [constants][760]
--   [TimeEventService][761]
-    -   [start][762]
-    -   [stop][763]
-    -   [hash][764]
-        -   [Parameters][765]
-    -   [elementForHash][766]
+    -   [start][754]
+    -   [stop][755]
+    -   [restart][756]
+    -   [getService][757]
+        -   [Parameters][758]
+-   [ThemeAPI][759]
+    -   [Parameters][760]
+    -   [getColors][761]
+        -   [Parameters][762]
+    -   [constants][763]
+-   [ThemeManager][764]
+    -   [Parameters][765]
+    -   [checkColorFormat][766]
         -   [Parameters][767]
-    -   [register][768]
+    -   [setThemeForUser][768]
         -   [Parameters][769]
-    -   [unregister][770]
+    -   [getColors][770]
         -   [Parameters][771]
-    -   [convertMode][772]
+    -   [processAPI][772]
         -   [Parameters][773]
-    -   [timeEvent][774]
-        -   [Parameters][775]
--   [TranslateAPI][776]
-    -   [Parameters][777]
-    -   [load][778]
-    -   [t][779]
-        -   [Parameters][780]
--   [UserAPI][781]
-    -   [Parameters][782]
-    -   [addAdditionalFields][783]
-        -   [Parameters][784]
-    -   [getUsers][785]
-    -   [allUsersAtHome][786]
-    -   [nobodyAtHome][787]
-    -   [somebodyAtHome][788]
-    -   [registerHomeNotifications][789]
-        -   [Parameters][790]
-    -   [unregisterHomeNotifications][791]
-        -   [Parameters][792]
--   [WebAPI][793]
-    -   [Parameters][794]
-    -   [register][795]
-        -   [Parameters][796]
-    -   [unregister][797]
-        -   [Parameters][798]
-    -   [Authentication][799]
-    -   [APIResponse][800]
-        -   [Parameters][801]
-    -   [constants][802]
-    -   [getToken][803]
+-   [TimeEventAPI][774]
+    -   [Parameters][775]
+    -   [register][776]
+        -   [Parameters][777]
+    -   [unregister][778]
+        -   [Parameters][779]
+    -   [constants][780]
+-   [TimeEventService][781]
+    -   [start][782]
+    -   [stop][783]
+    -   [hash][784]
+        -   [Parameters][785]
+    -   [elementForHash][786]
+        -   [Parameters][787]
+    -   [register][788]
+        -   [Parameters][789]
+    -   [unregister][790]
+        -   [Parameters][791]
+    -   [convertMode][792]
+        -   [Parameters][793]
+    -   [timeEvent][794]
+        -   [Parameters][795]
+-   [TranslateAPI][796]
+    -   [Parameters][797]
+    -   [load][798]
+    -   [t][799]
+        -   [Parameters][800]
+-   [UserAPI][801]
+    -   [Parameters][802]
+    -   [addAdditionalFields][803]
         -   [Parameters][804]
-    -   [getTokenWithIdentifier][805]
-        -   [Parameters][806]
--   [Authentication][807]
-    -   [Parameters][808]
-    -   [clearExpiredTokens][809]
-    -   [generateToken][810]
-        -   [Parameters][811]
-    -   [processAPI][812]
-        -   [Parameters][813]
-    -   [checkLocalIp][814]
-        -   [Parameters][815]
-    -   [processAuthentication][816]
-        -   [Parameters][817]
--   [AuthenticationData][818]
-    -   [Parameters][819]
-    -   [authorized][820]
-    -   [username][821]
-    -   [level][822]
--   [DateUtils][823]
-    -   [timestamp][824]
-    -   [timestampMs][825]
-    -   [dateToUTCTimestamp][826]
-        -   [Parameters][827]
-    -   [dateToTimestamp][828]
-        -   [Parameters][829]
-    -   [roundedTimestamp][830]
+    -   [getUsers][805]
+    -   [allUsersAtHome][806]
+    -   [nobodyAtHome][807]
+    -   [somebodyAtHome][808]
+    -   [registerHomeNotifications][809]
+        -   [Parameters][810]
+    -   [unregisterHomeNotifications][811]
+        -   [Parameters][812]
+-   [WebAPI][813]
+    -   [Parameters][814]
+    -   [register][815]
+        -   [Parameters][816]
+    -   [unregister][817]
+        -   [Parameters][818]
+    -   [Authentication][819]
+    -   [APIResponse][820]
+        -   [Parameters][821]
+    -   [constants][822]
+    -   [getToken][823]
+        -   [Parameters][824]
+    -   [getTokenWithIdentifier][825]
+        -   [Parameters][826]
+-   [Authentication][827]
+    -   [Parameters][828]
+    -   [clearExpiredTokens][829]
+    -   [generateToken][830]
         -   [Parameters][831]
-    -   [dateFormatted][832]
+    -   [processAPI][832]
         -   [Parameters][833]
-    -   [secondsElapsedSinceMidnight][834]
+    -   [checkLocalIp][834]
         -   [Parameters][835]
-    -   [isHoliday][836]
+    -   [processAuthentication][836]
         -   [Parameters][837]
-    -   [relativeTime][838]
-        -   [Parameters][839]
--   [Logger][840]
-    -   [setLogLevel][841]
-        -   [Parameters][842]
-    -   [log][843]
-        -   [Parameters][844]
-    -   [removeColors][845]
-        -   [Parameters][846]
-    -   [flog][847]
-        -   [Parameters][848]
-    -   [warn][849]
-        -   [Parameters][850]
-    -   [err][851]
-        -   [Parameters][852]
-    -   [verbose][853]
-        -   [Parameters][854]
-    -   [info][855]
-        -   [Parameters][856]
-    -   [debug][857]
-        -   [Parameters][858]
-    -   [getHistory][859]
+-   [AuthenticationData][838]
+    -   [Parameters][839]
+    -   [authorized][840]
+    -   [username][841]
+    -   [level][842]
+-   [DateUtils][843]
+    -   [timestamp][844]
+    -   [timestampMs][845]
+    -   [dateToUTCTimestamp][846]
+        -   [Parameters][847]
+    -   [dateToTimestamp][848]
+        -   [Parameters][849]
+    -   [roundedTimestamp][850]
+        -   [Parameters][851]
+    -   [dateFormatted][852]
+        -   [Parameters][853]
+    -   [secondsElapsedSinceMidnight][854]
+        -   [Parameters][855]
+    -   [isHoliday][856]
+        -   [Parameters][857]
+    -   [relativeTime][858]
+        -   [Parameters][859]
 -   [APIResponse][860]
     -   [Parameters][861]
     -   [success][862]
@@ -908,27 +908,27 @@
     -   [Parameters][904]
     -   [start][905]
     -   [stop][906]
--   [Tunnel][907]
+-   [TunnelLocalTunnel][907]
     -   [Parameters][908]
     -   [start][909]
     -   [stop][910]
-    -   [ready][911]
-        -   [Parameters][912]
--   [GatewayManager][913]
-    -   [Parameters][914]
-    -   [getDistantUrl][915]
-    -   [getDistantApiUrl][916]
-    -   [getBaseUrl][917]
-    -   [sandboxedRequest][918]
-        -   [Parameters][919]
-    -   [sandboxedRequestresponse][920]
-        -   [Parameters][921]
-    -   [transmit][922]
+-   [Tunnel][911]
+    -   [Parameters][912]
+    -   [start][913]
+    -   [stop][914]
+    -   [ready][915]
+        -   [Parameters][916]
+-   [GatewayManager][917]
+    -   [Parameters][918]
+    -   [getDistantUrl][919]
+    -   [getDistantApiUrl][920]
+    -   [getBaseUrl][921]
+    -   [sandboxedRequest][922]
         -   [Parameters][923]
--   [TunnelLocalTunnel][924]
-    -   [Parameters][925]
-    -   [start][926]
-    -   [stop][927]
+    -   [sandboxedRequestresponse][924]
+        -   [Parameters][925]
+    -   [transmit][926]
+        -   [Parameters][927]
 -   [TunnelLocalxpose][928]
     -   [Parameters][929]
     -   [start][930]
@@ -1464,6 +1464,98 @@ Set the sort function
 #### Parameters
 
 -   `f` **[Function][977]** The function
+
+## Logger
+
+This class provides static methods to log into a file.
+
+### setLogLevel
+
+Set the log level
+
+#### Parameters
+
+-   `level` **[number][981]** Log level between 0 and 5 (optional, default `3`)
+
+### log
+
+Log to a file
+
+#### Parameters
+
+-   `message` **[string][978]** A log message
+-   `level` **int** Log level between 0 to 5 (optional, default `3`)
+-   `params` **\[[string][978]]** Some parameters
+
+### removeColors
+
+Remove console colors from a string
+
+#### Parameters
+
+-   `entry` **[string][978]** A text entry
+
+Returns **[string][978]** Output string without colors
+
+### flog
+
+Log a log to a file
+
+#### Parameters
+
+-   `message` **[string][978]** A log message
+-   `params` **\[[string][978]]** Some parameters
+
+### warn
+
+Log a warning to a file
+
+#### Parameters
+
+-   `message` **[string][978]** A log message
+-   `params` **\[[string][978]]** Some parameters
+
+### err
+
+Log an error to a file
+
+#### Parameters
+
+-   `message` **[string][978]** A log message
+-   `params` **\[[string][978]]** Some parameters
+
+### verbose
+
+Log a verbose message to a file
+
+#### Parameters
+
+-   `message` **[string][978]** A log message
+-   `params` **\[[string][978]]** Some parameters
+
+### info
+
+Log an information to a file
+
+#### Parameters
+
+-   `message` **[string][978]** A log message
+-   `params` **\[[string][978]]** Some parameters
+
+### debug
+
+Log a debug message to a file, with stacktrace
+
+#### Parameters
+
+-   `message` **[string][978]** A log message
+-   `params` **\[[string][978]]** Some parameters
+
+### getHistory
+
+Get the log history
+
+Returns **[Array][979]** An array of logs
 
 ## CoreAPI
 
@@ -2650,28 +2742,6 @@ Convert json data
 
 Returns **[DevicesListScenarioForm][999]** A form object
 
-## Icons
-
-Utility class for icons
-
-### iconsSvg
-
-Return the svg icons list
-
-Returns **[object][983]** Svg icons object
-
-### icons
-
-Return the svg icons list
-
-Returns **[object][983]** Svg icons object
-
-### list
-
-Return a list of icons (key / value)
-
-Returns **[object][983]** The icons under Key / Value format
-
 ## DeviceStatus
 
 This class provides is a POJO for device status
@@ -3151,6 +3221,28 @@ Get titles
 -   `inject` **...[Array][979]** Injection
 
 Returns **[Array][979]** Result
+
+## Icons
+
+Utility class for icons
+
+### iconsSvg
+
+Return the svg icons list
+
+Returns **[object][983]** Svg icons object
+
+### icons
+
+Return the svg icons list
+
+Returns **[object][983]** Svg icons object
+
+### list
+
+Return a list of icons (key / value)
+
+Returns **[object][983]** The icons under Key / Value format
 
 ## GatewayAPI
 
@@ -5246,98 +5338,6 @@ Return the number of seconds elapsed since midnight in UTC format
 
 Returns **[string][978]** The relative date, e.g. "5 minutes ago"
 
-## Logger
-
-This class provides static methods to log into a file.
-
-### setLogLevel
-
-Set the log level
-
-#### Parameters
-
--   `level` **[number][981]** Log level between 0 and 5 (optional, default `3`)
-
-### log
-
-Log to a file
-
-#### Parameters
-
--   `message` **[string][978]** A log message
--   `level` **int** Log level between 0 to 5 (optional, default `3`)
--   `params` **\[[string][978]]** Some parameters
-
-### removeColors
-
-Remove console colors from a string
-
-#### Parameters
-
--   `entry` **[string][978]** A text entry
-
-Returns **[string][978]** Output string without colors
-
-### flog
-
-Log a log to a file
-
-#### Parameters
-
--   `message` **[string][978]** A log message
--   `params` **\[[string][978]]** Some parameters
-
-### warn
-
-Log a warning to a file
-
-#### Parameters
-
--   `message` **[string][978]** A log message
--   `params` **\[[string][978]]** Some parameters
-
-### err
-
-Log an error to a file
-
-#### Parameters
-
--   `message` **[string][978]** A log message
--   `params` **\[[string][978]]** Some parameters
-
-### verbose
-
-Log a verbose message to a file
-
-#### Parameters
-
--   `message` **[string][978]** A log message
--   `params` **\[[string][978]]** Some parameters
-
-### info
-
-Log an information to a file
-
-#### Parameters
-
--   `message` **[string][978]** A log message
--   `params` **\[[string][978]]** Some parameters
-
-### debug
-
-Log a debug message to a file, with stacktrace
-
-#### Parameters
-
--   `message` **[string][978]** A log message
--   `params` **\[[string][978]]** Some parameters
-
-### getHistory
-
-Get the log history
-
-Returns **[Array][979]** An array of logs
-
 ## APIResponse
 
 This class is a POJO representing an APIResponse item
@@ -5584,6 +5584,27 @@ Start tunnel
 
 Stop tunnel
 
+## TunnelLocalTunnel
+
+**Extends Tunnel.class**
+
+This class wraps local tunnel apis
+
+### Parameters
+
+-   `port` **int** The web services port
+-   `gatewayManager` **[GatewayManager][1015]** The gateway manager
+-   `environmentManager` **[EnvironmentManager][991]** The environment manager
+-   `AppConfiguration` **[object][983]** The app configuration
+
+### start
+
+Start tunnel
+
+### stop
+
+Stop tunnel
+
 ## Tunnel
 
 This class wraps tunnel apis
@@ -5675,27 +5696,6 @@ Transmit informations to gateway
 #### Parameters
 
 -   `async` **[boolean][982]** Enable or disable async (optional, default `true`)
-
-## TunnelLocalTunnel
-
-**Extends Tunnel.class**
-
-This class wraps local tunnel apis
-
-### Parameters
-
--   `port` **int** The web services port
--   `gatewayManager` **[GatewayManager][1015]** The gateway manager
--   `environmentManager` **[EnvironmentManager][991]** The environment manager
--   `AppConfiguration` **[object][983]** The app configuration
-
-### start
-
-Start tunnel
-
-### stop
-
-Stop tunnel
 
 ## TunnelLocalxpose
 
@@ -6158,1521 +6158,1521 @@ Returns **[string][978]** The base route (without parameters)
 
 [101]: #parameters-42
 
-[102]: #coreapi
+[102]: #logger
 
-[103]: #parameters-43
+[103]: #setloglevel
 
-[104]: #dispatchevent
+[104]: #parameters-43
 
-[105]: #parameters-44
+[105]: #log
 
-[106]: #registerevent
+[106]: #parameters-44
 
-[107]: #parameters-45
+[107]: #removecolors
 
-[108]: #cachepath
+[108]: #parameters-45
 
-[109]: #dashboardapi
+[109]: #flog
 
 [110]: #parameters-46
 
-[111]: #registertile
+[111]: #warn
 
 [112]: #parameters-47
 
-[113]: #unregistertile
+[113]: #err
 
 [114]: #parameters-48
 
-[115]: #tile
+[115]: #verbose
 
 [116]: #parameters-49
 
-[117]: #tiletype
+[117]: #info
 
-[118]: #tile-1
+[118]: #parameters-50
 
-[119]: #parameters-50
+[119]: #debug
 
-[120]: #get
+[120]: #parameters-51
 
-[121]: #customize
+[121]: #gethistory
 
-[122]: #parameters-51
+[122]: #coreapi
 
-[123]: #hash
+[123]: #parameters-52
 
-[124]: #applymode
+[124]: #dispatchevent
 
-[125]: #parameters-52
+[125]: #parameters-53
 
-[126]: #databaseapi
+[126]: #registerevent
 
-[127]: #parameters-53
+[127]: #parameters-54
 
-[128]: #addoptimization
+[128]: #cachepath
 
-[129]: #parameters-54
+[129]: #dashboardapi
 
-[130]: #register-2
+[130]: #parameters-55
 
-[131]: #parameters-55
+[131]: #registertile
 
-[132]: #dbhelper
+[132]: #parameters-56
 
-[133]: #parameters-56
+[133]: #unregistertile
 
-[134]: #dbhelper-1
+[134]: #parameters-57
 
-[135]: #parameters-57
+[135]: #tile
 
-[136]: #requestbuilder
+[136]: #parameters-58
 
-[137]: #operators
+[137]: #tiletype
 
-[138]: #getfieldsfortable
+[138]: #tile-1
 
-[139]: #saveobject
+[139]: #parameters-59
 
-[140]: #parameters-58
+[140]: #get
 
-[141]: #getobject
+[141]: #customize
 
-[142]: #parameters-59
+[142]: #parameters-60
 
-[143]: #getobjects
+[143]: #hash
 
-[144]: #parameters-60
+[144]: #applymode
 
-[145]: #getlastobject
+[145]: #parameters-61
 
-[146]: #parameters-61
+[146]: #databaseapi
 
-[147]: #delobject
+[147]: #parameters-62
 
-[148]: #parameters-62
+[148]: #addoptimization
 
-[149]: #delobjects
+[149]: #parameters-63
 
-[150]: #parameters-63
+[150]: #register-2
 
-[151]: #dbobject
+[151]: #parameters-64
 
-[152]: #parameters-64
+[152]: #dbhelper
 
-[153]: #base
+[153]: #parameters-65
 
-[154]: #save-1
+[154]: #dbhelper-1
 
-[155]: #parameters-65
+[155]: #parameters-66
 
-[156]: #del
+[156]: #requestbuilder
 
-[157]: #parameters-66
+[157]: #operators
 
-[158]: #dbrequestbuilder
+[158]: #getfieldsfortable
 
-[159]: #parameters-67
+[159]: #saveobject
 
-[160]: #removelastcomma
+[160]: #parameters-67
 
-[161]: #parameters-68
+[161]: #getobject
 
-[162]: #escapestring
+[162]: #parameters-68
 
-[163]: #parameters-69
+[163]: #getobjects
 
-[164]: #getvalueencapsulated
+[164]: #parameters-69
 
-[165]: #parameters-70
+[165]: #getlastobject
 
-[166]: #getmetaforfield
+[166]: #parameters-70
 
-[167]: #parameters-71
+[167]: #delobject
 
-[168]: #save-2
+[168]: #parameters-71
 
-[169]: #parameters-72
+[169]: #delobjects
 
-[170]: #get-1
+[170]: #parameters-72
 
-[171]: #parameters-73
+[171]: #dbobject
 
-[172]: #del-1
+[172]: #parameters-73
 
-[173]: #parameters-74
+[173]: #base
 
-[174]: #selectop
+[174]: #save-1
 
-[175]: #parameters-75
+[175]: #parameters-74
 
-[176]: #optimizeindex
+[176]: #del
 
-[177]: #parameters-76
+[177]: #parameters-75
 
-[178]: #select
+[178]: #dbrequestbuilder
 
-[179]: #parameters-77
+[179]: #parameters-76
 
-[180]: #insert
+[180]: #removelastcomma
 
-[181]: #parameters-78
+[181]: #parameters-77
 
-[182]: #update
+[182]: #escapestring
 
-[183]: #parameters-79
+[183]: #parameters-78
 
-[184]: #upsert
+[184]: #getvalueencapsulated
 
-[185]: #parameters-80
+[185]: #parameters-79
 
-[186]: #remove
+[186]: #getmetaforfield
 
-[187]: #values
+[187]: #parameters-80
 
-[188]: #parameters-81
+[188]: #save-2
 
-[189]: #where
+[189]: #parameters-81
 
-[190]: #parameters-82
+[190]: #get-1
 
-[191]: #complexwhere
+[191]: #parameters-82
 
-[192]: #parameters-83
+[192]: #del-1
 
-[193]: #groupop
+[193]: #parameters-83
 
-[194]: #parameters-84
+[194]: #selectop
 
-[195]: #group
+[195]: #parameters-84
 
-[196]: #parameters-85
+[196]: #optimizeindex
 
-[197]: #order
+[197]: #parameters-85
 
-[198]: #parameters-86
+[198]: #select
 
-[199]: #lim
+[199]: #parameters-86
 
-[200]: #parameters-87
+[200]: #insert
 
-[201]: #first
+[201]: #parameters-87
 
-[202]: #parameters-88
+[202]: #update
 
-[203]: #cleanforselect
+[203]: #parameters-88
 
-[204]: #distinct
+[204]: #upsert
 
-[205]: #cleanfordelete
+[205]: #parameters-89
 
-[206]: #request
+[206]: #remove
 
-[207]: #dbschemaconverter
+[207]: #values
 
-[208]: #tablename
+[208]: #parameters-90
 
-[209]: #parameters-89
+[209]: #where
 
-[210]: #toschema
+[210]: #parameters-91
 
-[211]: #parameters-90
+[211]: #complexwhere
 
-[212]: #convert
+[212]: #parameters-92
 
-[213]: #convertproperties
+[213]: #groupop
 
-[214]: #parameters-91
+[214]: #parameters-93
 
-[215]: #deviceapi
+[215]: #group
 
-[216]: #parameters-92
+[216]: #parameters-94
 
-[217]: #getdevices
+[217]: #order
 
-[218]: #switchdevice
+[218]: #parameters-95
 
-[219]: #parameters-93
+[219]: #lim
 
-[220]: #constants
+[220]: #parameters-96
 
-[221]: #getdevicestatus
+[221]: #first
 
-[222]: #parameters-94
+[222]: #parameters-97
 
-[223]: #addform
+[223]: #cleanforselect
 
-[224]: #parameters-95
+[224]: #distinct
 
-[225]: #registerswitchdevice
+[225]: #cleanfordelete
 
-[226]: #parameters-96
+[226]: #request
 
-[227]: #savedevice
+[227]: #dbschemaconverter
 
-[228]: #parameters-97
+[228]: #tablename
 
-[229]: #getdevicetypes
+[229]: #parameters-98
 
-[230]: #parameters-98
+[230]: #toschema
 
-[231]: #getdevicebyid
+[231]: #parameters-99
 
-[232]: #parameters-99
+[232]: #convert
 
-[233]: #switchdevicewithdevice
+[233]: #convertproperties
 
 [234]: #parameters-100
 
-[235]: #getdbhelper
+[235]: #deviceapi
 
-[236]: #guessdevicestatus
+[236]: #parameters-101
 
-[237]: #parameters-101
+[237]: #getdevices
 
-[238]: #devicemanager
+[238]: #switchdevice
 
 [239]: #parameters-102
 
-[240]: #addform-1
+[240]: #constants
 
-[241]: #parameters-103
+[241]: #getdevicestatus
 
-[242]: #registerswitchdevice-1
+[242]: #parameters-103
 
-[243]: #parameters-104
+[243]: #addform
 
-[244]: #triggerscenario
+[244]: #parameters-104
 
-[245]: #parameters-105
+[245]: #registerswitchdevice
 
-[246]: #registerdevicelistform
+[246]: #parameters-105
 
-[247]: #registerdevicetiles
+[247]: #savedevice
 
-[248]: #getdevices-1
+[248]: #parameters-106
 
-[249]: #getdevicestatus-1
+[249]: #getdevicetypes
 
-[250]: #parameters-106
+[250]: #parameters-107
 
-[251]: #bestdevicetype
+[251]: #getdevicebyid
 
-[252]: #parameters-107
+[252]: #parameters-108
 
-[253]: #registerdevicetile
+[253]: #switchdevicewithdevice
 
-[254]: #parameters-108
+[254]: #parameters-109
 
-[255]: #getdevicetypes-1
+[255]: #getdbhelper
 
-[256]: #parameters-109
+[256]: #guessdevicestatus
 
-[257]: #getdevicebyid-1
+[257]: #parameters-110
 
-[258]: #parameters-110
+[258]: #devicemanager
 
-[259]: #switchdevice-1
+[259]: #parameters-111
 
-[260]: #parameters-111
+[260]: #addform-1
 
-[261]: #guessdevicestatus-1
+[261]: #parameters-112
 
-[262]: #parameters-112
+[262]: #registerswitchdevice-1
 
-[263]: #switchdevicewithdevice-1
+[263]: #parameters-113
 
-[264]: #parameters-113
+[264]: #triggerscenario
 
-[265]: #savedevice-1
+[265]: #parameters-114
 
-[266]: #parameters-114
+[266]: #registerdevicelistform
 
-[267]: #switchall
+[267]: #registerdevicetiles
 
-[268]: #parameters-115
+[268]: #getdevices-1
 
-[269]: #getdbhelper-1
+[269]: #getdevicestatus-1
 
-[270]: #processapi-1
+[270]: #parameters-115
 
-[271]: #parameters-116
+[271]: #bestdevicetype
 
-[272]: #deviceform
+[272]: #parameters-116
 
-[273]: #parameters-117
+[273]: #registerdevicetile
 
-[274]: #name
+[274]: #parameters-117
 
-[275]: #excludefromall
+[275]: #getdevicetypes-1
 
-[276]: #visible
+[276]: #parameters-118
 
-[277]: #poweroutagerestore
+[277]: #getdevicebyid-1
 
-[278]: #worksonlyondaynight
+[278]: #parameters-119
 
-[279]: #icon
+[279]: #switchdevice-1
 
-[280]: #room
+[280]: #parameters-120
 
-[281]: #status
+[281]: #guessdevicestatus-1
 
-[282]: #brightness
+[282]: #parameters-121
 
-[283]: #color
+[283]: #switchdevicewithdevice-1
 
-[284]: #colortemperature
+[284]: #parameters-122
 
-[285]: #subdevices
+[285]: #savedevice-1
 
-[286]: #json
+[286]: #parameters-123
 
-[287]: #parameters-118
+[287]: #switchall
 
-[288]: #deviceslistform
+[288]: #parameters-124
 
-[289]: #parameters-119
+[289]: #getdbhelper-1
 
-[290]: #identifier
+[290]: #processapi-1
 
-[291]: #status-1
+[291]: #parameters-125
 
-[292]: #keepparams
+[292]: #deviceform
 
-[293]: #brightness-1
+[293]: #parameters-126
 
-[294]: #color-1
+[294]: #name
 
-[295]: #colortemperature-1
+[295]: #excludefromall
 
-[296]: #updatebrightness
+[296]: #visible
 
-[297]: #updatetemperature
+[297]: #poweroutagerestore
 
-[298]: #updatecolor
+[298]: #worksonlyondaynight
 
-[299]: #json-1
+[299]: #icon
 
-[300]: #parameters-120
+[300]: #room
 
-[301]: #getdevicesname
+[301]: #status
 
-[302]: #parameters-121
+[302]: #brightness
 
-[303]: #getdevicesid
+[303]: #color
 
-[304]: #parameters-122
+[304]: #colortemperature
 
-[305]: #deviceslistsimpleform
+[305]: #subdevices
 
-[306]: #parameters-123
+[306]: #json
 
-[307]: #identifier-1
+[307]: #parameters-127
 
-[308]: #json-2
+[308]: #deviceslistform
 
-[309]: #parameters-124
+[309]: #parameters-128
 
-[310]: #getdevicesname-1
+[310]: #identifier
 
-[311]: #parameters-125
+[311]: #status-1
 
-[312]: #getdevicesid-1
+[312]: #keepparams
 
-[313]: #parameters-126
+[313]: #brightness-1
 
-[314]: #deviceslistscenariotriggerform
+[314]: #color-1
 
-[315]: #parameters-127
+[315]: #colortemperature-1
 
-[316]: #identifier-2
+[316]: #updatebrightness
 
-[317]: #status-2
+[317]: #updatetemperature
 
-[318]: #json-3
+[318]: #updatecolor
 
-[319]: #parameters-128
+[319]: #json-1
 
-[320]: #getdevicesname-2
+[320]: #parameters-129
 
-[321]: #parameters-129
+[321]: #getdevicesname
 
-[322]: #getdevicesid-2
+[322]: #parameters-130
 
-[323]: #parameters-130
+[323]: #getdevicesid
 
-[324]: #deviceslistscenarioform
+[324]: #parameters-131
 
-[325]: #parameters-131
+[325]: #deviceslistsimpleform
 
-[326]: #turnonall
+[326]: #parameters-132
 
-[327]: #turnoffall
+[327]: #identifier-1
 
-[328]: #devices
+[328]: #json-2
 
-[329]: #triggerondevice
+[329]: #parameters-133
 
-[330]: #json-4
+[330]: #getdevicesname-1
 
-[331]: #parameters-132
+[331]: #parameters-134
 
-[332]: #icons
+[332]: #getdevicesid-1
 
-[333]: #iconssvg
+[333]: #parameters-135
 
-[334]: #icons-1
+[334]: #deviceslistscenariotriggerform
 
-[335]: #list
+[335]: #parameters-136
 
-[336]: #devicestatus
+[336]: #identifier-2
 
-[337]: #parameters-133
+[337]: #status-2
 
-[338]: #getstatus
+[338]: #json-3
 
-[339]: #getbrightness
+[339]: #parameters-137
 
-[340]: #getcolor
+[340]: #getdevicesname-2
 
-[341]: #getcolortemperature
+[341]: #parameters-138
 
-[342]: #setstatus
+[342]: #getdevicesid-2
 
-[343]: #parameters-134
+[343]: #parameters-139
 
-[344]: #setbrightness
+[344]: #deviceslistscenarioform
 
-[345]: #parameters-135
+[345]: #parameters-140
 
-[346]: #setcolor
+[346]: #turnonall
 
-[347]: #parameters-136
+[347]: #turnoffall
 
-[348]: #setcolortemperature
+[348]: #devices
 
-[349]: #parameters-137
+[349]: #triggerondevice
 
-[350]: #tileformat
+[350]: #json-4
 
-[351]: #dbdevice
+[351]: #parameters-141
 
-[352]: #parameters-138
+[352]: #devicestatus
 
-[353]: #identifier-3
+[353]: #parameters-142
 
-[354]: #identifier-4
+[354]: #getstatus
 
-[355]: #status-3
+[355]: #getbrightness
 
-[356]: #brightness-2
+[356]: #getcolor
 
-[357]: #color-2
+[357]: #getcolortemperature
 
-[358]: #temperature
+[358]: #setstatus
 
-[359]: #environmentapi
+[359]: #parameters-143
 
-[360]: #parameters-139
+[360]: #setbrightness
 
-[361]: #getcoordinates
+[361]: #parameters-144
 
-[362]: #setday
+[362]: #setcolor
 
-[363]: #setnight
+[363]: #parameters-145
 
-[364]: #isnight
+[364]: #setcolortemperature
 
-[365]: #registerdaynightnotifications
+[365]: #parameters-146
 
-[366]: #parameters-140
+[366]: #tileformat
 
-[367]: #unregisterdaynightnotifications
+[367]: #dbdevice
 
-[368]: #parameters-141
+[368]: #parameters-147
 
-[369]: #getlocalapiurl
+[369]: #identifier-3
 
-[370]: #getsmartiesid
+[370]: #identifier-4
 
-[371]: #getfullsmartiesid
+[371]: #status-3
 
-[372]: #getscannedip
+[372]: #brightness-2
 
-[373]: #getlocalip
+[373]: #color-2
 
-[374]: #constants-1
+[374]: #temperature
 
-[375]: #environmentmanager
+[375]: #environmentapi
 
-[376]: #parameters-142
+[376]: #parameters-148
 
-[377]: #settimezone
+[377]: #getcoordinates
 
-[378]: #parameters-143
+[378]: #setday
 
-[379]: #registerdaynightnotifications-1
+[379]: #setnight
 
-[380]: #parameters-144
+[380]: #isnight
 
-[381]: #unregisterdaynightnotifications-1
+[381]: #registerdaynightnotifications
 
-[382]: #parameters-145
+[382]: #parameters-149
 
-[383]: #registertile-1
+[383]: #unregisterdaynightnotifications
 
-[384]: #getcoordinates-1
+[384]: #parameters-150
 
-[385]: #getcountry
+[385]: #getlocalapiurl
 
-[386]: #getseason
+[386]: #getsmartiesid
 
-[387]: #parameters-146
+[387]: #getfullsmartiesid
 
-[388]: #dispatchdaynightchange
+[388]: #getscannedip
 
-[389]: #setday-1
+[389]: #getlocalip
 
-[390]: #setnight-1
+[390]: #constants-1
 
-[391]: #isnight-1
+[391]: #environmentmanager
 
-[392]: #getlocalport
+[392]: #parameters-151
 
-[393]: #getlocalip-1
+[393]: #settimezone
 
-[394]: #getmacaddress
+[394]: #parameters-152
 
-[395]: #getlocalapiurl-1
+[395]: #registerdaynightnotifications-1
 
-[396]: #savemainconfiguration
+[396]: #parameters-153
 
-[397]: #parameters-147
+[397]: #unregisterdaynightnotifications-1
 
-[398]: #processapi-2
+[398]: #parameters-154
 
-[399]: #parameters-148
+[399]: #registertile-1
 
-[400]: #updatecore
+[400]: #getcoordinates-1
 
-[401]: #isdefaultconfig
+[401]: #getcountry
 
-[402]: #getsmartiesid-1
+[402]: #getseason
 
-[403]: #getfullsmartiesid-1
+[403]: #parameters-155
 
-[404]: #registeripscanform
+[404]: #dispatchdaynightchange
 
-[405]: #startipscan
+[405]: #setday-1
 
-[406]: #manageuptimefile
+[406]: #setnight-1
 
-[407]: #environmentform
+[407]: #isnight-1
 
-[408]: #parameters-149
+[408]: #getlocalport
 
-[409]: #day
+[409]: #getlocalip-1
 
-[410]: #json-5
+[410]: #getmacaddress
 
-[411]: #parameters-150
+[411]: #getlocalapiurl-1
 
-[412]: #daynightscenarioform
+[412]: #savemainconfiguration
 
-[413]: #parameters-151
+[413]: #parameters-156
 
-[414]: #mode
+[414]: #processapi-2
 
-[415]: #json-6
+[415]: #parameters-157
 
-[416]: #parameters-152
+[416]: #updatecore
 
-[417]: #daynightscenariotriggerform
+[417]: #isdefaultconfig
 
-[418]: #parameters-153
+[418]: #getsmartiesid-1
 
-[419]: #day-1
+[419]: #getfullsmartiesid-1
 
-[420]: #night
+[420]: #registeripscanform
 
-[421]: #json-7
+[421]: #startipscan
 
-[422]: #parameters-154
+[422]: #manageuptimefile
 
-[423]: #ipscanform
+[423]: #environmentform
 
-[424]: #parameters-155
+[424]: #parameters-158
 
-[425]: #ip
+[425]: #day
 
-[426]: #freetext
+[426]: #json-5
 
-[427]: #freetexthidden
+[427]: #parameters-159
 
-[428]: #json-8
+[428]: #daynightscenarioform
 
-[429]: #parameters-156
+[429]: #parameters-160
 
-[430]: #getvalues
+[430]: #mode
 
-[431]: #parameters-157
+[431]: #json-6
 
-[432]: #getvalueswithoutfreetext
+[432]: #parameters-161
 
-[433]: #parameters-158
+[433]: #daynightscenariotriggerform
 
-[434]: #gettitles
+[434]: #parameters-162
 
-[435]: #parameters-159
+[435]: #day-1
 
-[436]: #gatewayapi
+[436]: #night
 
-[437]: #parameters-160
+[437]: #json-7
 
-[438]: #getdistanturl
+[438]: #parameters-163
 
-[439]: #getdistantapiurl
+[439]: #ipscanform
 
-[440]: #installerapi
+[440]: #parameters-164
 
-[441]: #parameters-161
+[441]: #ip
 
-[442]: #register-3
+[442]: #freetext
 
-[443]: #parameters-162
+[443]: #freetexthidden
 
-[444]: #executecommand
+[444]: #json-8
 
-[445]: #parameters-163
+[445]: #parameters-165
 
-[446]: #iotapi
+[446]: #getvalues
 
-[447]: #parameters-164
+[447]: #parameters-166
 
-[448]: #registerlib
+[448]: #getvalueswithoutfreetext
 
-[449]: #parameters-165
+[449]: #parameters-167
 
-[450]: #registerapp
+[450]: #gettitles
 
-[451]: #parameters-166
+[451]: #parameters-168
 
-[452]: #iotappexists
+[452]: #icons
 
-[453]: #parameters-167
+[453]: #iconssvg
 
-[454]: #getversion
+[454]: #icons-1
 
-[455]: #parameters-168
+[455]: #list
 
-[456]: #getiot
+[456]: #gatewayapi
 
 [457]: #parameters-169
 
-[458]: #build
+[458]: #getdistanturl
 
-[459]: #parameters-170
+[459]: #getdistantapiurl
 
-[460]: #constants-2
+[460]: #installerapi
 
-[461]: #getiots
+[461]: #parameters-170
 
-[462]: #parameters-171
+[462]: #register-3
 
-[463]: #isbuilding
+[463]: #parameters-171
 
-[464]: #getwiringschemaforlib
+[464]: #executecommand
 
 [465]: #parameters-172
 
-[466]: #addingredientforreceipe
+[466]: #iotapi
 
 [467]: #parameters-173
 
-[468]: #setupgradeurl
+[468]: #registerlib
 
 [469]: #parameters-174
 
-[470]: #setversion
+[470]: #registerapp
 
 [471]: #parameters-175
 
-[472]: #messageapi
+[472]: #iotappexists
 
 [473]: #parameters-176
 
-[474]: #sendmessage
+[474]: #getversion
 
 [475]: #parameters-177
 
-[476]: #register-4
+[476]: #getiot
 
 [477]: #parameters-178
 
-[478]: #unregister
+[478]: #build
 
 [479]: #parameters-179
 
-[480]: #onmessagereceived
+[480]: #constants-2
 
-[481]: #parameters-180
+[481]: #getiots
 
-[482]: #getmessages
+[482]: #parameters-180
 
-[483]: #parameters-181
+[483]: #isbuilding
 
-[484]: #radioapi
+[484]: #getwiringschemaforlib
 
-[485]: #parameters-182
+[485]: #parameters-181
 
-[486]: #register-5
+[486]: #addingredientforreceipe
 
-[487]: #parameters-183
+[487]: #parameters-182
 
-[488]: #unregister-1
+[488]: #setupgradeurl
 
-[489]: #parameters-184
+[489]: #parameters-183
 
-[490]: #compareformobject
+[490]: #setversion
 
-[491]: #parameters-185
+[491]: #parameters-184
 
-[492]: #getlastreceivedradioinformations
+[492]: #messageapi
 
-[493]: #parameters-186
+[493]: #parameters-185
 
-[494]: #refreshprotocols
+[494]: #sendmessage
 
-[495]: #scenarioapi
+[495]: #parameters-186
 
-[496]: #parameters-187
+[496]: #register-4
 
-[497]: #registersubform-1
+[497]: #parameters-187
 
-[498]: #parameters-188
+[498]: #unregister
 
-[499]: #register-6
+[499]: #parameters-188
 
-[500]: #parameters-189
+[500]: #onmessagereceived
 
-[501]: #registerwithinjection
+[501]: #parameters-189
 
-[502]: #parameters-190
+[502]: #getmessages
 
-[503]: #unregister-2
+[503]: #parameters-190
 
-[504]: #parameters-191
+[504]: #radioapi
 
-[505]: #triggerscenario-1
+[505]: #parameters-191
 
-[506]: #parameters-192
+[506]: #register-5
 
-[507]: #getscenarios
+[507]: #parameters-192
 
-[508]: #registerforscenariochanges
+[508]: #unregister-1
 
 [509]: #parameters-193
 
-[510]: #schedulerapi
+[510]: #compareformobject
 
 [511]: #parameters-194
 
-[512]: #register-7
+[512]: #getlastreceivedradioinformations
 
 [513]: #parameters-195
 
-[514]: #unregister-3
+[514]: #refreshprotocols
 
-[515]: #parameters-196
+[515]: #scenarioapi
 
-[516]: #schedule
+[516]: #parameters-196
 
-[517]: #parameters-197
+[517]: #registersubform-1
 
-[518]: #cancel
+[518]: #parameters-197
 
-[519]: #parameters-198
+[519]: #register-6
 
-[520]: #constants-3
+[520]: #parameters-198
 
-[521]: #schedulerservice
+[521]: #registerwithinjection
 
 [522]: #parameters-199
 
-[523]: #start
+[523]: #unregister-2
 
-[524]: #stop
+[524]: #parameters-200
 
-[525]: #register-8
+[525]: #triggerscenario-1
 
-[526]: #parameters-200
+[526]: #parameters-201
 
-[527]: #unregister-4
+[527]: #getscenarios
 
-[528]: #parameters-201
+[528]: #registerforscenariochanges
 
-[529]: #schedule-1
+[529]: #parameters-202
 
-[530]: #parameters-202
+[530]: #schedulerapi
 
-[531]: #cancel-1
+[531]: #parameters-203
 
-[532]: #parameters-203
+[532]: #register-7
 
-[533]: #timeevent
+[533]: #parameters-204
 
-[534]: #parameters-204
+[534]: #unregister-3
 
-[535]: #schedulerdbobject
+[535]: #parameters-205
 
-[536]: #parameters-205
+[536]: #schedule
 
-[537]: #data
+[537]: #parameters-206
 
-[538]: #triggerdate
+[538]: #cancel
 
-[539]: #triggered
+[539]: #parameters-207
 
-[540]: #sensorapi
+[540]: #constants-3
 
-[541]: #parameters-206
+[541]: #schedulerservice
 
-[542]: #registerform-2
+[542]: #parameters-208
 
-[543]: #parameters-207
+[543]: #start
 
-[544]: #registerclass-1
+[544]: #stop
 
-[545]: #parameters-208
+[545]: #register-8
 
-[546]: #registersensorevent
+[546]: #parameters-209
 
-[547]: #parameters-209
+[547]: #unregister-4
 
-[548]: #unregistersensorevent
+[548]: #parameters-210
 
-[549]: #parameters-210
+[549]: #schedule-1
 
-[550]: #getsensors
+[550]: #parameters-211
 
-[551]: #parameters-211
+[551]: #cancel-1
 
-[552]: #getvalue
+[552]: #parameters-212
 
-[553]: #parameters-212
+[553]: #timeevent
 
-[554]: #getsensor
+[554]: #parameters-213
 
-[555]: #parameters-213
+[555]: #schedulerdbobject
 
-[556]: #iotapppowered
+[556]: #parameters-214
 
-[557]: #constants-4
+[557]: #data
 
-[558]: #guesssensorvalue
+[558]: #triggerdate
 
-[559]: #parameters-214
+[559]: #triggered
 
-[560]: #iotslistform
+[560]: #sensorapi
 
 [561]: #parameters-215
 
-[562]: #identifier-5
+[562]: #registerform-2
 
-[563]: #json-9
+[563]: #parameters-216
 
-[564]: #parameters-216
+[564]: #registerclass-1
 
-[565]: #getiotsname
+[565]: #parameters-217
 
-[566]: #parameters-217
+[566]: #registersensorevent
 
-[567]: #getiotsid
+[567]: #parameters-218
 
-[568]: #parameters-218
+[568]: #unregistersensorevent
 
-[569]: #formobject
+[569]: #parameters-219
 
-[570]: #parameters-219
+[570]: #getsensors
 
-[571]: #json-10
+[571]: #parameters-220
 
-[572]: #parameters-220
+[572]: #getvalue
 
-[573]: #id
+[573]: #parameters-221
 
-[574]: #sensorsmanager
+[574]: #getsensor
 
-[575]: #parameters-221
+[575]: #parameters-222
 
-[576]: #pluginsloaded
+[576]: #iotapppowered
 
-[577]: #parameters-222
+[577]: #constants-4
 
-[578]: #initsensors
+[578]: #guesssensorvalue
 
-[579]: #scenariotrigger
+[579]: #parameters-223
 
-[580]: #initsensor
+[580]: #iotslistform
 
-[581]: #parameters-223
+[581]: #parameters-224
 
-[582]: #registersensorevent-1
+[582]: #identifier-5
 
-[583]: #parameters-224
+[583]: #json-9
 
-[584]: #getsensor-1
+[584]: #parameters-225
 
-[585]: #parameters-225
+[585]: #getiotsname
 
-[586]: #unregistersensorevent-1
+[586]: #parameters-226
 
-[587]: #parameters-226
+[587]: #getiotsid
 
-[588]: #getallsensors
+[588]: #parameters-227
 
-[589]: #parameters-227
+[589]: #formobject
 
-[590]: #onnewsensorvalue
+[590]: #parameters-228
 
-[591]: #parameters-228
+[591]: #json-10
 
-[592]: #guesssensorvalue-1
+[592]: #parameters-229
 
-[593]: #parameters-229
+[593]: #id
 
-[594]: #getvalue-1
+[594]: #sensorsmanager
 
 [595]: #parameters-230
 
-[596]: #processapi-3
+[596]: #pluginsloaded
 
 [597]: #parameters-231
 
-[598]: #statisticswsresponse
+[598]: #initsensors
 
-[599]: #parameters-232
+[599]: #scenariotrigger
 
-[600]: #comparator-1
+[600]: #initsensor
 
-[601]: #parameters-233
+[601]: #parameters-232
 
-[602]: #getsensorconfiguration
+[602]: #registersensorevent-1
 
-[603]: #parameters-234
+[603]: #parameters-233
 
-[604]: #registersensorslistform
+[604]: #getsensor-1
 
-[605]: #sensorsform
+[605]: #parameters-234
 
-[606]: #parameters-235
+[606]: #unregistersensorevent-1
 
-[607]: #sensorid
+[607]: #parameters-235
 
-[608]: #json-11
+[608]: #getallsensors
 
 [609]: #parameters-236
 
-[610]: #getsensorids
+[610]: #onnewsensorvalue
 
 [611]: #parameters-237
 
-[612]: #getsensornames
+[612]: #guesssensorvalue-1
 
 [613]: #parameters-238
 
-[614]: #sensorslistform
+[614]: #getvalue-1
 
 [615]: #parameters-239
 
-[616]: #identifier-6
+[616]: #processapi-3
 
-[617]: #json-12
+[617]: #parameters-240
 
-[618]: #parameters-240
+[618]: #statisticswsresponse
 
-[619]: #getsensorsname
+[619]: #parameters-241
 
-[620]: #parameters-241
+[620]: #comparator-1
 
-[621]: #getsensorsid
+[621]: #parameters-242
 
-[622]: #parameters-242
+[622]: #getsensorconfiguration
 
-[623]: #sensorslistscenarioform
+[623]: #parameters-243
 
-[624]: #parameters-243
+[624]: #registersensorslistform
 
-[625]: #sensors
+[625]: #sensorsform
 
-[626]: #json-13
+[626]: #parameters-244
 
-[627]: #parameters-244
+[627]: #sensorid
 
-[628]: #sensorscenarioform
+[628]: #json-11
 
 [629]: #parameters-245
 
-[630]: #sensor
+[630]: #getsensorids
 
-[631]: #operator
+[631]: #parameters-246
 
-[632]: #threshold
+[632]: #getsensornames
 
-[633]: #json-14
+[633]: #parameters-247
 
-[634]: #parameters-246
+[634]: #sensorslistform
 
-[635]: #pluginsmanager
+[635]: #parameters-248
 
-[636]: #parameters-247
+[636]: #identifier-6
 
-[637]: #getpluginsfromdirectory
+[637]: #json-12
 
-[638]: #parameters-248
+[638]: #parameters-249
 
-[639]: #checkpluginsanity
+[639]: #getsensorsname
 
-[640]: #parameters-249
+[640]: #parameters-250
 
-[641]: #initplugin
+[641]: #getsensorsid
 
-[642]: #parameters-250
+[642]: #parameters-251
 
-[643]: #initplugins
+[643]: #sensorslistscenarioform
 
-[644]: #parameters-251
+[644]: #parameters-252
 
-[645]: #registerplugins
+[645]: #sensors
 
-[646]: #parameters-252
+[646]: #json-13
 
-[647]: #load
+[647]: #parameters-253
 
-[648]: #getpluginsbycategory
+[648]: #sensorscenarioform
 
-[649]: #parameters-253
+[649]: #parameters-254
 
-[650]: #getpluginbyidentifier
+[650]: #sensor
 
-[651]: #parameters-254
+[651]: #operator
 
-[652]: #isenabled
+[652]: #threshold
 
-[653]: #parameters-255
+[653]: #json-14
 
-[654]: #preparetoposortarray
+[654]: #parameters-255
 
-[655]: #parameters-256
+[655]: #pluginsmanager
 
-[656]: #toposort
+[656]: #parameters-256
 
-[657]: #parameters-257
+[657]: #getpluginsfromdirectory
 
-[658]: #topsortedarrayconverter
+[658]: #parameters-257
 
-[659]: #parameters-258
+[659]: #checkpluginsanity
 
-[660]: #getpluginconf
+[660]: #parameters-258
 
-[661]: #parameters-259
+[661]: #initplugin
 
-[662]: #changepluginstatus
+[662]: #parameters-259
 
-[663]: #parameters-260
+[663]: #initplugins
 
-[664]: #processapi-4
+[664]: #parameters-260
 
-[665]: #parameters-261
+[665]: #registerplugins
 
-[666]: #pluginsapi
+[666]: #parameters-261
 
-[667]: #parameters-262
+[667]: #load
 
-[668]: #exportclass
+[668]: #getpluginsbycategory
 
-[669]: #parameters-263
+[669]: #parameters-262
 
-[670]: #init
+[670]: #getpluginbyidentifier
 
-[671]: #registerinstance
+[671]: #parameters-263
 
-[672]: #parameters-264
+[672]: #isenabled
 
-[673]: #getplugininstance
+[673]: #parameters-264
 
-[674]: #parameters-265
+[674]: #preparetoposortarray
 
-[675]: #constants-5
+[675]: #parameters-265
 
-[676]: #getpluginsidentifiersbycategory
+[676]: #toposort
 
 [677]: #parameters-266
 
-[678]: #getidentifier
+[678]: #topsortedarrayconverter
 
-[679]: #renewoauthtoken
+[679]: #parameters-267
 
-[680]: #parameters-267
+[680]: #getpluginconf
 
-[681]: #iotform
+[681]: #parameters-268
 
-[682]: #parameters-268
+[682]: #changepluginstatus
 
-[683]: #iotapp
+[683]: #parameters-269
 
-[684]: #name-1
+[684]: #processapi-4
 
-[685]: #json-15
+[685]: #parameters-270
 
-[686]: #parameters-269
+[686]: #pluginsapi
 
-[687]: #imageutils
+[687]: #parameters-271
 
-[688]: #sanitizeformconfiguration
+[688]: #exportclass
 
-[689]: #parameters-270
+[689]: #parameters-272
 
-[690]: #resize
+[690]: #init
 
-[691]: #parameters-271
+[691]: #registerinstance
 
-[692]: #blur
+[692]: #parameters-273
 
-[693]: #parameters-272
+[693]: #getplugininstance
 
-[694]: #rotate
+[694]: #parameters-274
 
-[695]: #parameters-273
+[695]: #constants-5
 
-[696]: #rotateb
+[696]: #getpluginsidentifiersbycategory
 
-[697]: #parameters-274
+[697]: #parameters-275
 
-[698]: #merge
+[698]: #getidentifier
 
-[699]: #parameters-275
+[699]: #renewoauthtoken
 
-[700]: #crop
+[700]: #parameters-276
 
-[701]: #parameters-276
+[701]: #iotform
 
-[702]: #filelock
+[702]: #parameters-277
 
-[703]: #parameters-277
+[703]: #iotapp
 
-[704]: #lock
+[704]: #name-1
 
-[705]: #parameters-278
+[705]: #json-15
 
-[706]: #islocked
+[706]: #parameters-278
 
-[707]: #parameters-279
+[707]: #imageutils
 
-[708]: #unlock
+[708]: #sanitizeformconfiguration
 
-[709]: #parameters-280
+[709]: #parameters-279
 
-[710]: #unlockafterdelay
+[710]: #resize
 
-[711]: #parameters-281
+[711]: #parameters-280
 
-[712]: #pluginconf
+[712]: #blur
 
-[713]: #parameters-282
+[713]: #parameters-281
 
-[714]: #json-16
+[714]: #rotate
 
-[715]: #parameters-283
+[715]: #parameters-282
 
-[716]: #servicesmanagerapi
+[716]: #rotateb
 
-[717]: #parameters-284
+[717]: #parameters-283
 
-[718]: #add
+[718]: #merge
 
-[719]: #parameters-285
+[719]: #parameters-284
 
-[720]: #remove-1
+[720]: #crop
 
-[721]: #parameters-286
+[721]: #parameters-285
 
-[722]: #stop-1
+[722]: #filelock
 
-[723]: #start-1
+[723]: #parameters-286
 
-[724]: #getthreadsmanager
+[724]: #lock
 
-[725]: #constants-6
+[725]: #parameters-287
 
-[726]: #servicesmanager
+[726]: #islocked
 
-[727]: #parameters-287
+[727]: #parameters-288
 
-[728]: #isserviceregistered
+[728]: #unlock
 
-[729]: #parameters-288
+[729]: #parameters-289
 
-[730]: #add-1
+[730]: #unlockafterdelay
 
-[731]: #parameters-289
+[731]: #parameters-290
 
-[732]: #remove-2
+[732]: #pluginconf
 
-[733]: #parameters-290
+[733]: #parameters-291
 
-[734]: #start-2
+[734]: #json-16
 
-[735]: #stop-2
+[735]: #parameters-292
 
-[736]: #restart
+[736]: #servicesmanagerapi
 
-[737]: #getservice
+[737]: #parameters-293
 
-[738]: #parameters-291
+[738]: #add
 
-[739]: #themeapi
+[739]: #parameters-294
 
-[740]: #parameters-292
+[740]: #remove-1
 
-[741]: #getcolors
+[741]: #parameters-295
 
-[742]: #parameters-293
+[742]: #stop-1
 
-[743]: #constants-7
+[743]: #start-1
 
-[744]: #thememanager
+[744]: #getthreadsmanager
 
-[745]: #parameters-294
+[745]: #constants-6
 
-[746]: #checkcolorformat
+[746]: #servicesmanager
 
-[747]: #parameters-295
+[747]: #parameters-296
 
-[748]: #setthemeforuser
+[748]: #isserviceregistered
 
-[749]: #parameters-296
+[749]: #parameters-297
 
-[750]: #getcolors-1
+[750]: #add-1
 
-[751]: #parameters-297
+[751]: #parameters-298
 
-[752]: #processapi-5
+[752]: #remove-2
 
-[753]: #parameters-298
+[753]: #parameters-299
 
-[754]: #timeeventapi
+[754]: #start-2
 
-[755]: #parameters-299
+[755]: #stop-2
 
-[756]: #register-9
+[756]: #restart
 
-[757]: #parameters-300
+[757]: #getservice
 
-[758]: #unregister-5
+[758]: #parameters-300
 
-[759]: #parameters-301
+[759]: #themeapi
 
-[760]: #constants-8
+[760]: #parameters-301
 
-[761]: #timeeventservice
+[761]: #getcolors
 
-[762]: #start-3
+[762]: #parameters-302
 
-[763]: #stop-3
+[763]: #constants-7
 
-[764]: #hash-1
+[764]: #thememanager
 
-[765]: #parameters-302
+[765]: #parameters-303
 
-[766]: #elementforhash
+[766]: #checkcolorformat
 
-[767]: #parameters-303
+[767]: #parameters-304
 
-[768]: #register-10
+[768]: #setthemeforuser
 
-[769]: #parameters-304
+[769]: #parameters-305
 
-[770]: #unregister-6
+[770]: #getcolors-1
 
-[771]: #parameters-305
+[771]: #parameters-306
 
-[772]: #convertmode
+[772]: #processapi-5
 
-[773]: #parameters-306
+[773]: #parameters-307
 
-[774]: #timeevent-1
+[774]: #timeeventapi
 
-[775]: #parameters-307
+[775]: #parameters-308
 
-[776]: #translateapi
+[776]: #register-9
 
-[777]: #parameters-308
+[777]: #parameters-309
 
-[778]: #load-1
+[778]: #unregister-5
 
-[779]: #t
+[779]: #parameters-310
 
-[780]: #parameters-309
+[780]: #constants-8
 
-[781]: #userapi
+[781]: #timeeventservice
 
-[782]: #parameters-310
+[782]: #start-3
 
-[783]: #addadditionalfields-1
+[783]: #stop-3
 
-[784]: #parameters-311
+[784]: #hash-1
 
-[785]: #getusers
+[785]: #parameters-311
 
-[786]: #allusersathome
+[786]: #elementforhash
 
-[787]: #nobodyathome
+[787]: #parameters-312
 
-[788]: #somebodyathome
+[788]: #register-10
 
-[789]: #registerhomenotifications
+[789]: #parameters-313
 
-[790]: #parameters-312
+[790]: #unregister-6
 
-[791]: #unregisterhomenotifications
+[791]: #parameters-314
 
-[792]: #parameters-313
+[792]: #convertmode
 
-[793]: #webapi
+[793]: #parameters-315
 
-[794]: #parameters-314
+[794]: #timeevent-1
 
-[795]: #register-11
+[795]: #parameters-316
 
-[796]: #parameters-315
+[796]: #translateapi
 
-[797]: #unregister-7
+[797]: #parameters-317
 
-[798]: #parameters-316
+[798]: #load-1
 
-[799]: #authentication
+[799]: #t
 
-[800]: #apiresponse
+[800]: #parameters-318
 
-[801]: #parameters-317
+[801]: #userapi
 
-[802]: #constants-9
+[802]: #parameters-319
 
-[803]: #gettoken
+[803]: #addadditionalfields-1
 
-[804]: #parameters-318
+[804]: #parameters-320
 
-[805]: #gettokenwithidentifier
+[805]: #getusers
 
-[806]: #parameters-319
+[806]: #allusersathome
 
-[807]: #authentication-1
+[807]: #nobodyathome
 
-[808]: #parameters-320
+[808]: #somebodyathome
 
-[809]: #clearexpiredtokens
+[809]: #registerhomenotifications
 
-[810]: #generatetoken
+[810]: #parameters-321
 
-[811]: #parameters-321
+[811]: #unregisterhomenotifications
 
-[812]: #processapi-6
+[812]: #parameters-322
 
-[813]: #parameters-322
+[813]: #webapi
 
-[814]: #checklocalip
+[814]: #parameters-323
 
-[815]: #parameters-323
+[815]: #register-11
 
-[816]: #processauthentication
+[816]: #parameters-324
 
-[817]: #parameters-324
+[817]: #unregister-7
 
-[818]: #authenticationdata
+[818]: #parameters-325
 
-[819]: #parameters-325
+[819]: #authentication
 
-[820]: #authorized
+[820]: #apiresponse
 
-[821]: #username
+[821]: #parameters-326
 
-[822]: #level
+[822]: #constants-9
 
-[823]: #dateutils
+[823]: #gettoken
 
-[824]: #timestamp
+[824]: #parameters-327
 
-[825]: #timestampms
+[825]: #gettokenwithidentifier
 
-[826]: #datetoutctimestamp
+[826]: #parameters-328
 
-[827]: #parameters-326
+[827]: #authentication-1
 
-[828]: #datetotimestamp
+[828]: #parameters-329
 
-[829]: #parameters-327
+[829]: #clearexpiredtokens
 
-[830]: #roundedtimestamp
+[830]: #generatetoken
 
-[831]: #parameters-328
+[831]: #parameters-330
 
-[832]: #dateformatted
+[832]: #processapi-6
 
-[833]: #parameters-329
+[833]: #parameters-331
 
-[834]: #secondselapsedsincemidnight
+[834]: #checklocalip
 
-[835]: #parameters-330
+[835]: #parameters-332
 
-[836]: #isholiday
+[836]: #processauthentication
 
-[837]: #parameters-331
+[837]: #parameters-333
 
-[838]: #relativetime
+[838]: #authenticationdata
 
-[839]: #parameters-332
+[839]: #parameters-334
 
-[840]: #logger
+[840]: #authorized
 
-[841]: #setloglevel
+[841]: #username
 
-[842]: #parameters-333
+[842]: #level
 
-[843]: #log
+[843]: #dateutils
 
-[844]: #parameters-334
+[844]: #timestamp
 
-[845]: #removecolors
+[845]: #timestampms
 
-[846]: #parameters-335
+[846]: #datetoutctimestamp
 
-[847]: #flog
+[847]: #parameters-335
 
-[848]: #parameters-336
+[848]: #datetotimestamp
 
-[849]: #warn
+[849]: #parameters-336
 
-[850]: #parameters-337
+[850]: #roundedtimestamp
 
-[851]: #err
+[851]: #parameters-337
 
-[852]: #parameters-338
+[852]: #dateformatted
 
-[853]: #verbose
+[853]: #parameters-338
 
-[854]: #parameters-339
+[854]: #secondselapsedsincemidnight
 
-[855]: #info
+[855]: #parameters-339
 
-[856]: #parameters-340
+[856]: #isholiday
 
-[857]: #debug
+[857]: #parameters-340
 
-[858]: #parameters-341
+[858]: #relativetime
 
-[859]: #gethistory
+[859]: #parameters-341
 
 [860]: #apiresponse-1
 
@@ -7768,7 +7768,7 @@ Returns **[string][978]** The base route (without parameters)
 
 [906]: #stop-5
 
-[907]: #tunnel
+[907]: #tunnellocaltunnel
 
 [908]: #parameters-360
 
@@ -7776,39 +7776,39 @@ Returns **[string][978]** The base route (without parameters)
 
 [910]: #stop-6
 
-[911]: #ready
+[911]: #tunnel
 
 [912]: #parameters-361
 
-[913]: #gatewaymanager
+[913]: #start-7
 
-[914]: #parameters-362
+[914]: #stop-7
 
-[915]: #getdistanturl-1
+[915]: #ready
 
-[916]: #getdistantapiurl-1
+[916]: #parameters-362
 
-[917]: #getbaseurl
+[917]: #gatewaymanager
 
-[918]: #sandboxedrequest
+[918]: #parameters-363
 
-[919]: #parameters-363
+[919]: #getdistanturl-1
 
-[920]: #sandboxedrequestresponse
+[920]: #getdistantapiurl-1
 
-[921]: #parameters-364
+[921]: #getbaseurl
 
-[922]: #transmit
+[922]: #sandboxedrequest
 
-[923]: #parameters-365
+[923]: #parameters-364
 
-[924]: #tunnellocaltunnel
+[924]: #sandboxedrequestresponse
 
-[925]: #parameters-366
+[925]: #parameters-365
 
-[926]: #start-7
+[926]: #transmit
 
-[927]: #stop-7
+[927]: #parameters-366
 
 [928]: #tunnellocalxpose
 
