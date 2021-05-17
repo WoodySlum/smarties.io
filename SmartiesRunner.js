@@ -1,5 +1,6 @@
 var SmartiesCore = require("./src/SmartiesCore");
 const events = require("events");
+const colors = require("colors");
 
 var core = null;
 const SmartiesRunnerConstants = require("./SmartiesRunnerConstants");
@@ -113,22 +114,32 @@ class SmartiesRunner {
     }
 }
 
-const runner = new SmartiesRunner();
+if (process.argv.length > 2) {
+    if (process.argv[2] == "create-plugin") {
+        require("./scripts/create-plugin");
+    } else if (process.argv[2] == "push-plugin") {
+        require("./scripts/push-plugin");
+    } else {
+        console.log(colors.red("Invalid command"));
+    }
+} else {
+    const runner = new SmartiesRunner();
 
-process.on("SIGINT", () => {
-    Logger.info("Received SIGINT");
-    runner.stop(runner);
-    process.kill(process.pid, "SIGKILL");
-    setTimeout(() => {
-        process.exit(0);
-    }, STOP_DELAY_S * 1000);
-});
+    process.on("SIGINT", () => {
+        Logger.info("Received SIGINT");
+        runner.stop(runner);
+        process.kill(process.pid, "SIGKILL");
+        setTimeout(() => {
+            process.exit(0);
+        }, STOP_DELAY_S * 1000);
+    });
 
-process.on("SIGTERM", () => {
-    Logger.info("Received SIGTERM");
-    runner.stop(runner);
-    process.kill(process.pid, "SIGKILL");
-    setTimeout(() => {
-        process.exit(0);
-    }, STOP_DELAY_S * 1000);
-});
+    process.on("SIGTERM", () => {
+        Logger.info("Received SIGTERM");
+        runner.stop(runner);
+        process.kill(process.pid, "SIGKILL");
+        setTimeout(() => {
+            process.exit(0);
+        }, STOP_DELAY_S * 1000);
+    });
+}
