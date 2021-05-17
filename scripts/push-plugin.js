@@ -78,7 +78,7 @@ readline.question(header("Number : "), num => {
                             readline.close();
                         } else {
                             const r = JSON.parse(body);
-                            if (r.hasOwnProperty(error) && !r.error) {
+                            if (r.error !== undefined && !r.error) {
                                 console.log(success("Upload done."));
                             } else {
                                 console.log(error("Upload failed. : " + r.message));

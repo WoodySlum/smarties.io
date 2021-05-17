@@ -1,17 +1,20 @@
 "use strict";
-var fs = require("fs");
-var path = require("path");
-var remi = require("remi");
-var remiRunner = require("remi-runner");
-var toposort = require("toposort");
+const fs = require("fs");
+const path = require("path");
+const remi = require("remi");
+const remiRunner = require("remi-runner");
+const toposort = require("toposort");
+const request = require("request");
 
-var Logger = require("./../../logger/Logger");
-var PluginAPI = require("./PluginAPI");
-var PluginConf = require("./PluginConf");
-var Authentication = require("./../authentication/Authentication");
-var WebServices = require("./../../services/webservices/WebServices");
-var APIResponse = require("./../../services/webservices/APIResponse");
-var SmartiesRunnerConstants = require("./../../../SmartiesRunnerConstants");
+const Logger = require("./../../logger/Logger");
+const PluginAPI = require("./PluginAPI");
+const PluginConf = require("./PluginConf");
+const Authentication = require("./../authentication/Authentication");
+const WebServices = require("./../../services/webservices/WebServices");
+const APIResponse = require("./../../services/webservices/APIResponse");
+const SmartiesRunnerConstants = require("./../../../SmartiesRunnerConstants");
+
+const PLUGINS_STORE = "https://plugins.smarties.io/list/";
 
 const CONF_KEY = "plugins";
 const EVENT_LOADED = "pluginLoaded";
@@ -655,10 +658,10 @@ class PluginsManager {
     processAPI(apiRequest) {
         if (apiRequest.route === ROUTE_WS_GET) {
             let plugins = [];
+            const pluginsIdentifiers = [];
             this.plugins.forEach((plugin) => {
                 const services = [];
                 const pluginConf = this.getPluginConf(plugin.identifier);
-
                 plugin.servicesManagerAPI.services.forEach((service) => {
                     services.push({name:service.name, status:service.status});
                 });
@@ -671,18 +674,49 @@ class PluginsManager {
                     version:plugin.version,
                     services:services,
                     dependencies:plugin.dependencies,
+                    store: false,
                     oauth: plugin.oauth ? Object.assign(plugin.oauth, {wsOauthToken: this.wsOauthToken}) : null,
                     enabled:(pluginConf && pluginConf.enable)?true:false,
                     corePlugin:(CORE_PLUGINS.indexOf(plugin.identifier) !== -1)
                 });
+                pluginsIdentifiers.push(plugin.identifier);
 
-                plugins = plugins.sort((a,b) => {
-                    return a.identifier.localeCompare(b.identifier);
+
+            });
+
+            return new Promise((resolve) => {
+                request(PLUGINS_STORE, (error, response, body) => {
+                    if (!error && body) {
+                        const storePlugins = JSON.parse(body);
+                        Object.keys(storePlugins).forEach((storePluginIdentifier) => {
+                            if (pluginsIdentifiers.indexOf(storePluginIdentifier) == -1) {
+                                // Not installed
+                                plugins.push({
+                                    identifier:storePluginIdentifier,
+                                    description:storePlugins[storePluginIdentifier].description,
+                                    configurable: false,
+                                    category:storePlugins[storePluginIdentifier].category,
+                                    version:storePlugins[storePluginIdentifier].version,
+                                    services:[],
+                                    dependencies:storePlugins[storePluginIdentifier].dependencies,
+                                    store: true,
+                                    oauth: null,
+                                    enabled: false,
+                                    corePlugin: false
+                                });
+                            }
+                        });
+                    }
+
+                    plugins = plugins.sort((a,b) => {
+                        return a.identifier.localeCompare(b.identifier);
+                    });
+
+                    resolve(new APIResponse.class(true, plugins));
                 });
             });
-            return new Promise((resolve) => {
-                resolve(new APIResponse.class(true, plugins));
-            });
+
+
         }  else if (apiRequest.route.startsWith(ROUTE_WS_ENABLE_SET_BASE)) {
             return new Promise((resolve, reject) => {
 
