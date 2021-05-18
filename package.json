@@ -210,6 +210,7 @@
         "threads": "git://github.com/WoodySlum/threads.js.git#master",
         "toposort": "^2.0",
         "underscore": "^1.12",
+        "unzipper": "^0.10",
         "usb-detection": "^4.10",
         "waveheader": "^0.0.2",
         "which-country": "^1",

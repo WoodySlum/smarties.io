@@ -5,6 +5,7 @@ const remi = require("remi");
 const remiRunner = require("remi-runner");
 const toposort = require("toposort");
 const request = require("request");
+const unzipper = require("unzipper");
 
 const Logger = require("./../../logger/Logger");
 const PluginAPI = require("./PluginAPI");
@@ -15,6 +16,7 @@ const APIResponse = require("./../../services/webservices/APIResponse");
 const SmartiesRunnerConstants = require("./../../../SmartiesRunnerConstants");
 
 const PLUGINS_STORE = "https://plugins.smarties.io/list/";
+const PLUGINS_STORE_GET = "https://plugins.smarties.io/get/";
 
 const CONF_KEY = "plugins";
 const EVENT_LOADED = "pluginLoaded";
@@ -28,6 +30,8 @@ const ROUTE_WS_ENABLE_SET_BASE = ":/plugins/enable/";
 const ROUTE_WS_ENABLE_SET = ROUTE_WS_ENABLE_SET_BASE + "[plugin]/[status]/";
 const ROUTE_WS_GENERAL_ENABLE_SET = ":/plugins/general/enable/";
 const ROUTE_WS_OAUTH_TOKEN_SET = ":/oauth-token/";
+const ROUTE_WS_INSTALL_SET_BASE = ":/plugins/install/";
+const ROUTE_WS_INSTALL_SET = ROUTE_WS_INSTALL_SET_BASE + "[plugin]/[version]/";
 
 const ERROR_MISSING_PROPERTY = "Missing property name, version or description for plugin";
 const ERROR_NOT_A_FUNCTION = "Missing plugin class";
@@ -252,6 +256,7 @@ class PluginsManager {
         this.webServices.registerAPI(this, WebServices.POST, ROUTE_WS_ENABLE_SET, Authentication.AUTH_ADMIN_LEVEL);
         this.webServices.registerAPI(this, WebServices.POST, ROUTE_WS_GENERAL_ENABLE_SET, Authentication.AUTH_ADMIN_LEVEL);
         this.webServices.registerAPI(this, WebServices.POST, ROUTE_WS_OAUTH_TOKEN_SET, Authentication.AUTH_ADMIN_LEVEL);
+        this.webServices.registerAPI(this, WebServices.POST, ROUTE_WS_INSTALL_SET, Authentication.AUTH_ADMIN_LEVEL);
         this.wsOauthToken = this.webServices.getToken(ROUTE_WS_OAUTH_TOKEN_SET, Number.MAX_SAFE_INTEGER);
 
         this.load();
@@ -787,6 +792,29 @@ class PluginsManager {
                 }
 
                 resolve(new APIResponse.class(true, {success:true}));
+            });
+        } else if (apiRequest.route.startsWith(ROUTE_WS_INSTALL_SET_BASE)) {
+            return new Promise((resolve, reject) => {
+                const filename = this.appConfiguration.cachePath + apiRequest.data.plugin + "-" + apiRequest.data.version + ".zip";
+                try {
+                    fs.removeSync(filename);
+                } catch(e) {
+                    e;
+                }
+
+                request(PLUGINS_STORE_GET + apiRequest.data.plugin + "/" + apiRequest.data.version + "/")
+                    .pipe(unzipper.Extract({ path: process.cwd() + "/" + EXTERNAL_PLUGIN_PATH + apiRequest.data.plugin }))
+                    .on("finish", () => {
+                        setTimeout((self) => {
+                            self.eventBus.emit(SmartiesRunnerConstants.RESTART);
+                        }, 500, this);
+
+                        resolve(new APIResponse.class(true, {success:true}));
+                    })
+                    .on("error", (error) => {
+                        Logger.err(error);
+                        reject(new APIResponse.class(false, null, 9842, "Invalid plugin"));
+                    });
             });
         }
     }
