@@ -81,7 +81,7 @@ class APIRegistration {
      * @returns {boolean}     true or false
      */
     isEqual(obj) {
-        if (obj.delegate.constructor.name === this.delegate.constructor.name && obj.method === this.method && obj.route === this.route && obj.authLevel === this.authLevel) {
+        if (obj.delegate.constructor.name === this.delegate.constructor.name && obj.method === this.method && obj.route === this.route) {
             return true;
         }
         return false;

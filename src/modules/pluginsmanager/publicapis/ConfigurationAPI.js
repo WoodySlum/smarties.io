@@ -135,6 +135,13 @@ class ConfigurationAPI {
         return PrivateProperties.oprivate(this).formConfiguration.confManager;
     }
 
+    /**
+     * Stop plugin stuff
+     */
+    stop() {
+        return PrivateProperties.oprivate(this).formConfiguration.unregister();
+    }
+
 }
 
 module.exports = {class:ConfigurationAPI};

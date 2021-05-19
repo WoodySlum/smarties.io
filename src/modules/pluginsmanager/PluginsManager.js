@@ -259,12 +259,41 @@ class PluginsManager {
         this.webServices.registerAPI(this, WebServices.POST, ROUTE_WS_INSTALL_SET, Authentication.AUTH_ADMIN_LEVEL);
         this.wsOauthToken = this.webServices.getToken(ROUTE_WS_OAUTH_TOKEN_SET, Number.MAX_SAFE_INTEGER);
 
+        this.plugins = [];
+        this.pluginsConf = [];
+
+        this.init();
+    }
+
+    /**
+     * Initialization
+     *
+     * @param  {boolean} [start=false] Start services
+     */
+    init(start = false) {
+        if (this.plugins.length > 0) {
+            this.plugins.forEach((plugin) => {
+                plugin.stop();
+            });
+        }
+        this.plugins = [];
+        try {
+            this.pluginsConf = this.confManager.loadData(PluginConf.class, CONF_KEY);
+        } catch(e) {
+            this.pluginsConf = [];
+        }
         this.load();
         // Dispatch event
         if (this.eventBus) {
             this.eventBus.emit(EVENT_LOADED, this);
         }
-
+        if (start) {
+            if (this.plugins.length > 0) {
+                this.plugins.forEach((plugin) => {
+                    plugin.start();
+                });
+            }
+        }
     }
 
     /**
@@ -680,6 +709,7 @@ class PluginsManager {
                     services:services,
                     dependencies:plugin.dependencies,
                     store: false,
+                    sourceStore: false,
                     oauth: plugin.oauth ? Object.assign(plugin.oauth, {wsOauthToken: this.wsOauthToken}) : null,
                     enabled:(pluginConf && pluginConf.enable)?true:false,
                     corePlugin:(CORE_PLUGINS.indexOf(plugin.identifier) !== -1)
@@ -705,10 +735,13 @@ class PluginsManager {
                                     services:[],
                                     dependencies:storePlugins[storePluginIdentifier].dependencies,
                                     store: true,
+                                    sourceStore: true,
                                     oauth: null,
                                     enabled: false,
                                     corePlugin: false
                                 });
+                            } else {
+                                plugins[pluginsIdentifiers.indexOf(storePluginIdentifier)].sourceStore = true;
                             }
                         });
                     }
@@ -794,6 +827,7 @@ class PluginsManager {
                 resolve(new APIResponse.class(true, {success:true}));
             });
         } else if (apiRequest.route.startsWith(ROUTE_WS_INSTALL_SET_BASE)) {
+            const self = this;
             return new Promise((resolve, reject) => {
                 const filename = this.appConfiguration.cachePath + apiRequest.data.plugin + "-" + apiRequest.data.version + ".zip";
                 try {
@@ -802,18 +836,25 @@ class PluginsManager {
                     e;
                 }
 
-                request(PLUGINS_STORE_GET + apiRequest.data.plugin + "/" + apiRequest.data.version + "/")
-                    .pipe(unzipper.Extract({ path: process.cwd() + "/" + EXTERNAL_PLUGIN_PATH + apiRequest.data.plugin }))
-                    .on("finish", () => {
-                        setTimeout((self) => {
-                            self.eventBus.emit(SmartiesRunnerConstants.RESTART);
-                        }, 500, this);
+                const extractor = unzipper.Extract({ path: process.cwd() + "/" + EXTERNAL_PLUGIN_PATH + apiRequest.data.plugin });
+                extractor.on("close", () => {
+                    Logger.info("Plugin " + apiRequest.data.plugin + " extracted");
+                    self.init(true);
+                    resolve(new APIResponse.class(true, {success:true}));
+                })
+                    .on("error", (error) => {
+                        Logger.err(error);
+                        reject(new APIResponse.class(false, null, 9843, "Error while extracting plugin"));
+                    });
 
-                        resolve(new APIResponse.class(true, {success:true}));
+                request(PLUGINS_STORE_GET + apiRequest.data.plugin + "/" + apiRequest.data.version + "/")
+                    .pipe(extractor)
+                    .on("finish", () => {
+                        Logger.info("Plugin " + apiRequest.data.plugin + " downloaded");
                     })
                     .on("error", (error) => {
                         Logger.err(error);
-                        reject(new APIResponse.class(false, null, 9842, "Invalid plugin"));
+                        reject(new APIResponse.class(false, null, 9842, "Error while downloading plugin"));
                     });
             });
         }

@@ -21,6 +21,7 @@ class WebAPI {
     constructor(webServices) {
         PrivateProperties.createPrivateState(this);
         PrivateProperties.oprivate(this).webServices = webServices;
+        this.registeredElements = [];
     }
     /* eslint-enable */
 
@@ -36,17 +37,18 @@ class WebAPI {
      */
     register(delegate, method = "*", route = "*", authLevel = Authentication.AUTH_USAGE_LEVEL, tokenExpirationTime = 0) {
         PrivateProperties.oprivate(this).webServices.registerAPI(delegate, method, route, authLevel, tokenExpirationTime);
+        this.registeredElements.push({delegate: delegate, method: method, route:route});
     }
 
     /**
-     * Unregister to a specific web service be notified when a route and/or method is called
+     * Unregister to a specific web service
      *
      * @param  {object} delegate     A delegate which implements the processAPI(apiRequest) function
      * @param  {string} [method="*"] A method (*, WebServices.GET / WebServices.POST)
      * @param  {string} [route="*"]  A route (*, :/my/route/)
      */
     unregister(delegate, method = "*", route = "*") {
-        PrivateProperties.oprivate(this).webServices.registerAPI(delegate, method, route);
+        PrivateProperties.oprivate(this).webServices.unregisterAPI(delegate, method, route);
     }
 
     /**

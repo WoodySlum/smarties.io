@@ -69,6 +69,16 @@ class FormConfiguration {
     }
 
     /**
+     * Unregister web services
+     */
+    unregister() {
+        this.webServices.unregisterAPI(this, WebServices.GET, this.formRoute);
+        this.webServices.unregisterAPI(this, WebServices.GET, this.getRoute);
+        this.webServices.unregisterAPI(this, WebServices.POST, this.setRoute);
+        this.webServices.unregisterAPI(this, WebServices.DELETE, this.delRoute);
+    }
+
+    /**
      * Set the update callback. Called back when delete or save action is done.
      *
      * @param {Function} cb A callback with data as parameter, e.g. `(data, username) => {}`

@@ -273,6 +273,34 @@ class PluginsAPI {
             }
         });
     }
+
+    /**
+     * Start plugin stuff
+     */
+    start() {
+        this.servicesManagerAPI.services.forEach((service) => {
+            service.start();
+        });
+    }
+
+    /**
+     * Stop plugin stuff
+     */
+    stop() {
+        this.servicesManagerAPI.services.forEach((service) => {
+            this.servicesManagerAPI.remove(service);
+        });
+        this.webAPI.registeredElements.forEach((ws) => {
+            this.webAPI.unregister(ws.delegate, ws.method, ws.route);
+        });
+        this.timeEventAPI.registeredElements.forEach((te) => {
+            this.timeEventAPI.unregister(te.cb, te.mode, te.hour, te.minute, te.second, te.key);
+        });
+        this.coreAPI.registeredElements.forEach((e) => {
+            this.coreAPI.unregisterEvent(e.name, e.cb);
+        });
+        this.configurationAPI.stop();
+    }
 }
 
 module.exports = {class:PluginsAPI};

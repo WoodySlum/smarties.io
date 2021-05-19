@@ -19,6 +19,7 @@ class TimeEventAPI {
     constructor(timeEventService) {
         PrivateProperties.createPrivateState(this);
         PrivateProperties.oprivate(this).timeEventService = timeEventService;
+        this.registeredElements = [];
     }
     /* eslint-enable */
 
@@ -35,6 +36,14 @@ class TimeEventAPI {
      */
     register(cb, context, mode, hour = null, minute = null, second = null, key = null) {
         PrivateProperties.oprivate(this).timeEventService.register(cb, context, mode, hour, minute, second, key);
+        this.registeredElements.push({
+            cb: cb,
+            mode: mode,
+            hour: hour,
+            minute: minute,
+            second: second,
+            key: key
+        });
     }
 
     /**

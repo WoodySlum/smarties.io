@@ -19,6 +19,7 @@ class CoreAPI {
         PrivateProperties.createPrivateState(this);
         PrivateProperties.oprivate(this).eventBus = eventBus;
         PrivateProperties.oprivate(this).cachePath = appConfiguration.cachePath;
+        this.registeredElements = [];
     }
     /* eslint-enable */
 
@@ -37,6 +38,18 @@ class CoreAPI {
     }
 
     /**
+     * Unregister to a specific event
+     *
+     * @param  {string}   name The event's name
+     * @param  {Function} cb   A callback `(data) => {}``
+     */
+    unregisterEvent(name, cb) {
+        if (PrivateProperties.oprivate(this).eventBus) {
+            PrivateProperties.oprivate(this).eventBus.off(name, cb);
+        }
+    }
+
+    /**
      * Register to a specific event
      *
      * @param  {string}   name The event's name
@@ -45,6 +58,7 @@ class CoreAPI {
     registerEvent(name, cb) {
         if (PrivateProperties.oprivate(this).eventBus) {
             PrivateProperties.oprivate(this).eventBus.on(name, cb);
+            this.registeredElements.push({name: name, cb: cb});
         }
     }
 
