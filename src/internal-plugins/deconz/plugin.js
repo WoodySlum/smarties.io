@@ -180,7 +180,7 @@ function loaded(api) {
                 if (data.associate) {
                     request.post({
                         headers: {"content-type" : "application/x-www-form-urlencoded"},
-                        url:     "http://" + (this.ip ? this.ip : this.api.environmentAPI.getLocalIp()) + ":" + DECONZ_HTTP_PORT + "/api",
+                        url:     "http://" + LOCAL_IP + ":" + DECONZ_HTTP_PORT + "/api",
                         body:    JSON.stringify({devicetype: "smarties-" + api.environmentAPI.getSmartiesId()})
                     }, (error, response, body) => {
                         if (error) {
@@ -360,7 +360,7 @@ function loaded(api) {
          */
         getApiUrl() {
             const data = this.api.configurationAPI.getConfiguration();
-            return "http://" + (this.ip ? this.ip : this.api.environmentAPI.getLocalIp()) + ":" + DECONZ_HTTP_PORT + "/api/" + (data ? data.token : "");
+            return "http://" + LOCAL_IP + ":" + DECONZ_HTTP_PORT + "/api/" + (data ? data.token : "");
         }
 
         /**
@@ -375,7 +375,7 @@ function loaded(api) {
             const model = data.model;
             request.post({
                 headers: {"content-type" : "application/x-www-form-urlencoded", "Authorization":"Basic " + (Buffer.from(login + ":" + password)).toString("base64")},
-                url:     "http://" + (this.ip ? this.ip : this.api.environmentAPI.getLocalIp()) + ":" + DECONZ_HTTP_PORT + "/api",
+                url:     "http://" + LOCAL_IP + ":" + DECONZ_HTTP_PORT + "/api",
                 body:    JSON.stringify({devicetype: model,login: login})
             }, (error, response, body) => {
                 if (error) {
