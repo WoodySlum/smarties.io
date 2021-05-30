@@ -54,7 +54,7 @@ class TunnelLocalxpose extends Tunnel.class {
         this.client.http({
             region: this.AppConfiguration.localxposeRegion ? this.AppConfiguration.localxposeRegion : "eu", // us, ap or eu (default: us)
             to: "127.0.0.1:" + this.port, // address to forward to (default: 127.0.0.1:8080)
-            subdomain: this.subdomain, // tunnel subdomain (default: random)
+            //subdomain: this.subdomain, // tunnel subdomain (default: random)
         })
             .then((tunnel) => {
                 this.tunnel = tunnel;
