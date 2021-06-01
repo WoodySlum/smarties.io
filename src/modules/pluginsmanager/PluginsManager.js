@@ -131,7 +131,8 @@ const INTERNAL_PLUGINS = [
     "rsync",
     "robonect",
     "time-sensor",
-    "robonect-time-sensor"
+    "robonect-time-sensor",
+    "pushover"
 ];
 
 const CORE_PLUGINS = [
