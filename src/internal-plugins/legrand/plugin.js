@@ -110,6 +110,10 @@ function loaded(api) {
                     });
                 }
             }, this, api.timeEventAPI.constants().CUSTOM, "*", "*", 0, "legrand");
+
+            if (this.plant && this.modules) {
+                this.init();
+            }
         }
 
         /**
@@ -227,6 +231,60 @@ function loaded(api) {
         }
 
         /**
+         * Init
+         */
+        init() {
+            const legrandIds = [];
+            const legrandIdsLabels = [];
+            if (this.modules && this.modules.automations && this.modules.automations.length > 0) {
+                this.modules.automations.forEach((automation) => {
+                    legrandIds.push(automation.sender.plant.module.id);
+                    legrandIdsLabels.push(automation.sender.plant.module.id);
+                });
+                api.deviceAPI.addForm("legrandDevice", LegrandDeviceForm, "legrand.form.title", true, legrandIds, legrandIdsLabels);
+                api.deviceAPI.registerSwitchDevice("legrandDevice", (device, formData, deviceStatus) => {
+                    if (formData && formData.length > 0) {
+                        formData.forEach((data) => {
+                            let sAutomation = null;
+                            if (this.modules && this.modules.automations) {
+                                this.modules.automations.forEach((automation) => {
+                                    if (automation.sender.plant.module.id == data.legrandId) {
+                                        sAutomation = automation;
+                                    }
+                                });
+                            }
+
+                            if (sAutomation) {
+                                if (deviceStatus.getStatus() === api.deviceAPI.constants().INT_STATUS_ON) {
+                                    this.setAutomationStatus(this.plant, sAutomation, SHUTTER_OPEN, (err) => {
+                                        if (err) {
+                                            api.exported.Logger.err(err);
+                                        }
+                                    });
+                                } else if (deviceStatus.getStatus() === api.deviceAPI.constants().INT_STATUS_OFF) {
+                                    this.setAutomationStatus(this.plant, sAutomation, SHUTTER_CLOSE, (err) => {
+                                        if (err) {
+                                            api.exported.Logger.err(err);
+                                        }
+                                    });
+                                } else if (deviceStatus.getStatus() === api.deviceAPI.constants().INT_STATUS_STOP) {
+                                    this.setAutomationStatus(this.plant, sAutomation, SHUTTER_STOP, (err) => {
+                                        if (err) {
+                                            api.exported.Logger.err(err);
+                                        }
+                                    });
+                                }
+                            }
+
+                        });
+                    }
+
+                    return deviceStatus;
+                }, api.deviceAPI.constants().DEVICE_TYPE_SHUTTER);
+            }
+        }
+
+        /**
          * Refresh data like plants, modules, ...
          *
          * @param  {Function} cb The callback `(err, data) => {}`
@@ -241,54 +299,7 @@ function loaded(api) {
                         this.oauthData.modules = this.modules;
                         api.configurationAPI.saveData(this.oauthData);
 
-                        const legrandIds = [];
-                        const legrandIdsLabels = [];
-                        if (this.modules && this.modules.automations && this.modules.automations.length > 0) {
-                            this.modules.automations.forEach((automation) => {
-                                legrandIds.push(automation.sender.plant.module.id);
-                                legrandIdsLabels.push(automation.sender.plant.module.id);
-                            });
-                            api.deviceAPI.addForm("legrandDevice", LegrandDeviceForm, "legrand.form.title", true, legrandIds, legrandIdsLabels);
-                            api.deviceAPI.registerSwitchDevice("legrandDevice", (device, formData, deviceStatus) => {
-                                if (formData && formData.length > 0) {
-                                    formData.forEach((data) => {
-                                        let sAutomation = null;
-                                        if (this.modules && this.modules.automations) {
-                                            this.modules.automations.forEach((automation) => {
-                                                if (automation.sender.plant.module.id == data.legrandId) {
-                                                    sAutomation = automation;
-                                                }
-                                            });
-                                        }
-
-                                        if (sAutomation) {
-                                            if (deviceStatus.getStatus() === api.deviceAPI.constants().INT_STATUS_ON) {
-                                                this.setAutomationStatus(this.plant, sAutomation, SHUTTER_OPEN, (err) => {
-                                                    if (err) {
-                                                        api.exported.Logger.err(err);
-                                                    }
-                                                });
-                                            } else if (deviceStatus.getStatus() === api.deviceAPI.constants().INT_STATUS_OFF) {
-                                                this.setAutomationStatus(this.plant, sAutomation, SHUTTER_CLOSE, (err) => {
-                                                    if (err) {
-                                                        api.exported.Logger.err(err);
-                                                    }
-                                                });
-                                            } else if (deviceStatus.getStatus() === api.deviceAPI.constants().INT_STATUS_STOP) {
-                                                this.setAutomationStatus(this.plant, sAutomation, SHUTTER_STOP, (err) => {
-                                                    if (err) {
-                                                        api.exported.Logger.err(err);
-                                                    }
-                                                });
-                                            }
-                                        }
-
-                                    });
-                                }
-
-                                return deviceStatus;
-                            }, api.deviceAPI.constants().DEVICE_TYPE_SHUTTER);
-                        }
+                        this.init();
 
                         if (cb) {
                             cb();
