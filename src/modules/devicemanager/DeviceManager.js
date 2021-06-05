@@ -555,7 +555,7 @@ class DeviceManager {
                     || (deviceConfiguration.worksOnlyOnDayNight === 1)
                     || (deviceConfiguration.worksOnlyOnDayNight === 2 && !this.environmentManager.isNight())
                     || (deviceConfiguration.worksOnlyOnDayNight === 3 && this.environmentManager.isNight())
-                    || deviceConfiguration.status === INT_STATUS_ON) {
+                    || status === INT_STATUS_OFF) {
 
                     let newDeviceStatus = null;
                     if (device && device.subDevices && device.subDevices.length > 0) {
