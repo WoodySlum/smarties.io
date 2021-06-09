@@ -32,21 +32,8 @@ describe("Radio", function() {
         plugin.webAPI.register.restore();
     });
 
-    it("emit should return a valid DbRadio object", function(done) {
+    it("emit should return a valid DbRadio object", function() {
         let radio = new Radio(plugin);
-        radio.register({
-            onRadioEvent: function(data) {
-                expect(data.frequency).to.be.equal(433.92);
-                expect(data.module).to.be.equal("radio");
-                expect(data.protocol).to.be.equal("foobar");
-                expect(data.deviceId).to.be.equal("foo");
-                expect(data.switchId).to.be.equal("bar");
-                expect(data.status).to.be.equal(1);
-                expect(data.value).to.be.null;
-                done();
-            }
-        })
-
         let res = radio.emit(433.92, "foobar", "foo", "bar", 1);
         expect(res instanceof plugin.exported.DbRadio).to.be.true;
     });

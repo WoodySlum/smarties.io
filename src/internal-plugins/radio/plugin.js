@@ -315,10 +315,10 @@ function loaded(api) {
          * @param  {string} switchId  The switch ID
          * @param  {number} [status=null]    The status (or enum called through `constants()`)
          * @param  {number} [previousStatus=null]    The previous object status, used if status is null to invert
-         * @param  {DeviceStatus} [deviceStatus=null]    The device status (color, bright, ...)
+         *
          * @returns {DbRadio}           A radio  object
          */
-        emit(frequency, protocol, deviceId, switchId, status = null, previousStatus = null, deviceStatus = null) {
+        emit(frequency, protocol, deviceId, switchId, status = null, previousStatus = null) {
             if (!status && previousStatus) {
                 status = -1 * previousStatus;
             }
@@ -326,7 +326,7 @@ function loaded(api) {
                 frequency = this.defaultFrequency();
             }
             let dbObject = new DbRadio(this.dbHelper, this.module, frequency, protocol, deviceId, switchId, null, status, null);
-            this.onRadioEvent(frequency, protocol, deviceId, switchId, null, status, deviceStatus);
+
             return dbObject;
         }
 
@@ -341,9 +341,10 @@ function loaded(api) {
          * @param  {number} value  The value
          * @param  {number} status    The status (or enum called through `constants()`)
          * @param  {string} [sensorType=null]    The sensor type
+         * @param  {boolean} [disableSaveInDb=null]    Disable save in database
          * @returns {DbRadio}           A radio  object
          */
-        onRadioEvent(frequency, protocol, deviceId, switchId, value, status, sensorType = null) {
+        onRadioEvent(frequency, protocol, deviceId, switchId, value, status, sensorType = null, disableSaveInDb = false) {
             let dbObject = new DbRadio(this.dbHelper, this.module, frequency, protocol, deviceId, switchId, value, status, sensorType);
             this.registered.forEach((register) => {
                 if (register.onRadioEvent instanceof Function) {
@@ -351,7 +352,10 @@ function loaded(api) {
                 }
             });
 
-            dbObject.save();
+            if (!disableSaveInDb) {
+                dbObject.save();
+            }
+
             return dbObject;
         }
 
@@ -394,6 +398,21 @@ function loaded(api) {
 
         /**
          * @override
+         * Compare devices By default, compare device id, switch id module and protocol
+         *
+         * @param  {DbRadio} a A db radio or db form object
+         * @param  {DbRadio} b  A db radio or db form object
+         * @returns {boolean}           `true` if equals, `false` otherwise
+         */
+        compare(a, b) {
+            return (a.module.toString() === b.module.toString()
+                && a.protocol.toString() === b.protocol.toString()
+                && a.deviceId.toString() === b.deviceId.toString()
+                && a.switchId.toString() === b.switchId.toString());
+        }
+
+        /**
+         * @override
          * Compare sensors for battery. By default, compare device id, switch id module and protocol
          *
          * @param  {DbRadio} a A db radio or db form object
@@ -401,10 +420,7 @@ function loaded(api) {
          * @returns {boolean}           `true` if equals, `false` otherwise
          */
         compareSensorForBattery(a, b) {
-            return (a.module.toString() === b.module.toString()
-                && a.protocol.toString() === b.protocol.toString()
-                && a.deviceId.toString() === b.deviceId.toString()
-                && a.switchId.toString() === b.switchId.toString());
+            return this.compare(a, b);
         }
 
         /**

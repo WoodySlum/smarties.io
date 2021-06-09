@@ -211,6 +211,20 @@ class RadioManager {
             this.getProtocols();
         }
 
+        // Update devices
+        if (this.deviceManager && radioObject.sensorType != "BATTERY") {
+            this.deviceManager.getDevices().forEach((device) => {
+                if (device.RadioForm) {
+                    device.RadioForm.forEach((deviceRadio) => {
+                        if (radioInstance.compare(deviceRadio, radioObject)) {
+                            device.status = radioObject.status;
+                            this.deviceManager.saveDevice(device);
+                        }
+                    });
+                }
+            });
+        }
+
         // Dispatch callback
         Object.keys(this.registeredElements).forEach((registeredKey) => {
             this.registeredElements[registeredKey](Cleaner.class.cleanDbObject(radioObject), radioInstance);

@@ -613,6 +613,7 @@ function loaded(api) {
                     this.lights = [];
                     keys.forEach((key) => {
                         const light = lights[key];
+
                         light.key = key;
                         if (light.type.toLowerCase() == "unknown") {
                             light.stype = LIGHT_TYPE_UNKNOWN;
@@ -631,6 +632,7 @@ function loaded(api) {
                         }
 
                         light.protocolName = LIGHT_PREFIX + light.uniqueid;
+                        this.onRadioEvent(2400, "zigbee", light.uniqueid, 1, 1, (light.state.on && light.state.reachable) ? this.constants().STATUS_ON : this.constants().STATUS_OFF, this.constants().STATUS_OFF, "LIGHT", true);
 
                         this.lights.push(light);
                     });
@@ -711,6 +713,25 @@ function loaded(api) {
                     }
                 }
             });
+        }
+
+        /**
+         * @override
+         * Compare devices By default, compare device id, switch id module and protocol
+         *
+         * @param  {DbRadio} a A db radio or db form object
+         * @param  {DbRadio} b  A db radio or db form object
+         * @returns {boolean}           `true` if equals, `false` otherwise
+         */
+        compare(a, b) {
+            let r = false;
+            if (a.protocol.indexOf(LIGHT_PREFIX) >= 0 && a.protocol.indexOf(b.deviceId) > 0
+                || b.protocol.indexOf(LIGHT_PREFIX) >= 0 && b.protocol.indexOf(a.deviceId) > 0) {
+                r = true;
+            } else {
+                r = super.compare(a, b);
+            }
+            return r;
         }
 
         /**
