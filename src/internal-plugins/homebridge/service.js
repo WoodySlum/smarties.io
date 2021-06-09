@@ -126,7 +126,7 @@ function loaded(api) {
                 if (this.server) {
                     try {
                         this.server.start().then(() => {
-                            this.server.api.setMaxListeners(100);
+                            this.server.api.setMaxListeners(1000);
                             this.server.api.on("getDeviceById", (d) => {
                                 send({action: "getDeviceById", device:d});
                             });
