@@ -166,7 +166,10 @@ function loaded(api) {
                                 api.messageAPI.sendMessage("*", api.translateAPI.t("mower.error.message", res2.error.error_code, res2.error.error_message), null, null, null, true);
                             }
 
-                            self.registerTile(Object.assign(res, res2));
+                            if (res && res2) {
+                                self.registerTile(Object.assign(res, res2));
+                            }
+
 
                             this.getErrors((err, res3) => {
                                 if (!err && res3) {
