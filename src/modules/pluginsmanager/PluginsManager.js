@@ -1,5 +1,5 @@
 "use strict";
-const fs = require("fs");
+const fs = require("fs-extra");
 const path = require("path");
 const remi = require("remi");
 const remiRunner = require("remi-runner");
@@ -32,6 +32,8 @@ const ROUTE_WS_GENERAL_ENABLE_SET = ":/plugins/general/enable/";
 const ROUTE_WS_OAUTH_TOKEN_SET = ":/oauth-token/";
 const ROUTE_WS_INSTALL_SET_BASE = ":/plugins/install/";
 const ROUTE_WS_INSTALL_SET = ROUTE_WS_INSTALL_SET_BASE + "[plugin]/[version]/";
+const ROUTE_WS_UNINSTALL_SET_BASE = ":/plugins/uninstall/";
+const ROUTE_WS_UNINSTALL_SET = ROUTE_WS_UNINSTALL_SET_BASE + "[plugin]/";
 
 const ERROR_MISSING_PROPERTY = "Missing property name, version or description for plugin";
 const ERROR_NOT_A_FUNCTION = "Missing plugin class";
@@ -259,6 +261,7 @@ class PluginsManager {
         this.webServices.registerAPI(this, WebServices.POST, ROUTE_WS_GENERAL_ENABLE_SET, Authentication.AUTH_ADMIN_LEVEL);
         this.webServices.registerAPI(this, WebServices.POST, ROUTE_WS_OAUTH_TOKEN_SET, Authentication.AUTH_ADMIN_LEVEL);
         this.webServices.registerAPI(this, WebServices.POST, ROUTE_WS_INSTALL_SET, Authentication.AUTH_ADMIN_LEVEL);
+        this.webServices.registerAPI(this, WebServices.POST, ROUTE_WS_UNINSTALL_SET, Authentication.AUTH_ADMIN_LEVEL);
         this.wsOauthToken = this.webServices.getToken(ROUTE_WS_OAUTH_TOKEN_SET, Number.MAX_SAFE_INTEGER);
 
         this.plugins = [];
@@ -858,6 +861,19 @@ class PluginsManager {
                         Logger.err(error);
                         reject(new APIResponse.class(false, null, 9842, "Error while downloading plugin"));
                     });
+            });
+        } else if (apiRequest.route.startsWith(ROUTE_WS_UNINSTALL_SET_BASE)) {
+            const self = this;
+            return new Promise((resolve, reject) => {
+                const pluginPath = process.cwd() + "/" + EXTERNAL_PLUGIN_PATH + apiRequest.data.plugin;
+                if (fs.existsSync(pluginPath) && self.getPluginByIdentifier(apiRequest.data.plugin, false)) {
+                    self.changePluginStatus(self.getPluginConf(apiRequest.data.plugin), false, false);
+                    fs.removeSync(pluginPath);
+                    self.init(true);
+                    resolve(new APIResponse.class(true, {success:true}));
+                } else {
+                    reject(new APIResponse.class(false, null, 4213, "Error uninstallign plugin"));
+                }
             });
         }
     }
