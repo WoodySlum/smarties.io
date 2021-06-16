@@ -120,7 +120,7 @@ function loaded(api) {
          * @returns {GenericCamera}                                                                  The instance
          */
         constructor(api, id, configuration) {
-            super(api, id, configuration, configuration.snapshotUrl, configuration.mjpegUrl, configuration.rtspUrl, configuration.leftUrl, configuration.leftUrl);
+            super(api, id, configuration, configuration.snapshotUrl, configuration.mjpegUrl, configuration.rtspUrl, configuration.leftUrl, configuration.rightUrl, configuration.uptUrl, configuration.downUrl);
         }
     }
 

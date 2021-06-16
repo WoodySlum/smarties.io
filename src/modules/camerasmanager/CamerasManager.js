@@ -726,7 +726,7 @@ class CamerasManager {
         } else if (apiRequest.route.startsWith(CAMERAS_MOVE_BASE)) {
             return new Promise((resolve, reject) => {
                 const id = parseInt(apiRequest.data.id);
-                const direction = apiRequest.data.direction;
+                const direction = parseInt(apiRequest.data.direction);
                 const camera = this.getCamera(id);
                 if (camera) {
                     if (camera.moveSupport()) {
