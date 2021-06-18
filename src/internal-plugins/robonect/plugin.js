@@ -145,7 +145,7 @@ function loaded(api) {
             this.getVersion((err, res) => {
                 setTimeout((self) => {
                     self.getStatus((err2, res2) => {
-                        if (!err && !err2) {
+                        if (!err && !err2 && res && res2) {
                             if (res2.blades != null && res2.blades != "undefined") {
                                 self.blades = res2.blades.quality;
                                 if (self.blades < 5 && !api.exported.FileLock.isLocked("robonect-blades")) {
