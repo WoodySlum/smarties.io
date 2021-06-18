@@ -74,6 +74,7 @@ const ERROR_ALREADY_REGISTERED = "Already registered";
 const ERROR_NOT_REGISTERED = "Not registered";
 const ERROR_UNKNOWN_IDENTIFIER = "Unknown camera identifier";
 const ERROR_NO_URL_DEFINED = "No url defined";
+const ERROR_NO_IMAGE = "No image";
 const ERROR_UNKNOWN_MODE = "Unknown mode";
 const ERROR_UNSUPPORTED_MODE = "Unsupported mode";
 const ERROR_TIMELAPSE_NOT_GENERATED = "Timelapse not generated";
@@ -1137,9 +1138,14 @@ class CamerasManager {
                                     const stream = new rtsp.FFMpeg({input: camera.rtspUrl, rate: 1, resolution: "640x480"});
 
                                     let childProcess = null;
+                                    let timeout = setTimeout(() => {
+                                        stream.stop();
+                                        cb(Error(ERROR_NO_IMAGE));
+                                    }, 5000);
                                     stream.on("data", (data) => {
                                         stream.child = childProcess;
                                         stream.stop();
+                                        clearInterval(timeout);
                                         if (camera.configuration && camera.configuration.rotation && camera.configuration.rotation != "0") {
                                             ImageUtils.class.rotateb(data, (err, data) => {
                                                 self.cameraCapture[id.toString()] = data;
@@ -1149,6 +1155,8 @@ class CamerasManager {
                                             cb(null, data, "image/jpeg");
                                         }
                                     });
+
+
                                     childProcess = stream.child;
                                 } catch(e) {
                                     Logger.err(e);
