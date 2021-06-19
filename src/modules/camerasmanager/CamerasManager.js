@@ -722,18 +722,18 @@ class CamerasManager {
 
                     mjpegProxy.proxyRequest(apiRequest.req, apiRequest.res);
                 } else  if (camera && mode === MODE_RTSP && camera.rtspSupport()) {
-                    const { proxy, scriptUrl, killAll } = require("rtsp-relay")(this.webServices.app);
+                    const { proxy } = require("rtsp-relay")(this.webServices.app);
                     let handler = proxy({
-                      url: camera.rtspUrl,
-                      additionalFlags: [
-                        "-rtsp_transport", "tcp",
-                        "-q", "1",
-                        "-codec:a", "mp2",
-                        "-ar", "44100",
-                        // "-ac", "1",
-                        // "-b:a", "128k"
-                      ],
-                      verbose: true,
+                        url: camera.rtspUrl,
+                        additionalFlags: [
+                            "-rtsp_transport", "tcp",
+                            "-q", "1",
+                            "-codec:a", "mp2",
+                            "-ar", "44100",
+                            // "-ac", "1",
+                            // "-b:a", "128k"
+                        ],
+                        verbose: false
                     });
 
                     const token = sha256((camera.rtspUrl + DateUtils.class.timestamp() + ((Math.random() * 10000000) + 1)).toString()).substr(((Math.random() * 40) + 1), 16);
