@@ -204,6 +204,7 @@
         "remi": "^2.0",
         "remi-runner": "^1.1",
         "rtsp-ffmpeg": "^0.0.15",
+        "rtsp-relay": "^1.4.1",
         "serialport": "9.0",
         "sha256": "^0.2",
         "sqlite3": "git://github.com/mapbox/node-sqlite3.git#master",

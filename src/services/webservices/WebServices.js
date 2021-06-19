@@ -1,4 +1,5 @@
 "use strict";
+const WebSocket = require("ws");
 const express = require("express");
 const compression = require("compression");
 const TunnelNgrok = require("./tunnel/TunnelNgrok");
@@ -80,6 +81,8 @@ class WebServices extends Service.class {
         this.tokenAuthParameters = {};
         this.authentication = null;
         this.tunnel = null;
+        this.webSocket = null;
+        this.webSocketSsl = null;
     }
 
     /**
@@ -171,6 +174,7 @@ class WebServices extends Service.class {
                     cert: this.fs.readFileSync(this.sslCert)
                 }, this.app).listen(this.sslPort);
                 this.servers.push(sslServer);
+                this.webSocketSsl = new WebSocket.Server({server : sslServer});
                 Logger.info("Web services are listening on port " + this.sslPort);
             } catch (e) {
                 Logger.err("SSL Server can't start");
@@ -179,10 +183,12 @@ class WebServices extends Service.class {
 
             try {
                 let server = this.app.listen(this.port);
+                this.webSocket = new WebSocket.Server({server : server});
                 this.servers.push(server);
                 Logger.info("Web services are listening on port " + this.port);
             } catch (e) {
                 Logger.err("HTTP Server can not started");
+                Logger.err(e);
             }
 
             if (this.gatewayManager && !process.env.TEST) {
@@ -217,6 +223,8 @@ class WebServices extends Service.class {
             this.servers.forEach((server) => {
                 server.close();
             });
+            this.webSocket.close();
+            this.webSocketSsl.close();
 
             // Kill tunnel
             if (this.tunnel) {

@@ -75,7 +75,7 @@ class TunnelLocalxpose extends Tunnel.class {
                     setTimeout((self) => {
                         self.stop();
                         self.start();
-                    }, 5 * 1000, this);
+                    }, 30 * 1000, this);
                 }
             });
     }

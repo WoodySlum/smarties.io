@@ -149,6 +149,7 @@ class CamerasManager {
         this.detectedObjects = {};
         this.isRecording = {};
         this.cameraHotFileLocks = {};
+        this.rtspTokenExpired = [];
 
         try {
             this.camerasConfiguration = this.confManager.loadData(Object, CONF_MANAGER_KEY, true);
@@ -678,8 +679,9 @@ class CamerasManager {
             const timestamp = apiRequest.data.timestamp? ((parseInt(apiRequest.data.timestamp) > 1) ? parseInt(apiRequest.data.timestamp):null) : null;
             const useCache = apiRequest.data.useCache ? (parseInt(apiRequest.data.useCache) == 1 ? true : false) : false;
             const setContentTypeStatic = apiRequest.data.setContentTypeStatic ? (parseInt(apiRequest.data.setContentTypeStatic) == 1 ? true : false) : false;
+            const camera = self.getCamera(id);
             return new Promise((resolve, reject) => {
-                if (mode === MODE_STATIC) {
+                if (camera && mode === MODE_STATIC) {
                     self.getImage(id, (err, data, contentType) => {
                         if (err) {
                             reject(new APIResponse.class(false, {}, 765, err.message));
@@ -689,8 +691,7 @@ class CamerasManager {
                             resolve(new APIResponse.class(true, data, null, null, false, contentType));
                         }
                     }, timestamp, !useCache);
-                } else if (mode === MODE_MJPEG || mode === MODE_RTSP) {
-                    const camera = self.getCamera(id);
+                } else if (camera && (mode === MODE_MJPEG || (mode === MODE_RTSP && !camera.rtspSupport()))) {
                     let mjpegProxy;
                     if (camera && camera.configuration && camera.configuration.cvlive) {
                         mjpegProxy = new MjpegProxy.class(camera.mjpegUrl, camera.rtspUrl, camera.configuration.rotation, true, (err, img) => {
@@ -720,6 +721,43 @@ class CamerasManager {
                     });
 
                     mjpegProxy.proxyRequest(apiRequest.req, apiRequest.res);
+                } else  if (camera && mode === MODE_RTSP && camera.rtspSupport()) {
+                    const { proxy, scriptUrl, killAll } = require("rtsp-relay")(this.webServices.app);
+                    let handler = proxy({
+                      url: camera.rtspUrl,
+                      additionalFlags: [
+                        "-rtsp_transport", "tcp",
+                        "-q", "1",
+                        "-codec:a", "mp2",
+                        "-ar", "44100",
+                        // "-ac", "1",
+                        // "-b:a", "128k"
+                      ],
+                      verbose: true,
+                    });
+
+                    const token = sha256((camera.rtspUrl + DateUtils.class.timestamp() + ((Math.random() * 10000000) + 1)).toString()).substr(((Math.random() * 40) + 1), 16);
+                    const timeoutConnexion = setTimeout(() => {
+                        self.rtspTokenExpired.push(token);
+                        handler = null;
+                    }, 30000);
+                    this.webServices.webSocket.on("connection", (webSocketClient, req) => {
+                        if (req.url == "/" + token) {
+                            if (handler && self.rtspTokenExpired.indexOf(token) === -1) {
+                                handler(webSocketClient);
+                                self.rtspTokenExpired.push(token);
+                                clearTimeout(timeoutConnexion);
+                            }
+
+                            webSocketClient.on("close", ()=> {
+                                Logger.info("Disconnect RTSP client");
+                                handler = null;
+                                self.rtspTokenExpired.push(token);
+                            });
+                        }
+                    });
+
+                    resolve(new APIResponse.class(true, {token: token}));
                 } else {
                     reject(new APIResponse.class(false, {}, 764, ERROR_UNKNOWN_MODE));
                 }
