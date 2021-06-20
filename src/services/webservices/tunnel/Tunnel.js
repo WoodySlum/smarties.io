@@ -17,15 +17,17 @@ class Tunnel {
      * @param  {GatewayManager} gatewayManager       The gateway manager
      * @param  {EnvironmentManager} environmentManager       The environment manager
      * @param  {object}   AppConfiguration     The app configuration
+     * @param  {Function}   cbTunnelDone     Callback when tunnel is created
      *
      * @returns {Tunnel}            The instance
      */
-    constructor(port, gatewayManager, environmentManager, AppConfiguration) {
+    constructor(port, gatewayManager, environmentManager, AppConfiguration, cbTunnelDone) {
         this.port = port;
         this.gatewayManager = gatewayManager;
         this.environmentManager = environmentManager;
         this.AppConfiguration = AppConfiguration;
         this.subdomain = "smartiesio-" + this.environmentManager.getSmartiesId();
+        this.cbTunnelDone = cbTunnelDone;
     }
 
     /**
@@ -56,7 +58,9 @@ class Tunnel {
         this.gatewayManager.bootMode = GatewayManager.BOOT_MODE_READY;
         this.gatewayManager.tunnelUrl = url;
         this.gatewayManager.transmit();
-
+        if (this.cbTunnelDone) {
+            this.cbTunnelDone(this.gatewayManager.tunnelUrl);
+        }
     }
 }
 

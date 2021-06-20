@@ -83,6 +83,7 @@ class WebServices extends Service.class {
         this.tunnel = null;
         this.webSocket = null;
         this.webSocketSsl = null;
+        this.webSocketTunnel = null;
     }
 
     /**
@@ -192,14 +193,18 @@ class WebServices extends Service.class {
             }
 
             if (this.gatewayManager && !process.env.TEST) {
+                const tunnelCb = (tunnelUrl) => {
+                    this.webSocketTunnel = tunnelUrl.replace("http://", "ws://").replace("https://", "wss://") + "/";
+
+                };
                 if (this.AppConfiguration.tunnel && this.AppConfiguration.tunnel == "localtunnel") {
-                    this.tunnel = new TunnelLocalTunnel.class(this.sslPort, this.gatewayManager, this.environmentManager, this.AppConfiguration);
+                    this.tunnel = new TunnelLocalTunnel.class(this.sslPort, this.gatewayManager, this.environmentManager, this.AppConfiguration, tunnelCb);
                 } else if (this.AppConfiguration.tunnel && this.AppConfiguration.tunnel == "ngrok") {
-                    this.tunnel = new TunnelNgrok.class(this.port, this.gatewayManager, this.environmentManager, this.AppConfiguration);
+                    this.tunnel = new TunnelNgrok.class(this.port, this.gatewayManager, this.environmentManager, this.AppConfiguration, tunnelCb);
                 } else if (this.AppConfiguration.tunnel && this.AppConfiguration.tunnel == "localxpose") {
-                    this.tunnel = new TunnelLocalxpose.class(this.port, this.gatewayManager, this.environmentManager, this.AppConfiguration);
+                    this.tunnel = new TunnelLocalxpose.class(this.port, this.gatewayManager, this.environmentManager, this.AppConfiguration, tunnelCb);
                 } else {
-                    this.tunnel = new TunnelNgrok.class(this.sslPort, this.gatewayManager, this.environmentManager, this.AppConfiguration);
+                    this.tunnel = new TunnelNgrok.class(this.sslPort, this.gatewayManager, this.environmentManager, this.AppConfiguration, tunnelCb);
                 }
 
                 this.tunnel.start();

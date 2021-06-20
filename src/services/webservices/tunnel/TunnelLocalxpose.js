@@ -19,11 +19,12 @@ class TunnelLocalxpose extends Tunnel.class {
      * @param  {GatewayManager} gatewayManager       The gateway manager
      * @param  {EnvironmentManager} environmentManager       The environment manager
      * @param  {object}   AppConfiguration     The app configuration
+     * @param  {Function}   cbTunnelDone     Callback when tunnel is created
      *
      * @returns {TunnelLocalxpose}            The instance
      */
-    constructor(port, gatewayManager, environmentManager, AppConfiguration) {
-        super(port, gatewayManager, environmentManager, AppConfiguration);
+    constructor(port, gatewayManager, environmentManager, AppConfiguration, cbTunnelDone) {
+        super(port, gatewayManager, environmentManager, AppConfiguration, cbTunnelDone);
         this.tunnel = null;
         if (!this.AppConfiguration.localxposeAccessToken) {
             throw Error("Add 'localxposeAccessToken' to config.json file to use LocalXpose tunnel. Go to https://localxpose.io/");

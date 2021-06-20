@@ -727,7 +727,7 @@ class CamerasManager {
                         url: camera.rtspUrl,
                         additionalFlags: [
                             "-rtsp_transport", "tcp",
-                            "-q", "1",
+                            //"-q", "1",
                             "-codec:a", "mp2",
                             "-ar", "44100",
                             // "-ac", "1",
@@ -757,7 +757,7 @@ class CamerasManager {
                         }
                     });
 
-                    resolve(new APIResponse.class(true, {token: token}));
+                    resolve(new APIResponse.class(true, {token: token, ws: this.webServices.webSocketTunnel}));
                 } else {
                     reject(new APIResponse.class(false, {}, 764, ERROR_UNKNOWN_MODE));
                 }

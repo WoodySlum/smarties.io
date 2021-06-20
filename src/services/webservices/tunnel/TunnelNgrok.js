@@ -19,11 +19,12 @@ class TunnelNgrok extends Tunnel.class {
      * @param  {GatewayManager} gatewayManager       The gateway manager
      * @param  {EnvironmentManager} environmentManager       The environment manager
      * @param  {object}   AppConfiguration     The app configuration
+     * @param  {Function}   cbTunnelDone     Callback when tunnel is created
      *
      * @returns {TunnelNgrok}            The instance
      */
-    constructor(port, gatewayManager, environmentManager, AppConfiguration) {
-        super(port, gatewayManager, environmentManager, AppConfiguration);
+    constructor(port, gatewayManager, environmentManager, AppConfiguration, cbTunnelDone) {
+        super(port, gatewayManager, environmentManager, AppConfiguration, cbTunnelDone);
     }
 
     /**
