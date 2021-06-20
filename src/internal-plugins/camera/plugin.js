@@ -138,7 +138,7 @@ function loaded(api) {
              * @Property("ffmpeg");
              * @Title("camera.form.ffmpeg");
              * @Type("string");
-             * @Default("-rtsp_transport tcp -codec:a mp2 -ar 44100");
+             * @Default("-codec:a mp2 -ar 44100");
              */
             this.ffmpeg = ffmpeg;
         }

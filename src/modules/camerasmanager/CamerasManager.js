@@ -733,6 +733,7 @@ class CamerasManager {
                         rtspRelayFile = rtspRelayFile.replace(/require\('express-ws/g,"require('" + __dirname + "/../../../node_modules/express-ws");
                         rtspRelayFile = rtspRelayFile.replace(/require\('ps-node/g,"require('" + __dirname + "/../../../node_modules/ps-node");
                         rtspRelayFile = rtspRelayFile.replace(/require\('.\/package\.json/g,"require('" + __dirname + "/../../../node_modules/rtsp-relay/package.json");
+                        rtspRelayFile = rtspRelayFile.replace(/'-i',/g,"'-rtsp_transport', 'tcp', '-i',");
                         // Replace bin for pkg
                         rtspRelayFile = rtspRelayFile.replace(/ffmpegPath,/g,"\"ffmpeg\",");
 
