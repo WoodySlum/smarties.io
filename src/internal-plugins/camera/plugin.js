@@ -31,9 +31,10 @@ function loaded(api) {
          * @param  {boolean} cvfps          Computer vision FPS
          * @param  {boolean} cvlive          Computer vision live view
          * @param  {string} rotation          Rotation
+         * @param  {string} ffmpeg          FFMPEG options
          * @returns {CameraForm}                 The instance
          */
-        constructor(id, plugin, name, def = false, ip, port, username, password, archive = true, cv = false, cvfps = 3, cvlive = false, rotation = "0") {
+        constructor(id, plugin, name, def = false, ip, port, username, password, archive = true, cv = false, cvfps = 3, cvlive = false, rotation = "0", ffmpeg) {
             super(id);
 
             this.plugin = plugin;
@@ -132,6 +133,14 @@ function loaded(api) {
              * @Default(false);
              */
             this.cvlive = cvlive;
+
+            /**
+             * @Property("ffmpeg");
+             * @Title("camera.form.ffmpeg");
+             * @Type("string");
+             * @Default("-rtsp_transport tcp -codec:a mp2 -ar 44100");
+             */
+            this.ffmpeg = ffmpeg;
         }
 
         /**

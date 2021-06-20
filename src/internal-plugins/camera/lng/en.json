@@ -9,5 +9,6 @@
     "camera.form.cv": "Computer vision (beta) : Enable automatic recognition",
     "camera.form.cv.fps": "Computer vision (beta) : Analyse frame every X seconds",
     "camera.form.cv.live": "Computer vision (beta) : Enable live view",
-    "camera.form.rotation": "Rotation"
+    "camera.form.rotation": "Rotation",
+    "camera.form.ffmpeg": "FFMPEG options"
 }

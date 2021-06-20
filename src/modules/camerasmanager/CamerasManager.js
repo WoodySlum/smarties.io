@@ -742,14 +742,7 @@ class CamerasManager {
                         const { proxy } = require(this.cachePath + "rtsp-relay.js")(this.webServices.app);
                         let handler = proxy({
                             url: camera.rtspUrl,
-                            additionalFlags: [
-                                "-rtsp_transport", "tcp",
-                                //"-q", "1",
-                                "-codec:a", "mp2",
-                                "-ar", "44100",
-                                // "-ac", "1",
-                                // "-b:a", "128k"
-                            ],
+                            additionalFlags: (camera.configuration && camera.configuration.ffmpeg && camera.configuration.ffmpeg.length > 0) ? camera.configuration.ffmpeg.split(" ") : ["-rtsp_transport", "tcp", "-codec:a", "mp2", "-ar", "44100"],
                             verbose: false
                         });
 
