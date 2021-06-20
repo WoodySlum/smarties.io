@@ -621,13 +621,15 @@ class CamerasManager {
                 self.camerasConfiguration.forEach((camera) => {
                     if (self.pluginsManager.isEnabled(camera.plugin)) {
                         const cameraPlugin = self.pluginsManager.getPluginByIdentifier(camera.plugin, false);
-                        cameras.push({
-                            identifier: camera.id,
-                            name: camera.name,
-                            icon: Icons.icons["camera"],
-                            category:"TEST",
-                            form:Object.assign(self.formManager.getForm(cameraPlugin.cameraAPI.form), {data:camera})
-                        });
+                        if (cameraPlugin && cameraPlugin.cameraAPI) {
+                            cameras.push({
+                                identifier: camera.id,
+                                name: camera.name,
+                                icon: Icons.icons["camera"],
+                                category:"TEST",
+                                form:Object.assign(self.formManager.getForm(cameraPlugin.cameraAPI.form), {data:camera})
+                            });
+                        }
                     }
                 });
                 resolve(new APIResponse.class(true, cameras.sort((a,b) => a.name.localeCompare(b.name))));
@@ -722,42 +724,62 @@ class CamerasManager {
 
                     mjpegProxy.proxyRequest(apiRequest.req, apiRequest.res);
                 } else  if (camera && mode === MODE_RTSP && camera.rtspSupport()) {
-                    const { proxy } = require("rtsp-relay")(this.webServices.app);
-                    let handler = proxy({
-                        url: camera.rtspUrl,
-                        additionalFlags: [
-                            "-rtsp_transport", "tcp",
-                            //"-q", "1",
-                            "-codec:a", "mp2",
-                            "-ar", "44100",
-                            // "-ac", "1",
-                            // "-b:a", "128k"
-                        ],
-                        verbose: false
-                    });
+                    try {
+                        // Fix pkg issue
+                        let rtspRelayFile = fs.readFileSync(__dirname + "/../../../node_modules/rtsp-relay/index.js").toString();
 
-                    const token = sha256((camera.rtspUrl + DateUtils.class.timestamp() + ((Math.random() * 10000000) + 1)).toString()).substr(((Math.random() * 40) + 1), 16);
-                    const timeoutConnexion = setTimeout(() => {
-                        self.rtspTokenExpired.push(token);
-                        handler = null;
-                    }, 30000);
-                    this.webServices.webSocket.on("connection", (webSocketClient, req) => {
-                        if (req.url == "/" + token) {
-                            if (handler && self.rtspTokenExpired.indexOf(token) === -1) {
-                                handler(webSocketClient);
-                                self.rtspTokenExpired.push(token);
-                                clearTimeout(timeoutConnexion);
+                        rtspRelayFile = rtspRelayFile.replace(/require\('@ffmpeg/g,"require('" + __dirname + "/../../../node_modules/@ffmpeg");
+                        rtspRelayFile = rtspRelayFile.replace(/const { path: ffmpegPath }/g,"//const { path: ffmpegPath }");
+                        rtspRelayFile = rtspRelayFile.replace(/require\('express-ws/g,"require('" + __dirname + "/../../../node_modules/express-ws");
+                        rtspRelayFile = rtspRelayFile.replace(/require\('ps-node/g,"require('" + __dirname + "/../../../node_modules/ps-node");
+                        rtspRelayFile = rtspRelayFile.replace(/require\('.\/package\.json/g,"require('" + __dirname + "/../../../node_modules/rtsp-relay/package.json");
+                        // Replace bin for pkg
+                        rtspRelayFile = rtspRelayFile.replace(/ffmpegPath,/g,"\"ffmpeg\",");
+
+                        fs.removeSync(this.cachePath + "rtsp-relay.js");
+                        fs.writeFileSync(this.cachePath + "rtsp-relay.js", rtspRelayFile);
+
+                        const { proxy } = require(this.cachePath + "rtsp-relay.js")(this.webServices.app);
+                        let handler = proxy({
+                            url: camera.rtspUrl,
+                            additionalFlags: [
+                                "-rtsp_transport", "tcp",
+                                //"-q", "1",
+                                "-codec:a", "mp2",
+                                "-ar", "44100",
+                                // "-ac", "1",
+                                // "-b:a", "128k"
+                            ],
+                            verbose: false
+                        });
+
+                        const token = sha256((camera.rtspUrl + DateUtils.class.timestamp() + ((Math.random() * 10000000) + 1)).toString()).substr(((Math.random() * 40) + 1), 16);
+                        const timeoutConnexion = setTimeout(() => {
+                            self.rtspTokenExpired.push(token);
+                            handler = null;
+                        }, 30000);
+                        this.webServices.webSocket.on("connection", (webSocketClient, req) => {
+                            if (req.url == "/" + token) {
+                                if (handler && self.rtspTokenExpired.indexOf(token) === -1) {
+                                    handler(webSocketClient);
+                                    self.rtspTokenExpired.push(token);
+                                    clearTimeout(timeoutConnexion);
+                                }
+
+                                webSocketClient.on("close", ()=> {
+                                    Logger.info("Disconnect RTSP client");
+                                    handler = null;
+                                    self.rtspTokenExpired.push(token);
+                                });
                             }
+                        });
 
-                            webSocketClient.on("close", ()=> {
-                                Logger.info("Disconnect RTSP client");
-                                handler = null;
-                                self.rtspTokenExpired.push(token);
-                            });
-                        }
-                    });
+                        resolve(new APIResponse.class(true, {token: token, ws: this.webServices.webSocketTunnel}));
+                    } catch(e) {
+                        Logger.err(e);
+                        reject(new APIResponse.class(false, {}, 743, "Error in RTSP"));
+                    }
 
-                    resolve(new APIResponse.class(true, {token: token, ws: this.webServices.webSocketTunnel}));
                 } else {
                     reject(new APIResponse.class(false, {}, 764, ERROR_UNKNOWN_MODE));
                 }
