@@ -747,6 +747,10 @@ class PluginsManager {
                                     corePlugin: false
                                 });
                             } else {
+                                if (this.dbManager.numberVersion(storePlugins[storePluginIdentifier].version) > this.dbManager.numberVersion(plugins[pluginsIdentifiers.indexOf(storePluginIdentifier)].version)) {
+                                    plugins[pluginsIdentifiers.indexOf(storePluginIdentifier)].storeUpdate = true;
+                                    plugins[pluginsIdentifiers.indexOf(storePluginIdentifier)].storeVersionUpdate = storePlugins[storePluginIdentifier].version;
+                                }
                                 plugins[pluginsIdentifiers.indexOf(storePluginIdentifier)].sourceStore = true;
                             }
                         });
