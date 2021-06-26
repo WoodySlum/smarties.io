@@ -435,9 +435,11 @@ class PluginsManager {
         let initializedPlugins = [];
 
         plugins.forEach((plugin) => {
-            let pApi = this.initPlugin(plugin, path, relative);
-            if (pApi) {
-                initializedPlugins.push(pApi);
+            if (plugin != ".git") {
+                let pApi = this.initPlugin(plugin, path, relative);
+                if (pApi) {
+                    initializedPlugins.push(pApi);
+                }
             }
         });
 
@@ -849,7 +851,9 @@ class PluginsManager {
                 const extractor = unzipper.Extract({ path: process.cwd() + "/" + EXTERNAL_PLUGIN_PATH + apiRequest.data.plugin });
                 extractor.on("close", () => {
                     Logger.info("Plugin " + apiRequest.data.plugin + " extracted");
-                    self.init(true);
+                    setTimeout(() => {
+                        this.eventBus.emit(SmartiesRunnerConstants.RESTART);
+                    }, 500);
                     resolve(new APIResponse.class(true, {success:true}));
                 })
                     .on("error", (error) => {
@@ -874,10 +878,12 @@ class PluginsManager {
                 if (fs.existsSync(pluginPath) && self.getPluginByIdentifier(apiRequest.data.plugin, false)) {
                     self.changePluginStatus(self.getPluginConf(apiRequest.data.plugin), false, false);
                     fs.removeSync(pluginPath);
-                    self.init(true);
+                    setTimeout(() => {
+                        this.eventBus.emit(SmartiesRunnerConstants.RESTART);
+                    }, 500);
                     resolve(new APIResponse.class(true, {success:true}));
                 } else {
-                    reject(new APIResponse.class(false, null, 4213, "Error uninstallign plugin"));
+                    reject(new APIResponse.class(false, null, 4213, "Error uninstalling plugin"));
                 }
             });
         }
