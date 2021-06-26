@@ -121,6 +121,7 @@ function loaded(api) {
             this.api.webAPI.register(this, this.api.webAPI.constants().POST, ":/" + ROBONECT_REGISTER_KEY + "/[set*]/[action*]/", api.webAPI.Authentication().AUTH_USAGE_LEVEL);
             this.hours = null;
             this.blades = null;
+            this.manToken = null;
 
             this.api.configurationAPI.setUpdateCb(() => {
                 this.refresh();
@@ -145,8 +146,8 @@ function loaded(api) {
             this.getVersion((err, res) => {
                 setTimeout((self) => {
                     self.getStatus((err2, res2) => {
-                        if (!err && !err2 && res && res2) {
-                            if (res2.blades != null && res2.blades != "undefined") {
+                        if (!err && !err2 && res) {
+                            if (res2 && res2.blades != null && res2.blades != "undefined") {
                                 self.blades = res2.blades.quality;
                                 if (self.blades < 5 && !api.exported.FileLock.isLocked("robonect-blades")) {
                                     api.exported.FileLock.lock("robonect-blades");
@@ -156,18 +157,21 @@ function loaded(api) {
                                 }
                             }
 
-                            if (res2.status != null && res2.status != "undefined") {
+                            if (res2 && res2.status != null && res2.status != "undefined") {
                                 self.hours = res2.status.hours;
                             }
 
-                            if (res2.error && res2.error.error_message && !api.exported.FileLock.isLocked("robonect-" + res2.error.unix)) {
+                            if (res2 && res2.error && res2.error.error_message && !api.exported.FileLock.isLocked("robonect-" + res2.error.unix)) {
                                 api.exported.FileLock.lock("robonect-" + res2.error.unix);
                                 api.exported.FileLock.unlockAfterDelay("robonect-" + res2.error.unix, api.schedulerAPI.constants().IN_A_DAY);
                                 api.messageAPI.sendMessage("*", api.translateAPI.t("mower.error.message", res2.error.error_code, res2.error.error_message), null, null, null, true);
                             }
 
-                            if (res && res2) {
-                                self.registerTile(Object.assign(res, res2));
+                            if (res) {
+                                if (res2) {
+                                    res = Object.assign(res, res2);
+                                }
+                                self.registerTile(res);
                             }
 
 
@@ -351,16 +355,30 @@ function loaded(api) {
                 }
 
                 this.getInfo(endpoint, (err, res) => {
-                    if (!err && res.successful)  {
-                        setTimeout((self) => {
-                            self.refresh();
-                        }, 1000, this);
-                        if (cb) {
-                            cb(null);
+                    if (mode == "man") {
+                        if (err) {
+                            cb(err);
+                        } else {
+                            const regex = /joystick&t=([0-9]+)/gm;
+                            const rRes = regex.exec(res);
+                            if (rRes[1]) {
+                                this.manToken = rRes[1];
+                            } else {
+                                api.exported.Logger.err("Could not found token");
+                            }
                         }
                     } else {
-                        if (cb) {
-                            cb(err);
+                        if (!err && res.successful)  {
+                            setTimeout((self) => {
+                                self.refresh();
+                            }, 1000, this);
+                            if (cb) {
+                                cb(null);
+                            }
+                        } else {
+                            if (cb) {
+                                cb(err);
+                            }
                         }
                     }
                 });

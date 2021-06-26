@@ -134,6 +134,7 @@ const INTERNAL_PLUGINS = [
     "robonect",
     "time-sensor",
     "robonect-time-sensor",
+    "robonect-camera",
     "pushover",
     "tasmota"
 ];
