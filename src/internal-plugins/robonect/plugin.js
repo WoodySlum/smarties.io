@@ -345,7 +345,12 @@ function loaded(api) {
         actions(mode = "auto", cb) {
             api.exported.Logger.info("Set robonect mode " + mode);
             if (mode != "go") {
-                this.getInfo("/json?cmd=mode&mode=" + mode, (err, res) => {
+                let endpoint = "/json?cmd=mode&mode=" + mode;
+                if (mode == "man") {
+                    endpoint = "/joystick?mode=1&save=";
+                }
+
+                this.getInfo(endpoint, (err, res) => {
                     if (!err && res.successful)  {
                         setTimeout((self) => {
                             self.refresh();
