@@ -170,6 +170,9 @@ class DashboardManager {
      */
     unregisterTile(identifier) {
         const indexes = [];
+        if (identifier instanceof Tile.class) { // In case of registered Tile object
+            identifier = identifier.identifier;
+        }
 
         // Collect registered indexes
         for (let i = 0 ; i < this.tiles.length ; i++) {
@@ -249,7 +252,13 @@ class DashboardManager {
         });
 
         const realTiles = this.filterTiles(tiles, allTiles?null:username, timestamp);
-        let excludedTiles = this.unregistered.concat((this.dashboardPreferences[username] && this.dashboardPreferences[username].excludeTiles)?this.dashboardPreferences[username].excludeTiles:[]);
+
+        let excludedTiles = this.unregistered;
+        if (this.dashboardPreferences[username] && this.dashboardPreferences[username].excludeTiles) {
+            excludedTiles = excludedTiles.concat(this.dashboardPreferences[username].excludeTiles);
+        }
+
+
         excludedTiles = excludedTiles.filter((elem, pos) => { // Remove duplicates
             return excludedTiles.indexOf(elem) == pos;
         });

@@ -569,7 +569,7 @@ class WebServices extends Service.class {
      * @param  {Response} res             The response
      */
     sendAPIResponse(apiResponses, res) {
-        Logger.verbose(apiResponses);
+        //Logger.verbose(apiResponses);
 
         let apiResponse = new APIResponse.class();
         apiResponses.forEach((r) => {
