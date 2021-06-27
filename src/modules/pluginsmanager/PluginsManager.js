@@ -14,6 +14,7 @@ const Authentication = require("./../authentication/Authentication");
 const WebServices = require("./../../services/webservices/WebServices");
 const APIResponse = require("./../../services/webservices/APIResponse");
 const SmartiesRunnerConstants = require("./../../../SmartiesRunnerConstants");
+const TimerWrapper = require("./../../utils/TimerWrapper");
 
 const PLUGINS_STORE = "https://plugins.smarties.io/list/";
 const PLUGINS_STORE_GET = "https://plugins.smarties.io/get/";
@@ -839,7 +840,6 @@ class PluginsManager {
                 resolve(new APIResponse.class(true, {success:true}));
             });
         } else if (apiRequest.route.startsWith(ROUTE_WS_INSTALL_SET_BASE)) {
-            const self = this;
             return new Promise((resolve, reject) => {
                 const filename = this.appConfiguration.cachePath + apiRequest.data.plugin + "-" + apiRequest.data.version + ".zip";
                 try {
@@ -851,7 +851,7 @@ class PluginsManager {
                 const extractor = unzipper.Extract({ path: process.cwd() + "/" + EXTERNAL_PLUGIN_PATH + apiRequest.data.plugin });
                 extractor.on("close", () => {
                     Logger.info("Plugin " + apiRequest.data.plugin + " extracted");
-                    setTimeout(() => {
+                    TimerWrapper.class.setTimeout(() => {
                         this.eventBus.emit(SmartiesRunnerConstants.RESTART);
                     }, 5000);
                     resolve(new APIResponse.class(true, {success:true}));
@@ -878,7 +878,7 @@ class PluginsManager {
                 if (fs.existsSync(pluginPath) && self.getPluginByIdentifier(apiRequest.data.plugin, false)) {
                     self.changePluginStatus(self.getPluginConf(apiRequest.data.plugin), false, false);
                     fs.removeSync(pluginPath);
-                    setTimeout(() => {
+                    TimerWrapper.class.setTimeout(() => {
                         this.eventBus.emit(SmartiesRunnerConstants.RESTART);
                     }, 5000);
                     resolve(new APIResponse.class(true, {success:true}));

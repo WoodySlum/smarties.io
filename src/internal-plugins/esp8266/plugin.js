@@ -109,7 +109,7 @@ function loaded(api) {
                 this.configurations = {};
             } else {
                 // Dispatch pings initial after 5 seconds for dependent plugins
-                setTimeout((self) => {
+                api.exported.TimerWrapper.class.setTimeout((self) => {
                     Object.keys(this.configurations).forEach((iotKey) => {
                         try {
                             self.api.iotAPI.setUpgradeUrl(iotKey, ((self.configurations[iotKey] && self.configurations[iotKey].ip) ? self.getUpgradeUrl(self.configurations[iotKey].ip) : null));

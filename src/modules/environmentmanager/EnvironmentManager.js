@@ -23,7 +23,8 @@ const APIResponse = require("./../../services/webservices/APIResponse");
 const TimeEventService = require("./../../services/timeeventservice/TimeEventService");
 const SmartiesRunnerConstants = require("./../../../SmartiesRunnerConstants");
 const IpScanForm = require("./IpScanForm");
-const DateUtils = require("../../utils/DateUtils");
+const DateUtils = require("./../../utils/DateUtils");
+const TimerWrapper = require("./../../utils/TimerWrapper");
 const Icons = require("./../../utils/Icons");
 const ROUTE_APP_ENVIRONMENT_INFORMATION = "/environment/app/get/";
 const ROUTE_APP_SET_CONFIGURATION = "/environment/conf/set/";
@@ -127,7 +128,7 @@ class EnvironmentManager {
 
 
         if (!this.appConfiguration.disableIpScan) {
-            setTimeout((self) => {
+            TimerWrapper.class.setTimeout((self) => {
                 self.startIpScan();
             }, 30000, this);
         }
@@ -484,7 +485,7 @@ class EnvironmentManager {
         fs.writeFileSync(MAIN_CONFIG_PATH, JSON.stringify(mainConfiguration, null, "    "));
 
         // Restart
-        setTimeout((self) => {
+        TimerWrapper.class.setTimeout((self) => {
             self.eventBus.emit(SmartiesRunnerConstants.RESTART);
         }, 2000, this);
     }
@@ -745,7 +746,7 @@ class EnvironmentManager {
             // if (fs.existsSync(uptimeFile)) {
             //     const powerOutageDuration = parseInt((DateUtils.class.timestamp() - parseInt(fs.readFileSync(uptimeFile))) / 60); // In minutes
             //     if (powerOutageDuration > 0) {
-            //         setTimeout((self) => {
+            //         TimerWrapper.class.setTimeout((self) => {
             //             self.messageManager.sendMessage("*", self.translateManager.t("power.outage.alert", powerOutageDuration));
             //             this.eventBus.emit(EVENT_POWER_OUTAGE, {duration:(powerOutageDuration * 60)});
             //         }, POWER_OUTAGE_DELAY, this);

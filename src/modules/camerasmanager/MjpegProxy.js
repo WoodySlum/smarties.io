@@ -7,6 +7,7 @@ const https = require("https");
 const rtsp = require("rtsp-ffmpeg");
 const Logger = require("./../../logger/Logger");
 const ImageUtils = require("./../../utils/ImageUtils");
+const TimerWrapper = require("./../../utils/TimerWrapper");
 
 const JPG_HEADER = "FFD8";
 const JPG_FOOTER = "FFD9";
@@ -93,7 +94,7 @@ class MjpegProxy {
 
                                 let tmpBuffer = self.buffer.slice(self.buffer.indexOf(JPG_HEADER, 0, "hex"), self.buffer.indexOf(JPG_FOOTER, 0, "hex")); // slice for a copy of buffer
 
-                                setTimeout(() => { // Async processing
+                                TimerWrapper.class.setTimeout(() => { // Async processing
                                     let image = tmpBuffer;
                                     const processf = (data) => {
                                         image = data;
@@ -233,7 +234,7 @@ class MjpegProxy {
             try {
                 this.stream = new rtsp.FFMpeg({input: rtspUrl, rate: 5, quality: 3});
 
-                setTimeout(() => {
+                TimerWrapper.class.setTimeout(() => {
                     this.audienceResponses.forEach((res) => {
                         res.writeHead(200, {
                             "Expires": "Mon, 01 Jul 2050 00:00:00 GMT",

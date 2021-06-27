@@ -1,6 +1,7 @@
 "use strict";
 
 const Logger = require("./../../../logger/Logger");
+const TimerWrapper = require("./../../../utils/TimerWrapper");
 const Tunnel = require("./Tunnel");
 const localtunnel = require("localtunnel");
 const RESTART_TIMER_MIN = 60;
@@ -42,7 +43,7 @@ class TunnelLocalTunnel extends Tunnel.class {
                 if (this.isRunning) {
                     Logger.warn("Closed tunnel, restart...");
                     this.stop();
-                    setTimeout((self) => {
+                    TimerWrapper.class.setTimeout((self) => {
                         self.start();
                     }, 30 * 1000, this);
                 }
@@ -53,13 +54,13 @@ class TunnelLocalTunnel extends Tunnel.class {
                 if (this.isRunning) {
                     Logger.warn("Error tunnel, restart...");
                     this.stop();
-                    setTimeout((self) => {
+                    TimerWrapper.class.setTimeout((self) => {
                         self.start();
                     }, 30 * 1000, this);
                 }
             });
 
-            setTimeout((self) => {
+            TimerWrapper.class.setTimeout((self) => {
                 self.stop();
                 self.start();
             }, RESTART_TIMER_MIN * 60 * 1000, this);
@@ -67,7 +68,7 @@ class TunnelLocalTunnel extends Tunnel.class {
             .catch((e) => {
                 Logger.err(e);
                 this.stop();
-                setTimeout((self) => {
+                TimerWrapper.class.setTimeout((self) => {
                     self.start();
                 }, 30 * 1000, this);
             });

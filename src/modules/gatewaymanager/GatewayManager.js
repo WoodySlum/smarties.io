@@ -2,6 +2,7 @@
 const Logger = require("./../../logger/Logger");
 const TimeEventService = require("./../../services/timeeventservice/TimeEventService");
 const DateUtils = require("./../../utils/DateUtils");
+const TimerWrapper = require("./../../utils/TimerWrapper");
 const SmartiesRunnerConstants = require("./../../../SmartiesRunnerConstants");
 const child_process = require("child_process");
 
@@ -72,7 +73,7 @@ class GatewayManager {
         const self = this;
 
         this.eventBus.on(readyEvent, () => {
-            setTimeout(() => {
+            TimerWrapper.class.setTimeout(() => {
                 self.bootMode = BOOT_MODE_READY;
                 self.transmit();
             }, 2000);

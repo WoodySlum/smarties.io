@@ -38,6 +38,7 @@ const ImageUtils = require("./../../utils/ImageUtils");
 const Cleaner = require("./../../utils/Cleaner");
 const SmartiesRunnerConstants = require("./../../../SmartiesRunnerConstants");
 const FileLock = require("./../../utils/FileLock");
+const TimerWrapper = require("./../../utils/TimerWrapper");
 
 /**
  * This class is an interface for plugins
@@ -99,6 +100,11 @@ class PluginsAPI {
         this.instance = null;
         this.CORE_EVENT_READY = CORE_EVENT_READY;
         PrivateProperties.oprivate(this).oAuthRenewWsToken = oAuthRenewWsToken;
+        this.timers = {
+            interval:[],
+            timeout:[],
+            immediate:[]
+        };
 
         // Export classes
         this.exported = Object.assign(this.exported,
@@ -114,7 +120,50 @@ class PluginsAPI {
             {IotForm:IotForm.class},
             {SmartiesRunnerConstants:SmartiesRunnerConstants},
             {EventBus:eventBus},
-            {FileLock:new FileLock.class(appConfiguration.cachePath, schedulerService)}
+            {FileLock:new FileLock.class(appConfiguration.cachePath, schedulerService)},
+            {TimerWrapper: {
+                    // Wrap wrapped functions for plugins. Avoid clear all and give the possibility to stop correctly timers.
+                    class:
+                    {
+                        setInterval: (f, time, ...p) => {
+                            const r = TimerWrapper.class.setInterval(f, time, ...p);
+                            this.timers.interval.push(r);
+                            return r;
+                        },
+                        clearInterval: (n) => {
+                            const i = this.timers.interval.indexOf(n);
+                            if (i !== -1) {
+                                this.timers.interval.splice(i, 1);
+                            }
+                            TimerWrapper.class.clearInterval(n);
+                        },
+                        setTimeout: (f, time, ...p) => {
+                            const r = TimerWrapper.class.setTimeout(f, time, ...p);
+                            this.timers.timeout.push(r);
+                            return r;
+                        },
+                        clearTimeout: (n) => {
+                            const i = this.timers.timeout.indexOf(n);
+                            if (i !== -1) {
+                                this.timers.timeout.splice(i, 1);
+                            }
+                            TimerWrapper.class.clearTimeout(n);
+                        },
+                        setImmediate: (f, ...p) => {
+                            const r = TimerWrapper.class.setImmediate(f, ...p);
+                            this.timers.immediate.push(r);
+                            return r;
+                        },
+                        clearImmediate: (n) => {
+                            const i = this.timers.immediate.indexOf(n);
+                            if (i !== -1) {
+                                this.timers.immediate.splice(i, 1);
+                            }
+                            TimerWrapper.class.clearImmediate(n);
+                        }
+                    }
+                }
+            }
         );
 
         // API part
@@ -299,6 +348,18 @@ class PluginsAPI {
         this.coreAPI.registeredElements.forEach((e) => {
             this.coreAPI.unregisterEvent(e.name, e.cb);
         });
+        this.timers.interval.forEach(n => {
+            TimerWrapper.class.clearInterval(n);
+        });
+        this.timers.interval = [];
+        this.timers.timeout.forEach(n => {
+            TimerWrapper.class.clearTimeout(n);
+        });
+        this.timers.timeout = [];
+        this.timers.immediate.forEach(n => {
+            TimerWrapper.class.clearImmediate(n);
+        });
+        this.timers.immediate = [];
         this.configurationAPI.stop();
     }
 }

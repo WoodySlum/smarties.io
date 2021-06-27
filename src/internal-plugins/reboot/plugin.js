@@ -84,7 +84,7 @@ function loaded(api) {
             const self = this;
             if (apiRequest.route === ":" + REBOOT_ACTION) {
                 return new Promise((resolve, reject) => {
-                    setTimeout((me) => {
+                    api.exported.TimerWrapper.class.setTimeout((me) => {
                         me.api.installerAPI.executeCommand("sudo shutdown -r now");
                     }, 1000, self);
                     resolve(self.api.webAPI.APIResponse(true, {success:true}));
@@ -93,7 +93,7 @@ function loaded(api) {
 
             if (apiRequest.route === ":" + SOFT_REBOOT_ACTION) {
                 return new Promise((resolve, reject) => {
-                    setTimeout((me) => {
+                    api.exported.TimerWrapper.class.setTimeout((me) => {
                         me.api.coreAPI.dispatchEvent(me.api.exported.SmartiesRunnerConstants.RESTART);
                     }, 1000, self);
                     resolve(self.api.webAPI.APIResponse(true, {success:true}));

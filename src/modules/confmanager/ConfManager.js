@@ -2,6 +2,7 @@
 const Logger = require("./../../logger/Logger");
 const fs = require("fs-extra");
 const TimeEventService = require("./../../services/timeeventservice/TimeEventService");
+const TimerWrapper = require("./../../utils/TimerWrapper");
 const crypto = require("crypto");
 
 const ERROR_EMPTY_FILE    = "ERROR_EMPTY_FILE";
@@ -220,11 +221,11 @@ class ConfManager {
             }
         } else {
             if (context.writeFilePlanTimer) {
-                clearTimeout(context.writeFilePlanTimer);
+                TimerWrapper.class.clearTimeout(context.writeFilePlanTimer);
                 context.writeFilePlanTimer = null;
             }
 
-            context.writeFilePlanTimer = setTimeout(() => {
+            context.writeFilePlanTimer = TimerWrapper.class.setTimeout(() => {
                 context.writeDataToDisk(context, async);
             }, 5000);
         }

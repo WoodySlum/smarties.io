@@ -144,7 +144,7 @@ function loaded(api) {
                 }
 
                 if ((m % 5) === 0) { // Chezck every 5 minutes
-                    setTimeout(() => {
+                    api.exported.TimerWrapper.class.setTimeout(() => {
                         self.getSMS();
                     }, 100);
                 }

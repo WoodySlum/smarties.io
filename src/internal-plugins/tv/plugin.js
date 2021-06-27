@@ -153,7 +153,7 @@ function loaded(api) {
                 if (scenario && scenario.TvScenarioForm && scenario.TvScenarioForm.plugin && scenario.TvScenarioForm.actions && scenario.TvScenarioForm.actions.length > 0 && scenario.TvScenarioForm.plugin === this.identifier) {
                     let delay = 0;
                     scenario.TvScenarioForm.actions.forEach((formAction) => {
-                        setTimeout((self) => {
+                        api.exported.TimerWrapper.class.setTimeout((self) => {
                             self.action(formAction.action);
                         }, delay, this);
                         delay += (formAction.timer ? (parseFloat(formAction.timer) * 1000) : DEFAULT_ACTION_TIMER);

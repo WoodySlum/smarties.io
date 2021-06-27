@@ -148,7 +148,7 @@ function loaded(api) {
             this.api.userAPI.getUsers().forEach((user) => {
                 if (message && (recipients === "*" || (recipients instanceof Array && recipients.indexOf(user.username) !== -1))) {
                     if (user.HuaweiSmsUserForm && user.HuaweiSmsUserForm.phoneNumber && user.HuaweiSmsUserForm.phoneNumber.length > 0 && (!criticalOnly || (critical && criticalOnly))) {
-                        setTimeout((self) => {
+                        api.exported.TimerWrapper.class.setTimeout((self) => {
                             self.sendSMS(user.HuaweiSmsUserForm.phoneNumber.split(" ").join(""), message);
                         }, delay, this);
                         delay += 6000;

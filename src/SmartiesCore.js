@@ -36,6 +36,7 @@ const BotEngine = require("./modules/botengine/BotEngine");
 const LogManager = require("./modules/logmanager/LogManager");
 const BackupManager = require("./modules/backupmanager/BackupManager");
 const AiManager = require("./modules/aimanager/AiManager");
+const TimerWrapper = require("./utils/TimerWrapper");
 const CONFIGURATION_FILE = "data/config.json";
 var AppConfiguration = {};
 
@@ -247,6 +248,7 @@ class SmartiesCore {
         // this.translateManager.writeList();
         Logger.info("Stopping core");
         try {
+            TimerWrapper.class.clearAll();
             this.servicesManager.stop();
             this.dbManager.close();
             this.threadsManager.killAll();

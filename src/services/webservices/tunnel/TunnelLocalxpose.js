@@ -4,6 +4,7 @@ const Logger = require("./../../../logger/Logger");
 const fs = require("fs-extra");
 const Tunnel = require("./Tunnel");
 const LocalXpose = require("localxpose");
+const TimerWrapper = require("./../../../utils/TimerWrapper");
 
 /**
  * This class wraps local tunnel apis
@@ -64,7 +65,7 @@ class TunnelLocalxpose extends Tunnel.class {
                 }
                 if (!this.AppConfiguration.localxposePaid) {
                     // If not paid, restart every 15 min
-                    setTimeout((self) => {
+                    TimerWrapper.class.setTimeout((self) => {
                         self.stop();
                         self.start();
                     }, 15 * 60 * 1000, this);
@@ -73,7 +74,7 @@ class TunnelLocalxpose extends Tunnel.class {
             .catch((err) => {
                 Logger.err(err);
                 if (err) {
-                    setTimeout((self) => {
+                    TimerWrapper.class.setTimeout((self) => {
                         self.stop();
                         self.start();
                     }, 30 * 1000, this);

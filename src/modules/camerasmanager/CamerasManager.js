@@ -10,6 +10,7 @@ const WebServices = require("./../../services/webservices/WebServices");
 const APIResponse = require("./../../services/webservices/APIResponse");
 const Authentication = require("./../authentication/Authentication");
 const DateUtils = require("./../../utils/DateUtils");
+const TimerWrapper = require("./../../utils/TimerWrapper");
 const CamerasForm = require("./CamerasForm");
 const CamerasListForm = require("./CamerasListForm");
 const Tile = require("./../dashboardmanager/Tile");
@@ -464,7 +465,7 @@ class CamerasManager {
                                                         if (!this.isRecording[camera.id.toString()] && !this.cameraHotFileLocks[camera.id.toString()]) {
                                                             this.isRecording[camera.id.toString()] = "recording";
                                                             this.cameraHotFileLocks[camera.id.toString()] = "recording";
-                                                            setTimeout((self) => {
+                                                            TimerWrapper.class.setTimeout((self) => {
                                                                 delete self.cameraHotFileLocks[camera.id.toString()];
                                                             }, (CAMERA_RECORD_HOTFILE_LOCK_NO_RECORD_S + CAMERA_RECORD_HOTFILE_DURATION_S) * 1000, this);
 
@@ -748,7 +749,7 @@ class CamerasManager {
                         });
 
                         const token = sha256((camera.rtspUrl + DateUtils.class.timestamp() + ((Math.random() * 10000000) + 1)).toString()).substr(((Math.random() * 40) + 1), 16);
-                        const timeoutConnexion = setTimeout(() => {
+                        const timeoutConnexion = TimerWrapper.class.setTimeout(() => {
                             self.rtspTokenExpired.push(token);
                             handler = null;
                         }, 30000);
@@ -757,7 +758,7 @@ class CamerasManager {
                                 if (handler && self.rtspTokenExpired.indexOf(token) === -1) {
                                     handler(webSocketClient);
                                     self.rtspTokenExpired.push(token);
-                                    clearTimeout(timeoutConnexion);
+                                    TimerWrapper.class.clearTimeout(timeoutConnexion);
                                 }
 
                                 webSocketClient.on("close", ()=> {
@@ -1192,7 +1193,7 @@ class CamerasManager {
                                     const stream = new rtsp.FFMpeg({input: camera.rtspUrl, rate: 1, resolution: "640x480"});
 
                                     let childProcess = null;
-                                    let timeout = setTimeout(() => {
+                                    let timeout = TimerWrapper.class.setTimeout(() => {
                                         stream.stop();
                                         cb(Error(ERROR_NO_IMAGE));
                                     }, 5000);
@@ -1460,7 +1461,7 @@ class CamerasManager {
                     cb(err);
                 });
 
-                setTimeout((vwstream, vreq, self) => {
+                TimerWrapper.class.setTimeout((vwstream, vreq, self) => {
                     vwstream.end();
                     vreq.abort();
                     const frameRate = Math.round(frameCount / timer);

@@ -13,6 +13,7 @@ const TimeScenarioForm = require("./TimeScenarioForm");
 const Authentication = require("./../authentication/Authentication");
 const APIResponse = require("./../../services/webservices/APIResponse");
 const DateUtils = require("./../../utils/DateUtils");
+const TimerWrapper = require("./../../utils/TimerWrapper");
 const sha256 = require("sha256");
 const request = require("request");
 const CONF_KEY = "scenarios";
@@ -286,7 +287,7 @@ class ScenarioManager {
                         const nextTriggerTimestamp = delay * 60 + DateUtils.class.timestamp();
                         Logger.info("Scheduling sub scenario " + subAction.scenario.scenario + " at " + nextTriggerTimestamp);
                         if (delay < 1) {
-                            setTimeout(() => {
+                            TimerWrapper.class.setTimeout(() => {
                                 self.getScenarios().forEach((scenario) => {
                                     if (scenario.id === subAction.scenario.scenario) {
                                         self.triggerScenario(scenario);
@@ -304,7 +305,7 @@ class ScenarioManager {
                 const delay = scenario.delay.delay ? parseFloat(String(scenario.delay.delay).replace(",", ".")) : 0;
                 let delta = 0;
                 if (scenario.delay.unit === DELAY_SECONDS) {
-                    setTimeout(() => {
+                    TimerWrapper.class.setTimeout(() => {
                         self.getScenarios().forEach((scenar) => {
                             if (scenar.id === scenario.id) {
                                 self.triggerScenario(scenar, true);

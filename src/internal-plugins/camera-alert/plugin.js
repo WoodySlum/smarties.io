@@ -207,7 +207,7 @@ function loaded(api) {
                 self.api.cameraAPI.unregisterCameraEvent(key);
             });
 
-            setTimeout((self) => {
+            api.exported.TimerWrapper.class.setTimeout((self) => {
                 self.api.cameraAPI.unregisterCameraEvent(key);
                 if (self.eventsRegisteredKeys.indexOf(key) != -1) {
                     self.eventsRegisteredKeys.splice(self.eventsRegisteredKeys.indexOf(key), 1);

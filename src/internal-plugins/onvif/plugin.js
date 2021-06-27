@@ -73,85 +73,86 @@ function loaded(api) {
         }
     }
 
-    api.cameraAPI.registerForm(OnvifCameraForm, []);
-    const hostnames = [];
-    const ports = {};
-    onvif.Discovery.on("device", (cam) => {
-        hostnames.push(cam.hostname);
-        api.cameraAPI.registerForm(OnvifCameraForm, hostnames);
-        ports[cam.hostname] = cam.port;
-    });
-    onvif.Discovery.probe();
+    if (!process.env.TEST) {
+        api.cameraAPI.registerForm(OnvifCameraForm, []);
+        const hostnames = [];
+        const ports = {};
+        onvif.Discovery.on("device", (cam) => {
+            hostnames.push(cam.hostname);
+            api.cameraAPI.registerForm(OnvifCameraForm, hostnames);
+            ports[cam.hostname] = cam.port;
+        });
+        onvif.Discovery.probe();
 
-
-    /**
-     * Sumpple camera class
-     *
-     * @class
-     */
-    class Onvif extends api.exported.Camera {
         /**
-         * Sumpple camera
+         * Sumpple camera class
          *
-         * @param  {PluginAPI} api                                                           A plugin api
-         * @param  {number} [id=null]                                                        An id
-         * @param  {object} [configuration=null]                                             The configuration for camera
-         * @returns {Sumpple}                                                                  The instance
+         * @class
          */
-        constructor(api, id, configuration) {
-            super(api, id, configuration);
-            this.mjpegUrl = false;
-            this.cam = null;
-            if (this.configuration && this.configuration.ip) {
-                if (ports[this.configuration.ip]) {
-                    this.configuration.port = parseInt(ports[this.configuration.ip]);
-                    this.updateConfiguration();
-                }
+        class Onvif extends api.exported.Camera {
+            /**
+             * Sumpple camera
+             *
+             * @param  {PluginAPI} api                                                           A plugin api
+             * @param  {number} [id=null]                                                        An id
+             * @param  {object} [configuration=null]                                             The configuration for camera
+             * @returns {Sumpple}                                                                  The instance
+             */
+            constructor(api, id, configuration) {
+                super(api, id, configuration);
+                this.mjpegUrl = false;
+                this.cam = null;
+                if (this.configuration && this.configuration.ip) {
+                    if (ports[this.configuration.ip]) {
+                        this.configuration.port = parseInt(ports[this.configuration.ip]);
+                        this.updateConfiguration();
+                    }
 
-                if (this.configuration.snapshotUrl) {
-                    this.snapshotUrl = this.configuration.snapshotUrl;
-                }
+                    if (this.configuration.snapshotUrl) {
+                        this.snapshotUrl = this.configuration.snapshotUrl;
+                    }
 
-                if (this.configuration.rtspUrl) {
-                    this.rtspUrl = this.configuration.rtspUrl;
-                }
+                    if (this.configuration.rtspUrl) {
+                        this.rtspUrl = this.configuration.rtspUrl;
+                    }
 
-                this.cam = new onvif.Cam({
-                    hostname: this.configuration.ip,
-                    username: this.configuration.username,
-                    password: this.configuration.password,
-                    port: this.configuration.port
-                }, (err) => {
-                    if (err) {
-                        api.exported.Logger.err(err);
-                    } else {
-                        this.cam.getSnapshotUri((err, res) => {
-                            if (err) {
-                                api.exported.Logger.err(err);
-                            } else {
-                                this.snapshotUrl = res.uri.replace(/\n/g, "").replace(/\r/g, "");
-                                this.configuration.snapshotUrl = this.snapshotUrl;
-                                api.configurationAPI.saveData(this.configuration);
-                            }
-
-                            this.cam.getStreamUri((err, res) => {
+                    this.cam = new onvif.Cam({
+                        hostname: this.configuration.ip,
+                        username: this.configuration.username,
+                        password: this.configuration.password,
+                        port: this.configuration.port
+                    }, (err) => {
+                        if (err) {
+                            api.exported.Logger.err(err);
+                        } else {
+                            this.cam.getSnapshotUri((err, res) => {
                                 if (err) {
                                     api.exported.Logger.err(err);
                                 } else {
-                                    this.rtspUrl = res.uri.replace(/\n/g, "").replace(/\r/g, "");
-                                    this.configuration.rtspUrl = this.rtspUrl;
+                                    this.snapshotUrl = res.uri.replace(/\n/g, "").replace(/\r/g, "");
+                                    this.configuration.snapshotUrl = this.snapshotUrl;
                                     api.configurationAPI.saveData(this.configuration);
                                 }
+
+                                this.cam.getStreamUri((err, res) => {
+                                    if (err) {
+                                        api.exported.Logger.err(err);
+                                    } else {
+                                        this.rtspUrl = res.uri.replace(/\n/g, "").replace(/\r/g, "");
+                                        this.configuration.rtspUrl = this.rtspUrl;
+                                        api.configurationAPI.saveData(this.configuration);
+                                    }
+                                });
                             });
-                        });
-                    }
-                });
+                        }
+                    });
+                }
             }
+
         }
 
+        api.cameraAPI.registerClass(Onvif);
     }
-
-    api.cameraAPI.registerClass(Onvif);
 }
 
 module.exports.attributes = {

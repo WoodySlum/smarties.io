@@ -2,6 +2,7 @@
 
 const Logger = require("./../../../logger/Logger");
 const Tunnel = require("./Tunnel");
+const TimerWrapper = require("./../../../utils/TimerWrapper");
 const ngrok = require("ngrok");
 const fs = require("fs-extra");
 
@@ -32,7 +33,7 @@ class TunnelNgrok extends Tunnel.class {
      */
     start() {
         super.start();
-        setTimeout(async (self) => {
+        TimerWrapper.class.setTimeout(async (self) => {
             // For pkg, copy binary outside container
             const platform = require("os").platform();
             const binExtension = "ngrok" + (platform === "win32" ? ".exe" : "");
@@ -54,7 +55,7 @@ class TunnelNgrok extends Tunnel.class {
             ngrok.connect(ngrokOptions).then((url) => {
                 // Auto restart tunnel every 6 hours (expiration)
                 // New ngrok free account policy
-                setTimeout((t) => {
+                TimerWrapper.class.setTimeout((t) => {
                     Logger.info("Restart HTTP tunnel due to expiration policy");
                     t.stop();
                     t.start();
@@ -62,7 +63,7 @@ class TunnelNgrok extends Tunnel.class {
 
                 self.ready(url);
 
-                setTimeout((me, tunnelUrl) => { // Fix an issue where tunnel sent is null
+                TimerWrapper.class.setTimeout((me, tunnelUrl) => { // Fix an issue where tunnel sent is null
                     me.ready(tunnelUrl);
                 }, 5 * 1000, self, url);
 
@@ -70,7 +71,7 @@ class TunnelNgrok extends Tunnel.class {
                 Logger.err("Could not start HTTP tunnel : " + err.msg + " - " + err.error_code + " / " + err.status_code);
                 Logger.err(err.message);
 
-                setTimeout((me) => {
+                TimerWrapper.class.setTimeout((me) => {
                     me.start();
                 }, 30 * 1000, self);
             });

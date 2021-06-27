@@ -285,9 +285,9 @@ function loaded(api) {
          */
         start(update) {
             if (this.startDelay) {
-                clearTimeout(this.startDelay);
+                api.exported.TimerWrapper.class.clearTimeout(this.startDelay);
             }
-            this.startDelay = setTimeout(() => {
+            this.startDelay = api.exported.TimerWrapper.class.setTimeout(() => {
                 if (update) {
                     update();
                 }

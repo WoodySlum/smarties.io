@@ -11,6 +11,7 @@ const AlarmForm = require("./AlarmForm");
 const AlarmSensorsForm = require("./AlarmSensorsForm");
 const Tile = require("./../dashboardmanager/Tile");
 const DateUtils = require("./../../utils/DateUtils");
+const TimerWrapper = require("./../../utils/TimerWrapper");
 const AlarmScenarioForm = require("./AlarmScenarioForm");
 const AlarmScenarioTriggerForm = require("./AlarmScenarioTriggerForm");
 const Icons = require("./../../utils/Icons");
@@ -201,7 +202,7 @@ class AlarmManager {
 
         this.botEngine.textToSpeech(this.translateManager.t("alarm.armed.speak"));
 
-        this.armedSoundTimer = setInterval((self) => {
+        this.armedSoundTimer = TimerWrapper.class.setInterval((self) => {
             if (self.formConfiguration.data.enabled && !self.formConfiguration.data.armed) {
                 self.botEngine.playSound(path.resolve("./res/sounds/beep.mp3"));
             }

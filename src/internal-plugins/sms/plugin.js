@@ -156,7 +156,7 @@ function loaded(api) {
                 /*const usbDetect = require("usb-detection");
                 usbDetect.startMonitoring();
                 usbDetect.on("change", () => {
-                    setTimeout((self) => {
+                    api.exported.TimerWrapper.class.setTimeout((self) => {
                         self.init();
                     }, 2000, this);
                 });*/

@@ -169,7 +169,7 @@ function loaded(api) {
             this.init();
             this.api.webAPI.register(this, this.api.webAPI.constants().POST, ":/" + WS_SCAN_ENDPOINT, this.api.webAPI.Authentication().AUTH_ADMIN_LEVEL);
 
-            setTimeout((self) => { // Wait 30s for service start
+            api.exported.TimerWrapper.class.setTimeout((self) => { // Wait 30s for service start
                 self.init();
 
             }, 30000, this);
@@ -298,7 +298,7 @@ function loaded(api) {
                 } else if (err) {
                     this.api.exported.Logger.err(err);
                     // Retry in 30 s
-                    setTimeout((self) => {
+                    api.exported.TimerWrapper.class.setTimeout((self) => {
                         self.init();
                     }, 30000, this);
                 } else if (!err && discovered && discovered.length == 0) {
@@ -448,7 +448,7 @@ function loaded(api) {
                     api.exported.Logger.info(data);
                     if (data && data.lastscan && data.lastscan === "active" && Object.keys(data).length === 1) {
                         // Not found yet
-                        setTimeout((self) => {
+                        api.exported.TimerWrapper.class.setTimeout((self) => {
                             self.checkScanDevice(cb);
                         }, 1000, this);
                     } else if (data && data.lastscan && data.lastscan === "active" && Object.keys(data).length > 1) {
@@ -561,7 +561,7 @@ function loaded(api) {
             this.api.exported.Logger.debug("Switch light params : " + JSON.stringify(data));
             // {alert: "lselect"
             // alert: "none"
-            setImmediate(() => {
+            api.exported.TimerWrapper.class.setImmediate(() => {
                 request.put({
                     headers: {"content-type" : "application/json"},
                     url:     this.getApiUrl() + "/lights/" + light.key + "/state",
@@ -759,68 +759,68 @@ function loaded(api) {
         processSensor(d) {
             // Light
             if (d && d.state && d.uniqueid && d.r == "sensors" && d.state.hasOwnProperty("lux")) {
-                setImmediate(() => {this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, d.state.lux, this.constants().STATUS_ON, "LIGHT");});
+                api.exported.TimerWrapper.class.setImmediate(() => {this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, d.state.lux, this.constants().STATUS_ON, "LIGHT");});
             }
 
             // Presence
             if (d && d.state && d.uniqueid && d.r == "sensors" && d.state.hasOwnProperty("presence")) {
-                setImmediate(() => {this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.state.presence ? 1 : 0), this.constants().STATUS_ON, "PRESENCE");});
+                api.exported.TimerWrapper.class.setImmediate(() => {this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.state.presence ? 1 : 0), this.constants().STATUS_ON, "PRESENCE");});
             }
 
             // Battery
             if (d && d.config && d.uniqueid && d.config && d.config.hasOwnProperty("battery")) {
                 // Delay for battery - the battery messages comes often when the sensor set a value.
                 // Delaying gives to system more time to store correctly values in database
-                setTimeout((self) => {
+                api.exported.TimerWrapper.class.setTimeout((self) => {
                     self.onRadioEvent(2400, "zigbee", d.uniqueid, 1, d.config.battery, this.constants().STATUS_ON, "BATTERY");
                 }, 10000, this);
             }
 
             // Temperature
             if (d && d.config && d.uniqueid && d.config && d.config.hasOwnProperty("temperature")) {
-                setImmediate(() => {this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.config.temperature / 100), this.constants().STATUS_ON, "TEMPERATURE");});
+                api.exported.TimerWrapper.class.setImmediate(() => {this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.config.temperature / 100), this.constants().STATUS_ON, "TEMPERATURE");});
             }
             if (d && d.uniqueid && d.state && d.state.hasOwnProperty("temperature")) {
-                setImmediate(() => {this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.state.temperature / 100), this.constants().STATUS_ON, "TEMPERATURE");});
+                api.exported.TimerWrapper.class.setImmediate(() => {this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.state.temperature / 100), this.constants().STATUS_ON, "TEMPERATURE");});
             }
 
             // Contact sensors
             if (d && d.config && d.uniqueid && d.config && d.config.hasOwnProperty("open")) {
-                setImmediate(() => {this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.config.open ? 1 : 0), this.constants().STATUS_ON, "CONTACT");});
+                api.exported.TimerWrapper.class.setImmediate(() => {this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.config.open ? 1 : 0), this.constants().STATUS_ON, "CONTACT");});
             }
             if (d && d.uniqueid && d.state && d.state.hasOwnProperty("open")) {
-                setImmediate(() => {this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.state.open ? 1 : 0), this.constants().STATUS_ON, "CONTACT");});
+                api.exported.TimerWrapper.class.setImmediate(() => {this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.state.open ? 1 : 0), this.constants().STATUS_ON, "CONTACT");});
             }
 
             // Humidity
             if (d && d.config && d.uniqueid && d.config && d.config.hasOwnProperty("humidity")) {
-                setImmediate(() => {this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.config.humidity / 100), this.constants().STATUS_ON, "HUMIDITY");});
+                api.exported.TimerWrapper.class.setImmediate(() => {this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.config.humidity / 100), this.constants().STATUS_ON, "HUMIDITY");});
             }
             if (d && d.uniqueid && d.state && d.state.hasOwnProperty("humidity")) {
-                setImmediate(() => {this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.state.humidity / 100), this.constants().STATUS_ON, "HUMIDITY");});
+                api.exported.TimerWrapper.class.setImmediate(() => {this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.state.humidity / 100), this.constants().STATUS_ON, "HUMIDITY");});
             }
 
             // Pressure
             if (d && d.config && d.uniqueid && d.config && d.config.hasOwnProperty("pressure")) {
-                setImmediate(() => {this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.config.pressure * 100), this.constants().STATUS_ON, "PRESSURE");});
+                api.exported.TimerWrapper.class.setImmediate(() => {this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.config.pressure * 100), this.constants().STATUS_ON, "PRESSURE");});
             }
             if (d && d.uniqueid && d.state && d.state.hasOwnProperty("pressure")) {
-                setImmediate(() => {this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.state.pressure * 100), this.constants().STATUS_ON, "PRESSURE");});
+                api.exported.TimerWrapper.class.setImmediate(() => {this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.state.pressure * 100), this.constants().STATUS_ON, "PRESSURE");});
             }
 
             // Water leak
             if (d && d.state && d.uniqueid && d.r == "sensors" && d.state.hasOwnProperty("water")) {
-                setImmediate(() => {this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.state.water ? 1 : 0), this.constants().STATUS_ON, "WATER-LEAK");});
+                api.exported.TimerWrapper.class.setImmediate(() => {this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.state.water ? 1 : 0), this.constants().STATUS_ON, "WATER-LEAK");});
             }
 
             // Fire
             if (d && d.state && d.uniqueid && d.r == "sensors" && d.state.hasOwnProperty("fire")) {
-                setImmediate(() => {this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.state.fire ? 1 : 0), this.constants().STATUS_ON, "SMOKE");});
+                api.exported.TimerWrapper.class.setImmediate(() => {this.onRadioEvent(2400, "zigbee", d.uniqueid, 1, (d.state.fire ? 1 : 0), this.constants().STATUS_ON, "SMOKE");});
             }
 
             // Switch
             if (d && d.state && d.state.buttonevent && d.uniqueid) {
-                setImmediate(() => {this.onRadioEvent(2400, "zigbee", d.uniqueid, d.state.buttonevent, d.state.buttonevent, this.constants().STATUS_ON);});
+                api.exported.TimerWrapper.class.setImmediate(() => {this.onRadioEvent(2400, "zigbee", d.uniqueid, d.state.buttonevent, d.state.buttonevent, this.constants().STATUS_ON);});
             }
         }
 
@@ -871,7 +871,7 @@ function loaded(api) {
                                 // this.service.restart();
                                 // const restartTimerS = 5;
                                 // this.api.exported.Logger.warn("Connection web socket closed. Reconnect in " + restartTimerS + " seconds");
-                                // setTimeout((self) => {
+                                // api.exported.TimerWrapper.class.setTimeout((self) => {
                                 //     self.connectWebSocket();
                                 // }, restartTimerS * 1000, this);
                             };
@@ -881,7 +881,7 @@ function loaded(api) {
                                 this.service.restart();
                                 const restartTimerS = 5;
                                 this.api.exported.Logger.warn("Connection web socket closed. Reconnect in " + restartTimerS + " seconds");
-                                setTimeout((self) => {
+                                api.exported.TimerWrapper.class.setTimeout((self) => {
                                     self.connectWebSocket();
                                 }, restartTimerS * 1000, this);
                             };

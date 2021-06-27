@@ -150,7 +150,7 @@ function loaded(api) {
             api.configurationAPI.setUpdateCb((data, user) => {
                 if (data && data.command && data.command.length > 0) {
                     self.usernameCommand = user;
-                    setTimeout(() => {
+                    api.exported.TimerWrapper.class.setTimeout(() => {
                         self.usernameCommand = null;
                     }, 5000);
 
@@ -179,7 +179,7 @@ function loaded(api) {
             if (!process.env.TEST) {
                 // Fix #49
                 // First installation flash
-                // setTimeout((self) => {
+                // api.exported.TimerWrapper.class.setTimeout((self) => {
                 //     if (api.configurationAPI.getConfiguration() && api.configurationAPI.getConfiguration().port && !self.connected) {
                 //         api.timeEventAPI.register(self.flashFirstInstallation, self, api.timeEventAPI.constants().EVERY_MINUTES);
                 //     }
@@ -482,7 +482,7 @@ function loaded(api) {
         emit(frequency, protocol, deviceId, switchId, status = null, previousStatus = null) {
             const radioObject = super.emit(frequency, protocol, deviceId, switchId, status, previousStatus);
 
-            setTimeout((me) => {
+            api.exported.TimerWrapper.class.setTimeout((me) => {
                 me.service.send("rflinkSend", me.formatRadioObjectBeforeSending(radioObject));
 
                 // Retry policy
@@ -491,12 +491,12 @@ function loaded(api) {
                 if (retry > 0) {
                     const retryHash = sha256(frequency?frequency.toString():"" + protocol?protocol.toString():"" + deviceId?deviceId.toString():"" + switchId?switchId.toString():"");
                     if (me.retryList[retryHash]) {
-                        clearTimeout(me.retryList[retryHash]);
+                        api.exported.TimerWrapper.class.clearTimeout(me.retryList[retryHash]);
                     }
 
-                    me.retryList[retryHash] = setTimeout((self) => {
+                    me.retryList[retryHash] = api.exported.TimerWrapper.class.setTimeout((self) => {
                         self.retryList[retryHash] = null;
-                        setImmediate(() => {
+                        api.exported.TimerWrapper.class.setImmediate(() => {
                             self.service.send("rflinkSend", self.formatRadioObjectBeforeSending(radioObject));
                         });
                     }, retry * 1000, me);

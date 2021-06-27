@@ -57,7 +57,7 @@ Here is a threaded service sample :
 
         start() {
             super.start();
-            setTimeout(() => {
+            TimerWrapper.class.setTimeout(() => {
                 this.send("foo");
             }, 3000);
         }

@@ -115,7 +115,7 @@ function loaded(api) {
                             }
                         });
 
-                    setTimeout(() => {
+                    api.exported.TimerWrapper.class.setTimeout(() => {
                         if (!finished && !self.configuration.doNotFailOnTimeout) {
                             const end = Date.now();
                             const elapsed = (end - start) / 1000;

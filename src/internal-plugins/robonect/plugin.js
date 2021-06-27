@@ -144,7 +144,7 @@ function loaded(api) {
          */
         refresh() {
             this.getVersion((err, res) => {
-                setTimeout((self) => {
+                api.exported.TimerWrapper.class.setTimeout((self) => {
                     self.getStatus((err2, res2) => {
                         if (!err && !err2 && res) {
                             if (res2 && res2.blades != null && res2.blades != "undefined") {
@@ -369,7 +369,7 @@ function loaded(api) {
                         }
                     } else {
                         if (!err && res.successful)  {
-                            setTimeout((self) => {
+                            api.exported.TimerWrapper.class.setTimeout((self) => {
                                 self.refresh();
                             }, 1000, this);
                             if (cb) {
@@ -385,10 +385,10 @@ function loaded(api) {
             } else {
                 this.getInfo("/json?cmd=mode&mode=man", (err, res) => {
                     if (!err && res.successful)  {
-                        setTimeout(() => {
+                        api.exported.TimerWrapper.class.setTimeout(() => {
                             this.getInfo("/json?cmd=mode&mode=auto", (err, res) => {
                                 if (!err && res.successful)  {
-                                    setTimeout((self) => {
+                                    api.exported.TimerWrapper.class.setTimeout((self) => {
                                         self.refresh();
                                     }, 1000, this);
                                 }

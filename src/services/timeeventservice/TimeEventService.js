@@ -2,6 +2,7 @@
 // Internal
 var Logger = require("./../../logger/Logger");
 var Service = require("./../Service");
+var TimerWrapper = require("./../../utils/TimerWrapper");
 const sha256 = require("sha256");
 const stackTrace = require("stack-trace");
 
@@ -41,9 +42,9 @@ class TimeEventService extends Service.class {
         if (this.status != Service.RUNNING) {
             Object.keys(this.timers).forEach((hash) => {
                 if (this.timers[hash]) {
-                    clearInterval(this.timers[hash]);
+                    TimerWrapper.class.clearInterval(this.timers[hash]);
                 }
-                this.timers[hash] = setInterval(this.timeEvent, 1000, this, hash);
+                this.timers[hash] = TimerWrapper.class.setInterval(this.timeEvent, 1000, this, hash);
             });
 
             super.start();
@@ -56,7 +57,7 @@ class TimeEventService extends Service.class {
     stop() {
         if (this.timer && this.status == Service.RUNNING) {
             Object.keys(this.timers).forEach((hash) => {
-                clearInterval(this.timers[hash]);
+                TimerWrapper.class.clearInterval(this.timers[hash]);
                 this.timers[hash] = null;
             });
             super.stop();
@@ -124,9 +125,9 @@ class TimeEventService extends Service.class {
         if (index === -1) {
             this.registeredElements.push(obj);
             if (this.timers[obj.hash]) {
-                clearInterval(this.timers[obj.hash]);
+                TimerWrapper.class.clearInterval(this.timers[obj.hash]);
             }
-            this.timers[obj.hash] = setInterval(this.timeEvent, 1000, this, obj.hash);
+            this.timers[obj.hash] = TimerWrapper.class.setInterval(this.timeEvent, 1000, this, obj.hash);
         } else {
             Logger.warn("Element already registered");
         }
@@ -158,7 +159,7 @@ class TimeEventService extends Service.class {
             Logger.verbose("Element not found");
         } else {
             this.registeredElements.splice(index ,1);
-            clearInterval(this.timers[obj.hash]);
+            TimerWrapper.class.clearInterval(this.timers[obj.hash]);
             delete this.timers[obj.hash];
         }
     }

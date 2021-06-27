@@ -6,6 +6,7 @@ const md5File = require("md5-file");
 const zipdir = require("zip-dir");
 const extractzip = require("extract-zip");
 const DateUtils = require("./../../utils/DateUtils");
+const TimerWrapper = require("./../../utils/TimerWrapper");
 const Logger = require("./../../logger/Logger");
 const ConfManager = require("./../confmanager/ConfManager");
 const AiManager = require("./../aimanager/AiManager");
@@ -298,7 +299,7 @@ class BackupManager {
 
                         Logger.info("Files restored : " + fileRestored + " / " + descriptor.length);
                         Logger.info("Restarting system in " + RESTART_TIMER + " seconds ...");
-                        setTimeout((self) => {
+                        TimerWrapper.class.setTimeout((self) => {
                             self.eventBus.emit(SmartiesRunnerConstants.RESTART);
                         }, RESTART_TIMER * 1000, this);
 
