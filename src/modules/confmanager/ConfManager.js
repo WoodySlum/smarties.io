@@ -169,7 +169,6 @@ class ConfManager {
      * @param  {boolean} [async=true] True if save asynchronously, false otherwise
      */
     writeDataToDisk(context, async = true) {
-
         if (!context) {
             context = this;
         }

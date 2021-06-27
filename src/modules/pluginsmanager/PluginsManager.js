@@ -282,13 +282,15 @@ class PluginsManager {
             this.plugins.forEach((plugin) => {
                 plugin.stop();
             });
+        } else {
+            try {
+                this.pluginsConf = this.confManager.loadData(PluginConf.class, CONF_KEY);
+            } catch(e) {
+                this.pluginsConf = [];
+            }
         }
         this.plugins = [];
-        try {
-            this.pluginsConf = this.confManager.loadData(PluginConf.class, CONF_KEY);
-        } catch(e) {
-            this.pluginsConf = [];
-        }
+
         this.load();
         // Dispatch event
         if (this.eventBus) {
@@ -367,6 +369,7 @@ class PluginsManager {
         if (plugin) {
             let pluginPath = relative ? path + plugin +"/" + PLUGIN_MAIN : this.path.resolve() + "/" + path + plugin +"/" + PLUGIN_MAIN;
             Logger.verbose("Loading plugin at path : " + pluginPath);
+            delete require.cache[require.resolve(pluginPath)];
             let p = require(pluginPath, "may-exclude");
 
             // Save configuration meta data
@@ -479,7 +482,6 @@ class PluginsManager {
      */
     load() {
         let initializedPlugins = [];
-
         initializedPlugins = initializedPlugins.concat(this.initPlugins(INTERNAL_PLUGIN_PATH, INTERNAL_PLUGINS, true));
         initializedPlugins = initializedPlugins.concat(this.initPlugins(EXTERNAL_PLUGIN_PATH, this.getPluginsFromDirectory(EXTERNAL_PLUGIN_PATH)));
 
@@ -794,6 +796,7 @@ class PluginsManager {
                 }
             });
         } else if (apiRequest.route == ROUTE_WS_GENERAL_ENABLE_SET) {
+            const self = this;
             return new Promise((resolve, reject) => {
                 let rejected = false;
                 if (apiRequest.data && apiRequest.data.status && apiRequest.data.status.length > 0) {
@@ -816,12 +819,13 @@ class PluginsManager {
                                 rejected = true;
                             }
                         } else {
-                            reject(new APIResponse.class(false, null, 11872, "Unexisting plugin"));
-                            rejected = true;
+                            Logger.warn("Unexisting plugin " + pluginStatus.identifier);
                         }
                     });
                     if (!rejected) {
-                        this.eventBus.emit(SmartiesRunnerConstants.RESTART);
+                        TimerWrapper.class.setImmediate(() => {
+                            self.init(true);
+                        });
                         resolve(new APIResponse.class(true, {success:true}));
                     }
                 } else {
@@ -841,6 +845,7 @@ class PluginsManager {
             });
         } else if (apiRequest.route.startsWith(ROUTE_WS_INSTALL_SET_BASE)) {
             return new Promise((resolve, reject) => {
+                const self = this;
                 const filename = this.appConfiguration.cachePath + apiRequest.data.plugin + "-" + apiRequest.data.version + ".zip";
                 try {
                     fs.removeSync(filename);
@@ -848,12 +853,25 @@ class PluginsManager {
                     e;
                 }
 
+                try {
+                    fs.removeSync(process.cwd() + "/" + EXTERNAL_PLUGIN_PATH + apiRequest.data.plugin);
+                } catch(e) {
+                    e;
+                }
+
                 const extractor = unzipper.Extract({ path: process.cwd() + "/" + EXTERNAL_PLUGIN_PATH + apiRequest.data.plugin });
                 extractor.on("close", () => {
-                    Logger.info("Plugin " + apiRequest.data.plugin + " extracted");
-                    TimerWrapper.class.setTimeout(() => {
-                        this.eventBus.emit(SmartiesRunnerConstants.RESTART);
-                    }, 5000);
+                    Logger.info("Plugin " + apiRequest.data.plugin + " installed");
+
+                    const pluginConf = self.getPluginConf(apiRequest.data.plugin);
+                    if (pluginConf) {
+                        pluginConf.version = apiRequest.data.version;
+                        self.pluginsConf = self.confManager.setData(CONF_KEY, pluginConf, self.pluginsConf, PluginConf.comparator);
+                    }
+
+                    TimerWrapper.class.setImmediate(() => {
+                        self.init(true);
+                    });
                     resolve(new APIResponse.class(true, {success:true}));
                 })
                     .on("error", (error) => {
@@ -878,9 +896,9 @@ class PluginsManager {
                 if (fs.existsSync(pluginPath) && self.getPluginByIdentifier(apiRequest.data.plugin, false)) {
                     self.changePluginStatus(self.getPluginConf(apiRequest.data.plugin), false, false);
                     fs.removeSync(pluginPath);
-                    TimerWrapper.class.setTimeout(() => {
-                        this.eventBus.emit(SmartiesRunnerConstants.RESTART);
-                    }, 5000);
+                    TimerWrapper.class.setImmediate(() => {
+                        self.init(true);
+                    });
                     resolve(new APIResponse.class(true, {success:true}));
                 } else {
                     reject(new APIResponse.class(false, null, 4213, "Error uninstalling plugin"));

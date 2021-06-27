@@ -38,7 +38,7 @@ class PluginConf {
 }
 
 const comparator = (pluginConf1, pluginConf2) => {
-    return (pluginConf1.identifier == pluginConf2.identifier)?true:false;
+    return (pluginConf1.identifier === pluginConf2.identifier);
 };
 
 module.exports = {class:PluginConf, comparator:comparator};
