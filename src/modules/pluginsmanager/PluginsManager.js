@@ -853,7 +853,7 @@ class PluginsManager {
                     Logger.info("Plugin " + apiRequest.data.plugin + " extracted");
                     setTimeout(() => {
                         this.eventBus.emit(SmartiesRunnerConstants.RESTART);
-                    }, 500);
+                    }, 5000);
                     resolve(new APIResponse.class(true, {success:true}));
                 })
                     .on("error", (error) => {
@@ -880,7 +880,7 @@ class PluginsManager {
                     fs.removeSync(pluginPath);
                     setTimeout(() => {
                         this.eventBus.emit(SmartiesRunnerConstants.RESTART);
-                    }, 500);
+                    }, 5000);
                     resolve(new APIResponse.class(true, {success:true}));
                 } else {
                     reject(new APIResponse.class(false, null, 4213, "Error uninstalling plugin"));
