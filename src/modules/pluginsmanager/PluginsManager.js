@@ -35,6 +35,7 @@ const ROUTE_WS_INSTALL_SET_BASE = ":/plugins/install/";
 const ROUTE_WS_INSTALL_SET = ROUTE_WS_INSTALL_SET_BASE + "[plugin]/[version]/";
 const ROUTE_WS_UNINSTALL_SET_BASE = ":/plugins/uninstall/";
 const ROUTE_WS_UNINSTALL_SET = ROUTE_WS_UNINSTALL_SET_BASE + "[plugin]/";
+const SYSTEM_READY = "system-ready";
 
 const ERROR_MISSING_PROPERTY = "Missing property name, version or description for plugin";
 const ERROR_NOT_A_FUNCTION = "Missing plugin class";
@@ -246,7 +247,15 @@ class PluginsManager {
         this.backupManager = backupManager;
         this.gatewayManager = gatewayManager;
         this.aiManager = aiManager;
-        this.CORE_EVENT_READY = CORE_EVENT_READY;
+        this.CORE_EVENT_READY = SYSTEM_READY;
+
+        if (this.eventBus) {
+            eventBus.on(CORE_EVENT_READY, () => {
+                eventBus.emit(SYSTEM_READY);
+            });
+        }
+
+
 
         this.plugins = [];
         try {
@@ -295,6 +304,7 @@ class PluginsManager {
         // Dispatch event
         if (this.eventBus) {
             this.eventBus.emit(EVENT_LOADED, this);
+            this.eventBus.emit(SYSTEM_READY, {});
         }
         if (start) {
             if (this.plugins.length > 0) {
