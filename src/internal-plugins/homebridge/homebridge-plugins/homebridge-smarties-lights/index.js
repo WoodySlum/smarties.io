@@ -51,10 +51,14 @@ function SmartiesAccessory(log, config) {
 }
 
 SmartiesAccessory.prototype.getState = function(callback) {
+    const securityProcess = setTimeout(() => {
+        callback(null);
+    }, 1000);
     let cb = (data) => {
         if (data.device.id == this.device.id) {
             Api.removeListener("getDeviceStatusRes", cb);
             callback(null, data.status);
+            clearTimeout(securityProcess);
         }
     };
     Api.on("getDeviceStatusRes", cb);
@@ -62,6 +66,9 @@ SmartiesAccessory.prototype.getState = function(callback) {
 }
 
 SmartiesAccessory.prototype.setState = function(state, callback) {
+    const securityProcess = setTimeout(() => {
+        callback(null);
+    }, 1000);
     let cb = (data) => {
         if (data.device.id == this.device.id) {
             const device = data.device;
@@ -74,6 +81,7 @@ SmartiesAccessory.prototype.setState = function(state, callback) {
 
             Api.removeListener("getDeviceByIdRes", cb);
             callback(null); // success
+            clearTimeout(securityProcess);
         }
     };
     Api.on("getDeviceByIdRes", cb);
@@ -81,6 +89,9 @@ SmartiesAccessory.prototype.setState = function(state, callback) {
 }
 
 SmartiesAccessory.prototype.getBrightness = function(callback) {
+    const securityProcess = setTimeout(() => {
+        callback(null);
+    }, 1000);
     let cb = (data) => {
         if (data.device.id == this.device.id) {
             const device = data.device;
@@ -90,6 +101,7 @@ SmartiesAccessory.prototype.getBrightness = function(callback) {
             } else {
                 callback(null, 100);
             }
+            clearTimeout(securityProcess);
         }
     };
     Api.on("getDeviceByIdRes", cb);
@@ -97,6 +109,9 @@ SmartiesAccessory.prototype.getBrightness = function(callback) {
 }
 
 SmartiesAccessory.prototype.setBrightness = function(brightness, callback) {
+    const securityProcess = setTimeout(() => {
+        callback(null);
+    }, 1000);
     let cb = (data) => {
         if (data.device.id == this.device.id) {
             const device = data.device;
@@ -106,6 +121,7 @@ SmartiesAccessory.prototype.setBrightness = function(brightness, callback) {
 
             Api.removeListener("getDeviceByIdRes", cb);
             callback(null); // success
+            clearTimeout(securityProcess);
         }
     };
     Api.on("getDeviceByIdRes", cb);
@@ -113,6 +129,9 @@ SmartiesAccessory.prototype.setBrightness = function(brightness, callback) {
 }
 
 SmartiesAccessory.prototype.getHue = function(callback) {
+    const securityProcess = setTimeout(() => {
+        callback(null);
+    }, 1000);
     let cb = (data) => {
         if (data.device.id == this.device.id) {
             const device = data.device;
@@ -124,6 +143,7 @@ SmartiesAccessory.prototype.getHue = function(callback) {
             } else {
                 callback(null);
             }
+            clearTimeout(securityProcess);
         }
     };
     Api.on("getDeviceByIdRes", cb);
@@ -131,6 +151,9 @@ SmartiesAccessory.prototype.getHue = function(callback) {
 }
 
 SmartiesAccessory.prototype.setHue = function(hue, callback) {
+    const securityProcess = setTimeout(() => {
+        callback(null);
+    }, 1000);
     let cb = (data) => {
         if (data.device.id == this.device.id) {
             const device = data.device;
@@ -146,6 +169,7 @@ SmartiesAccessory.prototype.setHue = function(hue, callback) {
             }
             Api.removeListener("getDeviceByIdRes", cb);
             callback(null); // success
+            clearTimeout(securityProcess);
         }
     };
     Api.on("getDeviceByIdRes", cb);
@@ -153,6 +177,9 @@ SmartiesAccessory.prototype.setHue = function(hue, callback) {
 }
 
 SmartiesAccessory.prototype.getSaturation = function(callback) {
+    const securityProcess = setTimeout(() => {
+        callback(null);
+    }, 1000);
     let cb = (data) => {
         if (data.device.id == this.device.id) {
             const device = data.device;
@@ -164,6 +191,7 @@ SmartiesAccessory.prototype.getSaturation = function(callback) {
             } else {
                 callback(null);
             }
+            clearTimeout(securityProcess);
         }
     };
     Api.on("getDeviceByIdRes", cb);
@@ -171,6 +199,9 @@ SmartiesAccessory.prototype.getSaturation = function(callback) {
 }
 
 SmartiesAccessory.prototype.setSaturation = function(sat, callback) {
+    const securityProcess = setTimeout(() => {
+        callback(null);
+    }, 1000);
     let cb = (data) => {
         if (data.device.id == this.device.id) {
             const device = data.device;
@@ -186,6 +217,7 @@ SmartiesAccessory.prototype.setSaturation = function(sat, callback) {
             }
             Api.removeListener("getDeviceByIdRes", cb);
             callback(null); // success
+            clearTimeout(securityProcess);
         }
     };
     Api.on("getDeviceByIdRes", cb);
