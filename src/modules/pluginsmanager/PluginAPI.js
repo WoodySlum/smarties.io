@@ -327,9 +327,7 @@ class PluginsAPI {
      * Start plugin stuff
      */
     start() {
-        this.servicesManagerAPI.services.forEach((service) => {
-            service.start();
-        });
+        
     }
 
     /**

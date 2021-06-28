@@ -54,6 +54,7 @@ function loaded(api) {
                 const log = require(data.dirname + "./../../../node_modules/homebridge/lib/logger");
                 const hap = require("hap-nodejs");
                 const pin = "021-92-283";
+                
                 const accessories = data.devices.concat(data.sensors);
 
                 log.Logger.prototype.log = (level, msg, ...params) => {

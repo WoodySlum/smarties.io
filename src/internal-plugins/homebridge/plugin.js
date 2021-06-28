@@ -128,7 +128,9 @@ function loaded(api) {
                         this.generateHapSensors();
                         this.generateHapAlarm();
                         this.generateHapCameras();
+
                         this.service.init(this.devices, this.sensors, this.cameras);
+
                     });
                 });
 
@@ -140,12 +142,14 @@ function loaded(api) {
                         conf.homebridgeIdentifier = null;
                         api.configurationAPI.saveData(conf);
                     }
+
                     this.service.init(this.devices, this.sensors, this.cameras);
                     this.service.start(() => {
                         this.generateHapDevices();
                         this.generateHapSensors();
                         this.generateHapAlarm();
                         this.generateHapCameras();
+                        
                         this.service.init(this.devices, this.sensors, this.cameras);
                     });
                 });
@@ -394,7 +398,10 @@ function loaded(api) {
                     name: smokeSensors[sensorKey]
                 });
             });
+
+
         }
+
     }
 
     api.registerInstance(new Homebridge(api));

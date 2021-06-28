@@ -521,6 +521,7 @@ class PluginsManager {
             // Load
             try {
                 if (!pluginConf || (pluginConf && pluginConf.enable) || (CORE_PLUGINS.indexOf(pluginConf.identifier) > -1)) {
+                    console.log("PLUGIN " + pluginConf.identifier + " LOADED");
                     plugin.loaded();
                 } else {
                     Logger.info("Plugin " + pluginConf.identifier + " has been disabled and won't be loaded");
