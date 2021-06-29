@@ -1,7 +1,7 @@
 /* eslint-disable */
 var Service, Characteristic, Api;
 const colorutil = require("color-util");
-const TIMER_SECURITY_S = 2000;
+const constants = require("./../constants-plugins");
 
 module.exports = function(homebridge) {
   Service = homebridge.hap.Service;
@@ -56,7 +56,7 @@ SmartiesAccessory.prototype.getState = function(callback) {
     const securityProcess = setTimeout(() => {
         called = true;
         callback(null);
-    }, TIMER_SECURITY_S);
+    }, constants.TIMER_SECURITY_S);
     let cb = (data) => {
         if (data.device.id == this.device.id) {
             Api.removeListener("getDeviceStatusRes", cb);
@@ -73,7 +73,7 @@ SmartiesAccessory.prototype.setState = function(state, callback) {
     const securityProcess = setTimeout(() => {
         called = true;
         callback(null);
-    }, TIMER_SECURITY_S);
+    }, constants.TIMER_SECURITY_S);
     let cb = (data) => {
         if (data.device.id == this.device.id) {
             const device = data.device;
@@ -98,7 +98,7 @@ SmartiesAccessory.prototype.getBrightness = function(callback) {
     const securityProcess = setTimeout(() => {
         called = true;
         callback(null);
-    }, TIMER_SECURITY_S);
+    }, constants.TIMER_SECURITY_S);
     let cb = (data) => {
         if (data.device.id == this.device.id) {
             const device = data.device;
@@ -120,7 +120,7 @@ SmartiesAccessory.prototype.setBrightness = function(brightness, callback) {
     const securityProcess = setTimeout(() => {
         called = true;
         callback(null);
-    }, TIMER_SECURITY_S);
+    }, constants.TIMER_SECURITY_S);
     let cb = (data) => {
         if (data.device.id == this.device.id) {
             const device = data.device;
@@ -142,7 +142,7 @@ SmartiesAccessory.prototype.getHue = function(callback) {
     const securityProcess = setTimeout(() => {
         called = true;
         callback(null);
-    }, TIMER_SECURITY_S);
+    }, constants.TIMER_SECURITY_S);
     let cb = (data) => {
         if (data.device.id == this.device.id) {
             const device = data.device;
@@ -166,7 +166,7 @@ SmartiesAccessory.prototype.setHue = function(hue, callback) {
     const securityProcess = setTimeout(() => {
         called = true;
         callback(null);
-    }, TIMER_SECURITY_S);
+    }, constants.TIMER_SECURITY_S);
     let cb = (data) => {
         if (data.device.id == this.device.id) {
             const device = data.device;
@@ -194,7 +194,7 @@ SmartiesAccessory.prototype.getSaturation = function(callback) {
     const securityProcess = setTimeout(() => {
         called = true;
         callback(null);
-    }, TIMER_SECURITY_S);
+    }, constants.TIMER_SECURITY_S);
     let cb = (data) => {
         if (data.device.id == this.device.id) {
             const device = data.device;
@@ -218,7 +218,7 @@ SmartiesAccessory.prototype.setSaturation = function(sat, callback) {
     const securityProcess = setTimeout(() => {
         called = true;
         callback(null);
-    }, TIMER_SECURITY_S);
+    }, constants.TIMER_SECURITY_S);
     let cb = (data) => {
         if (data.device.id == this.device.id) {
             const device = data.device;

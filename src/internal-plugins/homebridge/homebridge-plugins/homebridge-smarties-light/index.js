@@ -1,5 +1,6 @@
 /* eslint-disable */
 var Service, Characteristic, Api;
+const constants = require("./../constants-plugins");
 
 module.exports = function(homebridge) {
   Service = homebridge.hap.Service;
@@ -21,17 +22,24 @@ function SmartiesLightAccessory(log, config) {
 }
 
   SmartiesLightAccessory.prototype.handleCurrentAmbientLightLevelGet = function(callback) {
+      let called = false;
+      const securityProcess = setTimeout(() => {
+          called = true;
+          callback(null);
+      }, constants.TIMER_SECURITY_S);
       let cb = (data) => {
           if (data.sensor == this.identifier) {
               Api.removeListener("getValueRes", cb);
               if (!data.err) {
                   if (data.res.value == 0) {
-                      callback(null, 0.0001);
+                      if (!called) callback(null, 0.0001);
                   } else {
-                      callback(null, data.res.value);
+                      if (!called) callback(null, data.res.value);
                   }
+                  clearTimeout(securityProcess);
               } else {
-                  callback(Error("Invalid value"));
+                  if (!called) callback(Error("Invalid value"));
+                  clearTimeout(securityProcess);
               }
           }
       };

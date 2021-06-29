@@ -1,5 +1,6 @@
 /* eslint-disable */
 var Service, Characteristic, Api;
+const constants = require("./../constants-plugins");
 
 module.exports = function(homebridge) {
   Service = homebridge.hap.Service;
@@ -24,14 +25,20 @@ function SmartiesHumidityAccessory(log, config) {
 }
 
 SmartiesHumidityAccessory.prototype.getHumidity = function(callback) {
+    let called = false;
+    const securityProcess = setTimeout(() => {
+        called = true;
+        callback(null);
+    }, constants.TIMER_SECURITY_S);
     let cb = (data) => {
         if (data.sensor == this.identifier) {
             Api.removeListener("getValueRes", cb);
             if (!data.err && data.res) {
-                callback(null, parseFloat(data.res.value));
+                if (!called) callback(null, parseFloat(data.res.value));
             } else {
-                callback(Error("Invalid value"));
+                if (!called) callback(Error("Invalid value"));
             }
+            clearTimeout(securityProcess);
         }
     };
     Api.on("getValueRes", cb);

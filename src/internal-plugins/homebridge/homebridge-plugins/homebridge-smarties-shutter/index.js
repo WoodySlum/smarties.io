@@ -1,5 +1,6 @@
 /* eslint-disable */
 var Service, Characteristic, Api;
+const constants = require("./../constants-plugins");
 
 module.exports = function(homebridge) {
   Service = homebridge.hap.Service;
@@ -36,10 +37,16 @@ function SmartiesShutterAccessory(log, config) {
 }
 
   SmartiesShutterAccessory.prototype.handleCurrentPositionGet = function(callback) {
+      let called = false;
+      const securityProcess = setTimeout(() => {
+          called = true;
+          callback(null);
+      }, constants.TIMER_SECURITY_S);
       let cb = (data) => {
           if (data.device.id == this.device.id) {
               Api.removeListener("getDeviceStatusRes", cb);
-              callback(null, 100);
+              if (!called) callback(null, 100);
+              clearTimeout(securityProcess);
           }
       };
       Api.on("getDeviceStatusRes", cb);
@@ -47,10 +54,16 @@ function SmartiesShutterAccessory(log, config) {
   }
 
   SmartiesShutterAccessory.prototype.handlePositionStateGet = function(callback) {
+      let called = false;
+      const securityProcess = setTimeout(() => {
+          called = true;
+          callback(null);
+      }, constants.TIMER_SECURITY_S);
       let cb = (data) => {
           if (data.device.id == this.device.id) {
               Api.removeListener("getDeviceStatusRes", cb);
-              callback(null, Characteristic.PositionState.STOPPED);
+              if (!called) callback(null, Characteristic.PositionState.STOPPED);
+              clearTimeout(securityProcess);
           }
       };
       Api.on("getDeviceStatusRes", cb);
@@ -58,10 +71,16 @@ function SmartiesShutterAccessory(log, config) {
   }
 
   SmartiesShutterAccessory.prototype.handleTargetPositionGet = function(callback) {
+      let called = false;
+      const securityProcess = setTimeout(() => {
+          called = true;
+          callback(null);
+      }, constants.TIMER_SECURITY_S);
       let cb = (data) => {
           if (data.device.id == this.device.id) {
               Api.removeListener("getDeviceStatusRes", cb);
-              callback(null, 100);
+              if (!called) callback(null, 100);
+              clearTimeout(securityProcess);
           }
       };
       Api.on("getDeviceStatusRes", cb);
@@ -69,6 +88,11 @@ function SmartiesShutterAccessory(log, config) {
   }
 
   SmartiesShutterAccessory.prototype.handleTargetPositionSet = function(state, callback) {
+      let called = false;
+      const securityProcess = setTimeout(() => {
+          called = true;
+          callback(null);
+      }, constants.TIMER_SECURITY_S);
       let cb = (data) => {
           if (data.device.id == this.device.id) {
               const device = data.device;
@@ -84,7 +108,8 @@ function SmartiesShutterAccessory(log, config) {
               Api.emit("switchDeviceWithDevice", device);
 
               Api.removeListener("getDeviceByIdRes", cb);
-              callback(null); // success
+              if (!called) callback(null); // success
+              clearTimeout(securityProcess);
           }
       };
       Api.on("getDeviceByIdRes", cb);

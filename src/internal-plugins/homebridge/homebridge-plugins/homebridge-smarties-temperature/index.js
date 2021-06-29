@@ -1,5 +1,6 @@
 /* eslint-disable */
 var Service, Characteristic, Api;
+const constants = require("./../constants-plugins");
 
 module.exports = function(homebridge) {
   Service = homebridge.hap.Service;
@@ -24,14 +25,20 @@ function SmartiesTemperatureAccessory(log, config) {
 }
 
 SmartiesTemperatureAccessory.prototype.getTemperature = function(callback) {
+    let called = false;
+    const securityProcess = setTimeout(() => {
+        called = true;
+        callback(null);
+    }, constants.TIMER_SECURITY_S);
     let cb = (data) => {
         if (data.sensor == this.identifier) {
             Api.removeListener("getValueRes", cb);
             if (!data.err && data.tValue) {
-                callback(null, parseFloat(data.tValue));
+                if (!called) callback(null, parseFloat(data.tValue));
             } else {
-                callback(Error("Invalid value"));
+                if (!called) callback(Error("Invalid value"));
             }
+            clearTimeout(securityProcess);
         }
     };
     Api.on("getValueRes", cb);

@@ -1,5 +1,6 @@
 /* eslint-disable */
 var Service, Characteristic, Api;
+const constants = require("./../constants-plugins");
 
 module.exports = function(homebridge) {
   Service = homebridge.hap.Service;
@@ -33,15 +34,21 @@ function SmartiesLockAccessory(log, config) {
 }
 
   SmartiesLockAccessory.prototype.handleLockCurrentStateGet = function(callback) {
+      let called = false;
+      const securityProcess = setTimeout(() => {
+          called = true;
+          callback(null);
+      }, constants.TIMER_SECURITY_S);
       let cb = (data) => {
           if (data.device.id == this.device.id) {
               if (data.device.status == this.deviceConstants.INT_STATUS_ON) {
                   Api.removeListener("getDeviceStatusRes", cb);
-                  callback(null, Characteristic.LockCurrentState.SECURED);
+                  if (!called) callback(null, Characteristic.LockCurrentState.SECURED);
               } else {
                   Api.removeListener("getDeviceStatusRes", cb);
-                  callback(null, Characteristic.LockCurrentState.UNSECURED);
+                  if (!called) callback(null, Characteristic.LockCurrentState.UNSECURED);
               }
+              clearTimeout(securityProcess);
           }
       };
       Api.on("getDeviceStatusRes", cb);
@@ -50,16 +57,22 @@ function SmartiesLockAccessory(log, config) {
 
 
   SmartiesLockAccessory.prototype.handleLockTargetStateGet = function(callback) {
+      let called = false;
+      const securityProcess = setTimeout(() => {
+          called = true;
+          callback(null);
+      }, constants.TIMER_SECURITY_S);
       let cb = (data) => {
           if (data.device.id == this.device.id) {
               // console.log("=>");
               // console.log(data.device);
               Api.removeListener("getDeviceStatusRes", cb);
               if (data.device.status == this.deviceConstants.INT_STATUS_ON) {
-                  callback(null, Characteristic.LockCurrentState.SECURED);
+                  if (!called) callback(null, Characteristic.LockCurrentState.SECURED);
               } else {
-                  callback(null, Characteristic.LockCurrentState.UNSECURED);
+                  if (!called) callback(null, Characteristic.LockCurrentState.UNSECURED);
               }
+              clearTimeout(securityProcess);
           }
       };
       Api.on("getDeviceStatusRes", cb);
@@ -70,6 +83,11 @@ function SmartiesLockAccessory(log, config) {
    * Handle requests to set the "Target Door State" characteristic
    */
   SmartiesLockAccessory.prototype.handleLockTargetStateSet = function(state, callback) {
+      let called = false;
+      const securityProcess = setTimeout(() => {
+          called = true;
+          callback(null);
+      }, constants.TIMER_SECURITY_S);
       let cb = (data) => {
           if (data.device.id == this.device.id) {
               const device = data.device;
@@ -81,7 +99,8 @@ function SmartiesLockAccessory(log, config) {
               Api.emit("switchDeviceWithDevice", device);
 
               Api.removeListener("getDeviceByIdRes", cb);
-              callback(null); // success
+              if (!called) callback(null); // success
+              clearTimeout(securityProcess);
           }
       };
       Api.on("getDeviceByIdRes", cb);

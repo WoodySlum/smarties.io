@@ -1,5 +1,6 @@
 /* eslint-disable */
 var Service, Characteristic, Api;
+const constants = require("./../constants-plugins");
 
 module.exports = function(homebridge) {
   Service = homebridge.hap.Service;
@@ -21,18 +22,25 @@ function SmartiesMotionAccessory(log, config) {
 }
 
   SmartiesMotionAccessory.prototype.handleMotionDetectedGet = function(callback) {
+      let called = false;
+      const securityProcess = setTimeout(() => {
+          called = true;
+          callback(null);
+      }, constants.TIMER_SECURITY_S);
       let cb = (data) => {
           if (data.sensor == this.identifier) {
               Api.removeListener("getValueRes", cb);
               if (!data.err) {
                   if (data.res > 0) {
-                      callback(null, 1);
+                      if (!called) callback(null, 1);
                   } else {
-                      callback(null, 0);
+                      if (!called) callback(null, 0);
                   }
+                  clearTimeout(securityProcess);
 
               } else {
-                  callback(Error("Invalid value"));
+                  if (!called) callback(Error("Invalid value"));
+                  clearTimeout(securityProcess);
               }
           }
       };

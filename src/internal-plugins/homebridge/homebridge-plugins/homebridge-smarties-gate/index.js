@@ -1,5 +1,6 @@
 /* eslint-disable */
 var Service, Characteristic, Api;
+const constants = require("./../constants-plugins");
 
 module.exports = function(homebridge) {
   Service = homebridge.hap.Service;
@@ -41,10 +42,16 @@ function SmartiesGateAccessory(log, config) {
 }
 
   SmartiesGateAccessory.prototype.handleCurrentDoorStateGet = function(callback) {
+      let called = false;
+      const securityProcess = setTimeout(() => {
+          called = true;
+          callback(null);
+      }, constants.TIMER_SECURITY_S);
       let cb = (data) => {
           if (data.device.id == this.device.id) {
               Api.removeListener("getDeviceStatusRes", cb);
-              callback(null, Characteristic.CurrentDoorState.CLOSED);
+              if (!called) callback(null, Characteristic.CurrentDoorState.CLOSED);
+              clearTimeout(securityProcess);
           }
       };
       Api.on("getDeviceStatusRes", cb);
@@ -53,10 +60,16 @@ function SmartiesGateAccessory(log, config) {
 
 
   SmartiesGateAccessory.prototype.handleTargetDoorStateGet = function(callback) {
+      let called = false;
+      const securityProcess = setTimeout(() => {
+          called = true;
+          if (!called) callback(null);
+      }, constants.TIMER_SECURITY_S);
       let cb = (data) => {
           if (data.device.id == this.device.id) {
               Api.removeListener("getDeviceStatusRes", cb);
-              callback(null, Characteristic.CurrentDoorState.CLOSED);
+              if (!called) callback(null, Characteristic.CurrentDoorState.CLOSED);
+              clearTimeout(securityProcess);
           }
       };
       Api.on("getDeviceStatusRes", cb);
@@ -67,6 +80,11 @@ function SmartiesGateAccessory(log, config) {
    * Handle requests to set the "Target Door State" characteristic
    */
   SmartiesGateAccessory.prototype.handleTargetDoorStateSet = function(state, callback) {
+      let called = false;
+      const securityProcess = setTimeout(() => {
+          called = true;
+          callback(null);
+      }, constants.TIMER_SECURITY_S);
       let cb = (data) => {
           if (data.device.id == this.device.id) {
               const device = data.device;
@@ -78,7 +96,8 @@ function SmartiesGateAccessory(log, config) {
               Api.emit("switchDeviceWithDevice", device);
 
               Api.removeListener("getDeviceByIdRes", cb);
-              callback(null); // success
+              if (!called) callback(null); // success
+              clearTimeout(securityProcess);
           }
       };
       Api.on("getDeviceByIdRes", cb);

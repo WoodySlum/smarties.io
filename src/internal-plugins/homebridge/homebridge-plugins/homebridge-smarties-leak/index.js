@@ -1,5 +1,6 @@
 /* eslint-disable */
 var Service, Characteristic, Api;
+const constants = require("./../constants-plugins");
 
 module.exports = function(homebridge) {
   Service = homebridge.hap.Service;
@@ -21,18 +22,25 @@ function SmartiesLeakAccessory(log, config) {
 }
 
   SmartiesLeakAccessory.prototype.handleLeakDetectedGet = function(callback) {
+      let called = false;
+      const securityProcess = setTimeout(() => {
+          called = true;
+          callback(null);
+      }, constants.TIMER_SECURITY_S);
       let cb = (data) => {
           if (data.sensor == this.identifier) {
               Api.removeListener("getValueRes", cb);
               if (!data.err) {
                   if (data.tValue != null && data.tValue > 0) {
-                      callback(null, Characteristic.LeakDetected.LEAK_DETECTED);
+                      if (!called) callback(null, Characteristic.LeakDetected.LEAK_DETECTED);
                   } else {
-                      callback(null, Characteristic.LeakDetected.LEAK_NOT_DETECTED);
+                      if (!called) callback(null, Characteristic.LeakDetected.LEAK_NOT_DETECTED);
                   }
+                  clearTimeout(securityProcess);
 
               } else {
-                  callback(Error("Invalid value"));
+                  if (!called) callback(Error("Invalid value"));
+                  clearTimeout(securityProcess);
               }
           }
       };
