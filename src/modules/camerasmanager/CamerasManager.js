@@ -734,7 +734,10 @@ class CamerasManager {
                         rtspRelayFile = rtspRelayFile.replace(/require\('express-ws/g,"require('" + __dirname + "/../../../node_modules/express-ws");
                         rtspRelayFile = rtspRelayFile.replace(/require\('ps-node/g,"require('" + __dirname + "/../../../node_modules/ps-node");
                         rtspRelayFile = rtspRelayFile.replace(/require\('.\/package\.json/g,"require('" + __dirname + "/../../../node_modules/rtsp-relay/package.json");
-                        rtspRelayFile = rtspRelayFile.replace(/'-i',/g,"'-rtsp_transport', 'tcp', '-flags', 'low_delay', '-strict', 'experimental', '-avioflags', 'direct', '-fflags', 'nobuffer', '-fflags', 'discardcorrupt', '-frame_drop_threshold', '1.0', '-probesize', '32', '-analyzeduration', '0', '-i',");
+                        rtspRelayFile = rtspRelayFile.replace(/'-i',/g,"'-rtsp_transport', 'tcp', '-flags', 'low_delay', '-fflags', 'nobuffer', '-fflags', 'discardcorrupt', '-i',");
+                        rtspRelayFile = rtspRelayFile.replace(/url,\n/g,"'\"' + url + '\"',\n");
+                        //rtspRelayFile = rtspRelayFile.replace(/'-i',/g,"'-rtsp_transport', 'tcp', '-flags', 'low_delay', '-strict', 'experimental', '-avioflags', 'direct', '-fflags', 'nobuffer', '-fflags', 'discardcorrupt', '-frame_drop_threshold', '1.0', '-probesize', '32', '-analyzeduration', '0', '-i',");
+                        rtspRelayFile = rtspRelayFile.replace(/require\('@ffmpeg/g,"require('" + __dirname + "/../../../node_modules/@ffmpeg");
                         // Replace bin for pkg
                         rtspRelayFile = rtspRelayFile.replace(/ffmpegPath,/g,"\"ffmpeg\",");
 
@@ -745,7 +748,7 @@ class CamerasManager {
                         let handler = proxy({
                             url: camera.rtspUrl,
                             additionalFlags: (camera.configuration && camera.configuration.ffmpeg && camera.configuration.ffmpeg.length > 0) ? camera.configuration.ffmpeg.split(" ") : ["-rtsp_transport", "tcp", "-codec:a", "mp2", "-ar", "44100"],
-                            verbose: false
+                            verbose: true
                         });
 
                         const token = sha256((camera.rtspUrl + DateUtils.class.timestamp() + ((Math.random() * 10000000) + 1)).toString()).substr(((Math.random() * 40) + 1), 16);
