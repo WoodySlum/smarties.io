@@ -685,6 +685,7 @@ class CamerasManager {
             const camera = self.getCamera(id);
             return new Promise((resolve, reject) => {
                 if (camera && mode === MODE_STATIC) {
+                    Logger.info("STATIC mode");
                     self.getImage(id, (err, data, contentType) => {
                         if (err) {
                             reject(new APIResponse.class(false, {}, 765, err.message));
@@ -695,6 +696,7 @@ class CamerasManager {
                         }
                     }, timestamp, !useCache);
                 } else if (camera && (mode === MODE_MJPEG || (mode === MODE_RTSP && !camera.rtspSupport()))) {
+                    Logger.info("MJPEG mode");
                     let mjpegProxy;
                     if (camera && camera.configuration && camera.configuration.cvlive) {
                         mjpegProxy = new MjpegProxy.class(camera.mjpegUrl, camera.rtspUrl, camera.configuration.rotation, true, (err, img) => {
@@ -725,6 +727,7 @@ class CamerasManager {
 
                     mjpegProxy.proxyRequest(apiRequest.req, apiRequest.res);
                 } else  if (camera && mode === MODE_RTSP && camera.rtspSupport()) {
+                    Logger.info("RTSP mode");
                     try {
                         // Fix pkg issue
                         let rtspRelayFile = fs.readFileSync(__dirname + "/../../../node_modules/rtsp-relay/index.js").toString();
