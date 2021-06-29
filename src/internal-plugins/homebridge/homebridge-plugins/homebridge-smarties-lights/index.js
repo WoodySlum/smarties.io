@@ -1,6 +1,7 @@
 /* eslint-disable */
 var Service, Characteristic, Api;
 const colorutil = require("color-util");
+const TIMER_SECURITY_S = 2000;
 
 module.exports = function(homebridge) {
   Service = homebridge.hap.Service;
@@ -51,13 +52,15 @@ function SmartiesAccessory(log, config) {
 }
 
 SmartiesAccessory.prototype.getState = function(callback) {
+    let called = false;
     const securityProcess = setTimeout(() => {
+        called = true;
         callback(null);
-    }, 1000);
+    }, TIMER_SECURITY_S);
     let cb = (data) => {
         if (data.device.id == this.device.id) {
             Api.removeListener("getDeviceStatusRes", cb);
-            callback(null, data.status);
+            if (!called) callback(null, data.status);
             clearTimeout(securityProcess);
         }
     };
@@ -66,9 +69,11 @@ SmartiesAccessory.prototype.getState = function(callback) {
 }
 
 SmartiesAccessory.prototype.setState = function(state, callback) {
+    let called = false;
     const securityProcess = setTimeout(() => {
+        called = true;
         callback(null);
-    }, 1000);
+    }, TIMER_SECURITY_S);
     let cb = (data) => {
         if (data.device.id == this.device.id) {
             const device = data.device;
@@ -80,7 +85,7 @@ SmartiesAccessory.prototype.setState = function(state, callback) {
             Api.emit("switchDeviceWithDevice", device);
 
             Api.removeListener("getDeviceByIdRes", cb);
-            callback(null); // success
+            if (!called) callback(null); // success
             clearTimeout(securityProcess);
         }
     };
@@ -89,17 +94,19 @@ SmartiesAccessory.prototype.setState = function(state, callback) {
 }
 
 SmartiesAccessory.prototype.getBrightness = function(callback) {
+    let called = false;
     const securityProcess = setTimeout(() => {
+        called = true;
         callback(null);
-    }, 1000);
+    }, TIMER_SECURITY_S);
     let cb = (data) => {
         if (data.device.id == this.device.id) {
             const device = data.device;
             Api.removeListener("getDeviceByIdRes", cb);
             if (device && device.brightness) {
-                callback(null, (device.brightness * 100));
+                if (!called) callback(null, (device.brightness * 100));
             } else {
-                callback(null, 100);
+                if (!called) callback(null, 100);
             }
             clearTimeout(securityProcess);
         }
@@ -109,9 +116,11 @@ SmartiesAccessory.prototype.getBrightness = function(callback) {
 }
 
 SmartiesAccessory.prototype.setBrightness = function(brightness, callback) {
+    let called = false;
     const securityProcess = setTimeout(() => {
+        called = true;
         callback(null);
-    }, 1000);
+    }, TIMER_SECURITY_S);
     let cb = (data) => {
         if (data.device.id == this.device.id) {
             const device = data.device;
@@ -120,7 +129,7 @@ SmartiesAccessory.prototype.setBrightness = function(brightness, callback) {
             Api.emit("switchDeviceWithDevice", device);
 
             Api.removeListener("getDeviceByIdRes", cb);
-            callback(null); // success
+            if (!called) callback(null); // success
             clearTimeout(securityProcess);
         }
     };
@@ -129,9 +138,11 @@ SmartiesAccessory.prototype.setBrightness = function(brightness, callback) {
 }
 
 SmartiesAccessory.prototype.getHue = function(callback) {
+    let called = false;
     const securityProcess = setTimeout(() => {
+        called = true;
         callback(null);
-    }, 1000);
+    }, TIMER_SECURITY_S);
     let cb = (data) => {
         if (data.device.id == this.device.id) {
             const device = data.device;
@@ -139,9 +150,9 @@ SmartiesAccessory.prototype.getHue = function(callback) {
             if (device.color) {
                 const rgbColor = colorutil.hex.to.rgb("#" + device.color);
                 const hsvColor = colorutil.rgb.to.hsv(rgbColor);
-                callback(null, parseInt(hsvColor.h * 360));
+                if (!called) callback(null, parseInt(hsvColor.h * 360));
             } else {
-                callback(null);
+                if (!called) callback(null);
             }
             clearTimeout(securityProcess);
         }
@@ -151,9 +162,11 @@ SmartiesAccessory.prototype.getHue = function(callback) {
 }
 
 SmartiesAccessory.prototype.setHue = function(hue, callback) {
+    let called = false;
     const securityProcess = setTimeout(() => {
+        called = true;
         callback(null);
-    }, 1000);
+    }, TIMER_SECURITY_S);
     let cb = (data) => {
         if (data.device.id == this.device.id) {
             const device = data.device;
@@ -168,7 +181,7 @@ SmartiesAccessory.prototype.setHue = function(hue, callback) {
                 }
             }
             Api.removeListener("getDeviceByIdRes", cb);
-            callback(null); // success
+            if (!called) callback(null); // success
             clearTimeout(securityProcess);
         }
     };
@@ -177,9 +190,11 @@ SmartiesAccessory.prototype.setHue = function(hue, callback) {
 }
 
 SmartiesAccessory.prototype.getSaturation = function(callback) {
+    let called = false;
     const securityProcess = setTimeout(() => {
+        called = true;
         callback(null);
-    }, 1000);
+    }, TIMER_SECURITY_S);
     let cb = (data) => {
         if (data.device.id == this.device.id) {
             const device = data.device;
@@ -187,9 +202,9 @@ SmartiesAccessory.prototype.getSaturation = function(callback) {
             if (device.color) {
                 const rgbColor = colorutil.hex.to.rgb("#" + device.color);
                 const hsvColor = colorutil.rgb.to.hsv(rgbColor);
-                callback(null, parseInt(hsvColor.s * 100));
+                if (!called) callback(null, parseInt(hsvColor.s * 100));
             } else {
-                callback(null);
+                if (!called) callback(null);
             }
             clearTimeout(securityProcess);
         }
@@ -199,9 +214,11 @@ SmartiesAccessory.prototype.getSaturation = function(callback) {
 }
 
 SmartiesAccessory.prototype.setSaturation = function(sat, callback) {
+    let called = false;
     const securityProcess = setTimeout(() => {
+        called = true;
         callback(null);
-    }, 1000);
+    }, TIMER_SECURITY_S);
     let cb = (data) => {
         if (data.device.id == this.device.id) {
             const device = data.device;
@@ -216,7 +233,7 @@ SmartiesAccessory.prototype.setSaturation = function(sat, callback) {
                 }
             }
             Api.removeListener("getDeviceByIdRes", cb);
-            callback(null); // success
+            if (!called) callback(null); // success
             clearTimeout(securityProcess);
         }
     };
