@@ -744,6 +744,8 @@ class CamerasManager {
                         // Replace bin for pkg
                         rtspRelayFile = rtspRelayFile.replace(/ffmpegPath,/g,"\"ffmpeg\",");
 
+                        rtspRelayFile = rtspRelayFile.replace(/this.verbose/g,"true");
+
                         fs.removeSync(this.cachePath + "rtsp-relay.js");
                         fs.writeFileSync(this.cachePath + "rtsp-relay.js", rtspRelayFile);
 
