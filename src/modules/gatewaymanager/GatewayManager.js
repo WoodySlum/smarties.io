@@ -66,7 +66,7 @@ class GatewayManager {
         Logger.flog("+-----------------------+");
         Logger.flog("Your access : " + this.getDistantUrl());
 
-        const rsaFileBase = appConfiguration.configurationPath + "/id_rsa";
+        const rsaFileBase = appConfiguration.configurationPath + "id_rsa";
         if (!(fs.existsSync(rsaFileBase) && fs.existsSync(rsaFileBase + ".pub"))) {
             const child = spawn("ssh-keygen", ["-b", "2048", "-t", "rsa", "-f", rsaFileBase, "-q", "-N", "\"\""]);
             child.stdout.on("data", (chunk) => {
@@ -77,7 +77,11 @@ class GatewayManager {
                 Logger.info("Exit code " + code);
             });
         }
-        this.sshKey = fs.readFileSync(rsaFileBase + ".pub");
+        if (!process.env.TEST) {
+            this.sshKey = fs.readFileSync(rsaFileBase + ".pub");
+        } else {
+            this.sshKey = "";
+        }
 
         this.transmit();
 
