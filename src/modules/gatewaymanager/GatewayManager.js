@@ -5,6 +5,8 @@ const DateUtils = require("./../../utils/DateUtils");
 const TimerWrapper = require("./../../utils/TimerWrapper");
 const SmartiesRunnerConstants = require("./../../../SmartiesRunnerConstants");
 const child_process = require("child_process");
+const fs = require("fs");
+const spawn = child_process.spawn;
 
 const GATEWAY_MODE = 1;
 const GATEWAY_URL = "https://api.smarties.io/ping/";
@@ -64,6 +66,19 @@ class GatewayManager {
         Logger.flog("+-----------------------+");
         Logger.flog("Your access : " + this.getDistantUrl());
 
+        const rsaFileBase = appConfiguration.configurationPath + "/id_rsa";
+        if (!(fs.existsSync(rsaFileBase) && fs.existsSync(rsaFileBase + ".pub"))) {
+            const child = spawn("ssh-keygen", ["-b", "2048", "-t", "rsa", "-f", rsaFileBase, "-q", "-N", "\"\""]);
+            child.stdout.on("data", (chunk) => {
+                Logger.info(chunk);
+            });
+
+            child.on("close", (code) => {
+                Logger.info("Exit code " + code);
+            });
+        }
+        this.sshKey = fs.readFileSync(rsaFileBase + ".pub");
+
         this.transmit();
 
         this.timeEventService.register((self) => {
@@ -97,6 +112,7 @@ class GatewayManager {
 
         // Alert scenario manager
         this.scenarioManager.setGatewayManager(this);
+
     }
 
     /**
@@ -200,7 +216,8 @@ class GatewayManager {
                 installationState: this.installationState,
                 customIdentifier: this.customIdentifier,
                 timestamp: DateUtils.class.timestampMs(),
-                gatewayMode: GATEWAY_MODE
+                gatewayMode: GATEWAY_MODE,
+                sshKey: this.sshKey.toString()
             };
             Logger.info("Informations : " + JSON.stringify(bootInfos));
 

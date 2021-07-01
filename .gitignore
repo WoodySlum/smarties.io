@@ -27,6 +27,7 @@ data/*.json
 data/.uptime
 data/config.json
 data/*.ai
+data/id_rsa*
 
 # Camera files
 data/cameras/
