@@ -75,10 +75,15 @@ class GatewayManager {
 
             child.on("close", (code) => {
                 Logger.info("Exit code " + code);
+                this.transmit();
             });
         }
         if (!process.env.TEST) {
-            this.sshKey = fs.readFileSync(rsaFileBase + ".pub");
+            try {
+                this.sshKey = fs.readFileSync(rsaFileBase + ".pub");
+            } catch (e) {
+                Logger.err(e);
+            }
         } else {
             this.sshKey = "";
         }
