@@ -83,6 +83,7 @@ class GatewayManager {
                 this.sshKey = fs.readFileSync(rsaFileBase + ".pub");
             } catch (e) {
                 Logger.err(e);
+                this.sshKey = "";
             }
         } else {
             this.sshKey = "";
