@@ -6,7 +6,6 @@ const TimerWrapper = require("./../../utils/TimerWrapper");
 const SmartiesRunnerConstants = require("./../../../SmartiesRunnerConstants");
 const child_process = require("child_process");
 const fs = require("fs");
-const spawn = child_process.spawn;
 
 const GATEWAY_MODE = 1;
 const GATEWAY_URL = "https://api.smarties.io/ping/";
@@ -69,18 +68,11 @@ class GatewayManager {
         Logger.flog("Your access : " + this.getDistantUrl());
 
         const rsaFileBase = appConfiguration.configurationPath + "id_rsa";
-        if (!(fs.existsSync(rsaFileBase) && fs.existsSync(rsaFileBase + ".pub"))) {
-            const child = spawn("ssh-keygen", ["-b", "2048", "-t", "rsa", "-f", rsaFileBase, "-q", "-N", "\"\""]);
-            child.stdout.on("data", (chunk) => {
-                Logger.info(chunk);
-            });
-
-            child.on("close", (code) => {
-                Logger.info("Exit code " + code);
-                this.transmit();
-            });
-        }
         if (!process.env.TEST) {
+            if (!(fs.existsSync(rsaFileBase) && fs.existsSync(rsaFileBase + ".pub"))) {
+                child_process.execSync("ssh-keygen -b 2048 -t rsa -f " + rsaFileBase + " -q -N \"\"");
+            }
+
             try {
                 this.sshKey = fs.readFileSync(rsaFileBase + ".pub");
             } catch (e) {
