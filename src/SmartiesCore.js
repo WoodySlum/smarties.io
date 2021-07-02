@@ -123,12 +123,15 @@ class SmartiesCore {
         // Threads
         this.threadsManager = new ThreadsManager.class(this.eventBus, smartiesRunnerConstants);
 
-        // Services
-        // Web services and API
-        this.webServices = new WebServices.class(this.translateManager, AppConfiguration.port, AppConfiguration.ssl.port, AppConfiguration.ssl.key, AppConfiguration.ssl.cert, AppConfiguration.compression, AppConfiguration.cachePath, AppConfiguration);
-
         //  Time event service
         this.timeEventService = new TimeEventService.class();
+
+        // Services manager
+        this.servicesManager = new ServicesManager.class(this.threadsManager, this.eventBus, smartiesRunnerConstants, this.timeEventService);
+
+        // Services
+        // Web services and API
+        this.webServices = new WebServices.class(this.translateManager, AppConfiguration.port, AppConfiguration.ssl.port, AppConfiguration.ssl.key, AppConfiguration.ssl.cert, AppConfiguration.compression, AppConfiguration.cachePath, AppConfiguration, this.eventBus, this.servicesManager);
 
         // Init modules
         // Logs
@@ -142,9 +145,6 @@ class SmartiesCore {
 
         // Scheduler service
         this.schedulerService = new SchedulerService.class(this.dbManager, this.timeEventService);
-
-        // Services manager
-        this.servicesManager = new ServicesManager.class(this.threadsManager, this.eventBus, smartiesRunnerConstants, this.timeEventService);
 
         this.pluginsManager = null;
 

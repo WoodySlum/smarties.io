@@ -16,6 +16,7 @@ const BOOT_MODE_BOOTING = "BOOTING";
 const BOOT_MODE_INSTALL = "INSTALL";
 const BOOT_MODE_READY = "READY";
 const BOOT_MODE_STOP = "STOP";
+const EVENT_TUNNEL_PORT_RECEIVED = "TUNNEL_PORT_RECEIVED";
 
 /**
  * This class manage gateway communications
@@ -61,6 +62,7 @@ class GatewayManager {
         this.customIdentifier = appConfiguration.customIdentifier;
         this.customIdentifierMessageSent = false;
         this.installationState = {};
+        this.tunnelPort = null;
         Logger.flog("+-----------------------+");
         Logger.flog("| Smarties ID : " + this.environmentManager.getSmartiesId() + " |");
         Logger.flog("+-----------------------+");
@@ -165,7 +167,7 @@ class GatewayManager {
             json: data.bootInfos
         }, (error, res) => {
             if (!error) {
-                message({error:error, statusCode:res.statusCode, bootMode:data.bootInfos.bootMode});
+                message({error:error, statusCode:res.statusCode, bootMode:data.bootInfos.bootMode, tunnelPort: res.body.tunnelPort});
             } else {
                 message({error:error, statusCode:500, bootMode:data.bootInfos.bootMode});
             }
@@ -182,7 +184,9 @@ class GatewayManager {
     sandboxedRequestresponse(data, threadsManager, context) {
         if (data) {
             if (!data.error && data.statusCode === 200) {
-                Logger.info("Registration to gateway OK (" + data.bootMode + ")");
+                context.tunnelPort = data.tunnelPort;
+                context.eventBus.emit(EVENT_TUNNEL_PORT_RECEIVED, context.tunnelPort);
+                Logger.info("Registration to gateway OK (" + data.bootMode + "), tunnel port " + context.tunnelPort);
             } else if (data.error) {
                 Logger.err("An error occured while transmitting Gateway informations : " + data.error.errno);
             } else {
@@ -243,4 +247,4 @@ class GatewayManager {
     }
 }
 
-module.exports = {class:GatewayManager, BOOT_MODE_BOOTING:BOOT_MODE_BOOTING, BOOT_MODE_INSTALL:BOOT_MODE_INSTALL, BOOT_MODE_READY:BOOT_MODE_READY};
+module.exports = {class:GatewayManager, BOOT_MODE_BOOTING:BOOT_MODE_BOOTING, BOOT_MODE_INSTALL:BOOT_MODE_INSTALL, BOOT_MODE_READY:BOOT_MODE_READY, EVENT_TUNNEL_PORT_RECEIVED:EVENT_TUNNEL_PORT_RECEIVED};

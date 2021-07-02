@@ -5,6 +5,7 @@ const compression = require("compression");
 const TunnelNgrok = require("./tunnel/TunnelNgrok");
 const TunnelLocalTunnel = require("./tunnel/TunnelLocalTunnel");
 const TunnelLocalxpose = require("./tunnel/TunnelLocalxpose");
+const GatewayManager = require("./../../modules/gatewaymanager/GatewayManager");
 
 const BreakException = require("./../../utils/BreakException").BreakException;
 const sha256 = require("sha256");
@@ -61,9 +62,11 @@ class WebServices extends Service.class {
      * @param  {string} [enableCompression=true]  Enable gzip data compression
      * @param  {string} [cachePath=null]  The cache path
      * @param  {object}   AppConfiguration     The app configuration
+     * @param  {EventEmitter} eventBus    The global event bus
+     * @param  {ServicesManager} servicesManager    The services manager
      * @returns {WebServices}            The instance
      */
-    constructor(translateManager, port = 8080, sslPort = 8043, sslKey = null, sslCert = null, enableCompression = true, cachePath = null, AppConfiguration) {
+    constructor(translateManager, port = 8080, sslPort = 8043, sslKey = null, sslCert = null, enableCompression = true, cachePath = null, AppConfiguration, eventBus, servicesManager) {
         super("webservices");
         this.translateManager = translateManager;
         this.port = port;
@@ -84,6 +87,8 @@ class WebServices extends Service.class {
         this.webSocket = null;
         this.webSocketSsl = null;
         this.webSocketTunnel = null;
+        this.eventBus = eventBus;
+        this.servicesManager = servicesManager;
     }
 
     /**
@@ -195,19 +200,27 @@ class WebServices extends Service.class {
             if (this.gatewayManager && !process.env.TEST) {
                 const tunnelCb = (tunnelUrl) => {
                     this.webSocketTunnel = tunnelUrl.replace("http://", "ws://").replace("https://", "wss://") + "/";
-
                 };
+
                 if (this.AppConfiguration.tunnel && this.AppConfiguration.tunnel == "localtunnel") {
                     this.tunnel = new TunnelLocalTunnel.class(this.sslPort, this.gatewayManager, this.environmentManager, this.AppConfiguration, tunnelCb);
+                    this.tunnel.start();
                 } else if (this.AppConfiguration.tunnel && this.AppConfiguration.tunnel == "ngrok") {
                     this.tunnel = new TunnelNgrok.class(this.port, this.gatewayManager, this.environmentManager, this.AppConfiguration, tunnelCb);
+                    this.tunnel.start();
                 } else if (this.AppConfiguration.tunnel && this.AppConfiguration.tunnel == "localxpose") {
                     this.tunnel = new TunnelLocalxpose.class(this.port, this.gatewayManager, this.environmentManager, this.AppConfiguration, tunnelCb);
+                    this.tunnel.start();
                 } else {
-                    this.tunnel = new TunnelNgrok.class(this.sslPort, this.gatewayManager, this.environmentManager, this.AppConfiguration, tunnelCb);
+                    const self = this;
+                    if (this.gatewayManager.tunnelPort) {
+                        self.startTunnelGateway(this.gatewayManager.tunnelPort);
+                    } else {
+                        this.eventBus.on(GatewayManager.EVENT_TUNNEL_PORT_RECEIVED, (port) => {
+                            self.startTunnelGateway(port);
+                        });
+                    }
                 }
-
-                this.tunnel.start();
             }
 
             super.start();
@@ -218,6 +231,20 @@ class WebServices extends Service.class {
         } else {
             Logger.warn("Web services are already running");
         }
+    }
+
+    /**
+     * Start tunnel gateway
+     *
+     * @param  {number} port Tunnel port
+     */
+    startTunnelGateway(port) {
+        const tunnelService = new Service.class("gateway-tunnel", null, Service.SERVICE_MODE_EXTERNAL, "ssh -N tunnel@smarties.io -R " + port + ":127.0.0.1:" + this.port + " -o ServerAliveInterval=30 -o StrictHostKeyChecking=no -i " + this.AppConfiguration.configurationPath + "id_rsa");
+        this.servicesManager.add(tunnelService);
+        tunnelService.start();
+        Logger.info("Tunnel started on port " + this.port + ":" + port);
+        this.gatewayManager.tunnelUrl = "http://smarties.io:" + port;
+        this.gatewayManager.transmit();
     }
 
     /**
