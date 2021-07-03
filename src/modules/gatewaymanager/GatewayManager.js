@@ -4,6 +4,9 @@ const TimeEventService = require("./../../services/timeeventservice/TimeEventSer
 const DateUtils = require("./../../utils/DateUtils");
 const TimerWrapper = require("./../../utils/TimerWrapper");
 const SmartiesRunnerConstants = require("./../../../SmartiesRunnerConstants");
+const WebServices = require("./../../services/webservices/WebServices");
+const APIResponse = require("./../../services/webservices/APIResponse");
+const Authentication = require("./../authentication/Authentication");
 const child_process = require("child_process");
 const fs = require("fs");
 
@@ -16,6 +19,7 @@ const BOOT_MODE_INSTALL = "INSTALL";
 const BOOT_MODE_READY = "READY";
 const BOOT_MODE_STOP = "STOP";
 const EVENT_TUNNEL_PORT_RECEIVED = "TUNNEL_PORT_RECEIVED";
+const ROUTE_GET = ":/gateway/get/";
 
 /**
  * This class manage gateway communications
@@ -62,6 +66,8 @@ class GatewayManager {
         this.customIdentifierMessageSent = false;
         this.installationState = {};
         this.tunnelPort = null;
+        this.webServices.registerAPI(this, WebServices.GET, ROUTE_GET, Authentication.AUTH_NO_LEVEL);
+
         Logger.flog("+-----------------------+");
         Logger.flog("| Smarties ID : " + this.environmentManager.getSmartiesId() + " |");
         Logger.flog("+-----------------------+");
@@ -235,6 +241,22 @@ class GatewayManager {
                 child_process.execSync(cmd);
             }
 
+        }
+    }
+
+    /**
+     * Process API callback
+     *
+     * @param  {APIRequest} apiRequest An APIRequest
+     * @returns {Promise}  A promise with an APIResponse object
+     */
+    processAPI(apiRequest) {
+        var self = this;
+        // Get gateway
+        if (apiRequest.route.startsWith(ROUTE_GET)) {
+            return new Promise((resolve, reject) => {
+                resolve(new APIResponse.class(true, {identifier: self.environmentManager.getSmartiesId()}));
+            });
         }
     }
 }

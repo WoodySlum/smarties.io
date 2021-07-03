@@ -83,7 +83,7 @@ class SmartiesRunner {
      */
     stop(self) {
         if (self.core) {
-            Logger.info("Sopping runner");
+            Logger.info("Stopping runner");
             this.runnerEventBus.emit(SmartiesRunnerConstants.STOP);
             self.core.stop();
             self.childPids.forEach((childPid) => {

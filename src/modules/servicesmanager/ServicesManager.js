@@ -1,7 +1,7 @@
 "use strict";
 const Logger = require("./../../logger/Logger");
 const Service = require("./../../services/Service");
-const TimeEventService = require("./../../services//timeeventservice/TimeEventService");
+const TimeEventService = require("./../../services/timeeventservice/TimeEventService");
 const isPidRunning = require("is-running");
 
 /**

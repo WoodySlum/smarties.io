@@ -239,7 +239,7 @@ class WebServices extends Service.class {
      * @param  {number} port Tunnel port
      */
     startTunnelGateway(port) {
-        const tunnelService = new Service.class("gateway-tunnel", null, Service.SERVICE_MODE_EXTERNAL, "ssh -N tunnel@smarties.io -R " + port + ":127.0.0.1:" + this.port + " -o ServerAliveInterval=30 -o StrictHostKeyChecking=no -i " + this.AppConfiguration.configurationPath + "id_rsa");
+        const tunnelService = new Service.class("gateway-tunnel", null, Service.SERVICE_MODE_EXTERNAL, "ssh -N tunnel@smarties.io -R " + port + ":127.0.0.1:" + this.port + " -o ServerAliveInterval=30 -o StrictHostKeyChecking=no -o ExitOnForwardFailure=yes -o ConnectTimeout=10 -o ConnectionAttempts=1 -o BatchMode=yes -i " + this.AppConfiguration.configurationPath + "id_rsa");
         this.servicesManager.add(tunnelService);
         tunnelService.start();
         Logger.info("Tunnel started on port " + this.port + ":" + port);
