@@ -758,6 +758,7 @@ class CamerasManager {
                         });
 
                         const token = sha256((camera.rtspUrl + DateUtils.class.timestamp() + ((Math.random() * 10000000) + 1)).toString()).substr(((Math.random() * 40) + 1), 16);
+                        
                         const timeoutConnexion = TimerWrapper.class.setTimeout(() => {
                             self.rtspTokenExpired.push(token);
                             handler = null;

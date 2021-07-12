@@ -190,6 +190,10 @@ class WebServices extends Service.class {
             try {
                 let server = this.app.listen(this.port);
                 this.webSocket = new WebSocket.Server({server : server});
+                this.webSocket.onopen = function(event) {
+                        console.log("Connexion établie.");
+                };
+
                 this.servers.push(server);
                 Logger.info("Web services are listening on port " + this.port);
             } catch (e) {
@@ -245,6 +249,7 @@ class WebServices extends Service.class {
             tunnelService.start();
             Logger.info("Tunnel started on port " + this.port + ":" + port);
             this.gatewayManager.tunnelUrl = "http://smarties.io:" + port;
+            this.webSocketTunnel = "ws://me.smarties.io/ws/" + this.gatewayManager.environmentManager.getSmartiesId() + "/";
             this.gatewayManager.transmit();
         }
     }
