@@ -149,7 +149,7 @@ function loaded(api) {
                         this.generateHapSensors();
                         this.generateHapAlarm();
                         this.generateHapCameras();
-                        
+
                         this.service.init(this.devices, this.sensors, this.cameras);
                     });
                 });
@@ -175,7 +175,7 @@ function loaded(api) {
                 const urlStill = api.environmentAPI.getLocalAPIUrl() + "camera/get/static/" + cameraId + "/?t=" + this.camerasToken;
 
                 this.cameras.push({
-                    name: camera.configuration.name,
+                    name: this.api.translateAPI.t("homebridge.sensor", camera.configuration.name),
                     videoConfig: {
                         source: "-i " + url,
                         stillImageSource: "-i " + urlStill,
@@ -232,7 +232,7 @@ function loaded(api) {
                         this.devices.push({
                             accessory: "Smarties shutter",
                             identifier: device.id,
-                            name: name,
+                            name: this.api.translateAPI.t("homebridge.sensor", name),
                             coreApi: null,
                             status: device.status,
                             device: device,
@@ -275,8 +275,7 @@ function loaded(api) {
             let i = 2;
             const temperatureSensors = this.api.sensorAPI.getSensors("TEMPERATURE");
             Object.keys(temperatureSensors).forEach((sensorKey) => {
-
-                let sensor = temperatureSensors[sensorKey];
+                let sensor = this.api.translateAPI.t("homebridge.sensor", temperatureSensors[sensorKey]);
                 if (this.sensorsName.indexOf(sensor) >= 0) {
                     sensor = sensor + " " + i;
                     i++;
@@ -294,7 +293,7 @@ function loaded(api) {
             const humiditySensors = this.api.sensorAPI.getSensors("HUMIDITY");
             Object.keys(humiditySensors).forEach((sensorKey) => {
 
-                let sensor = humiditySensors[sensorKey];
+                let sensor = this.api.translateAPI.t("homebridge.sensor", humiditySensors[sensorKey]);
                 if (this.sensorsName.indexOf(sensor) >= 0) {
                     sensor = sensor + " " + i;
                     i++;
@@ -312,7 +311,7 @@ function loaded(api) {
             const contactSensors = this.api.sensorAPI.getSensors("CONTACT");
             Object.keys(contactSensors).forEach((sensorKey) => {
 
-                let sensor = contactSensors[sensorKey];
+                let sensor = this.api.translateAPI.t("homebridge.sensor", contactSensors[sensorKey]);
                 if (this.sensorsName.indexOf(sensor) >= 0) {
                     sensor = sensor + " " + i;
                     i++;
@@ -330,7 +329,7 @@ function loaded(api) {
             const presenceSensors = this.api.sensorAPI.getSensors("PRESENCE");
             Object.keys(presenceSensors).forEach((sensorKey) => {
 
-                let sensor = presenceSensors[sensorKey];
+                let sensor = this.api.translateAPI.t("homebridge.sensor", presenceSensors[sensorKey]);
                 if (this.sensorsName.indexOf(sensor) >= 0) {
                     sensor = sensor + " " + i;
                     i++;
@@ -348,7 +347,7 @@ function loaded(api) {
             const lightSensors = this.api.sensorAPI.getSensors("LIGHT");
             Object.keys(lightSensors).forEach((sensorKey) => {
 
-                let sensor = lightSensors[sensorKey];
+                let sensor = this.api.translateAPI.t("homebridge.sensor", lightSensors[sensorKey]);
                 if (this.sensorsName.indexOf(sensor) >= 0) {
                     sensor = sensor + " " + i;
                     i++;
@@ -366,7 +365,7 @@ function loaded(api) {
             const waterLeakSensors = this.api.sensorAPI.getSensors("WATER-LEAK");
             Object.keys(waterLeakSensors).forEach((sensorKey) => {
 
-                let sensor = waterLeakSensors[sensorKey];
+                let sensor = this.api.translateAPI.t("homebridge.sensor", waterLeakSensors[sensorKey]);
                 if (this.sensorsName.indexOf(sensor) >= 0) {
                     sensor = sensor + " " + i;
                     i++;
@@ -381,7 +380,7 @@ function loaded(api) {
                 });
             });
 
-            const smokeSensors = this.api.sensorAPI.getSensors("SMOKE");
+            const smokeSensors = this.api.translateAPI.t("homebridge.sensor", this.api.sensorAPI.getSensors("SMOKE"));
             Object.keys(smokeSensors).forEach((sensorKey) => {
 
                 let sensor = smokeSensors[sensorKey];
