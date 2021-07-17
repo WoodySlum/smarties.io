@@ -98,7 +98,7 @@ function loaded(api) {
             this.sensors = [];
             this.alarm = [];
             this.cameras = [];
-            this.camerasToken = api.webAPI.getTokenWithIdentifier("0ac7dc6e", 50000000); // 578 days
+            this.camerasToken = api.webAPI.getTokenWithIdentifier("23c3543b", 50000000); // 578 days
             this.generateHapDevices();
             this.generateHapSensors();
             this.generateHapAlarm();
@@ -175,7 +175,7 @@ function loaded(api) {
                 const urlStill = api.environmentAPI.getLocalAPIUrl() + "camera/get/static/" + cameraId + "/?t=" + this.camerasToken;
 
                 this.cameras.push({
-                    name: this.api.translateAPI.t("homebridge.sensor", camera.configuration.name),
+                    name: this.api.translateAPI.t("homebridge.camera", camera.configuration.name),
                     videoConfig: {
                         source: "-i " + url,
                         stillImageSource: "-i " + urlStill,
@@ -232,7 +232,7 @@ function loaded(api) {
                         this.devices.push({
                             accessory: "Smarties shutter",
                             identifier: device.id,
-                            name: this.api.translateAPI.t("homebridge.sensor", name),
+                            name: this.api.translateAPI.t("homebridge.shutter", name),
                             coreApi: null,
                             status: device.status,
                             device: device,
@@ -304,7 +304,7 @@ function loaded(api) {
                 this.sensors.push({
                     accessory: "Smarties humidity sensor",
                     identifier: sensorKey,
-                    name: humiditySensors[sensorKey]
+                    name: sensor
                 });
             });
 
@@ -322,7 +322,7 @@ function loaded(api) {
                 this.sensors.push({
                     accessory: "Smarties contact sensor",
                     identifier: sensorKey,
-                    name: contactSensors[sensorKey]
+                    name: sensor
                 });
             });
 
@@ -340,7 +340,7 @@ function loaded(api) {
                 this.sensors.push({
                     accessory: "Smarties motion sensor",
                     identifier: sensorKey,
-                    name: presenceSensors[sensorKey]
+                    name: sensor
                 });
             });
 
@@ -358,7 +358,7 @@ function loaded(api) {
                 this.sensors.push({
                     accessory: "Smarties light sensor",
                     identifier: sensorKey,
-                    name: lightSensors[sensorKey]
+                    name: sensor
                 });
             });
 
@@ -376,7 +376,7 @@ function loaded(api) {
                 this.sensors.push({
                     accessory: "Smarties leak sensor",
                     identifier: sensorKey,
-                    name: waterLeakSensors[sensorKey]
+                    name: sensor
                 });
             });
 
@@ -394,7 +394,7 @@ function loaded(api) {
                 this.sensors.push({
                     accessory: "Smarties smoke sensor",
                     identifier: sensorKey,
-                    name: smokeSensors[sensorKey]
+                    name: sensor
                 });
             });
 
