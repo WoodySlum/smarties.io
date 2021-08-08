@@ -105,3 +105,6 @@ cam.url
 iot-packages
 
 tests-report.xml
+
+# VS Code
+core-node.code-workspace
