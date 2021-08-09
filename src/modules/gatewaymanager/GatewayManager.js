@@ -254,7 +254,7 @@ class GatewayManager {
         var self = this;
         // Get gateway
         if (apiRequest.route.startsWith(ROUTE_GET)) {
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 resolve(new APIResponse.class(true, {identifier: self.environmentManager.getSmartiesId()}));
             });
         }

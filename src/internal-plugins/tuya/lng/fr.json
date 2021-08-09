@@ -1,0 +1,9 @@
+{
+    "tuya.enable": "Activer",
+    "tuya.none": "Désactivé",
+    "tuya.on": "Activé",
+    "tuya.id": "Id (Voir https://bit.ly/2VIutZR et https://bit.ly/2X1Xq3G pour configuration)",
+    "tuya.key": "Key",
+    "tuya.id.parent": "Parent Id (laisser vide si pas de dépendance)",
+    "tuya.cid": "Cid (laisser vide si pas de dépendance)"
+}

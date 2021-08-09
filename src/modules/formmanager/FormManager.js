@@ -567,6 +567,25 @@ class FormManager {
                             schema.dependencies[meta.DependencyField].oneOf.push({
                                 properties: dependencyForm
                             });
+
+                            // Fill other values (no dependencies)
+                            // if (schema.properties[meta.DependencyField].enum && schema.properties[meta.DependencyField].enum.length > 0) {
+                            //     let values = [meta.DependencyValues];
+                            //     if (meta.DependencyValues.indexOf(",") != -1) {
+                            //         values = meta.DependencyValues.split(",");
+                            //     }
+                            //     schema.properties[meta.DependencyField].enum.forEach((enumVal) => {
+                            //         if (values.indexOf(enumVal) == -1) {
+                            //             // Add 
+                            //             const p = {};
+                            //             p[meta.DependencyField] = {enum: []};
+                            //             p[meta.DependencyField].enum.push(enumVal);
+                            //             schema.dependencies[meta.DependencyField].oneOf.push({
+                            //                 properties: p
+                            //             });
+                            //         }
+                            //     });
+                            // }
                         }
                     } else {
                         schema.properties[prop] = schemaPropertiesProp;

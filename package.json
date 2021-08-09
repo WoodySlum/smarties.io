@@ -42,7 +42,8 @@
             "**/internal-plugins/somfy-io-gate/*",
             "**/internal-plugins/rsync/*",
             "**/internal-plugins/robonect*",
-            "**/internal-plugins/tasmota/*"
+            "**/internal-plugins/tasmota/*",
+            "**/internal-plugins/tuya/*"
         ],
         "ignore-class-method": "stringify",
         "check-coverage": true,
@@ -213,6 +214,7 @@
         "string-similarity": "^4.0",
         "threads": "git://github.com/WoodySlum/threads.js.git#master",
         "toposort": "^2.0",
+        "tuyapi": "github:codetheweb/tuyapi",
         "underscore": "^1.12",
         "unzipper": "^0.10",
         "usb-detection": "^4.10",

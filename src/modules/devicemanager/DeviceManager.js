@@ -26,12 +26,14 @@ const DEVICE_TYPE_LIGHT_DIMMABLE_COLOR = "light-dimmable-color";
 const DEVICE_TYPE_SHUTTER = "shutter";
 const DEVICE_TYPE_GATE = "gate";
 const DEVICE_TYPE_LOCK = "lock";
+const DEVICE_TYPE_AUTOMATIC_WATERING = "automatic-watering";
 const DEVICE_TYPE_LIGHT_PRIORITY = 20;
 const DEVICE_TYPE_LIGHT_DIMMABLE_PRIORITY = 30;
 const DEVICE_TYPE_LIGHT_DIMMABLE_COLOR_PRIORITY = 40;
 const DEVICE_TYPE_SHUTTER_PRIORITY = 50;
 const DEVICE_TYPE_GATE_PRIORITY = 60;
 const DEVICE_TYPE_LOCK_PRIORITY = 70;
+const DEVICE_TYPE_AUTOMATIC_WATERING_PRIORITY = 80;
 
 const DB_RETENTION = 1 * 30 * 60 * 60 * 24; // 1 month
 
@@ -246,7 +248,7 @@ class DeviceManager {
      *
      * @param  {string}   key A key, the same as set in `addForm`
      * @param  {Function} cb  The callback when a device switches `(device, formData, deviceStatus) => {}`. Please note that this callback can return a DeviceStatus object to save state. You can modify and return the status as parameter.
-     * @param  {string} [type=DEVICE_TYPE_LIGHT]  The device type, constant can be `DEVICE_TYPE_LIGHT`, `DEVICE_TYPE_LIGHT_DIMMABLE`, `DEVICE_TYPE_LIGHT_DIMMABLE_COLOR`, `DEVICE_TYPE_SHUTTER`, `DEVICE_TYPE_GATE`, `DEVICE_TYPE_LOCK`
+     * @param  {string} [type=DEVICE_TYPE_LIGHT]  The device type, constant can be `DEVICE_TYPE_LIGHT`, `DEVICE_TYPE_LIGHT_DIMMABLE`, `DEVICE_TYPE_LIGHT_DIMMABLE_COLOR`, `DEVICE_TYPE_SHUTTER`, `DEVICE_TYPE_GATE`, `DEVICE_TYPE_LOCK`, `DEVICE_TYPE_AUTOMATIC_WATERING`
      */
     registerSwitchDevice(key, cb, type = DEVICE_TYPE_LIGHT_DIMMABLE_COLOR) {
         if (!this.switchDeviceModules[key]) {
@@ -427,6 +429,9 @@ class DeviceManager {
             } else if (deviceType == DEVICE_TYPE_LOCK && DEVICE_TYPE_LOCK_PRIORITY > bestDeviceTypePriority) {
                 bestDeviceTypePriority = DEVICE_TYPE_LOCK_PRIORITY;
                 bestDeviceType = DEVICE_TYPE_LOCK;
+            } else if (deviceType == DEVICE_TYPE_AUTOMATIC_WATERING && DEVICE_TYPE_AUTOMATIC_WATERING_PRIORITY > bestDeviceTypePriority) {
+                bestDeviceTypePriority = DEVICE_TYPE_AUTOMATIC_WATERING_PRIORITY;
+                bestDeviceType = DEVICE_TYPE_AUTOMATIC_WATERING;
             }
 
         });
@@ -463,6 +468,8 @@ class DeviceManager {
                 tile = new Tile.class(this.dashboardManager.themeManager, device.id, Tile.TILE_GENERIC_ACTION, device.icon.icon ? device.icon.icon : Icons.iconsSvg["gate"], null, device.name, null, null, null, device.status > 0?1:0, i, "/device/set/" + device.id + "/", deviceInfos, null, Authentication.AUTH_GUEST_LEVEL);
             } else  if (deviceType === DEVICE_TYPE_LOCK) {
                 tile = new Tile.class(this.dashboardManager.themeManager, device.id, Tile.TILE_DEVICE, (device.status == INT_STATUS_ON ? Icons.icons["door-locked"] : Icons.icons["door-unlocked"]), null, (device.status == INT_STATUS_ON ? this.translateManager.t("device.lock.locked", device.name) : this.translateManager.t("device.lock.opened", device.name)), null, null, null, device.status > 0?1:0, (8 + data.indexOf(device)), "/device/set/" + device.id + "/", deviceInfos, null, Authentication.AUTH_GUEST_LEVEL);
+            } else  if (deviceType === DEVICE_TYPE_AUTOMATIC_WATERING) {
+                tile = new Tile.class(this.dashboardManager.themeManager, device.id, Tile.TILE_DEVICE, Icons.icons["automatic-watering"], null, device.name, null, null, null, device.status > 0?1:0, (8 + data.indexOf(device)), "/device/set/" + device.id + "/", deviceInfos, null, Authentication.AUTH_USAGE_LEVEL);
             }
 
             this.dashboardManager.registerTile(tile);
@@ -739,7 +746,7 @@ class DeviceManager {
 
         this.formConfiguration.getDataCopy().forEach((device) => {
             const deviceType = this.bestDeviceType(this.getDeviceTypes(device));
-            if (!device.excludeFromAll && deviceType != DEVICE_TYPE_SHUTTER && deviceType != DEVICE_TYPE_GATE && deviceType != DEVICE_TYPE_LOCK) {
+            if (!device.excludeFromAll && deviceType != DEVICE_TYPE_SHUTTER && deviceType != DEVICE_TYPE_GATE && deviceType != DEVICE_TYPE_LOCK && deviceType != DEVICE_TYPE_AUTOMATIC_WATERING) {
                 device.status = status;
                 self.switchDeviceWithDevice(device);
             }
@@ -782,4 +789,4 @@ class DeviceManager {
     }
 }
 
-module.exports = {class:DeviceManager, STATUS_ON:STATUS_ON, STATUS_OPEN:STATUS_OPEN, STATUS_CLOSE:STATUS_CLOSE, STATUS_STOP:STATUS_STOP, INT_STATUS_ON:INT_STATUS_ON, INT_STATUS_OFF:INT_STATUS_OFF, INT_STATUS_STOP:INT_STATUS_STOP, STATUS_OFF:STATUS_OFF, STATUS_INVERT:STATUS_INVERT, EVENT_UPDATE_CONFIG_DEVICES:EVENT_UPDATE_CONFIG_DEVICES, DEVICE_TYPE_LIGHT:DEVICE_TYPE_LIGHT, DEVICE_TYPE_LIGHT_DIMMABLE: DEVICE_TYPE_LIGHT_DIMMABLE, DEVICE_TYPE_LIGHT_DIMMABLE_COLOR:DEVICE_TYPE_LIGHT_DIMMABLE_COLOR, DEVICE_TYPE_SHUTTER:DEVICE_TYPE_SHUTTER, DEVICE_TYPE_GATE:DEVICE_TYPE_GATE, DEVICE_TYPE_LOCK:DEVICE_TYPE_LOCK, ITEM_CHANGE_STATUS:ITEM_CHANGE_STATUS, ITEM_CHANGE_BRIGHTNESS:ITEM_CHANGE_BRIGHTNESS, ITEM_CHANGE_COLOR:ITEM_CHANGE_COLOR, ITEM_CHANGE_COLOR_TEMP: ITEM_CHANGE_COLOR_TEMP};
+module.exports = {class:DeviceManager, STATUS_ON:STATUS_ON, STATUS_OPEN:STATUS_OPEN, STATUS_CLOSE:STATUS_CLOSE, STATUS_STOP:STATUS_STOP, INT_STATUS_ON:INT_STATUS_ON, INT_STATUS_OFF:INT_STATUS_OFF, INT_STATUS_STOP:INT_STATUS_STOP, STATUS_OFF:STATUS_OFF, STATUS_INVERT:STATUS_INVERT, EVENT_UPDATE_CONFIG_DEVICES:EVENT_UPDATE_CONFIG_DEVICES, DEVICE_TYPE_LIGHT:DEVICE_TYPE_LIGHT, DEVICE_TYPE_LIGHT_DIMMABLE: DEVICE_TYPE_LIGHT_DIMMABLE, DEVICE_TYPE_LIGHT_DIMMABLE_COLOR:DEVICE_TYPE_LIGHT_DIMMABLE_COLOR, DEVICE_TYPE_SHUTTER:DEVICE_TYPE_SHUTTER, DEVICE_TYPE_GATE:DEVICE_TYPE_GATE, DEVICE_TYPE_LOCK:DEVICE_TYPE_LOCK, DEVICE_TYPE_AUTOMATIC_WATERING: DEVICE_TYPE_AUTOMATIC_WATERING, ITEM_CHANGE_STATUS:ITEM_CHANGE_STATUS, ITEM_CHANGE_BRIGHTNESS:ITEM_CHANGE_BRIGHTNESS, ITEM_CHANGE_COLOR:ITEM_CHANGE_COLOR, ITEM_CHANGE_COLOR_TEMP: ITEM_CHANGE_COLOR_TEMP};

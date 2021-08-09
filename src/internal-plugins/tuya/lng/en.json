@@ -1,0 +1,9 @@
+{
+    "tuya.enable": "Enable",
+    "tuya.none": "Disabled",
+    "tuya.on": "On",
+    "tuya.id": "Id (Read https://bit.ly/2VIutZR and https://bit.ly/2X1Xq3G for setup)",
+    "tuya.key": "Key",
+    "tuya.id.parent": "Parent Id (leave empty if no dependency)",
+    "tuya.cid": "Cid (leave empty if no dependency)"
+}

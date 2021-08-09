@@ -138,7 +138,8 @@ const INTERNAL_PLUGINS = [
     "robonect-time-sensor",
     "robonect-camera",
     "pushover",
-    "tasmota"
+    "tasmota",
+    "tuya"
 ];
 
 const CORE_PLUGINS = [

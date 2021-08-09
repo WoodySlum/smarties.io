@@ -299,7 +299,7 @@ module.exports.attributes = {
     name: "tuya-device",
     version: "0.0.0",
     category: "device",
-    description: "Tuya devices support (outlet, ...)",
+    description: "Tuya devices support (outlet, ...) DEPRECATED",
     defaultDisabled: true,
     dependencies:[]
 };

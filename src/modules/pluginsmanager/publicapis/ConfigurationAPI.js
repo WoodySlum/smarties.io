@@ -63,6 +63,7 @@ class ConfigurationAPI {
      */
     registerSubform(formClass, ...inject) {
         PrivateProperties.oprivate(this).formConfiguration.formManager.register(formClass, ...inject);
+        PrivateProperties.oprivate(this).plugin.exportClass(formClass);
     }
 
     /**
