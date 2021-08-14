@@ -469,7 +469,7 @@ class DeviceManager {
             } else  if (deviceType === DEVICE_TYPE_LOCK) {
                 tile = new Tile.class(this.dashboardManager.themeManager, device.id, Tile.TILE_DEVICE, (device.status == INT_STATUS_ON ? Icons.icons["door-locked"] : Icons.icons["door-unlocked"]), null, (device.status == INT_STATUS_ON ? this.translateManager.t("device.lock.locked", device.name) : this.translateManager.t("device.lock.opened", device.name)), null, null, null, device.status > 0?1:0, (8 + data.indexOf(device)), "/device/set/" + device.id + "/", deviceInfos, null, Authentication.AUTH_GUEST_LEVEL);
             } else  if (deviceType === DEVICE_TYPE_AUTOMATIC_WATERING) {
-                tile = new Tile.class(this.dashboardManager.themeManager, device.id, Tile.TILE_DEVICE, Icons.icons["automatic-watering"], null, device.name, null, null, null, device.status > 0?1:0, (8 + data.indexOf(device)), "/device/set/" + device.id + "/", deviceInfos, null, Authentication.AUTH_USAGE_LEVEL);
+                tile = new Tile.class(this.dashboardManager.themeManager, device.id, Tile.TILE_DEVICE, Icons.icons["automatic-watering"], null, device.name, null, null, null, device.status > 0?1:0, (15 + data.indexOf(device)), "/device/set/" + device.id + "/", deviceInfos, null, Authentication.AUTH_USAGE_LEVEL);
             }
 
             this.dashboardManager.registerTile(tile);

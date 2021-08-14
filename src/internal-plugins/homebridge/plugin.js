@@ -206,7 +206,7 @@ function loaded(api) {
                         this.devicesName.push(name);
                     }
 
-                    if (device.bestDeviceType == this.api.deviceAPI.constants().DEVICE_TYPE_LIGHT_DIMMABLE_COLOR || device.bestDeviceType == this.api.deviceAPI.constants().DEVICE_TYPE_LIGHT_DIMMABLE || device.bestDeviceType == this.api.deviceAPI.constants().DEVICE_TYPE_LIGHT) {
+                    if (device.bestDeviceType == this.api.deviceAPI.constants().DEVICE_TYPE_LIGHT_DIMMABLE_COLOR || device.bestDeviceType == this.api.deviceAPI.constants().DEVICE_TYPE_LIGHT_DIMMABLE || device.bestDeviceType == this.api.deviceAPI.constants().DEVICE_TYPE_LIGHT || device.bestDeviceType == this.api.deviceAPI.constants().DEVICE_TYPE_AUTOMATIC_WATERING) {
                         this.devices.push({
                             accessory: "Smarties lights",
                             identifier: device.id,

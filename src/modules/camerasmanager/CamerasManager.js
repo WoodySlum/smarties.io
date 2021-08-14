@@ -1178,7 +1178,13 @@ class CamerasManager {
                     } else {
                         if (camera.snapshotUrl && camera.snapshotUrl.length > 0) {
                             Logger.verbose("Retrieving picture from camera " + id);
-                            request(camera.snapshotUrl, {encoding: "binary"}, function(error, response, body) {
+                            let url = camera.snapshotUrl;
+                            if (camera.snapshotUrl.indexOf("?") === -1) {
+                                url += "?rnd=" + DateUtils.class.timestamp();
+                            } else {
+                                url += "&rnd=" + DateUtils.class.timestamp();
+                            }
+                            request(url, {encoding: "binary", "timeout": 60000}, function(error, response, body) {
                                 if (error) {
                                     Logger.err("Camera picture " + id + " error");
                                     Logger.err(error);
