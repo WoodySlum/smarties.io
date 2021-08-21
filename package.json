@@ -144,11 +144,11 @@
         "sinon": "^7.5"
     },
     "dependencies": {
-        "@mihaiblaga89/bmw-connecteddrive-api": "^0.5",
         "ajv": "^6.12",
         "annotation": "git://github.com/WoodySlum/node-annotation.git#master",
         "audiohub": "git://github.com/WoodySlum/audiohub.git#master",
         "bayes": "^1.0",
+        "bmw-connected-drive": "^1",
         "body-parser": "^1.19",
         "callsite": "^1.0",
         "cloudtuya": "git://github.com/unparagoned/cloudtuya.git#master",

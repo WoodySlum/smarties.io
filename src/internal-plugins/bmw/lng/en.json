@@ -8,5 +8,17 @@
     "bmw.health.ok": "Ok",
     "bmw.health.ko": "Maint.",
     "bmw.options": "Options",
-    "bmw.alertOnCharge": "Send notification when car is fully charged"
+    "bmw.alertOnCharge": "Send notification when car is fully charged",
+    "bmw.locking": "Locking vehicle",
+    "bmw.locked": "Vehicle has been locked",
+    "bmw.unlocking": "Unocking vehicle",
+    "bmw.unlocked": "Vehicle has been unlocked",
+    "bmw.start.climate": "Starting climate",
+    "bmw.started.climate": "Climate started",
+    "bmw.stop.climate": "Stopping climate",
+    "bmw.stopeed.climate": "Climate stopped",
+    "bmw.flashing.light": "Flashing lights",
+    "bmw.flashed.light": "Flashed lights",
+    "bmw.blowing.horn": "Blowing horn",
+    "bmw.blowed.horn": "Blowed horn"
 }
