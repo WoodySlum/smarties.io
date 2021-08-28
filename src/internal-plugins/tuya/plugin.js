@@ -138,34 +138,42 @@ function loaded(api) {
          * @param  {Function} [cb=null] The callback
          */
         connectAndSend(device, configuration, payload, cb = null) {
-            device.on("error", (e) => {
-                api.exported.Logger.err(payload);
-                api.exported.Logger.err(e);
-                if (cb) cb(e);
-            });
-            device.find().then(() => {
-                device.on("connected", () => {
-                    api.exported.Logger.verbose("Connected");
-                    const message = { multiple: true, data: payload };
-                    if (configuration.tuyaCid && configuration.tuyaCid.length > 0) {
-                        message.cid = configuration.tuyaCid;
-                    }
-
-                    device.set(message).then(() => {
-                        if (cb) cb(null);
-                        device.disconnect();
+            if (device) {
+                device.on("error", (e) => {
+                    api.exported.Logger.err(payload);
+                    api.exported.Logger.err(e);
+                    if (cb) cb(e);
+                });
+                device.find().then(() => {
+                    device.on("connected", () => {
+                        api.exported.Logger.verbose("Connected");
+                        const message = { multiple: true, data: payload };
+                        if (configuration.tuyaCid && configuration.tuyaCid.length > 0) {
+                            message.cid = configuration.tuyaCid;
+                        }
+    
+                        device.set(message).then(() => {
+                            if (cb) cb(null);
+                            device.disconnect();
+                        })
+                            .catch((e) => {
+                                api.exported.Logger.err(payload);
+                                api.exported.Logger.err(e);
+                                if (cb) cb(e);
+                                device.disconnect();
+                            });
+                    });
+                    device.on("disconnected", () => {
+                        api.exported.Logger.verbose("Disconnected");
+                    });
+                    device.connect().then(() => {
+                        
                     })
                         .catch((e) => {
                             api.exported.Logger.err(payload);
                             api.exported.Logger.err(e);
                             if (cb) cb(e);
-                            device.disconnect();
                         });
-                });
-                device.on("disconnected", () => {
-                    api.exported.Logger.verbose("Disconnected");
-                });
-                device.connect().then(() => {
                     
                 })
                     .catch((e) => {
@@ -173,13 +181,9 @@ function loaded(api) {
                         api.exported.Logger.err(e);
                         if (cb) cb(e);
                     });
-                
-            })
-                .catch((e) => {
-                    api.exported.Logger.err(payload);
-                    api.exported.Logger.err(e);
-                    if (cb) cb(e);
-                });
+            } else {
+                api.exported.Logger.err("No device");
+            }
         }
 
         /**
@@ -190,47 +194,51 @@ function loaded(api) {
          * @param  {Function} [cb=null] The callback
          */
         connectAndGet(device, configuration, cb = null) {
-            device.on("error", (e) => {
-                api.exported.Logger.err(e);
-                if (cb) cb(e);
-            });
-            device.find().then(() => {
-                device.on("data", data => {
-                    if (cb) cb(null, data);
-                    device.disconnect(); 
+            if (device) {
+                device.on("error", (e) => {
+                    api.exported.Logger.err(e);
+                    if (cb) cb(e);
                 });
-                device.on("connected", () => {
-                    api.exported.Logger.verbose("Connected");
-                    const message = {schema: true};
-                    if (configuration.tuyaCid && configuration.tuyaCid.length > 0) {
-                        message.cid = configuration.tuyaCid;
-                    }
+                device.find().then(() => {
+                    device.on("data", data => {
+                        if (cb) cb(null, data);
+                        device.disconnect(); 
+                    });
+                    device.on("connected", () => {
+                        api.exported.Logger.verbose("Connected");
+                        const message = {schema: true};
+                        if (configuration.tuyaCid && configuration.tuyaCid.length > 0) {
+                            message.cid = configuration.tuyaCid;
+                        }
 
-                    device.get(message).then(() => {
+                        device.get(message).then(() => {
 
+                        })
+                            .catch((e) => {
+                                api.exported.Logger.err(e);
+                                if (cb) cb(e);
+                                device.disconnect();
+                            });
+                    });
+                    device.on("disconnected", () => {
+                        api.exported.Logger.verbose("Disconnected");
+                    });
+                    device.connect().then(() => {
+                        
                     })
                         .catch((e) => {
                             api.exported.Logger.err(e);
                             if (cb) cb(e);
-                            device.disconnect();
                         });
-                });
-                device.on("disconnected", () => {
-                    api.exported.Logger.verbose("Disconnected");
-                });
-                device.connect().then(() => {
                     
                 })
                     .catch((e) => {
                         api.exported.Logger.err(e);
                         if (cb) cb(e);
                     });
-                
-            })
-                .catch((e) => {
-                    api.exported.Logger.err(e);
-                    if (cb) cb(e);
-                });
+            } else {
+                api.exported.Logger.err("No device");
+            }
         }
     }
 
