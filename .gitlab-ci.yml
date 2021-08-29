@@ -18,7 +18,6 @@ cache:
   - export NODE_TLS_REJECT_UNAUTHORIZED=0
   - npm config set strict-ssl false
   - rm -Rf package-lock.json
-  - pkill node
   - chown -R 1000:1000 "/home/prem/.npm"
   - npm cache clean --force
   - rm -Rf node_modules
