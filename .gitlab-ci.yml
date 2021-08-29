@@ -18,7 +18,7 @@ cache:
   - export NODE_TLS_REJECT_UNAUTHORIZED=0
   - npm config set strict-ssl false
   - rm -Rf package-lock.json
-  - apt-get install -y killall
+  - apt-get install -y psmisc
   - killall -9 node
   - chown -R 1000:1000 "/home/prem/.npm"
   - npm cache clean --force
