@@ -248,14 +248,16 @@ class DeviceManager {
      *
      * @param  {string}   key A key, the same as set in `addForm`
      * @param  {Function} cb  The callback when a device switches `(device, formData, deviceStatus) => {}`. Please note that this callback can return a DeviceStatus object to save state. You can modify and return the status as parameter.
-     * @param  {string} [type=DEVICE_TYPE_LIGHT]  The device type, constant can be `DEVICE_TYPE_LIGHT`, `DEVICE_TYPE_LIGHT_DIMMABLE`, `DEVICE_TYPE_LIGHT_DIMMABLE_COLOR`, `DEVICE_TYPE_SHUTTER`, `DEVICE_TYPE_GATE`, `DEVICE_TYPE_LOCK`, `DEVICE_TYPE_AUTOMATIC_WATERING`
+     * @param  {string} [type=DEVICE_TYPE_LIGHT_DIMMABLE_COLOR]  The device type, constant can be `DEVICE_TYPE_LIGHT`, `DEVICE_TYPE_LIGHT_DIMMABLE`, `DEVICE_TYPE_LIGHT_DIMMABLE_COLOR`, `DEVICE_TYPE_SHUTTER`, `DEVICE_TYPE_GATE`, `DEVICE_TYPE_LOCK`, `DEVICE_TYPE_AUTOMATIC_WATERING`
+     * @param  {Function} [comparator=null]  Comparator function to enable best device type. By default, the system checks if there is one element in array or if the subform is null. If this property is set, it will use the comparator. E.g. : `(subFormData) => {if (subFormData.enable) {return true;} else {return false;}}`
      */
-    registerSwitchDevice(key, cb, type = DEVICE_TYPE_LIGHT_DIMMABLE_COLOR) {
+    registerSwitchDevice(key, cb, type = DEVICE_TYPE_LIGHT_DIMMABLE_COLOR, comparator = null) {
         if (!this.switchDeviceModules[key]) {
             throw Error("You must call addForm before calling registerSwitchDevice. A form must be added in order to identify which callback should be processed.");
         }
         this.switchDeviceModules[key].type = type;
         this.switchDeviceModules[key].switch = cb;
+        this.switchDeviceModules[key].comparator = comparator;
 
         // Update tiles for device types
         this.registerDeviceTiles();
@@ -487,14 +489,20 @@ class DeviceManager {
         Object.keys(this.switchDeviceModules).forEach((switchDeviceModuleKey) => {
 
             const switchDeviceModule = this.switchDeviceModules[switchDeviceModuleKey];
-            if (device && device[switchDeviceModule.formName] && Array.isArray(device[switchDeviceModule.formName]) && device[switchDeviceModule.formName].length > 0) {
-                if (modes.indexOf(switchDeviceModule.type) === -1) {
+            if (this.switchDeviceModules[switchDeviceModuleKey].comparator) {
+                if (device[switchDeviceModule.formName] && this.switchDeviceModules[switchDeviceModuleKey].comparator(device[switchDeviceModule.formName])) {
                     modes.push(switchDeviceModule.type);
                 }
-            } else if (device && device[switchDeviceModule.formName] && typeof device[switchDeviceModule.formName] === "object" && Object.keys(device[switchDeviceModule.formName]).length == 1) {
-                let objKey = Object.keys(device[switchDeviceModule.formName])[0];
-                if (modes.indexOf(switchDeviceModule.type) === -1 && device[switchDeviceModule.formName][objKey]) {
-                    modes.push(switchDeviceModule.type);
+            } else {
+                if (device && device[switchDeviceModule.formName] && Array.isArray(device[switchDeviceModule.formName]) && device[switchDeviceModule.formName].length > 0) {
+                    if (modes.indexOf(switchDeviceModule.type) === -1) {
+                        modes.push(switchDeviceModule.type);
+                    }
+                } else if (device && device[switchDeviceModule.formName] && typeof device[switchDeviceModule.formName] === "object" && Object.keys(device[switchDeviceModule.formName]).length == 1) {
+                    let objKey = Object.keys(device[switchDeviceModule.formName])[0];                    
+                    if (modes.indexOf(switchDeviceModule.type) === -1 && device[switchDeviceModule.formName][objKey]) {
+                        modes.push(switchDeviceModule.type);
+                    }
                 }
             }
         });

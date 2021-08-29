@@ -83,10 +83,11 @@ class DeviceAPI {
      *
      * @param  {string}   key A key, the same as set in `addForm`
      * @param  {Function} cb  The callback when a device switches `(device, formData, deviceStatus) => {}`. Please note that this callback can return a DeviceStatus object to save state. You can modify and return the status as parameter.
-     * @param  {string} [type=DEVICE_TYPE_LIGHT]  The device type, constant can be `DEVICE_TYPE_LIGHT`, `DEVICE_TYPE_LIGHT_DIMMABLE`, `DEVICE_TYPE_LIGHT_DIMMABLE_COLOR`, `DEVICE_TYPE_SHUTTER`, `DEVICE_TYPE_GATE`, `DEVICE_TYPE_LOCK`
+     * @param  {string} [type=DEVICE_TYPE_LIGHT_DIMMABLE_COLOR]  The device type, constant can be `DEVICE_TYPE_LIGHT`, `DEVICE_TYPE_LIGHT_DIMMABLE`, `DEVICE_TYPE_LIGHT_DIMMABLE_COLOR`, `DEVICE_TYPE_SHUTTER`, `DEVICE_TYPE_GATE`, `DEVICE_TYPE_LOCK`
+     * @param  {Function} [comparator=null]  Comparator function to enable best device type. By default, the system checks if there is one element in array or if the subform is null. If this property is set, it will use the comparator. E.g. : `(subFormData) => {if (subFormData.enable) {return true;} else {return false;}}`
      */
-    registerSwitchDevice(key, cb, type) {
-        PrivateProperties.oprivate(this).deviceManager.registerSwitchDevice(key, cb, type);
+    registerSwitchDevice(key, cb, type = DeviceManager.DEVICE_TYPE_LIGHT_DIMMABLE_COLOR, comparator = null) {
+        PrivateProperties.oprivate(this).deviceManager.registerSwitchDevice(key, cb, type, comparator);
     }
 
     /**
