@@ -84,7 +84,12 @@ function loaded(api) {
                             }
 
                             if (url) {
-                                request(url);
+                                try {
+                                    request(url);
+                                } catch(e) {
+                                    api.exported.Logger.err(e);
+                                }
+                                
                             } else {
                                 api.exported.Logger.err("Unknown URL");
                             }
@@ -113,17 +118,21 @@ function loaded(api) {
 
                         if (ip != null) {
                             let url = "http://" + ip + "/cm?user=admin&password=joker&cmnd=Power";
-                            request(url, { json: true }, (err, res, body) => {
-                                if (!err && body) {
-                                    if (body.POWER == "OFF") {
-                                        device.status = api.deviceAPI.constants().INT_STATUS_OFF;
-                                    } else if (body.POWER == "ON") {
-                                        device.status = api.deviceAPI.constants().INT_STATUS_ON;
+                            try {
+                                request(url, { json: true }, (err, res, body) => {
+                                    if (!err && body) {
+                                        if (body.POWER == "OFF") {
+                                            device.status = api.deviceAPI.constants().INT_STATUS_OFF;
+                                        } else if (body.POWER == "ON") {
+                                            device.status = api.deviceAPI.constants().INT_STATUS_ON;
+                                        }
+                                        api.deviceAPI.saveDevice(device);
                                     }
-                                    api.deviceAPI.saveDevice(device);
-                                }
-
-                            });
+    
+                                });
+                            } catch(e) {
+                                api.exported.Logger.err(e);
+                            }
                         } else {
                             api.exported.Logger.err("Unknown ip");
                         }
