@@ -217,6 +217,22 @@ function loaded(api) {
                     });
                 }
             }, this, api.timeEventAPI.constants().EVERY_MINUTES);
+
+            api.timeEventAPI.register((self, hour, minute) => {
+                if (minute % 5 == 0) {
+                    self.getLights();
+                    self.getSensors((err, sensors) => {
+                        if (!err && sensors && sensors.length > 0 && minute == 0 && hour == 19) {
+                            self.updateBatterySensors();
+                        }
+                    });
+                }
+            }, this, api.timeEventAPI.constants().EVERY_MINUTES);
+
+            api.timeEventAPI.register((self) => {
+                self.service.restart();
+                self.init();
+            }, this, api.timeEventAPI.constants().EVERY_DAYS);
         }
 
         /**

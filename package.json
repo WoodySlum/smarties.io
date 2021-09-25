@@ -205,7 +205,7 @@
         "qrcode": "^1.4.4",
         "remi": "^2.0",
         "remi-runner": "^1.1",
-        "request": "^2",
+        "request": "^2.88.2",
         "rtsp-ffmpeg": "git://github.com/WoodySlum/rtsp-ffmpeg.git#master",
         "rtsp-relay": "^1",
         "serialport": "9.0",
