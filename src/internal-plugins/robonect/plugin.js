@@ -361,7 +361,7 @@ function loaded(api) {
                         } else {
                             const regex = /joystick&t=([0-9]+)/gm;
                             const rRes = regex.exec(res);
-                            if (rRes[1]) {
+                            if (rRes && rRes[1]) {
                                 this.manToken = rRes[1];
                             } else {
                                 api.exported.Logger.err("Could not found token");
