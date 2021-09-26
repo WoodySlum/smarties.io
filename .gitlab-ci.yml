@@ -70,11 +70,11 @@ build:armhf:stretch:
     - build/*.deb
 
 build:armhf:buster:
+  image: woodyslum/smarties-ci@sha256:319e62a06fb54a920e1d9d634a07d2115791ae85d129c1ed7aa72a5ba009b999
   stage: build
   tags:
-  - ci
-  - armhf
-  - buster
+  - arm
+  - test
   <<: *build_definition
   artifacts:
     paths:
