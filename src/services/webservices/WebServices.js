@@ -216,14 +216,17 @@ class WebServices extends Service.class {
                     this.tunnel = new TunnelLocalxpose.class(this.port, this.gatewayManager, this.environmentManager, this.AppConfiguration, tunnelCb);
                     this.tunnel.start();
                 } else {
-                    const self = this;
+                    this.tunnel = new TunnelLocalTunnel.class(this.sslPort, this.gatewayManager, this.environmentManager, this.AppConfiguration, tunnelCb);
+                    this.tunnel.start();
+                    // Disabled - gateway tunnels
+                    /*const self = this;
                     if (this.gatewayManager.tunnelPort) {
                         self.startTunnelGateway(this.gatewayManager.tunnelPort);
                     } else {
                         this.eventBus.on(GatewayManager.EVENT_TUNNEL_PORT_RECEIVED, (port) => {
                             self.startTunnelGateway(port);
                         });
-                    }
+                    }*/
                 }
             }
 
