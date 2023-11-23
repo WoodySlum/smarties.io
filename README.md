@@ -6,7 +6,9 @@
 
 # smarties.io
 
-[www.smarties.io](https://www.smarties.io)
+*This project is archived*
+
+[smarties.le-programmeur.com](https://smarties.le-programmeur.com)
 
 Smarties.io is a **complete home automation system**. It allows you to **use multiple devices brands and orchestrate them together**, *for example you can turn on your Philips Hue lights with a Chacon switch*.
 
@@ -32,7 +34,7 @@ The most important informations are presented with tiles on a personal dashboard
 - Debian or Raspbian stretch and above
 
 
-		curl -sSL https://www.smarties.io/install-rep.sh | bash
+		curl -sSL https://smarties.le-programmeur.com/install-rep.sh | bash
 
 
 ## Supported features
@@ -122,10 +124,10 @@ In console, type `npm install` and everything should go on.
 
 `npm start`
 
-Once app is started, open your browser and type https://me.smarties.io/.
+Once app is started, open your browser and type https://me.smarties.le-programmeur.com/.
 Then, you have to login with default username `admin` and default password `admin`.
 
-*Note : If you can't log in, check logs - If dependencies installation is finished, you may retrieve your `Smarties ID` which is a 4 hexadecimal code. This information is logged just after starting. Then open browser and type https://me.smarties.io/XXXX/ where `XXXX` is your smarties ID.*
+*Note : If you can't log in, check logs - If dependencies installation is finished, you may retrieve your `Smarties ID` which is a 4 hexadecimal code. This information is logged just after starting. Then open browser and type https://me.smarties.le-programmeur.com/XXXX/ where `XXXX` is your smarties ID.*
 
 The web site can also be added as a progressive web app (pwa) on your smartphone.
 
@@ -144,7 +146,7 @@ For Android :
 
 ### Rest API access
 
-You can list the available rest APIS with https://me.smarties.io/XXXX/api/infos/ where `XXXX` is your smarties ID.
+You can list the available rest APIS with https://me.smarties.le-programmeur.com/XXXX/api/infos/ where `XXXX` is your smarties ID.
 
 ### Dev commands
 
